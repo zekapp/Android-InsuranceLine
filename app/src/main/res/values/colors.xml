@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#64b324</color>
+    <color name="colorPrimaryDark">#659a00</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorSecondary">#efb400</color>
+    <color name="colorSecondaryDark">#659a00</color>
+
+
+    <color name="login_stoke_color">@color/gray</color>
+    <color name="login_edit_text_solid_color">@color/white</color>
+    <color name="login_button_solid_color">@color/colorSecondary</color>
+
+
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#b8bcc0</color>
+
+</resources>
