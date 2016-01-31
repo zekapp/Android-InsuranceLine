@@ -3,7 +3,11 @@ package com.insuranceline.data;
 import com.insuranceline.data.job.fetch.FetchSamplesJob;
 import com.insuranceline.data.local.DatabaseHelper;
 import com.insuranceline.data.remote.ApiService;
+import com.insuranceline.data.remote.EdgeApiService;
+import com.insuranceline.data.remote.FitBitApiService;
+import com.insuranceline.data.remote.responses.EdgeResponse;
 import com.insuranceline.data.remote.responses.SampleResponseData;
+import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Sample;
 import com.path.android.jobqueue.JobManager;
 
@@ -26,15 +30,20 @@ import timber.log.Timber;
 @Singleton
 public class DataManager {
 
+    private final EdgeApiService mEdgeApiService;
+    private final FitBitApiService mFitBitApiService;
     private final DatabaseHelper mDatabaseHelper;
     private final JobManager mJobHelper;
     private final ApiService mApiService;
 
     @Inject
-    public DataManager(ApiService apiService, DatabaseHelper databaseHelper, JobManager jobManager){
-        mDatabaseHelper = databaseHelper;
-        mJobHelper = jobManager;
-        mApiService = apiService;
+    public DataManager(ApiService apiService, EdgeApiService edgeApiService, FitBitApiService fitBitApiService, DatabaseHelper databaseHelper, JobManager jobManager){
+        this.mEdgeApiService = edgeApiService;
+        this.mFitBitApiService = fitBitApiService;
+        this.mDatabaseHelper = databaseHelper;
+        this.mJobHelper = jobManager;
+        this.mApiService = apiService;
+
     }
 
     /**
@@ -122,5 +131,13 @@ public class DataManager {
         });
     }
 
-
+    public Observable<EdgeUser> loginEdgeSystem(final String email, String password) {
+        return mEdgeApiService.loginToEdgeSystem(email,password,"password")
+                .concatMap(new Func1<EdgeResponse, Observable<? extends EdgeUser>>() {
+                    @Override
+                    public Observable<? extends EdgeUser> call(EdgeResponse edgeResponse) {
+                        return mDatabaseHelper.createEdgeUser(email,edgeResponse);
+                    }
+                });
+    }
 }

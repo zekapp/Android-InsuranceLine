@@ -10,5 +10,13 @@
     <string name="login_info">Log in with the username and password password that you used to sign up with insuranceLine</string>
     <string name="login_email_button">Email Address</string>
     <string name="login_password_button">Password</string>
-    <string name="login_button_action">Start</string>
+    <string name="login_button_action">Get Started</string>
+
+    <string name="error_invalid_password">This Password is too short</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_not_match_password">Password and Confirmation does not match</string>
+    <string name="error_unauthorized_user">The email/phone you entered is incorrect. Please try again.</string>
+
+
 </resources>

@@ -5,14 +5,17 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.facebook.stetho.okhttp.StethoInterceptor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insuranceline.App;
 import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.job.BaseJob;
 import com.insuranceline.data.local.AppDatabase;
 import com.insuranceline.data.remote.ApiService;
+import com.insuranceline.data.remote.EdgeApiService;
+import com.insuranceline.data.remote.FitBitApiService;
 import com.insuranceline.di.qualifier.ApplicationContext;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.JobManager;
 import com.path.android.jobqueue.config.Configuration;
@@ -65,6 +68,7 @@ public class AppModule {
 
         OkHttpClient httpClient = new OkHttpClient();
         httpClient.interceptors().add(logging);
+        httpClient.networkInterceptors().add(new StethoInterceptor());
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(appConfig.getApiUrl())
@@ -74,6 +78,54 @@ public class AppModule {
                 .build();
 
         return retrofit.create(ApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public EdgeApiService edgeApiService(AppConfig appConfig) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient httpClient = new OkHttpClient();
+        httpClient.interceptors().add(logging);
+        httpClient.networkInterceptors().add(new StethoInterceptor());
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(appConfig.getEdgeSystemBaseUrl())
+                .addConverterFactory(JacksonConverterFactory.create(mapper))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(httpClient)
+                .build();
+
+        return retrofit.create(EdgeApiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public FitBitApiService fitBitApiService(AppConfig appConfig) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient httpClient = new OkHttpClient();
+        httpClient.interceptors().add(logging);
+        httpClient.networkInterceptors().add(new StethoInterceptor());
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(appConfig.getFitBitBaseUrl())
+                .addConverterFactory(JacksonConverterFactory.create(mapper))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(httpClient)
+                .build();
+
+        return retrofit.create(FitBitApiService.class);
     }
 
     @Provides

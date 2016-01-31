@@ -12,11 +12,11 @@ public interface LoginMvpView extends MvpView {
 
     void hideProgress();
 
-    void showLoginError();
+    void showLoginError(String error);
 
     void loginSuccess();
 
-    void onErrorPassword();
+    void onErrorPassword(String error);
 
-    void onErrorEmail();
+    void onErrorEmail(String error);
 }

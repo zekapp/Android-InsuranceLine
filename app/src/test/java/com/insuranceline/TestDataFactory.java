@@ -1,8 +1,10 @@
 package com.insuranceline;
 
 
+import com.insuranceline.data.remote.responses.EdgeResponse;
 import com.insuranceline.data.remote.responses.SampleResponse;
 import com.insuranceline.data.remote.responses.SampleResponseData;
+import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Sample;
 
 import java.util.ArrayList;
@@ -57,5 +59,28 @@ public class TestDataFactory {
 
     public static String getRandomText(String preDef){
         return preDef + ": "+ UUID.randomUUID().toString();
+    }
+
+
+    public static String getRandomText(){
+        return UUID.randomUUID().toString();
+    }
+
+    public static EdgeUser getEdgeUser(String email, EdgeResponse response) {
+        EdgeUser edgeUser = new EdgeUser();
+        edgeUser.setEmail(email);
+        edgeUser.setmAccessToken(response.getmAccessToken());
+        edgeUser.setmExpireIn(response.getmExpireIn());
+        edgeUser.setmTokenType(response.getmTokenType());
+        return edgeUser;
+    }
+
+    public static EdgeResponse getEdgeResponse() {
+        EdgeResponse edgeResponse = new EdgeResponse();
+        edgeResponse.setmAccessToken(getRandomText());
+        edgeResponse.setmExpireIn(3600);
+        edgeResponse.setmTokenType("Bearer");
+        return edgeResponse;
+
     }
 }

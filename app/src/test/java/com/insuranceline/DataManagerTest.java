@@ -8,7 +8,11 @@ package com.insuranceline;
 import com.insuranceline.data.DataManager;
 import com.insuranceline.data.local.DatabaseHelper;
 import com.insuranceline.data.remote.ApiService;
+import com.insuranceline.data.remote.EdgeApiService;
+import com.insuranceline.data.remote.FitBitApiService;
 import com.insuranceline.data.remote.responses.SampleResponseData;
+import com.insuranceline.data.remote.responses.EdgeResponse;
+import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Sample;
 import com.path.android.jobqueue.JobManager;
 
@@ -23,7 +27,15 @@ import java.util.List;
 import rx.Observable;
 import rx.observers.TestSubscriber;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.anyListOf;
+import static org.mockito.Mockito.atMost;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * This test class performs local unit tests without dependencies on the Android framework
@@ -39,12 +51,14 @@ public class DataManagerTest {
     @Mock DatabaseHelper mMockDatabaseHelper;
     @Mock JobManager mJobHelper;
     @Mock ApiService mMockApiService;
+    @Mock EdgeApiService mEdgeApiService;
+    @Mock FitBitApiService mFitBitApiService;
 
     private DataManager mDataManager;
 
     @Before
     public void setUp() {
-        mDataManager = new DataManager(mMockApiService, mMockDatabaseHelper, mJobHelper);
+        mDataManager = new DataManager(mMockApiService,mEdgeApiService,mFitBitApiService, mMockDatabaseHelper, mJobHelper);
     }
 
     @Test
@@ -197,5 +211,41 @@ public class DataManagerTest {
         when(mMockApiService.getSamples(anyInt(),anyInt())).thenReturn(Observable.<SampleResponseData>error(new RuntimeException()));
 
         when(mMockDatabaseHelper.setSamples(sampleFromApi)).thenReturn(Observable.from(sampleFromApi));
+    }
+
+    @Test
+    public void  loginEdgeApiFails(){
+        String userName = "abc@abc.com";
+        String password = "123456";
+        when(mEdgeApiService.loginToEdgeSystem(userName,password,"password"))
+                .thenReturn(Observable.<EdgeResponse>error(new RuntimeException()));
+
+        TestSubscriber<EdgeUser> testSubscriber = new TestSubscriber<>();
+        mDataManager.loginEdgeSystem(userName, password).subscribe(testSubscriber);
+        testSubscriber.assertNoValues();
+        testSubscriber.assertError(Exception.class);
+
+        verify(mMockDatabaseHelper, never()).createEdgeUser(anyString(), any(EdgeResponse.class));
+    }
+
+    @Test
+    public void loginEdgeSuccess(){
+        String userName = "abc@abc.com";
+        String password = "123456";
+        EdgeResponse edgeResponse = TestDataFactory.getEdgeResponse();
+        EdgeUser edgeUser = TestDataFactory.getEdgeUser(userName,edgeResponse);
+
+        when(mEdgeApiService.loginToEdgeSystem(userName,password,"password"))
+                .thenReturn(Observable.just(edgeResponse));
+        when(mMockDatabaseHelper.createEdgeUser(userName,edgeResponse))
+                .thenReturn(Observable.just(edgeUser));
+
+        TestSubscriber<EdgeUser> testSubscriber = new TestSubscriber<>();
+        mDataManager.loginEdgeSystem(userName, password).subscribe(testSubscriber);
+        testSubscriber.assertNoErrors();
+        testSubscriber.assertValue(edgeUser);
+
+        verify(mMockDatabaseHelper).createEdgeUser(userName,edgeResponse);
+
     }
 }

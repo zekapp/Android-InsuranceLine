@@ -13,6 +13,4 @@ public interface ApiService {
 
     @GET("samples")
     Observable<SampleResponseData> getSamples(@Query("page") int page, @Query("per_page") int perPage);
-
-
 }

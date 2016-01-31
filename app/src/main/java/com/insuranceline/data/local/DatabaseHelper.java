@@ -3,6 +3,8 @@ package com.insuranceline.data.local;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import com.insuranceline.data.remote.responses.EdgeResponse;
+import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Sample;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
 import com.raizlabs.android.dbflow.sql.language.Select;
@@ -62,5 +64,25 @@ public class DatabaseHelper {
 
     public List<Sample> sampleListPageQuery(int page, int perPage){
         return new Select().from(Sample.class).where().limit(page*perPage).offset(perPage).queryList();
+    }
+
+    public Observable<EdgeUser> createEdgeUser(final String email, final EdgeResponse edgeResponse) {
+        return Observable.create(new Observable.OnSubscribe<EdgeUser>() {
+            @Override
+            public void call(final Subscriber<? super EdgeUser> subscriber) {
+                TransactionManager.transact(mDb, new Runnable() {
+                    @Override
+                    public void run() {
+                        EdgeUser edgeUser = new EdgeUser();
+                        edgeUser.setEmail(email);
+                        edgeUser.setmTokenType(edgeResponse.getmTokenType());
+                        edgeUser.setmExpireIn(edgeResponse.getmExpireIn());
+                        edgeUser.setmAccessToken(edgeResponse.getmAccessToken());
+                        edgeUser.save();
+                        subscriber.onNext(edgeUser);
+                    }
+                });
+            }
+        });
     }
 }
