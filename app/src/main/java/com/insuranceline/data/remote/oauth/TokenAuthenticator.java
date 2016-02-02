@@ -15,6 +15,8 @@ import javax.inject.Singleton;
 /**
  * Created by Zeki Guler on 02,February,2016
  * ©2015 Appscore. All Rights Reserved
+ *
+ * http://stackoverflow.com/questions/22450036/refreshing-oauth-token-using-retrofit-without-modifying-all-calls
  */
 @Singleton
 public class TokenAuthenticator implements Authenticator{
