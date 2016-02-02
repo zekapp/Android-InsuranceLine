@@ -53,7 +53,6 @@ public class DispatchActivity extends BaseActivity{
                         dispatchLumoAmeego(edgeUser);
                 }else
                     dispatchUserTermCondAccept();
-
             }
         });
     }
