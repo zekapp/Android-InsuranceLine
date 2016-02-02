@@ -8,6 +8,7 @@ import com.insuranceline.data.DataManager;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.ui.base.BaseActivity;
 import com.insuranceline.ui.login.LoginActivity;
+import com.insuranceline.ui.login.connect.FBConnectActivity;
 import com.insuranceline.ui.login.termAndCond.TermCondActivity;
 import com.insuranceline.ui.sample.TestActivity;
 
@@ -32,7 +33,7 @@ public class DispatchActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         getActivityComponent().inject(this);
 
-        mSubscription = mDataManager.getEdgeUser().subscribe(new Observer<EdgeUser>() {
+        mSubscription = mDataManager.getUser().subscribe(new Observer<EdgeUser>() {
             @Override
             public void onCompleted() {
 
@@ -48,7 +49,7 @@ public class DispatchActivity extends BaseActivity{
             public void onNext(EdgeUser edgeUser) {
                 if (edgeUser.isTermCondAccepted()){
                     if (edgeUser.isFitBitUser())
-                        dispatchFitBitApp(edgeUser);
+                        dispatchFitBitApp();
                     else
                         dispatchLumoAmeego(edgeUser);
                 }else
@@ -68,8 +69,24 @@ public class DispatchActivity extends BaseActivity{
         Toast.makeText(this,"Lumo Ameego is launching...",Toast.LENGTH_LONG).show();
     }
 
-    private void dispatchFitBitApp(EdgeUser edgeUser) {
+    private void dispatchFitBitApp() {
+        String fitbitToken = mDataManager.getFitBitAccessToken();
+
+        if (fitbitToken.isEmpty())
+            dispatchFitBitConnect();
+        else
+            dispatchFitBitMain();
+    }
+
+    private void dispatchFitBitMain() {
         Intent intent = new Intent(this, TestActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    private void dispatchFitBitConnect() {
+        Intent intent = new Intent(this, FBConnectActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

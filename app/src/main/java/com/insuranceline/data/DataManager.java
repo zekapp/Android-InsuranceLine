@@ -7,7 +7,6 @@ import com.insuranceline.data.remote.ApiService;
 import com.insuranceline.data.remote.EdgeApiService;
 import com.insuranceline.data.remote.FitBitApiService;
 import com.insuranceline.data.remote.responses.EdgeResponse;
-import com.insuranceline.data.remote.responses.RefreshTokenResponse;
 import com.insuranceline.data.remote.responses.SampleResponseData;
 import com.insuranceline.data.remote.responses.TermCondResponse;
 import com.insuranceline.data.vo.EdgeUser;
@@ -19,11 +18,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import kotlin.jvm.Throws;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import timber.log.Timber;
 
@@ -143,12 +140,13 @@ public class DataManager {
                 .concatMap(new Func1<EdgeResponse, Observable<? extends EdgeUser>>() {
                     @Override
                     public Observable<? extends EdgeUser> call(EdgeResponse edgeResponse) {
+                        mPreferencesHelper.saveEdgeSystemToken(edgeResponse.getmAccessToken());
                         return mDatabaseHelper.createEdgeUser(email,edgeResponse);
                     }
                 });
     }
 
-    public Observable<EdgeUser> getEdgeUser() {
+    public Observable<EdgeUser> getUser() {
         return Observable.create(new Observable.OnSubscribe<EdgeUser>() {
             @Override
             public void call(Subscriber<? super EdgeUser> subscriber) {
@@ -161,22 +159,17 @@ public class DataManager {
         mDatabaseHelper.deleteEdgeUser();
     }
 
-    public Observable<Boolean> fetchTokenAndNotifyTCAccepted() {
-        return getEdgeUser().concatMap(new Func1<EdgeUser, Observable<? extends Boolean>>() {
-            @Override
-            public Observable<? extends Boolean> call(EdgeUser edgeUser) {
-                return termsAndConditionAcceptRequest(edgeUser.getmAccessToken());
-            }
-        });
-    }
-
-    public  Observable<Boolean> termsAndConditionAcceptRequest(String edgeToken){
-        return mApiService.tcResponse(edgeToken)
+    public  Observable<Boolean> edgeSystemTermsAndConditionAccepted(){
+        return mApiService.tcResponse(mPreferencesHelper.getEdgeSystemToken())
                 .concatMap(new Func1<TermCondResponse, Observable<? extends Boolean>>() {
                     @Override
                     public Observable<? extends Boolean> call(TermCondResponse termCondResponse) {
-                        return Observable.just(termCondResponse.isResponse());
+                        return mDatabaseHelper.updateEdgeUSer(termCondResponse.isResponse());
                     }
                 });
+    }
+
+    public String getFitBitAccessToken(){
+        return mPreferencesHelper.getFitBitAccessToken();
     }
 }

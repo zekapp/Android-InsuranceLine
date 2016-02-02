@@ -6,7 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.insuranceline.data.remote.responses.EdgeResponse;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Sample;
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
@@ -96,5 +95,17 @@ public class DatabaseHelper {
 
     public void deleteEdgeUser() {
         Delete.table(EdgeUser.class);
+    }
+
+    public Observable<Boolean> updateEdgeUSer(final boolean response) {
+        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override
+            public void call(Subscriber<? super Boolean> subscriber) {
+                EdgeUser edgeUser = getEdgeUser();
+                edgeUser.setTermCondAccepted(response);
+                edgeUser.save();
+                subscriber.onNext(response);
+            }
+        });
     }
 }

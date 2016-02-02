@@ -2,10 +2,12 @@ package com.insuranceline.ui.login.termAndCond;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.insuranceline.R;
+import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.base.BaseActivity;
 import com.insuranceline.utils.DialogFactory;
 
@@ -31,7 +33,6 @@ public class TermCondActivity extends BaseActivity implements TermCondMvpView{
         setContentView(R.layout.activity_terms_cond);
         ButterKnife.bind(this);
         mTermCondPresenter.attachView(this);
-
     }
 
     @Override
@@ -73,7 +74,14 @@ public class TermCondActivity extends BaseActivity implements TermCondMvpView{
 
     @Override
     public void onSuccess() {
+        dispatchTo();
+    }
 
+    private void dispatchTo() {
+        Intent intent = new Intent(this, DispatchActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class TermCondPresenter extends BasePresenter<TermCondMvpView> {
 
     public void accept() {
         getMvpView().showProgress();
-        mSubscription = mDataManager.fetchTokenAndNotifyTCAccepted()
+        mSubscription = mDataManager.edgeSystemTermsAndConditionAccepted()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<Boolean>() {

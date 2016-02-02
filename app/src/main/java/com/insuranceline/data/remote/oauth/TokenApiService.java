@@ -13,9 +13,8 @@ import retrofit.http.POST;
  */
 public interface TokenApiService {
     @Headers({
-            "Accept: application/json",
-            "Content-Type: application/x-www.form-urlencoded",
-            "clientId: 31159E2C-1DA9-4F94-B279-A3259A74F127"
+            "Authorization: Basic MjI3RkdOOmMxODc2NTNjY2U2MGY0NjU4MWVlYmUwZDVmMTE4NjVi",
+            "Content-Type: application/x-www.form-urlencoded"
     })
     @FormUrlEncoded
     @POST
