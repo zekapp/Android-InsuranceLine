@@ -113,6 +113,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
 
             @Override
             public void onNext(EdgeUser edgeResponse) {
+                getMvpView().hideProgress();
                 getMvpView().loginSuccess();
             }
         });

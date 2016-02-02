@@ -1,4 +1,4 @@
-package com.insuranceline.ui.main;
+package com.insuranceline.ui.sample;
 
 import com.insuranceline.data.vo.Sample;
 import com.insuranceline.ui.base.MvpView;
@@ -6,7 +6,7 @@ import com.insuranceline.ui.base.MvpView;
 import java.util.List;
 
 
-public interface MainMvpView extends MvpView {
+public interface TestMvpView extends MvpView {
 
     void showSamples(List<Sample> samples);
 

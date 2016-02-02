@@ -1,4 +1,4 @@
-package com.insuranceline.ui.main;
+package com.insuranceline.ui.sample;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

@@ -9,7 +9,8 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 /**
- * Created by zeki on 31/01/2016.
+ * Created by Zeki Guler on 02,February,2016
+ * ©2015 Appscore. All Rights Reserved
  */
 @Table(databaseName = AppDatabase.NAME)
 public class EdgeUser extends BaseModel implements Validation {
@@ -25,6 +26,12 @@ public class EdgeUser extends BaseModel implements Validation {
 
     @Column
     long mExpireIn;
+
+    @Column(defaultValue = "true")
+    boolean isFitBitUser = true;
+
+    @Column(defaultValue = "false")
+    boolean isTermCondAccepted = false;
 
     @Override
     public void validate() {
@@ -62,5 +69,21 @@ public class EdgeUser extends BaseModel implements Validation {
 
     public void setmExpireIn(long mExpireIn) {
         this.mExpireIn = mExpireIn;
+    }
+
+    public boolean isFitBitUser() {
+        return isFitBitUser;
+    }
+
+    public void setFitBitUser(boolean fitBitUser) {
+        isFitBitUser = fitBitUser;
+    }
+
+    public boolean isTermCondAccepted() {
+        return isTermCondAccepted;
+    }
+
+    public void setTermCondAccepted(boolean termCondAccepted) {
+        isTermCondAccepted = termCondAccepted;
     }
 }

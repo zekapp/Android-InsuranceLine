@@ -8,8 +8,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.insuranceline.R;
+import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.base.BaseActivity;
-import com.insuranceline.ui.main.MainActivity;
+import com.insuranceline.ui.sample.TestActivity;
 import com.insuranceline.utils.DialogFactory;
 
 import javax.inject.Inject;
@@ -39,6 +40,15 @@ public class LoginActivity extends BaseActivity implements LoginMvpView{
         mLoginPresenter.attachView(this);
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mLoginPresenter.detachView();
+        if (mProcessDialog != null)
+            mProcessDialog.dismiss();
+    }
+
     /***** MVP View methods implementation *****/
 
     @Override
@@ -49,7 +59,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView{
 
     @Override
     public void hideProgress() {
-        mProcessDialog.hide();
+        mProcessDialog.dismiss();
     }
 
     @Override
@@ -89,7 +99,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView{
     }
 
     private void launchDispatchActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, DispatchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -98,7 +108,8 @@ public class LoginActivity extends BaseActivity implements LoginMvpView{
     @OnClick(R.id.test_button)
     @SuppressWarnings("unused")
     public void goMainClicked(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, TestActivity.class);
         startActivity(intent);
     }
+
 }

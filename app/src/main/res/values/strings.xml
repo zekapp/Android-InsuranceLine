@@ -17,6 +17,13 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_not_match_password">Password and Confirmation does not match</string>
     <string name="error_unauthorized_user">The email/phone you entered is incorrect. Please try again.</string>
+    <string name="termcond_accept">Accept</string>
+    <string name="termcond_decline">Decline</string>
+    <string name="tandc_rejected_error"><![CDATA[If you decline out T&C\'s you are not able to progress into the insuranceline Fitbit app]]></string>
+    <string name="empty"/>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="term_cond_activity_name"><![CDATA[Terms & Conditions]]></string>
 
 
 </resources>

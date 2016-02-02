@@ -31,6 +31,8 @@ public class BasePresenter<T extends MvpView> implements Presenter<T> {
         if (!isViewAttached()) throw new MvpViewNotAttachedException();
     }
 
+
+
     public static class MvpViewNotAttachedException extends RuntimeException {
         public MvpViewNotAttachedException() {
             super("Please call Presenter.attachView(MvpView) before" +

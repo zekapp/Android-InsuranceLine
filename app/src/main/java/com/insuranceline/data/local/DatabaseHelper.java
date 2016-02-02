@@ -6,7 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.insuranceline.data.remote.responses.EdgeResponse;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Sample;
+import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
+import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.List;
@@ -78,11 +80,21 @@ public class DatabaseHelper {
                         edgeUser.setmTokenType(edgeResponse.getmTokenType());
                         edgeUser.setmExpireIn(edgeResponse.getmExpireIn());
                         edgeUser.setmAccessToken(edgeResponse.getmAccessToken());
+//                        edgeUser.setFitBitUser(true);
                         edgeUser.save();
+
                         subscriber.onNext(edgeUser);
                     }
                 });
             }
         });
+    }
+
+    public EdgeUser getEdgeUser() {
+        return new Select().from(EdgeUser.class).querySingle();
+    }
+
+    public void deleteEdgeUser() {
+        Delete.table(EdgeUser.class);
     }
 }

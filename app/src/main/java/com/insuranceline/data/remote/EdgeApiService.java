@@ -4,6 +4,7 @@ import com.insuranceline.data.remote.responses.EdgeResponse;
 
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
+import retrofit.http.Header;
 import retrofit.http.Headers;
 import retrofit.http.POST;
 import rx.Observable;
@@ -23,4 +24,6 @@ public interface EdgeApiService {
     Observable<EdgeResponse> loginToEdgeSystem(@Field("username") String userName, @Field("password") String password, @Field("grant_type") String type);
 
 
+    @POST("accepted")
+    Observable<Boolean> tcResponse(@Header("Authorization") String token);
 }

@@ -1,4 +1,4 @@
-package com.insuranceline.ui.main;
+package com.insuranceline.ui.sample;
 
 import com.insuranceline.data.DataManager;
 import com.insuranceline.data.vo.Sample;
@@ -14,18 +14,18 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class MainPresenter extends BasePresenter<MainMvpView> {
+public class TestPresenter extends BasePresenter<TestMvpView> {
 
     private final DataManager mDataManager;
     private Subscription mSubscription;
 
     @Inject
-    public MainPresenter(DataManager dataManager) {
+    public TestPresenter(DataManager dataManager) {
         mDataManager = dataManager;
     }
 
     @Override
-    public void attachView(MainMvpView mvpView) {
+    public void attachView(TestMvpView mvpView) {
         super.attachView(mvpView);
     }
 
@@ -60,6 +60,10 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
                         }
                     }
                 });
+    }
+
+    public void deleteUser() {
+        mDataManager.deleteEdgeUser();
     }
 
 }

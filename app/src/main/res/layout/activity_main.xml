@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/darker_gray"
-                tools:context=".ui.main.MainActivity">
+                tools:context=".ui.sample.TestActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -13,5 +13,12 @@
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         android:clipToPadding="false" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DeleteUser"
+        android:id="@+id/deleteUser"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>
