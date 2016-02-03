@@ -10,6 +10,7 @@ import com.insuranceline.ui.base.BaseActivity;
 import com.insuranceline.ui.login.LoginActivity;
 import com.insuranceline.ui.login.connect.FBConnectActivity;
 import com.insuranceline.ui.login.termAndCond.TermCondActivity;
+import com.insuranceline.ui.main.MainActivity;
 import com.insuranceline.ui.sample.TestActivity;
 
 import javax.inject.Inject;
@@ -70,16 +71,14 @@ public class DispatchActivity extends BaseActivity{
     }
 
     private void dispatchFitBitApp() {
-        String fitbitToken = mDataManager.getFitBitAccessToken();
+        boolean isConnected = mDataManager.isFitBitConnected();
 
-        if (fitbitToken.isEmpty())
-            dispatchFitBitConnect();
-        else
-            dispatchFitBitMain();
+        if (!isConnected) dispatchFitBitConnect();
+        else             dispatchFitBitMain();
     }
 
     private void dispatchFitBitMain() {
-        Intent intent = new Intent(this, TestActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

@@ -3,7 +3,7 @@ package com.insuranceline.data.remote.responses;
 /**
  * Created by Zeki Guler on 2/02/2016.
  */
-public class RefreshTokenResponse {
+public class FitBitTokenResponse {
     private String access_token;
     private int expires_in;
     private String refresh_token;

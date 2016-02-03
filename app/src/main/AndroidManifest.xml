@@ -49,8 +49,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
@@ -59,6 +58,28 @@
             android:screenOrientation="portrait"
             android:parentActivityName=".ui.login.LoginActivity">
         </activity>
+
+        <activity
+            android:name=".ui.login.connect.FBConnectActivity"
+            android:label="@string/activity_name_fit_bit_connect"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".ui.login.LoginActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="apitester" android:host="logincallback" />
+            </intent-filter>
+
+        </activity>
+
+
+        <!--Services-->
+
+        <service
+            android:name="org.chromium.customtabsclient.shared.KeepAliveService"
+            android:exported="true"/>
 
     </application>
 

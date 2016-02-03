@@ -6,6 +6,7 @@ import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.login.LoginActivity;
 import com.insuranceline.ui.login.connect.FBConnectActivity;
 import com.insuranceline.ui.login.termAndCond.TermCondActivity;
+import com.insuranceline.ui.main.MainActivity;
 import com.insuranceline.ui.sample.TestActivity;
 
 import dagger.Component;
@@ -27,4 +28,6 @@ public interface ActivityComponent {
     void inject(TermCondActivity termCondActivity);
 
     void inject(FBConnectActivity FBConnectActivity);
+
+    void inject(MainActivity mainActivity);
 }

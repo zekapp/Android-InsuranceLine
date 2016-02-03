@@ -5,12 +5,13 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/connect_fitbit"
+        android:id="@+id/connect_fit_bit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/orange_button_bg"
         android:text="Connect"
         android:textColor="@color/white"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:textAllCaps="false"/>
 
 </RelativeLayout>

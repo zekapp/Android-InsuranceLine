@@ -1,12 +1,17 @@
 package com.insuranceline.data.remote.oauth;
 
+import com.insuranceline.data.job.NetworkException;
 import com.insuranceline.data.local.PreferencesHelper;
-import com.insuranceline.data.remote.responses.RefreshTokenResponse;
+import com.insuranceline.data.remote.responses.FitBitTokenResponse;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import kotlin.jvm.Throws;
+import retrofit.Response;
+import timber.log.Timber;
 
 /**
  * Created by Zeki Guler on 02,February,2016
@@ -25,16 +30,25 @@ public class TokenManager {
     }
 
     @Throws(exceptionClasses = Exception.class)
-    public RefreshTokenResponse refreshToken() {
-        String refreshToken = mPreferencesHelper.getFitBitRefreshToken();
+    public FitBitTokenResponse refreshToken() throws IOException {
+        String oldRefreshToken = mPreferencesHelper.getFitBitRefreshToken();
 
-        RefreshTokenResponse refreshTokenResponse = mTokenApiService.refreshToken("refresh_token", refreshToken);
+        Response<FitBitTokenResponse> response = mTokenApiService.refreshToken("refresh_token", oldRefreshToken)
+                .execute();
 
-        // save refresh_token
-        mPreferencesHelper.saveFitBitRefreshToken(refreshTokenResponse.getRefresh_token());
-        // save access_token
-        mPreferencesHelper.saveFitBitAccessToken(refreshTokenResponse.getAccess_token());
+        if (response.isSuccess()) {
+            FitBitTokenResponse fitBitTokenResponse = response.body();
 
-        return refreshTokenResponse;
+            // save refresh_token
+            mPreferencesHelper.saveFitBitRefreshToken(fitBitTokenResponse.getRefresh_token());
+            // save access_token
+            mPreferencesHelper.saveFitBitAccessToken(fitBitTokenResponse.getAccess_token());
+
+            return fitBitTokenResponse;
+        } else{
+            Timber.e("Error on response: %s", response.errorBody());
+            throw new NetworkException(response.code());
+        }
+
     }
 }

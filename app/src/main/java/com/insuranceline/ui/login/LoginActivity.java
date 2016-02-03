@@ -59,7 +59,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView{
 
     @Override
     public void hideProgress() {
-        mProcessDialog.dismiss();
+        if (mProcessDialog != null) mProcessDialog.dismiss();
     }
 
     @Override

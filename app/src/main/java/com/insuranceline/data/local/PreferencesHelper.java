@@ -15,6 +15,8 @@ public class PreferencesHelper {
     private static final String FIT_BIT_REFRESH_TOKEN = "FIT_BIT_REFRESH_TOKEN";
     private static final String FIT_BIT_ACCESS_TOKEN = "FIT_BIT_ACCESS_TOKEN";
     private static final String EDGE_SYSTEM_ACCESS_TOKEN = "EDGE_SYSTEM_ACCESS_TOKEN";
+    private static final String FIT_BIT_CONNECTION_STATUS = "FIT_BIT_CONNECTION_STATUS";
+    private static final String FIT_BIT_USER_ID = "FIT_BIT_USER_ID";
 
     private final SharedPreferences mPref;
 
@@ -49,5 +51,21 @@ public class PreferencesHelper {
 
     public String getEdgeSystemToken() {
         return mPref.getString(EDGE_SYSTEM_ACCESS_TOKEN,"");
+    }
+
+    public boolean isFitBitConnected() {
+        return mPref.getBoolean(FIT_BIT_CONNECTION_STATUS,false);
+    }
+
+    public void setFitBitConnected(boolean isConnected) {
+        mPref.edit().putBoolean(FIT_BIT_CONNECTION_STATUS, isConnected).apply();
+    }
+
+    public void saveFitBitUserId(String user_id) {
+        mPref.edit().putString(FIT_BIT_USER_ID, user_id).apply();
+    }
+
+    public String getFitBitUserId() {
+        return mPref.getString(FIT_BIT_USER_ID,"");
     }
 }

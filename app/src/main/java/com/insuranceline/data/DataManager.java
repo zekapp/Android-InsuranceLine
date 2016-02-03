@@ -1,5 +1,6 @@
 package com.insuranceline.data;
 
+import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.job.fetch.FetchSamplesJob;
 import com.insuranceline.data.local.DatabaseHelper;
 import com.insuranceline.data.local.PreferencesHelper;
@@ -7,6 +8,7 @@ import com.insuranceline.data.remote.ApiService;
 import com.insuranceline.data.remote.EdgeApiService;
 import com.insuranceline.data.remote.FitBitApiService;
 import com.insuranceline.data.remote.responses.EdgeResponse;
+import com.insuranceline.data.remote.responses.FitBitTokenResponse;
 import com.insuranceline.data.remote.responses.SampleResponseData;
 import com.insuranceline.data.remote.responses.TermCondResponse;
 import com.insuranceline.data.vo.EdgeUser;
@@ -21,6 +23,7 @@ import javax.inject.Singleton;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.functions.Func1;
 import timber.log.Timber;
 
@@ -38,16 +41,18 @@ public class DataManager {
     private final JobManager mJobHelper;
     private final ApiService mApiService;
     private final PreferencesHelper mPreferencesHelper;
+    private final AppConfig mAppConfig;
 
 
     @Inject
-    public DataManager(ApiService apiService, EdgeApiService edgeApiService, FitBitApiService fitBitApiService, DatabaseHelper databaseHelper, JobManager jobManager, PreferencesHelper preferencesHelper){
+    public DataManager(ApiService apiService, EdgeApiService edgeApiService, FitBitApiService fitBitApiService, DatabaseHelper databaseHelper, JobManager jobManager, PreferencesHelper preferencesHelper, AppConfig appConfig){
         this.mEdgeApiService = edgeApiService;
         this.mFitBitApiService = fitBitApiService;
         this.mDatabaseHelper = databaseHelper;
         this.mJobHelper = jobManager;
         this.mApiService = apiService;
         this.mPreferencesHelper = preferencesHelper;
+        this.mAppConfig = appConfig;
     }
 
     /**
@@ -169,7 +174,33 @@ public class DataManager {
                 });
     }
 
-    public String getFitBitAccessToken(){
-        return mPreferencesHelper.getFitBitAccessToken();
+//    public String getFitBitAccessToken(){
+//        return mPreferencesHelper.getFitBitAccessToken();
+//    }
+
+    public boolean isFitBitConnected() {
+        return mPreferencesHelper.isFitBitConnected();
+    }
+
+    public Observable<String> getTokenWithAuthCode(String code) {
+        return mFitBitApiService.accessTokenRequest(
+                mAppConfig.getFitBitClientId(),mAppConfig.getFitBitReDirectUri(),code,"authorization_code")
+                .concatMap(new Func1<FitBitTokenResponse, Observable<? extends String>>() {
+                    @Override
+                    public Observable<? extends String> call(FitBitTokenResponse fitBitTokenResponse) {
+                        mPreferencesHelper.saveFitBitAccessToken(fitBitTokenResponse.getAccess_token());
+                        mPreferencesHelper.saveFitBitRefreshToken(fitBitTokenResponse.getRefresh_token());
+                        mPreferencesHelper.saveFitBitUserId(fitBitTokenResponse.getUser_id());
+                        mPreferencesHelper.setFitBitConnected(true);
+                        String rAnda = fitBitTokenResponse.getAccess_token() + ":" +
+                                fitBitTokenResponse.getRefresh_token()       + ":" +
+                                fitBitTokenResponse.getUser_id();
+                        return Observable.just(rAnda);
+                    }
+                });
+    }
+
+    public Observable<String> getFitBitProfile() {
+        return mFitBitApiService.getProfile(mPreferencesHelper.getFitBitUserId());
     }
 }

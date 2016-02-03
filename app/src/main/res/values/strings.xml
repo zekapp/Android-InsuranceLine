@@ -24,6 +24,9 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="term_cond_activity_name"><![CDATA[Terms & Conditions]]></string>
+    <string name="activity_name_fit_bit_connect">Connect</string>
+    <string name="activity_name_fit_bit_connected">Connected</string>
+    <string name="action_finish">Finish</string>
 
 
 </resources>
