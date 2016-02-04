@@ -19,5 +19,6 @@
     <color name="black">#000000</color>
     <color name="progress_line_under_bar_color">#d0d0d5</color>
     <color name="divition_bar_color">#d0d0d5</color>
+    <color name="progress_wheel_deftext_color">#efefef</color>
 
 </resources>

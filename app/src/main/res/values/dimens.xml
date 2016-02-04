@@ -3,7 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="more_section_padding">15dp</dimen>
+    <dimen name="more_section_padding">22dp</dimen>
     <dimen name="progress_line_value_def_size">20sp</dimen>
     <dimen name="progress_line_info_def_size">13sp</dimen>
     <dimen name="progress_line_value_bar_size">9dp</dimen>

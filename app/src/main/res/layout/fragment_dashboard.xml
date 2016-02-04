@@ -21,10 +21,10 @@
             app:barWidth="29dp"
             app:countText="28%"
             app:countTextColor="@android:color/black"
-            app:defTextColor="@android:color/black"
+            app:defTextColor="@color/gray"
             app:progressColor="#64b324"
-            app:countTextSize="20sp"
-            app:defTextSize="10sp"
+            app:countTextSize="23sp"
+            app:defTextSize="13sp"
             app:definitionText="31,199 steps"
             app:percentage="90"
             />
