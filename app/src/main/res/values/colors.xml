@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#64b324</color>
-    <color name="colorPrimaryDark">#659a00</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#FFFFFFFF</color>
+    <color name="colorPrimaryDark">#FFFFFFFF</color>
+    <color name="colorAccent">#659a00</color>
 
-    <color name="colorSecondary">#efb400</color>
-    <color name="colorSecondaryDark">#659a00</color>
+    <color name="colorSecondary">#659a00</color>
+    <color name="colorSecondaryDark">#FF3F6000</color>
 
 
     <color name="login_stoke_color">@color/gray</color>

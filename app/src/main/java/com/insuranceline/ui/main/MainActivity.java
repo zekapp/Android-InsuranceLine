@@ -40,10 +40,10 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     @Bind(R.id.tabhost) FragmentTabHost mTabHost;
 
     int[] tabIcons = new int[]{
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher,
-            R.mipmap.ic_launcher
+            R.drawable.icon_dash_idle,
+            R.drawable.icon_goals_idle,
+            R.drawable.icon_rewards_idle,
+            R.drawable.icon_more_idle
     };
 
     @Override

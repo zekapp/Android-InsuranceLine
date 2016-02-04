@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#ffffff">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFFFF"
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/image_fitbit"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/image_fitbit" />
 
 
     <TextView
         android:id="@+id/empty_def_string"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/general_text_color"
-        android:text="@string/no_data_info"
-        android:gravity="center"
-        android:textSize="19sp"
-        android:layout_marginTop="80dp"
         android:layout_marginLeft="55dp"
-        android:layout_marginRight="55dp"/>
+        android:layout_marginRight="55dp"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:text="@string/no_data_info"
+        android:textColor="@color/general_text_color"
+        android:textSize="19sp" />
 
 </LinearLayout>
