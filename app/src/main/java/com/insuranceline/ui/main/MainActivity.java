@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,8 +15,8 @@ import com.insuranceline.R;
 import com.insuranceline.ui.base.BaseActivity;
 import com.insuranceline.ui.fragments.MessageFromFragmentInterface;
 import com.insuranceline.ui.fragments.containers.BaseContainerFragment;
-import com.insuranceline.ui.fragments.containers.DashboardContainer;
-import com.insuranceline.ui.fragments.containers.GoalsContainer;
+import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainer;
+import com.insuranceline.ui.fragments.containers.goals.GoalsContainer;
 import com.insuranceline.ui.fragments.containers.MoreContainer;
 import com.insuranceline.ui.fragments.containers.RewardsContainer;
 

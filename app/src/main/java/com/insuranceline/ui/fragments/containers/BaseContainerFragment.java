@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.insuranceline.R;
+import com.insuranceline.di.component.ActivityComponent;
+import com.insuranceline.ui.main.MainActivity;
 
 
 /**
@@ -18,6 +20,14 @@ public class BaseContainerFragment extends Fragment {
     public static final String TAG = BaseContainerFragment.class.getSimpleName();
 
     private Fragment mCurrentFragment;
+
+    private ActivityComponent mActivityComponent;
+
+    public ActivityComponent getActivityComponent() {
+        if (mActivityComponent == null)
+            mActivityComponent =((MainActivity) getActivity()).getActivityComponent();
+        return mActivityComponent;
+    }
 
     public void replaceFragment(Fragment fragment, boolean addToBackStack) {
         hideKeyboard();

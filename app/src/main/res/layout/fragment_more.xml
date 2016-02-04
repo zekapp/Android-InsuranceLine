@@ -37,7 +37,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"/>
+            android:background="@color/divition_bar_color"/>
 
         <RelativeLayout
             android:id="@+id/more_2"
@@ -64,7 +64,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"/>
+            android:background="@color/divition_bar_color"/>
 
         <RelativeLayout
             android:id="@+id/more_3"
@@ -91,7 +91,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"/>
+            android:background="@color/divition_bar_color"/>
 
         <RelativeLayout
             android:id="@+id/more_4"
@@ -118,7 +118,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"/>
+            android:background="@color/divition_bar_color"/>
 
         <RelativeLayout
             android:id="@+id/more_5"
@@ -145,12 +145,12 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"/>
+            android:background="@color/divition_bar_color"/>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"
+            android:background="@color/divition_bar_color"
             android:layout_marginTop="20dp"/>
 
 
@@ -180,7 +180,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"/>
+            android:background="@color/divition_bar_color"/>
 
         <RelativeLayout
             android:id="@+id/more_7"
@@ -207,7 +207,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"/>
+            android:background="@color/divition_bar_color"/>
 
     </LinearLayout>
 

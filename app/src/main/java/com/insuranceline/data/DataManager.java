@@ -203,4 +203,12 @@ public class DataManager {
     public Observable<String> getFitBitProfile() {
         return mFitBitApiService.getProfile(mPreferencesHelper.getFitBitUserId());
     }
+
+    public int getlastUnfinishGoalId() {
+        return 1;
+    }
+
+    public boolean isAnyGoalSet() {
+        return true;
+    }
 }

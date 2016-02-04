@@ -12,9 +12,12 @@
     <color name="login_edit_text_solid_color">@color/white</color>
     <color name="login_button_solid_color">@color/colorSecondary</color>
 
+    <color name="general_text_color">#47525e</color>
 
     <color name="white">#FFFFFF</color>
     <color name="gray">#b8bcc0</color>
     <color name="black">#000000</color>
+    <color name="progress_line_under_bar_color">#d0d0d5</color>
+    <color name="divition_bar_color">#d0d0d5</color>
 
 </resources>

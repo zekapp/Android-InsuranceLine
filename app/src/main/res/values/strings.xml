@@ -47,6 +47,14 @@
     <string name="unlocked_second_reward_message">Complete your first goal and you will unlock the second reward. A New Balance Voucher worth $30*</string>
     <string name="third_reward">3rd Reward</string>
     <string name="unlocked_third_reward_message">Complete your second goal and you will unlock the third reward. A New Balance Voucher worth $50*</string>
+    <string name="first_goal">1st Goal</string>
+    <string name="first_goal_challenge_text">Complete 100.000 steps and you will be eligible to redeem a Village Cinema Moview Voucher worth $20*</string>
+    <string name="second_goal_challenge_text">Complete 200.000 steps and you will be eligible to redeem a New Balance Voucher worth $30*</string>
+    <string name="third_goal_challenge_text">Complete 500.000 steps and you will be eligible to redeem a Healt Voucher worth $50*</string>
+    <string name="second_goal">2nd Goal</string>
+    <string name="third_goal">3rd Goal</string>
+    <string name="no_data_info"><![CDATA[There is no data to display. Go to <b> More > Manage Fitbit Permissions</b> and check the permissions.]]></string>
+    <string name="goal_def">Goal 100,000 steps</string>
 
 
 </resources>

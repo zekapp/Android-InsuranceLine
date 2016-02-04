@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.insuranceline.R;
-import com.insuranceline.ui.fragments.goals.GoalsFragment;
 import com.insuranceline.ui.fragments.more.MoreFragment;
 
 import timber.log.Timber;

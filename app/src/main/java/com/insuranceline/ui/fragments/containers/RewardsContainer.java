@@ -1,13 +1,11 @@
 package com.insuranceline.ui.fragments.containers;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.insuranceline.R;
-import com.insuranceline.ui.fragments.goals.GoalsFragment;
 import com.insuranceline.ui.fragments.rewards.RewardsFragment;
 
 import timber.log.Timber;

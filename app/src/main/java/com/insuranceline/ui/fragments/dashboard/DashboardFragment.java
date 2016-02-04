@@ -17,6 +17,11 @@ import com.insuranceline.ui.fragments.BaseFragment;
  * ©2015 Appscore. All Rights Reserved
  */
 public class DashboardFragment extends BaseFragment {
+
+    public static DashboardFragment getInstance(){
+        return new DashboardFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setTitle("Dashboard");

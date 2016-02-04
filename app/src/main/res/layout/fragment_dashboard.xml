@@ -1,15 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:scrollbars="none">
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="I am Dashboard Fragment:)"
-        android:layout_centerInParent="true"/>
+        android:layout_margin="9dp"
+        android:orientation="vertical"
+        android:paddingBottom="30dp">
+
+        <com.app.progresviews.ProgressWheel
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            app:barWidth="29dp"
+            app:countText="28%"
+            app:countTextColor="@android:color/black"
+            app:defTextColor="@android:color/black"
+            app:progressColor="#64b324"
+            app:countTextSize="20sp"
+            app:defTextSize="10sp"
+            app:definitionText="31,199 steps"
+            app:percentage="90"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/goal_def"
+            android:textColor="@color/general_text_color"
+            android:textSize="19sp"
+            android:textStyle="bold"/>
 
 
-</RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dashboard_progress_line_holder_height"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.1"
+                android:layout_marginLeft="@dimen/dashboard_icon_padding_left"
+                android:src="@drawable/icon_steps"/>
+
+            <com.app.progresviews.ProgressLine
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.9"
+                android:paddingRight="@dimen/progress_line_padding_right"
+                app:definition="daily steps"
+                app:lineBarWidth="@dimen/progress_line_value_bar_size"
+                app:lineDefTextSize="@dimen/progress_line_info_def_size"
+                app:lineProgressColor="#43bd9f"
+                app:value="10,000"
+                app:valueDefTextSize="@dimen/progress_line_value_def_size"
+                app:valuePercentage="90"
+                app:underLineSize="@dimen/progress_line_under_line_size"
+                app:underLineColor="@color/progress_line_under_bar_color"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divition_bar_color"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dashboard_progress_line_holder_height"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.1"
+                android:layout_marginLeft="@dimen/dashboard_icon_padding_left"
+                android:src="@drawable/icon_calories"/>
+
+            <com.app.progresviews.ProgressLine
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.9"
+                app:definition="daily calories"
+                android:paddingRight="@dimen/progress_line_padding_right"
+                app:lineBarWidth="@dimen/progress_line_value_bar_size"
+                app:lineDefTextSize="@dimen/progress_line_info_def_size"
+                app:lineProgressColor="#ffc700"
+                app:value="742"
+                app:valueDefTextSize="@dimen/progress_line_value_def_size"
+                app:valuePercentage="15"
+                app:underLineSize="@dimen/progress_line_under_line_size"
+                app:underLineColor="@color/progress_line_under_bar_color"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divition_bar_color"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dashboard_progress_line_holder_height"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.1"
+                android:layout_marginLeft="@dimen/dashboard_icon_padding_left"
+                android:src="@drawable/icon_activemins"/>
+
+            <com.app.progresviews.ProgressLine
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.9"
+                app:definition="daily active minutes"
+                android:paddingRight="@dimen/progress_line_padding_right"
+                app:lineBarWidth="@dimen/progress_line_value_bar_size"
+                app:lineDefTextSize="@dimen/progress_line_info_def_size"
+                app:lineProgressColor="#f68d6c"
+                app:value="24"
+                app:valueDefTextSize="@dimen/progress_line_value_def_size"
+                app:valuePercentage="65"
+                app:underLineSize="@dimen/progress_line_under_line_size"
+                app:underLineColor="@color/progress_line_under_bar_color"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divition_bar_color"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dashboard_progress_line_holder_height"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.1"
+                android:layout_marginLeft="@dimen/dashboard_icon_padding_left"
+                android:src="@drawable/icon_distance"/>
+
+            <com.app.progresviews.ProgressLine
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.9"
+                app:definition="daily distance km"
+                android:paddingRight="@dimen/progress_line_padding_right"
+                app:lineBarWidth="@dimen/progress_line_value_bar_size"
+                app:lineDefTextSize="@dimen/progress_line_info_def_size"
+                app:lineProgressColor="#425255"
+                app:value="2,4"
+                app:valueDefTextSize="@dimen/progress_line_value_def_size"
+                app:valuePercentage="35"
+                app:underLineSize="@dimen/progress_line_under_line_size"
+                app:underLineColor="@color/progress_line_under_bar_color"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divition_bar_color"/>
+
+    </LinearLayout>
+
+
+</ScrollView>

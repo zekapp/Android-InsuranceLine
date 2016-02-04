@@ -59,7 +59,7 @@ public class MoreFragment extends BaseFragment {
 
     @OnClick(R.id.more_5)
     public void more5(){
-//        Toast.makeText(mContext,"Ok",Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext,"Ok",Toast.LENGTH_LONG).show();
         startFragment(AboutFragment.getInstance());
     }
 
