@@ -3,6 +3,7 @@ package com.insuranceline.di.component;
 import com.insuranceline.di.module.ActivityModule;
 import com.insuranceline.di.scope.PerActivity;
 import com.insuranceline.ui.DispatchActivity;
+import com.insuranceline.ui.fragments.more.MoreFragment;
 import com.insuranceline.ui.login.LoginActivity;
 import com.insuranceline.ui.login.connect.FBConnectActivity;
 import com.insuranceline.ui.login.termAndCond.TermCondActivity;
@@ -30,4 +31,6 @@ public interface ActivityComponent {
     void inject(FBConnectActivity FBConnectActivity);
 
     void inject(MainActivity mainActivity);
+
+    void inject(MoreFragment moreFragment);
 }

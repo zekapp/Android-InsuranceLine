@@ -129,6 +129,26 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     }
 
 
+    @Override
+    public void onBackPressed() {
+        boolean isPopFragment = false;
+        String currentTabTag = mTabHost.getCurrentTabTag();
+        if (currentTabTag.equals(TAB_1_TAG)) {
+            isPopFragment = ((BaseContainerFragment)getSupportFragmentManager().findFragmentByTag(TAB_1_TAG)).popFragment();
+        } else if (currentTabTag.equals(TAB_2_TAG)) {
+            isPopFragment = ((BaseContainerFragment)getSupportFragmentManager().findFragmentByTag(TAB_2_TAG)).popFragment();
+        } else if (currentTabTag.equals(TAB_3_TAG)) {
+            isPopFragment = ((BaseContainerFragment)getSupportFragmentManager().findFragmentByTag(TAB_3_TAG)).popFragment();
+        } else if (currentTabTag.equals(TAB_4_TAG)) {
+            isPopFragment = ((BaseContainerFragment)getSupportFragmentManager().findFragmentByTag(TAB_4_TAG)).popFragment();
+        }
+
+        if (!isPopFragment) {
+            finish();
+        }
+    }
+
+
     /**** Action From Fragments *******/
 
     @Override
@@ -138,7 +158,7 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
 
     @Override
     public void onBackPresses(Fragment currentfragment) {
-
+        onBackPressed();
     }
 
     @Override

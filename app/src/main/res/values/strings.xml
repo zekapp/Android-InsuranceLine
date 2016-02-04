@@ -27,6 +27,26 @@
     <string name="activity_name_fit_bit_connect">Connect</string>
     <string name="activity_name_fit_bit_connected">Connected</string>
     <string name="action_finish">Finish</string>
+    <string name="more_manage_fit_bit">Manage Fitbit Permissions</string>
+    <string name="more_change_password">Change Password</string>
+    <string name="more_view_terms_cond"><![CDATA[View Terms & Conditions]]></string>
+    <string name="more_view_privacy_policy">View Privacy Policy</string>
+    <string name="more_about_insuranceline">About Insuranceline</string>
+    <string name="more_app_version">Version</string>
+    <string name="more_logout">Log Out</string>
+    <string name="change_password_old_password">Old Password</string>
+    <string name="change_password_new_password">New Password</string>
+    <string name="change_password_confirm_password">Confirm New Password</string>
+    <string name="about_text">InsurenceLine</string>
+    <string name="test_message_very_long">Lorem ipsum dolor sit amet, nibh enim volutpat feugiat semper nostra est, amet pellentesque condimentum elementum purus. Viverra nascetur, blandit sapien quisque lectus, curabitur maecenas. Commodo nullam sit nullam mi erat aliquet. Donec metus nisl vehicula donec. Morbi libero nulla, felis sagittis felis in vehicula, suspendisse nunc lacinia sodales. Non ac egestas vehicula odio, nunc mattis ut neque quam nulla, non nulla vivamus iaculis augue ultrices iusto. Turpis dolor magna justo libero, semper lectus vehicula vel. Aliquam iaculis. Nec integer sapien dis purus, praesent eget hendrerit nec proin sollicitudin. Eget lacus ac velit justo in, pharetra leo massa ut lacus diam convallis, quam integer cras odio nec. Neque integer morbi. Nulla suspendisse commodo quis, justo pellentesque vivamus, pellentesque fusce risus erat scelerisque curabitur, quisque varius consectetuer.. Lorem ipsum dolor sit amet, nibh enim volutpat feugiat semper nostra est, amet pellentesque condimentum elementum purus. Viverra nascetur, blandit sapien quisque lectus, curabitur maecenas. Commodo nullam sit nullam mi erat aliquet. Donec metus nisl vehicula donec. Morbi libero nulla, felis sagittis felis in vehicula, suspendisse nunc lacinia sodales. Non ac egestas vehicula odio, nunc mattis ut neque quam nulla, non nulla vivamus iaculis augue ultrices iusto. Turpis dolor magna justo libero, semper lectus vehicula vel. Aliquam iaculis. Nec integer sapien dis purus, praesent eget hendrerit nec proin sollicitudin. Eget lacus ac velit justo in, pharetra leo massa ut lacus diam convallis, quam integer cras odio nec. Neque integer morbi. Nulla suspendisse commodo quis, justo pellentesque vivamus, pellentesque fusce risus erat scelerisque curabitur, quisque varius consectetuer. Lorem ipsum dolor sit amet, nibh enim volutpat feugiat semper nostra est, amet pellentesque condimentum elementum purus. Viverra nascetur, blandit sapien quisque lectus, curabitur maecenas. Commodo nullam sit nullam mi erat aliquet. Donec metus nisl vehicula donec. Morbi libero nulla, felis sagittis felis in vehicula, suspendisse nunc lacinia sodales. Non ac egestas vehicula odio, nunc mattis ut neque quam nulla, non nulla vivamus iaculis augue ultrices iusto. Turpis dolor magna justo libero, semper lectus vehicula vel. Aliquam iaculis. Nec integer sapien dis purus, praesent eget hendrerit nec proin sollicitudin. Eget lacus ac velit justo in, pharetra leo massa ut lacus diam convallis, quam integer cras odio nec. Neque integer morbi. Nulla suspendisse commodo quis, justo pellentesque vivamus, pellentesque fusce risus erat scelerisque curabitur, quisque varius consectetuer.</string>
+    <string name="test_message_medium">Lorem ipsum dolor sit amet, nibh enim volutpat feugiat semper nostra est, amet pellentesque condimentum elementum purus. Viverra nascetur, blandit sapien quisque lectus, curabitur maecenas. Commodo nullam sit nullam mi erat aliquet. Donec metus nisl vehicula donec. Morbi libero nulla, felis sagittis felis in vehicula, suspendisse nunc lacinia sodales. </string>
+    <string name="test_message_short">Lorem ipsum dolor sit amet, nibh enim volutpat feugiat semper nostra est, amet pellentesque condimentum elementum purus.</string>
+    <string name="first_reward">1st Reward</string>
+    <string name="see_term_cond">*Please see Terms and Conditions section for full details.</string>
+    <string name="second_reward">2nd Reward</string>
+    <string name="unlocked_second_reward_message">Complete your first goal and you will unlock the second reward. A New Balance Voucher worth $30*</string>
+    <string name="third_reward">3rd Reward</string>
+    <string name="unlocked_third_reward_message">Complete your second goal and you will unlock the third reward. A New Balance Voucher worth $50*</string>
 
 
 </resources>
