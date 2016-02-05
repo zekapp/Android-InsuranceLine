@@ -15,10 +15,37 @@ android {
         versionCode 1
         versionName "0.1.0"
     }
+
+    signingConfigs {
+        // You must set up an environment var before release signing
+        // Run: export APP_KEY={password}
+        // TODO Add your release keystore in /keystore folder
+        release {
+            storeFile file('keystore/release.keystore.jks')
+            keyAlias 'insuranceline'
+            storePassword KEYSTORE_PASSWORD
+            keyPassword KEY_PASSWORD
+        }
+
+        debug {
+            storeFile file('keystore/debug.keystore.jks')
+            keyAlias 'androiddebugkey'
+            storePassword 'android'
+            keyPassword 'android'
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            versionNameSuffix " Debug"
+            debuggable true
         }
     }
 
@@ -63,7 +90,7 @@ dependencies {
 
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
-    compile 'com.zekapp.library:progreswheelview:1.0.6'
+    compile 'com.zekapp.library:progreswheelview:1.0.7'
 
 
     // Unit tests dependencies

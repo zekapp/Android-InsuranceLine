@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 import com.insuranceline.R;
@@ -13,6 +16,7 @@ import com.insuranceline.utils.DialogFactory;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -26,6 +30,9 @@ public class TermCondActivity extends BaseActivity implements TermCondMvpView{
 
     private ProgressDialog mProcessDialog;
 
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +40,16 @@ public class TermCondActivity extends BaseActivity implements TermCondMvpView{
         setContentView(R.layout.activity_terms_cond);
         ButterKnife.bind(this);
         mTermCondPresenter.attachView(this);
+
+        setHomeAsUpEnabled();
+
+    }
+
+    public void setHomeAsUpEnabled(){
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.icon_back);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -44,7 +61,6 @@ public class TermCondActivity extends BaseActivity implements TermCondMvpView{
     @OnClick(R.id.tcAccepted)
     @SuppressWarnings("unused")
     public void onAcceptClicked(){
-        Toast.makeText(this, "onAcceptClicked", Toast.LENGTH_LONG).show();
         mTermCondPresenter.accept();
     }
 

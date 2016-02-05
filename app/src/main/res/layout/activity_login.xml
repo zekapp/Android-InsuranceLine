@@ -13,9 +13,10 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@color/colorPrimary" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_login"
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,10 +28,11 @@
         <EditText
             android:id="@+id/login_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/edit_text_height"
             android:layout_marginTop="30dp"
+            android:padding="17dp"
             android:background="@drawable/login_edittext_bg"
-            android:drawableLeft="@mipmap/ic_launcher"
+            android:drawableLeft="@drawable/icon_username"
             android:drawablePadding="7dp"
             android:hint="@string/login_email_button"
             android:inputType="textEmailAddress" />
@@ -38,10 +40,11 @@
         <EditText
             android:id="@+id/login_password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/edit_text_height"
             android:layout_marginTop="20dp"
+            android:padding="17dp"
             android:background="@drawable/login_edittext_bg"
-            android:drawableLeft="@mipmap/ic_launcher"
+            android:drawableLeft="@drawable/icon_pw"
             android:drawablePadding="7dp"
             android:hint="@string/login_password_button"
             android:inputType="textPassword" />
@@ -49,7 +52,7 @@
         <Button
             android:id="@+id/login_get_started"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:layout_marginTop="20dp"
             android:background="@drawable/orange_button_bg"
             android:text="@string/login_button_action"
@@ -60,7 +63,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/test_button"
-            android:text="GoMain" />
+            android:text="GoMain"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

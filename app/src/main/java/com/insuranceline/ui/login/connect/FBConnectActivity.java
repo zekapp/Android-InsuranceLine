@@ -9,6 +9,7 @@ import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,6 +50,7 @@ public class FBConnectActivity extends BaseActivity implements FBMvpView, Servic
     private CustomTabsServiceConnection mConnection;
 
     @Bind(R.id.connect_fit_bit) Button mConnectFitBitButton;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
 
     private ProgressDialog mProcessDialog;
     private boolean isMenuVisible = false;
@@ -79,7 +81,14 @@ public class FBConnectActivity extends BaseActivity implements FBMvpView, Servic
         ButterKnife.bind(this);
         onNewIntent(getIntent());
         Timber.d("onCreate");
+        setHomeAsUpEnabled();
+    }
 
+    public void setHomeAsUpEnabled(){
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(R.drawable.icon_back);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -156,8 +165,7 @@ public class FBConnectActivity extends BaseActivity implements FBMvpView, Servic
     public void onSuccess() {
         isMenuVisible = true;
         invalidateOptionsMenu();
-        mConnectFitBitButton.setBackgroundResource(R.drawable.green_button_bg);
-        mConnectFitBitButton.setText(getString(R.string.activity_name_fit_bit_connected));
+        mConnectFitBitButton.setBackgroundResource(R.drawable.btn_connected);
         mConnectFitBitButton.setEnabled(false);
     }
 

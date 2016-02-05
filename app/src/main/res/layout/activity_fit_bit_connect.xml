@@ -4,15 +4,63 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFFFFFFF">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical" />
+    </android.support.v7.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/fitbit_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:scaleType="centerCrop"
+        android:layout_below="@+id/toolbar"
+        android:src="@drawable/image_fitbit" />
+
+    <TextView
+        android:id="@+id/connect_fitbit_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/connect_fit_bit_title"
+        android:layout_below="@+id/fitbit_img"
+        android:layout_marginTop="30dp"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/connect_fit_bit_info"
+        android:layout_below="@+id/connect_fitbit_title"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:layout_margin="30dp"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/connect_fit_bit"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/orange_button_bg"
-        android:text="Connect"
+        android:background="@drawable/btn_connect"
+        android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_alignParentBottom="true"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:layout_margin="30dp"
+        android:layout_centerHorizontal="true"
+        />
 
 </RelativeLayout>

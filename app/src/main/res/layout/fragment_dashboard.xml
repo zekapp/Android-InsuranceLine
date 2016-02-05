@@ -27,7 +27,8 @@
             app:defTextSize="13sp"
             app:definitionText="31,199 steps"
             app:percentage="90"
-            app:progressColor="#64b324" />
+            app:progressColor="#64b324"
+            app:marginBtwText="13dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,9 +71,9 @@
                 app:lineProgressColor="#43bd9f"
                 app:underLineColor="@color/progress_line_under_bar_color"
                 app:underLineSize="@dimen/progress_line_under_line_size"
-                app:value="10,000"
+                app:value="3,120"
                 app:valueDefTextSize="@dimen/progress_line_value_def_size"
-                app:valuePercentage="90" />
+                app:valuePercentage="40" />
 
         </LinearLayout>
 

@@ -55,9 +55,9 @@
 
         <activity
             android:name=".ui.login.termAndCond.TermCondActivity"
+            android:parentActivityName=".ui.login.LoginActivity"
             android:label="@string/term_cond_activity_name"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".ui.login.LoginActivity">
+            android:screenOrientation="portrait">
         </activity>
 
         <activity

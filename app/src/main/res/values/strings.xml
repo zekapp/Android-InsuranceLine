@@ -55,6 +55,8 @@
     <string name="third_goal">3rd Goal</string>
     <string name="no_data_info"><![CDATA[There is no data to display. Go to <b> More > Manage Fitbit Permissions</b> and check the permissions.]]></string>
     <string name="goal_def">Goal 100,000 steps</string>
+    <string name="connect_fit_bit_title">Connect FitBit</string>
+    <string name="connect_fit_bit_info">When you connect Fitbit to our app. Your Fitbit activities will automatically show up.\n\nAny activity will automatically contribute to your Fitbit all day stats like calories and active minutes.</string>
 
 
 </resources>

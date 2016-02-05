@@ -69,7 +69,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView{
 
     @Override
     public void loginSuccess() {
-        Toast.makeText(this,"Login Success",Toast.LENGTH_LONG).show();
+//        Toast.makeText(this,"Login Success",Toast.LENGTH_LONG).show();
         launchDispatchActivity();
     }
 
