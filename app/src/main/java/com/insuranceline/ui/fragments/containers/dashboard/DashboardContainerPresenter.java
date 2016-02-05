@@ -9,7 +9,7 @@ import javax.inject.Inject;
  * Created by Zeki Guler on 04,February,2016
  * ©2015 Appscore. All Rights Reserved
  */
-public class DashboardContainerPresenter extends BasePresenter<DashboardMvpView> {
+public class DashboardContainerPresenter extends BasePresenter<DashboardContainerMvpView> {
 
     private final DataManager mDataManager;
 
@@ -20,7 +20,7 @@ public class DashboardContainerPresenter extends BasePresenter<DashboardMvpView>
     }
 
     @Override
-    public void attachView(DashboardMvpView mvpView) {
+    public void attachView(DashboardContainerMvpView mvpView) {
         super.attachView(mvpView);
     }
 

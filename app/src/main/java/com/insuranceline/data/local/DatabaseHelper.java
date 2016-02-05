@@ -3,7 +3,9 @@ package com.insuranceline.data.local;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import com.insuranceline.data.remote.responses.DailySummaryResponse;
 import com.insuranceline.data.remote.responses.EdgeResponse;
+import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Sample;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
@@ -108,4 +110,39 @@ public class DatabaseHelper {
             }
         });
     }
+
+    public DailySummary getDailySummary(){
+        return new Select().from(DailySummary.class).where().querySingle();
+    }
+
+    public Observable<DailySummary> saveDailySummary(final DailySummaryResponse dailySummaryResponse) {
+        return Observable.create( new Observable.OnSubscribe<DailySummary>(){
+            @Override
+            public void call(final Subscriber<? super DailySummary> subscriber) {
+                TransactionManager.transact(mDb, new Runnable() {
+                    @Override
+                    public void run() {
+                        DailySummary summary = getDailySummary();
+                        summary.setDailyActiveMinutes(dailySummaryResponse.summary.lightlyActiveMinutes);
+                        summary.setDailyCalories(dailySummaryResponse.summary.caloriesOut);
+                        summary.setDailySteps(dailySummaryResponse.summary.steps);
+                        summary.setDailyDistance(dailySummaryResponse.summary.getDistance());
+                        summary.save();
+                        subscriber.onNext(summary);
+                        subscriber.onCompleted();
+                    }
+                });
+            }
+        });
+    }
+/*    public Observable<DailySummary> getDailySummary() {
+        return Observable.create(new Observable.OnSubscribe<DailySummary>() {
+            @Override
+            public void call(Subscriber<? super DailySummary> subscriber) {
+                DailySummary dailySummary = new  Select().from(DailySummary.class).where().querySingle();
+                subscriber.onNext(dailySummary);
+                subscriber.onCompleted();
+            }
+        });
+    }*/
 }

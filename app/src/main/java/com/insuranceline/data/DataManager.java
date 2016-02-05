@@ -7,11 +7,14 @@ import com.insuranceline.data.local.PreferencesHelper;
 import com.insuranceline.data.remote.ApiService;
 import com.insuranceline.data.remote.EdgeApiService;
 import com.insuranceline.data.remote.FitBitApiService;
+import com.insuranceline.data.remote.responses.DailySummaryResponse;
 import com.insuranceline.data.remote.responses.EdgeResponse;
 import com.insuranceline.data.remote.responses.FitBitTokenResponse;
 import com.insuranceline.data.remote.responses.SampleResponseData;
 import com.insuranceline.data.remote.responses.TermCondResponse;
+import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.EdgeUser;
+import com.insuranceline.data.vo.Goal;
 import com.insuranceline.data.vo.Sample;
 import com.path.android.jobqueue.JobManager;
 
@@ -22,8 +25,10 @@ import javax.inject.Singleton;
 
 import rx.Observable;
 import rx.Observer;
+import rx.Scheduler;
 import rx.Subscriber;
-import rx.Subscription;
+import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import timber.log.Timber;
 
@@ -211,4 +216,51 @@ public class DataManager {
     public boolean isAnyGoalSet() {
         return true;
     }
+
+    public Observable<DailySummary> dailySummary() {
+        return Observable.create(new Observable.OnSubscribe<DailySummary>() {
+            @Override
+            public void call(final Subscriber<? super DailySummary> subscriber) {
+                subscriber.onNext(mDatabaseHelper.getDailySummary());
+
+                mFitBitApiService.getDailySummary().subscribe(new Observer<DailySummaryResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        subscriber.onError(e);
+                    }
+
+                    @Override
+                    public void onNext(DailySummaryResponse dailySummaryResponse) {
+                        saveDailySummary(dailySummaryResponse, subscriber);
+                    }
+                });
+            }
+        }).repeat();
+    }
+
+    private void saveDailySummary(DailySummaryResponse dailySummaryResponse, final Subscriber<? super DailySummary> subscriber) {
+        mDatabaseHelper.saveDailySummary(dailySummaryResponse).subscribe(new Observer<DailySummary>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Timber.e("mDatabaseHelper: %s", e.getMessage());
+                subscriber.onError(e);
+            }
+
+            @Override
+            public void onNext(DailySummary dailySummary) {
+                subscriber.onNext(dailySummary);
+            }
+        });
+    }
+
 }

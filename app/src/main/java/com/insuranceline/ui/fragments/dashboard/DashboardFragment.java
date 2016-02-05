@@ -9,14 +9,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.app.progresviews.ProgressLine;
+import com.app.progresviews.ProgressWheel;
 import com.insuranceline.R;
 import com.insuranceline.ui.fragments.BaseFragment;
+
+import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by Zeki Guler on 03,February,2016
  * ©2015 Appscore. All Rights Reserved
  */
-public class DashboardFragment extends BaseFragment {
+public class DashboardFragment extends BaseFragment implements DashboardMvpView {
+
+    @Bind(R.id.wheel_progress) ProgressWheel mWheelProgress;
+    @Bind(R.id.steps_line_progress) ProgressLine mStepsProgressLine;
+    @Bind(R.id.calories_line_progress) ProgressLine mCalProgressLine;
+    @Bind(R.id.active_minutes_line_progress) ProgressLine mActiveMinProgressLine;
+    @Bind(R.id.daily_distance_line_progress) ProgressLine mDailyDistProgressLine;
+
+    @Inject DashboardPresenter mDashboardPresenter;
 
     public static DashboardFragment getInstance(){
         return new DashboardFragment();
@@ -26,6 +41,57 @@ public class DashboardFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setTitle("Dashboard");
         final View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        ButterKnife.bind(this, view);
+        mDashboardPresenter.attachView(this);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mDashboardPresenter.fetch();
+    }
+
+    /******* MVP View Methods Implementation*/
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void updateWheelProgress(int totalDegreeDone, String totalPercentageDone, String totalStepsCountDone) {
+        mWheelProgress.setPercentage(totalDegreeDone);
+        mWheelProgress.setStepCountText(totalPercentageDone);
+        mWheelProgress.setDefText(totalStepsCountDone);
+    }
+
+    @Override
+    public void updateDailySteps(int dailyPercentageDone, int dailyStepsCountDone) {
+        mStepsProgressLine.setmPercentage(dailyPercentageDone);
+        mStepsProgressLine.setmValueText(dailyStepsCountDone);
+    }
+
+    @Override
+    public void updateDailyCalories(int dailyPercentageDone, int dailyCaloriesDone) {
+        mCalProgressLine.setmPercentage(dailyPercentageDone);
+        mCalProgressLine.setmValueText(dailyCaloriesDone);
+    }
+
+    @Override
+    public void updateDailyActiveMinutes(int dailyPercentageDone, int dailyActiveMinDone) {
+        mActiveMinProgressLine.setmPercentage(dailyPercentageDone);
+        mActiveMinProgressLine.setmValueText(dailyActiveMinDone);
+    }
+
+    @Override
+    public void updateDailyDistance(int dailyPercentageDone, int dailyDistanceDone) {
+        mDailyDistProgressLine.setmPercentage(dailyPercentageDone);
+        mDailyDistProgressLine.setmValueText(dailyDistanceDone);
     }
 }

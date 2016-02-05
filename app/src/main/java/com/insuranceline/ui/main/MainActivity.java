@@ -15,7 +15,7 @@ import com.insuranceline.R;
 import com.insuranceline.ui.base.BaseActivity;
 import com.insuranceline.ui.fragments.MessageFromFragmentInterface;
 import com.insuranceline.ui.fragments.containers.BaseContainerFragment;
-import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainer;
+import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainerContainer;
 import com.insuranceline.ui.fragments.containers.goals.GoalsContainer;
 import com.insuranceline.ui.fragments.containers.MoreContainer;
 import com.insuranceline.ui.fragments.containers.RewardsContainer;
@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
         mTabHost.addTab(
                 mTabHost.newTabSpec(TAB_1_TAG).setIndicator(
                         this.getTabIndicator(mTabHost.getContext())),
-                DashboardContainer.class,
+                DashboardContainerContainer.class,
                 null);
 
         // Goals Container Fragment.

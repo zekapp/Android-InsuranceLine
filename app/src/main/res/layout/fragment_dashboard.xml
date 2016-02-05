@@ -15,6 +15,7 @@
         android:paddingBottom="30dp">
 
         <com.app.progresviews.ProgressWheel
+            android:id="@+id/wheel_progress"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
@@ -61,6 +62,7 @@
                 android:src="@drawable/icon_steps" />
 
             <com.app.progresviews.ProgressLine
+                android:id="@+id/steps_line_progress"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.9"
@@ -96,6 +98,7 @@
                 android:src="@drawable/icon_calories" />
 
             <com.app.progresviews.ProgressLine
+                android:id="@+id/calories_line_progress"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.9"
@@ -131,6 +134,7 @@
                 android:src="@drawable/icon_activemins" />
 
             <com.app.progresviews.ProgressLine
+                android:id="@+id/active_minutes_line_progress"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.9"
@@ -166,6 +170,7 @@
                 android:src="@drawable/icon_distance" />
 
             <com.app.progresviews.ProgressLine
+                android:id="@+id/daily_distance_line_progress"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.9"

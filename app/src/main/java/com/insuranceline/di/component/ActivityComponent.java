@@ -4,7 +4,7 @@ import com.insuranceline.di.module.ActivityModule;
 import com.insuranceline.di.scope.PerActivity;
 import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.fragments.BaseFragment;
-import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainer;
+import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainerContainer;
 import com.insuranceline.ui.fragments.containers.goals.GoalsContainer;
 import com.insuranceline.ui.login.LoginActivity;
 import com.insuranceline.ui.login.connect.FBConnectActivity;
@@ -39,5 +39,5 @@ public interface ActivityComponent {
 
     void inject(GoalsContainer goalsContainer);
 
-    void inject(DashboardContainer dashboardContainer);
+    void inject(DashboardContainerContainer dashboardContainer);
 }
