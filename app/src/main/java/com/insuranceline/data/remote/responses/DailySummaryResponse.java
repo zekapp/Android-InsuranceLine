@@ -1,15 +1,22 @@
 package com.insuranceline.data.remote.responses;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.insuranceline.data.vo.DailySummary;
+
 import java.util.List;
 
 /**
  * Created by Zeki Guler on 05,February,2016
  * ©2015 Appscore. All Rights Reserved
  */
-public class DailySummaryResponse {
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public final class DailySummaryResponse {
 
     public Summary summary;
 
-    public class Summary {
+    @JsonIgnoreProperties(ignoreUnknown=true)
+    static public class Summary {
         public int activeScore;
         public int activityCalories;
         public int caloriesBMR;
@@ -23,19 +30,31 @@ public class DailySummaryResponse {
         public int veryActiveMinutes;
 
         public float getDistance() {
-            if (distances != null || !distances.isEmpty()){
+            if (distances != null && !distances.isEmpty()){
                 for (Distance d : distances){
-                    if (d.activity.contains("total"))
-                     return d.distance;
+                    if (d.activity != null && d.activity.equals("total"))
+                        return d.distance;
                 }
                 return 0f;
             }
             return 0f;
         }
 
-        public class Distance {
-            private String activity;
-            private float distance;
+        @JsonIgnoreProperties(ignoreUnknown=true)
+        static public class Distance {
+            public String activity;
+            public float distance;
         }
+    }
+
+    public DailySummary getDailySummary(){
+        DailySummary dailySum = new DailySummary();
+        dailySum.setmSummaryId(1);
+        dailySum.setDailyActiveMinutes(summary.lightlyActiveMinutes);
+        dailySum.setDailyCalories(summary.caloriesOut);
+        dailySum.setDailySteps(summary.steps);
+        dailySum.setDailyDistance(summary.getDistance());
+        dailySum.setmRefreshTime(System.currentTimeMillis());
+        return dailySum;
     }
 }

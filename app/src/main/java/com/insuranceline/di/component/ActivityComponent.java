@@ -3,9 +3,10 @@ package com.insuranceline.di.component;
 import com.insuranceline.di.module.ActivityModule;
 import com.insuranceline.di.scope.PerActivity;
 import com.insuranceline.ui.DispatchActivity;
-import com.insuranceline.ui.fragments.BaseFragment;
 import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainerContainer;
 import com.insuranceline.ui.fragments.containers.goals.GoalsContainer;
+import com.insuranceline.ui.fragments.dashboard.DashboardFragment;
+import com.insuranceline.ui.fragments.more.MoreFragment;
 import com.insuranceline.ui.login.LoginActivity;
 import com.insuranceline.ui.login.connect.FBConnectActivity;
 import com.insuranceline.ui.login.termAndCond.TermCondActivity;
@@ -35,7 +36,9 @@ public interface ActivityComponent {
 
     void inject(MainActivity mainActivity);
 
-    void inject(BaseFragment moreFragment);
+    void inject(DashboardFragment dashboardFragment);
+
+    void inject(MoreFragment moreFragment);
 
     void inject(GoalsContainer goalsContainer);
 

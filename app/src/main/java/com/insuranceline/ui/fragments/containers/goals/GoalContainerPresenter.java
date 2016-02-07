@@ -1,6 +1,7 @@
 package com.insuranceline.ui.fragments.containers.goals;
 
 import com.insuranceline.data.DataManager;
+import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.base.BasePresenter;
 
 import javax.inject.Inject;
@@ -25,8 +26,8 @@ public class GoalContainerPresenter extends BasePresenter<GoalContainerMvpView>{
     }
 
     public void fetchNextView() {
-        int id = mDataManager.getlastUnfinishGoalId();
-        getMvpView().initView(id);
+        Goal activeGoal = mDataManager.getActiveGoal();
+        getMvpView().initView(activeGoal);
     }
 
 

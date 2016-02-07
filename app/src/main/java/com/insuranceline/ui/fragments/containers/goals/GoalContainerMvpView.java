@@ -1,7 +1,7 @@
 package com.insuranceline.ui.fragments.containers.goals;
 
+import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.base.MvpView;
-import com.insuranceline.ui.fragments.BaseFragment;
 
 /**
  * Created by Zeki Guler on 04,February,2016
@@ -9,6 +9,6 @@ import com.insuranceline.ui.fragments.BaseFragment;
  */
 public interface GoalContainerMvpView extends MvpView{
 
-    void initView(int goalId);
+    void initView(Goal activeGoal);
 
 }

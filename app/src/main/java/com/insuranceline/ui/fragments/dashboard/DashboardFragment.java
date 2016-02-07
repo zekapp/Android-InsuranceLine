@@ -2,12 +2,10 @@ package com.insuranceline.ui.fragments.dashboard;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.Toast;
 
 import com.app.progresviews.ProgressLine;
 import com.app.progresviews.ProgressWheel;
@@ -38,11 +36,17 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivityComponent().inject(this);
+        mDashboardPresenter.attachView(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setTitle("Dashboard");
         final View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         ButterKnife.bind(this, view);
-        mDashboardPresenter.attachView(this);
         return view;
     }
 
@@ -62,6 +66,16 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
     @Override
     public void hideProgress() {
 
+    }
+
+    @Override
+    public void error(String error) {
+        Toast.makeText(mContext," " + error,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNoAciveGoal(String successMessage) {
+        Toast.makeText(mContext,successMessage,Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -90,8 +104,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
     }
 
     @Override
-    public void updateDailyDistance(int dailyPercentageDone, int dailyDistanceDone) {
+    public void updateDailyDistance(int dailyPercentageDone, float dailyDistanceDone) {
         mDailyDistProgressLine.setmPercentage(dailyPercentageDone);
-        mDailyDistProgressLine.setmValueText(dailyDistanceDone);
+        mDailyDistProgressLine.setmValueText(String.valueOf(dailyDistanceDone));
     }
 }

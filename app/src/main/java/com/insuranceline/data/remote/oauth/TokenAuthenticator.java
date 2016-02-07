@@ -35,7 +35,7 @@ public class TokenAuthenticator implements Authenticator{
         // Refresh the access_token using a synchronous api request.
         try {
             FitBitTokenResponse newAccessToken = mTokenManager.refreshToken();
-
+            Timber.d("Token: %s", newAccessToken.getAccess_token());
             return response.request().newBuilder()
                     .header("Authorization", newAccessToken.getToken_type() + " "+ newAccessToken.getAccess_token())
                     .build();

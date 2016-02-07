@@ -14,6 +14,8 @@ public interface DashboardMvpView extends MvpView{
 
     void error(String error);
 
+    void onNoAciveGoal(String successMessage);
+
     /**
      * This fucntion updates the WheelProcess on Dashboard.
      *
@@ -45,6 +47,6 @@ public interface DashboardMvpView extends MvpView{
      * @param dailyPercentageDone: value should be 0 and 100.
      * @param dailyDistanceDone: value is the string ans shows daily statistic
      * */
-    void updateDailyDistance(int dailyPercentageDone, int dailyDistanceDone);
+    void updateDailyDistance(int dailyPercentageDone, float dailyDistanceDone);
 
 }

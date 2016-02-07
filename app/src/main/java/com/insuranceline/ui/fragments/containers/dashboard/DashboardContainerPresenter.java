@@ -25,7 +25,7 @@ public class DashboardContainerPresenter extends BasePresenter<DashboardContaine
     }
 
     public void fetchNextView() {
-        boolean isSet = mDataManager.isAnyGoalSet();
+        boolean isSet = mDataManager.isAnyGoalActive();
         getMvpView().initView(isSet);
     }
 }

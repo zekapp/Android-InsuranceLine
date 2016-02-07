@@ -30,6 +30,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import de.greenrobot.event.EventBus;
 import retrofit.JacksonConverterFactory;
 import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
@@ -177,5 +178,11 @@ public class AppModule {
                 })
                 .build();
         return new JobManager(mApp, config);
+    }
+
+    @Provides
+    @Singleton
+    public EventBus eventBus() {
+        return new EventBus();
     }
 }

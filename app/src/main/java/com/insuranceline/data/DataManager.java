@@ -16,6 +16,8 @@ import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Goal;
 import com.insuranceline.data.vo.Sample;
+import com.insuranceline.event.GeneralErrorEvent;
+import com.insuranceline.event.LogOutEvent;
 import com.path.android.jobqueue.JobManager;
 
 import java.util.List;
@@ -23,11 +25,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import de.greenrobot.event.EventBus;
+import retrofit.HttpException;
 import rx.Observable;
 import rx.Observer;
-import rx.Scheduler;
 import rx.Subscriber;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import timber.log.Timber;
@@ -47,10 +49,14 @@ public class DataManager {
     private final ApiService mApiService;
     private final PreferencesHelper mPreferencesHelper;
     private final AppConfig mAppConfig;
-
+    private final EventBus mEventBus;
 
     @Inject
-    public DataManager(ApiService apiService, EdgeApiService edgeApiService, FitBitApiService fitBitApiService, DatabaseHelper databaseHelper, JobManager jobManager, PreferencesHelper preferencesHelper, AppConfig appConfig){
+    public DataManager(ApiService apiService, EdgeApiService edgeApiService,
+                       FitBitApiService fitBitApiService, DatabaseHelper databaseHelper,
+                       JobManager jobManager, PreferencesHelper preferencesHelper,
+                       AppConfig appConfig, EventBus eventBus){
+
         this.mEdgeApiService = edgeApiService;
         this.mFitBitApiService = fitBitApiService;
         this.mDatabaseHelper = databaseHelper;
@@ -58,6 +64,15 @@ public class DataManager {
         this.mApiService = apiService;
         this.mPreferencesHelper = preferencesHelper;
         this.mAppConfig = appConfig;
+        this.mEventBus = eventBus;
+
+        createFistGoalAsDefaultIfNotCreated();
+    }
+
+    private void createFistGoalAsDefaultIfNotCreated() {
+        if(!mDatabaseHelper.isAnyGoalCreated()){
+            mDatabaseHelper.saveGoal(Goal.createDefaultGoal());
+        }
     }
 
     /**
@@ -209,58 +224,125 @@ public class DataManager {
         return mFitBitApiService.getProfile(mPreferencesHelper.getFitBitUserId());
     }
 
-    public int getlastUnfinishGoalId() {
-        return 1;
+    public boolean isAnyGoalActive() {
+        Goal goal = getActiveGoal();
+        return goal != null;
     }
 
-    public boolean isAnyGoalSet() {
-        return true;
+    /**
+     * Get Daily Summary Activiy. This function combines two observables
+     *
+     * 1- get daily data from db
+     * 2- get daily summary from api and save it to db.
+     *
+     *
+     * */
+    public Observable<DailySummary> getDailySummary(){
+        return Observable
+                .merge(getDailySummaryFromDb(), getDailySummaryFromApiWithSave())
+                .onErrorResumeNext(Observable.<DailySummary>empty());
     }
 
-    public Observable<DailySummary> dailySummary() {
-        return Observable.create(new Observable.OnSubscribe<DailySummary>() {
+    /** Fetch data and then save to db*/
+    public Observable<DailySummary> getDailySummaryFromApiWithSave(){
+        return mFitBitApiService.getDailySummary()
+                .map(new Func1<DailySummaryResponse, DailySummary>() {
+                    @Override
+                    public DailySummary call(DailySummaryResponse dailySummaryResponse) {
+                        return dailySummaryResponse.getDailySummary();
+                    }
+                })
+                .doOnNext(new Action1<DailySummary>() {
+                    @Override
+                    public void call(DailySummary dailySummary) {
+                        mDatabaseHelper.saveDailySummary(dailySummary);
+                    }
+                })
+                .doOnError(handleNetworkError());
+
+    }
+
+    /** Fetch daily summary data from db */
+    public Observable<DailySummary> getDailySummaryFromDb(){
+        Timber.d("getDailySummaryFromDb");
+        return mDatabaseHelper.getDailySummaryObservable();
+    }
+
+
+    /**
+     *  Getting active goal.
+     * */
+    public Goal getActiveGoal() {
+        return mDatabaseHelper.fetchActiveGoal();
+    }
+
+    private Action1<Throwable> handleNetworkError(){
+        return new Action1<Throwable>() {
             @Override
-            public void call(final Subscriber<? super DailySummary> subscriber) {
-                subscriber.onNext(mDatabaseHelper.getDailySummary());
-
-                mFitBitApiService.getDailySummary().subscribe(new Observer<DailySummaryResponse>() {
-                    @Override
-                    public void onCompleted() {
-
+            public void call(Throwable throwable) {
+                if (throwable instanceof HttpException){
+                    HttpException httpException = (HttpException)throwable;
+                    // if token expires some reason. Users need to be logout.
+                    if (httpException.code() == 401){
+                        Timber.e("Network Error: 401 !!!");
+                        mEventBus.post(new LogOutEvent("Session expired."));
                     }
+                } else {
+                    mEventBus.post(new GeneralErrorEvent(throwable));
+                    Timber.e("Error: %s", throwable.getMessage());
+                }
+            }
+        };
+    }
+}
 
-                    @Override
-                    public void onError(Throwable e) {
-                        subscriber.onError(e);
-                    }
 
+
+
+
+
+
+
+/*
+        //Working sample
+return Observable
+                .concat(getDailySummaryFromDb(), getDailySummaryFromApiWithSave())
+                .onErrorResumeNext(getDailySummaryFromDb());*/
+
+
+
+//        return getDailySummaryFromApiWithSave()
+//                .startWith(getDailySummaryFromDb());
+
+
+/*                    .takeFirst(new Func1<DailySummary, Boolean>() {
+                        @Override
+                        public Boolean call(DailySummary dailySummary) {
+                            Timber.d("dailySummary null: %s, dailySummary fresh: %s", dailySummary == null, dailySummary != null && dailySummary.isUpToDate() );
+                            return dailySummary != null;// && dailySummary.isUpToDate();
+                        }
+                    });*/
+
+//    public Observable<DailySummary> getDailySummary(){
+//            return Observable
+//                    .concat(getDailySummaryFromDb(), getDailySummaryFromApiWithSave());
+///*                    .takeFirst(new Func1<DailySummary, Boolean>() {
+//                        @Override
+//                        public Boolean call(DailySummary dailySummary) {
+//                            Timber.d("dailySummary null: %s, dailySummary fresh: %s", dailySummary == null, dailySummary != null && dailySummary.isUpToDate() );
+//                            return dailySummary != null;// && dailySummary.isUpToDate();
+//                        }
+//                    });*/
+//    }
+
+/*    *//** Fetch data and then save to db*//*
+    public Observable<DailySummary> getDailySummaryFromApiWithSave(){
+        return mFitBitApiService.getDailySummary()
+                .flatMap(new Func1<DailySummaryResponse, Observable<? extends DailySummary>>() {
                     @Override
-                    public void onNext(DailySummaryResponse dailySummaryResponse) {
-                        saveDailySummary(dailySummaryResponse, subscriber);
+                    public Observable<? extends DailySummary> call(DailySummaryResponse dailySummaryResponse) {
+                        Timber.d("getDailySummaryFromApiWithSave");
+                        return mDatabaseHelper.saveDailySummary(dailySummaryResponse);
                     }
                 });
-            }
-        }).repeat();
-    }
-
-    private void saveDailySummary(DailySummaryResponse dailySummaryResponse, final Subscriber<? super DailySummary> subscriber) {
-        mDatabaseHelper.saveDailySummary(dailySummaryResponse).subscribe(new Observer<DailySummary>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Timber.e("mDatabaseHelper: %s", e.getMessage());
-                subscriber.onError(e);
-            }
-
-            @Override
-            public void onNext(DailySummary dailySummary) {
-                subscriber.onNext(dailySummary);
-            }
-        });
-    }
-
-}
+    }*/

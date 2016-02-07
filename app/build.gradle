@@ -57,11 +57,12 @@ android {
 
 dependencies {
     final SUPPORT_LIBRARY_VERSION = '23.1.1'
-    final DBFLOW_VERSION = '2.2.1'
-    final RETROFIT_VERSION = '2.0.0-beta2'
-    final DAGGER_VERSION = '2.0.2'
+    final DBFLOW_VERSION    = '2.2.1'
+    final RETROFIT_VERSION  = '2.0.0-beta2'
+    final DAGGER_VERSION    = '2.0.2'
     final JOB_QUEUE_VERSION = '1.3.5'
-    final HAMCREST_VERSION = '1.3' // Hamcrest allows checking for conditions in your code via existing matchers classes and allows you to define your custom matcher implementations
+    final HAMCREST_VERSION  = '1.3' // Hamcrest allows checking for conditions in your code via existing matchers classes and allows you to define your custom matcher implementations
+    final EVENT_BUS         = '2.4.0'
 
     def daggerCompiler = "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
     def dbFlowCompiler = "com.raizlabs.android:DBFlow-Compiler:$DBFLOW_VERSION"
@@ -84,13 +85,14 @@ dependencies {
     compile "com.squareup.retrofit:adapter-rxjava:$RETROFIT_VERSION"
     compile "com.birbit:android-priority-jobqueue:$JOB_QUEUE_VERSION"
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile "de.greenrobot:eventbus:$EVENT_BUS"
 
     compile  "com.google.dagger:dagger:$DAGGER_VERSION"
     provided 'org.glassfish:javax.annotation:10.0-b28' //Required by Dagger2
 
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
-    compile 'com.zekapp.library:progreswheelview:1.0.7'
+    compile 'com.zekapp.library:progreswheelview:1.0.9'
 
 
     // Unit tests dependencies

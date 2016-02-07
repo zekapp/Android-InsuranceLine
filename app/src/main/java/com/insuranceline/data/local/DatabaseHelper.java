@@ -3,12 +3,14 @@ package com.insuranceline.data.local;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.insuranceline.data.remote.responses.DailySummaryResponse;
 import com.insuranceline.data.remote.responses.EdgeResponse;
 import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.EdgeUser;
+import com.insuranceline.data.vo.Goal;
+import com.insuranceline.data.vo.Goal$Table;
 import com.insuranceline.data.vo.Sample;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
+import com.raizlabs.android.dbflow.sql.builder.Condition;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -115,26 +117,57 @@ public class DatabaseHelper {
         return new Select().from(DailySummary.class).where().querySingle();
     }
 
-    public Observable<DailySummary> saveDailySummary(final DailySummaryResponse dailySummaryResponse) {
-        return Observable.create( new Observable.OnSubscribe<DailySummary>(){
+    public Observable<DailySummary> getDailySummaryObservable(){
+        return Observable.create(new Observable.OnSubscribe<DailySummary>() {
             @Override
-            public void call(final Subscriber<? super DailySummary> subscriber) {
-                TransactionManager.transact(mDb, new Runnable() {
-                    @Override
-                    public void run() {
-                        DailySummary summary = getDailySummary();
-                        summary.setDailyActiveMinutes(dailySummaryResponse.summary.lightlyActiveMinutes);
-                        summary.setDailyCalories(dailySummaryResponse.summary.caloriesOut);
-                        summary.setDailySteps(dailySummaryResponse.summary.steps);
-                        summary.setDailyDistance(dailySummaryResponse.summary.getDistance());
-                        summary.save();
-                        subscriber.onNext(summary);
-                        subscriber.onCompleted();
-                    }
-                });
+            public void call(Subscriber<? super DailySummary> subscriber) {
+                DailySummary dailySummary = getDailySummary();
+                subscriber.onNext(dailySummary);
+                subscriber.onCompleted();
             }
         });
     }
+
+//    public Observable<DailySummary> saveDailySummary(final DailySummaryResponse dailySummaryResponse) {
+//        return Observable.create( new Observable.OnSubscribe<DailySummary>(){
+//            @Override
+//            public void call(final Subscriber<? super DailySummary> subscriber) {
+//                Timber.d("saveDailySummary");
+//                DailySummary summary = new DailySummary();
+//                summary.setmSummaryId(1);
+//                summary.setDailyActiveMinutes(dailySummaryResponse.summary.lightlyActiveMinutes);
+//                summary.setDailyCalories(dailySummaryResponse.summary.caloriesOut);
+//                summary.setDailySteps(dailySummaryResponse.summary.steps);
+//                summary.setDailyDistance(dailySummaryResponse.summary.getDistance());
+//                summary.setmRefreshTime(System.currentTimeMillis());
+//                summary.save();
+//
+//                subscriber.onNext(summary);
+//                subscriber.onCompleted();
+//                Timber.d("saveDailySummary competed()");
+//            }
+//        });
+//    }
+
+    public Goal fetchActiveGoal() {
+        return new Select().from(Goal.class).where(Condition.column(Goal$Table.ISACTIVE).is(true)).querySingle();
+
+    }
+
+    public void saveDailySummary(DailySummary dailySummary) {
+        dailySummary.save();
+    }
+
+    public boolean isAnyGoalCreated() {
+        long count = new Select().count().from(Goal.class).count();
+        Timber.d("Goal Count %s",count);
+        return count > 0;
+    }
+
+    public void saveGoal(Goal defaultGoal) {
+        defaultGoal.save();
+    }
+
 /*    public Observable<DailySummary> getDailySummary() {
         return Observable.create(new Observable.OnSubscribe<DailySummary>() {
             @Override

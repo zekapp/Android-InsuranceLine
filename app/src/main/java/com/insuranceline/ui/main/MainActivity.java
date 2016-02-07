@@ -10,18 +10,25 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 import com.insuranceline.R;
+import com.insuranceline.event.GeneralErrorEvent;
+import com.insuranceline.event.LogOutEvent;
+import com.insuranceline.event.SubscriberPriority;
 import com.insuranceline.ui.base.BaseActivity;
 import com.insuranceline.ui.fragments.MessageFromFragmentInterface;
 import com.insuranceline.ui.fragments.containers.BaseContainerFragment;
-import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainerContainer;
-import com.insuranceline.ui.fragments.containers.goals.GoalsContainer;
 import com.insuranceline.ui.fragments.containers.MoreContainer;
 import com.insuranceline.ui.fragments.containers.RewardsContainer;
+import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainerContainer;
+import com.insuranceline.ui.fragments.containers.goals.GoalsContainer;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 import timber.log.Timber;
 
 /**
@@ -45,6 +52,8 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
             R.drawable.icon_rewards_idle,
             R.drawable.icon_more_idle
     };
+
+    @Inject EventBus mEventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +103,18 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
                 hideKeyboard();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mEventBus.register(this, SubscriberPriority.HIGH);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mEventBus.unregister(this);
     }
 
     private void setBackGroundOfTabs() {
@@ -147,6 +168,15 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
         }
     }
 
+    @SuppressWarnings("unused")
+    public void onEventMainThread(LogOutEvent event) {
+        Toast.makeText(this, "Logout Need",Toast.LENGTH_LONG).show();
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(GeneralErrorEvent event) {
+        Toast.makeText(this, event.getThrowable().getMessage(),Toast.LENGTH_LONG).show();
+    }
 
     /**** Action From Fragments *******/
 

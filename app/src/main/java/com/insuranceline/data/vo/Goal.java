@@ -12,6 +12,10 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
  */
 @Table(databaseName = AppDatabase.NAME)
 public class Goal extends BaseModel {
+    private static final int TYPE_STEPS = 1;
+    private static final int TYPE_CALORIE = 2;
+    private static final int TYPE_ACTIVE_MIN = 3;
+    private static final int TYPE_DISTANCE = 4;
     @Column
     @PrimaryKey(autoincrement = false)
     long mGoalId;
@@ -30,6 +34,9 @@ public class Goal extends BaseModel {
 
     @Column(defaultValue = "1")
     int mGoalType = 1;
+
+    @Column(defaultValue = "true")
+    boolean isActive = true;
 
     @Column
     int mRequiredDailySteps;
@@ -122,4 +129,29 @@ public class Goal extends BaseModel {
     public void setRequiredDailyDistance(int requiredDailyDistance) {
         this.requiredDailyDistance = requiredDailyDistance;
     }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public static Goal createDefaultGoal() {
+        Goal goal = new Goal();
+        goal.setAchieved(0);
+        goal.setActive(true);
+        goal.setEndDate(0);
+        goal.setGoalId(1);
+        goal.setStartDate(System.currentTimeMillis());
+        goal.setRequiredDailyActiveMin(20);
+        goal.setRequiredDailyCalorie(3000);
+        goal.setRequiredDailyDistance(10);
+        goal.setRequiredDailySteps(1000);
+        goal.setGoalType(TYPE_STEPS); // STEPS
+        goal.setTarget(100000); // Target ids 100,000 steps in 3 months (date is not important)
+        return goal;
+    }
+
 }

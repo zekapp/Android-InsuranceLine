@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.insuranceline.R;
+import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.fragments.containers.BaseContainerFragment;
 import com.insuranceline.ui.fragments.goals.FirstGoalFragment;
 import com.insuranceline.ui.fragments.goals.SecondGoalFragment;
@@ -54,12 +56,19 @@ public class GoalsContainer extends BaseContainerFragment implements GoalContain
     }
 
     @Override
-    public void initView(int goalId) {
+    public void initView(Goal activeGoal) {
         Timber.d("%s init view", TAG);
 
-        if (goalId == 1) replaceFragment(FirstGoalFragment.getInstance(), false);
-        else if (goalId == 2) replaceFragment(SecondGoalFragment.getInstance(), false);
-        else replaceFragment(ThirdGoalFragment.getInstance(), false);
+        if (activeGoal != null){
+            long goalId = activeGoal.getGoalId();
+
+            if (goalId == 1) replaceFragment(FirstGoalFragment.getInstance(), false);
+            else if (goalId == 2) replaceFragment(SecondGoalFragment.getInstance(), false);
+            else replaceFragment(ThirdGoalFragment.getInstance(), false);
+        }else {
+            Toast.makeText(getActivity(), "No goal left",Toast.LENGTH_LONG).show();
+            replaceFragment(FirstGoalFragment.getInstance(), false);
+        }
 
     }
 

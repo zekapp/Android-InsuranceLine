@@ -1,6 +1,8 @@
 package com.insuranceline.data.vo;
 
 import com.insuranceline.data.local.AppDatabase;
+import com.insuranceline.utils.Validation;
+import com.insuranceline.utils.ValidationFailedException;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
@@ -11,10 +13,14 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
  * ©2015 Appscore. All Rights Reserved
  */
 @Table(databaseName = AppDatabase.NAME)
-public class DailySummary extends BaseModel {
+public class DailySummary extends BaseModel implements Validation {
+    private static final long SECOND   = 1000;
+    private static final long MINUTE   = 60 * SECOND;
+    private static final long STALE_MS = 5 * SECOND; // Data is stale after 5 seconds
+
     @Column
     @PrimaryKey(autoincrement = false)
-    long mId = 1;
+    long mSummaryId;
 
     @Column
     int mDailySteps;
@@ -27,6 +33,17 @@ public class DailySummary extends BaseModel {
 
     @Column
     float mDailyDistance;
+
+    @Column
+    long mRefreshTime;
+
+    public long getmSummaryId() {
+        return mSummaryId;
+    }
+
+    public void setmSummaryId(long mSummaryId) {
+        this.mSummaryId = mSummaryId;
+    }
 
     public int getDailySteps() {
         return mDailySteps;
@@ -58,5 +75,24 @@ public class DailySummary extends BaseModel {
 
     public void setDailyDistance(float dailyDistance) {
         mDailyDistance = dailyDistance;
+    }
+
+    public long getmRefreshTime() {
+        return mRefreshTime;
+    }
+
+    public void setmRefreshTime(long mRefreshTime) {
+        this.mRefreshTime = mRefreshTime;
+    }
+
+    public boolean isUpToDate() {
+        return System.currentTimeMillis() - mRefreshTime < MINUTE;
+
+    }
+
+    @Override
+    public void validate() {
+        if (mSummaryId > 0)
+            throw new ValidationFailedException("invalid user email");
     }
 }
