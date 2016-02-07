@@ -72,6 +72,14 @@ public class DataManager {
         this.mEventBus = eventBus;
 
         createFistGoalAsDefaultIfNotCreated();
+
+        createFirstDailySummaryIfNotCreated();
+    }
+
+    private void createFirstDailySummaryIfNotCreated() {
+        if(!mDatabaseHelper.isAnyDailySummaryCreated()){
+            mDatabaseHelper.saveDailySummary(DailySummary.createDefaultGoal());
+        }
     }
 
     private void createFistGoalAsDefaultIfNotCreated() {
@@ -288,12 +296,9 @@ public class DataManager {
     }
 
     private Observable<DashboardModel> getDashboardFromApiWithSave() {
-        Observable<DailySummary> dailySumObs    = getDailySummaryFromApiWithSave();
-        Observable<Integer> totalStepsCountObsv = getAchievedStepsCountsForActiveGoalFromApiWithSave();
-
         return Observable.zip(
-                dailySumObs,
-                totalStepsCountObsv,
+                getDailySummaryFromApiWithSave(),
+                getAchievedStepsCountsForActiveGoalFromApiWithSave(),
                 Observable.just(getActiveGoal()),
                 new Func3<DailySummary, Integer, Goal, DashboardModel>() {
                     @Override
@@ -306,8 +311,6 @@ public class DataManager {
                     }
                 });
     }
-
-
 
     /** Fetch data and then save to db*/
     public Observable<DailySummary> getDailySummaryFromApiWithSave(){
@@ -328,25 +331,6 @@ public class DataManager {
 
     }
 
-
-    private Action1<Throwable> handleNetworkError(){
-        return new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                if (throwable instanceof HttpException){
-                    HttpException httpException = (HttpException)throwable;
-                    // if token expires some reason. Users need to be logout.
-                    if (httpException.code() == 401){
-                        Timber.e("Network Error: 401 !!!");
-                        mEventBus.post(new LogOutEvent("Session expired."));
-                    }
-                } else {
-                    mEventBus.post(new GeneralErrorEvent(throwable));
-                    Timber.e("Error: %s", throwable.getMessage());
-                }
-            }
-        };
-    }
 
     public Observable<Integer> getAchievedStepsCountsForActiveGoalFromApiWithSave(){
         final Goal activeGoal = getActiveGoal();
@@ -369,6 +353,25 @@ public class DataManager {
         } else {
             return Observable.empty();
         }
+    }
+
+    private Action1<Throwable> handleNetworkError(){
+        return new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                if (throwable instanceof HttpException){
+                    HttpException httpException = (HttpException)throwable;
+                    // if token expires some reason. Users need to be logout.
+                    if (httpException.code() == 401){
+                        Timber.e("Network Error: 401 !!!");
+                        mEventBus.post(new LogOutEvent("Session expired."));
+                    }
+                } else {
+                    mEventBus.post(new GeneralErrorEvent(throwable));
+                    Timber.e("Error: %s", throwable.getMessage());
+                }
+            }
+        };
     }
 
 }

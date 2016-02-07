@@ -168,6 +168,12 @@ public class DatabaseHelper {
         defaultGoal.save();
     }
 
+    public boolean isAnyDailySummaryCreated() {
+        long count = new Select().count().from(DailySummary.class).count();
+        Timber.d("Daily Summary Count %s",count);
+        return count > 0;
+    }
+
 /*    public Observable<DailySummary> getDailySummary() {
         return Observable.create(new Observable.OnSubscribe<DailySummary>() {
             @Override

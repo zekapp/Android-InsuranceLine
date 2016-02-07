@@ -95,4 +95,15 @@ public class DailySummary extends BaseModel implements Validation {
         if (mSummaryId > 0)
             throw new ValidationFailedException("invalid user email");
     }
+
+    public static DailySummary createDefaultGoal() {
+        DailySummary dailySummary = new DailySummary();
+        dailySummary.setmRefreshTime(0);
+        dailySummary.setmSummaryId(1);
+        dailySummary.setDailyCalories(0);
+        dailySummary.setDailyDistance(0);
+        dailySummary.setDailySteps(0);
+        dailySummary.setDailyActiveMinutes(0);
+        return dailySummary;
+    }
 }
