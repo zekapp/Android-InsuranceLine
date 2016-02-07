@@ -7,10 +7,12 @@ import com.insuranceline.data.local.PreferencesHelper;
 import com.insuranceline.data.remote.ApiService;
 import com.insuranceline.data.remote.EdgeApiService;
 import com.insuranceline.data.remote.FitBitApiService;
+import com.insuranceline.data.remote.model.DashboardModel;
 import com.insuranceline.data.remote.responses.DailySummaryResponse;
 import com.insuranceline.data.remote.responses.EdgeResponse;
 import com.insuranceline.data.remote.responses.FitBitTokenResponse;
 import com.insuranceline.data.remote.responses.SampleResponseData;
+import com.insuranceline.data.remote.responses.StepsCountResponse;
 import com.insuranceline.data.remote.responses.TermCondResponse;
 import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.EdgeUser;
@@ -18,6 +20,7 @@ import com.insuranceline.data.vo.Goal;
 import com.insuranceline.data.vo.Sample;
 import com.insuranceline.event.GeneralErrorEvent;
 import com.insuranceline.event.LogOutEvent;
+import com.insuranceline.utils.TimeUtils;
 import com.path.android.jobqueue.JobManager;
 
 import java.util.List;
@@ -32,6 +35,8 @@ import rx.Observer;
 import rx.Subscriber;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.functions.Func2;
+import rx.functions.Func3;
 import timber.log.Timber;
 
 /**
@@ -229,6 +234,17 @@ public class DataManager {
         return goal != null;
     }
 
+
+    /**
+     *  Getting active goal.
+     * */
+    public Goal getActiveGoal() {
+        return mDatabaseHelper.fetchActiveGoal();
+    }
+
+
+    /****** DAILY ACTIVITY SUMMARY RELATED FUNCTIONS **************/
+
     /**
      * Get Daily Summary Activiy. This function combines two observables
      *
@@ -237,11 +253,61 @@ public class DataManager {
      *
      *
      * */
-    public Observable<DailySummary> getDailySummary(){
+    public Observable<DashboardModel> getDashboardModel(){
         return Observable
-                .merge(getDailySummaryFromDb(), getDailySummaryFromApiWithSave())
-                .onErrorResumeNext(Observable.<DailySummary>empty());
+                .concat(getDashboardFromDb(), getDashboardFromApiWithSave())
+                .onErrorResumeNext(Observable.<DashboardModel>empty());
     }
+
+//    public Observable<DailySummary> getDailySummary(){
+//        return Observable
+//                .merge(getDailySummaryFromDb(), getDailySummaryFromApiWithSave())
+//                .onErrorResumeNext(Observable.<DailySummary>empty());
+//    }
+
+
+    private Observable<DashboardModel> getDashboardFromDb() {
+        return Observable.zip(
+                getDailySummaryFromDb(),
+                Observable.just(getActiveGoal()),
+                new Func2<DailySummary, Goal, DashboardModel>() {
+                    @Override
+                    public DashboardModel call(DailySummary dailySummary, Goal goal) {
+                        DashboardModel dashboardModel = new DashboardModel();
+                        dashboardModel.setActiveGoal(goal);
+                        dashboardModel.setmDailySummary(dailySummary);
+                        return dashboardModel;
+                    }
+                });
+    }
+
+    /** Fetch daily summary data from db */
+    public Observable<DailySummary> getDailySummaryFromDb(){
+        Timber.d("getDailySummaryFromDb");
+        return mDatabaseHelper.getDailySummaryObservable();
+    }
+
+    private Observable<DashboardModel> getDashboardFromApiWithSave() {
+        Observable<DailySummary> dailySumObs    = getDailySummaryFromApiWithSave();
+        Observable<Integer> totalStepsCountObsv = getAchievedStepsCountsForActiveGoalFromApiWithSave();
+
+        return Observable.zip(
+                dailySumObs,
+                totalStepsCountObsv,
+                Observable.just(getActiveGoal()),
+                new Func3<DailySummary, Integer, Goal, DashboardModel>() {
+                    @Override
+                    public DashboardModel call(DailySummary dailySummary, Integer achieved, Goal goal) {
+                        DashboardModel dashboadModel = new DashboardModel();
+                        dashboadModel.setmDailySummary(dailySummary);
+                        goal.setAchieved(achieved);
+                        dashboadModel.setActiveGoal(goal);
+                        return dashboadModel;
+                    }
+                });
+    }
+
+
 
     /** Fetch data and then save to db*/
     public Observable<DailySummary> getDailySummaryFromApiWithSave(){
@@ -262,19 +328,6 @@ public class DataManager {
 
     }
 
-    /** Fetch daily summary data from db */
-    public Observable<DailySummary> getDailySummaryFromDb(){
-        Timber.d("getDailySummaryFromDb");
-        return mDatabaseHelper.getDailySummaryObservable();
-    }
-
-
-    /**
-     *  Getting active goal.
-     * */
-    public Goal getActiveGoal() {
-        return mDatabaseHelper.fetchActiveGoal();
-    }
 
     private Action1<Throwable> handleNetworkError(){
         return new Action1<Throwable>() {
@@ -294,7 +347,33 @@ public class DataManager {
             }
         };
     }
+
+    public Observable<Integer> getAchievedStepsCountsForActiveGoalFromApiWithSave(){
+        final Goal activeGoal = getActiveGoal();
+        if (activeGoal != null){
+            String baseDate = TimeUtils.convertReadableDate(activeGoal.getStartDate(), TimeUtils.DATE_FORMAT_TYPE_5);
+            return mFitBitApiService.getStepsCountsBetweenDates(baseDate, "today")
+                    .map(new Func1<StepsCountResponse, Integer>() {
+                        @Override
+                        public Integer call(StepsCountResponse stepsCountResponse) {
+                            return stepsCountResponse.getTotlaStepsCount();
+                        }
+                    }).doOnNext(new Action1<Integer>() {
+                        @Override
+                        public void call(Integer integer) {
+                            activeGoal.setAchieved(integer);
+                            activeGoal.save();
+                        }
+                    })
+                    .doOnError(handleNetworkError());
+        } else {
+            return Observable.empty();
+        }
+    }
+
 }
+
+
 
 
 

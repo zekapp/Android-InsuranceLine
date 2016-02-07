@@ -1,9 +1,12 @@
 package com.insuranceline.ui.fragments.dashboard;
 
 import com.insuranceline.data.DataManager;
+import com.insuranceline.data.remote.model.DashboardModel;
 import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.base.BasePresenter;
+
+import java.text.DecimalFormat;
 
 import javax.inject.Inject;
 
@@ -22,7 +25,7 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
 
     private final DataManager mDataManager;
     private Subscription mSubscription;
-
+    private DecimalFormat mformatter = new DecimalFormat("#,###,###");
     @Inject
     public DashboardPresenter(DataManager dataManager){
 
@@ -39,12 +42,10 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
 
     public void fetch() {
 
-
-        //working example
-        mDataManager.getDailySummary()
+        mDataManager.getDashboardModel()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<DailySummary>() {
+                .subscribe(new Observer<DashboardModel>() {
                     @Override
                     public void onCompleted() {
                         Timber.d("onCompleted()");
@@ -56,16 +57,92 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
                     }
 
                     @Override
-                    public void onNext(DailySummary dailySummary) {
-                        Timber.d("onNext(): Cal:%s", dailySummary.getDailyCalories());
-                        presentData(dailySummary);
+                    public void onNext(DashboardModel dashboardModel) {
+                        Timber.d("onNext(): Cal:%s", dashboardModel.getmDailySummary().getDailyCalories());
+                        presentData(dashboardModel);
                     }
                 });
 
 
     }
+    private void presentData(DashboardModel dashboardModel) {
+        // Active Minute Update
+        Goal activeGoal = dashboardModel.getActiveGoal();
+        DailySummary dailySummary = dashboardModel.getmDailySummary();
 
-    private void presentData(DailySummary dailySummary) {
+        getMvpView().updateDailyActiveMinutes(
+                dailyPerDone(activeGoal.getRequiredDailyActiveMin(), dailySummary.getDailyActiveMinutes()),
+                dailySummary.getDailyActiveMinutes());
+
+        // Calorie Update
+        getMvpView().updateDailyCalories(
+                dailyPerDone(activeGoal.getRequiredDailyCalorie(), dailySummary.getDailyCalories()),
+                dailySummary.getDailyCalories());
+
+        // Steps Update
+        getMvpView().updateDailySteps(
+                dailyPerDone(activeGoal.getRequiredDailySteps(), dailySummary.getDailySteps()),
+                dailySummary.getDailySteps());
+
+        // Steps Update
+        getMvpView().updateDailyDistance(
+                dailyPerDone(activeGoal.getRequiredDailyDistance(), dailySummary.getDailyDistance()),
+                dailySummary.getDailyDistance());
+
+        getMvpView().updateWheelProgress(
+                calculateDegree(activeGoal.getTarget(), activeGoal.getAchieved()),
+                calculatePercentage(activeGoal.getTarget(), activeGoal.getAchieved()),
+                mformatter.format(activeGoal.getAchieved()));
+
+    }
+
+    private String calculatePercentage(int target, int achieved) {
+        String per = String.valueOf((100 * achieved) / target);
+        return per + "%";
+    }
+
+    //return 0 - 360
+    private int calculateDegree(int target, int achieved) {
+        if (target > 0)
+            return (360 * achieved) / target;
+        else
+            return 0;
+    }
+
+    // return int between 0 and 100
+    private int dailyPerDone(int required, float done) {
+        return (int)(done * 100) / required;
+    }
+
+
+
+
+
+
+
+    //        //working example
+//        mDataManager.getDailySummary()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<DailySummary>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        Timber.d("onCompleted()");
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Timber.e("onError(%s)",e.getMessage());
+//                    }
+//
+//                    @Override
+//                    public void onNext(DailySummary dailySummary) {
+//                        Timber.d("onNext(): Cal:%s", dailySummary.getDailyCalories());
+//                        presentData(dailySummary);
+//                    }
+//                });
+
+/*    private void presentData(DailySummary dailySummary) {
         Goal goal = mDataManager.getActiveGoal();
         if (goal == null) {
             getMvpView().onNoAciveGoal("There is no active goal");
@@ -93,12 +170,7 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
                     dailySummary.getDailyDistance());
 
         }
-    }
-
-    // return int between 0 and 100
-    private int dailyPerDone(int required, float done) {
-        return (int)(done * 100) / required;
-    }
+    }*/
 }
 
 /*        Observable.interval(10, TimeUnit.SECONDS)

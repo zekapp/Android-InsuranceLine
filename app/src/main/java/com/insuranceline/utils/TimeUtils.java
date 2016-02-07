@@ -17,6 +17,7 @@ public class TimeUtils {
     public final static int DATE_FORMAT_TYPE_2 = 2; // Fed 12 07:00 pm
     public final static int DATE_FORMAT_TYPE_3 = 3; // February 2015
     public final static int DATE_FORMAT_TYPE_4 = 4; // WED, 1 OCT, 11:09 AM
+    public final static int DATE_FORMAT_TYPE_5 = 5; // 2015-02-13
 
 
     public static long convertToUnixTimeStamp(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minute, int second) {
@@ -63,7 +64,10 @@ public class TimeUtils {
         }else if (formatType == DATE_FORMAT_TYPE_4){
             SimpleDateFormat dateformatter = new SimpleDateFormat("EEE, d MMM, HH:mm a", Locale.US);
             return dateformatter.format(dt);
-        } else {
+        }else if (formatType == DATE_FORMAT_TYPE_5){
+            SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            return dateformatter.format(dt);
+        }else {
             SimpleDateFormat dateformatter = new SimpleDateFormat("MMM d HH:mm a", Locale.US);
             return dateformatter.format(dt);
         }

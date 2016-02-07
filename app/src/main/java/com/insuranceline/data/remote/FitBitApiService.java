@@ -2,6 +2,7 @@ package com.insuranceline.data.remote;
 
 import com.insuranceline.data.remote.responses.DailySummaryResponse;
 import com.insuranceline.data.remote.responses.FitBitTokenResponse;
+import com.insuranceline.data.remote.responses.StepsCountResponse;
 
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -35,6 +36,6 @@ public interface FitBitApiService {
     Observable<DailySummaryResponse> getDailySummary();
 
     @GET("1/user/-/activities/steps/date/{base-date}/{end-date}.json")
-    Observable<String> getStepsCountsBetweenDates(@Path("base-date") String startDate,
-                                                                @Path("end-date") String endDate);
+    Observable<StepsCountResponse> getStepsCountsBetweenDates(@Path("base-date") String startDate,
+                                                              @Path("end-date") String endDate);
 }
