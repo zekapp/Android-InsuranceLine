@@ -34,4 +34,11 @@ public class FitBitTokenResponse {
     public String getUser_id() {
         return user_id;
     }
+
+
+    public String getTokenAsString() {
+        return  getAccess_token()  + ":" +
+                getRefresh_token() + ":" +
+                getUser_id();
+    }
 }

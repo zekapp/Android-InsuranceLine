@@ -23,7 +23,9 @@ import com.insuranceline.event.LogOutEvent;
 import com.insuranceline.utils.TimeUtils;
 import com.path.android.jobqueue.JobManager;
 
+import java.sql.Time;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -216,21 +218,20 @@ public class DataManager {
     }
 
     public Observable<String> getTokenWithAuthCode(String code) {
-        return mFitBitApiService.accessTokenRequest(
-                mAppConfig.getFitBitClientId(),mAppConfig.getFitBitReDirectUri(),code,"authorization_code")
-                .concatMap(new Func1<FitBitTokenResponse, Observable<? extends String>>() {
+        return mFitBitApiService
+                .accessTokenRequest(
+                        mAppConfig.getFitBitClientId(),
+                        mAppConfig.getFitBitReDirectUri(),
+                        code,
+                        "authorization_code")
+                .map(new Func1<FitBitTokenResponse, String>() {
                     @Override
-                    public Observable<? extends String> call(FitBitTokenResponse fitBitTokenResponse) {
-                        mPreferencesHelper.saveFitBitAccessToken(fitBitTokenResponse.getAccess_token());
-                        mPreferencesHelper.saveFitBitRefreshToken(fitBitTokenResponse.getRefresh_token());
-                        mPreferencesHelper.saveFitBitUserId(fitBitTokenResponse.getUser_id());
-                        mPreferencesHelper.setFitBitConnected(true);
-                        String rAnda = fitBitTokenResponse.getAccess_token() + ":" +
-                                fitBitTokenResponse.getRefresh_token()       + ":" +
-                                fitBitTokenResponse.getUser_id();
-                        return Observable.just(rAnda);
+                    public String call(FitBitTokenResponse fitBitTokenResponse) {
+                        mPreferencesHelper.saveFitBitToken(fitBitTokenResponse);
+                        return fitBitTokenResponse.getTokenAsString();
                     }
-                });
+                })
+                .onErrorResumeNext(Observable.<String>empty());
     }
 
     public Observable<String> getFitBitProfile() {
@@ -366,9 +367,11 @@ public class DataManager {
                         Timber.e("Network Error: 401 !!!");
                         mEventBus.post(new LogOutEvent("Session expired."));
                     }
-                } else {
+                } else if(throwable != null){
                     mEventBus.post(new GeneralErrorEvent(throwable));
                     Timber.e("Error: %s", throwable.getMessage());
+                } else {
+                    Timber.e("Unknown Network Error. Throwable is null");
                 }
             }
         };

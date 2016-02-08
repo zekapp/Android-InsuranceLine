@@ -92,7 +92,7 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
         getMvpView().updateWheelProgress(
                 calculateDegree(activeGoal.getTarget(), activeGoal.getAchieved()),
                 calculatePercentage(activeGoal.getTarget(), activeGoal.getAchieved()),
-                mformatter.format(activeGoal.getAchieved()));
+                mformatter.format(activeGoal.getAchieved()) +" steps");
 
     }
 

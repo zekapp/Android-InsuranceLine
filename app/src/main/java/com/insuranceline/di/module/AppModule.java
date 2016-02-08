@@ -24,7 +24,11 @@ import com.path.android.jobqueue.config.Configuration;
 import com.path.android.jobqueue.di.DependencyInjector;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Protocol;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
+
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -120,6 +124,12 @@ public class AppModule {
         httpClient.interceptors().add(logging);
         httpClient.setAuthenticator(tokenAuthenticator);
         httpClient.networkInterceptors().add(new StethoInterceptor());
+
+        //http://stackoverflow.com/questions/33266886/networkonmainthread-rxjava-retrofit-lollipop
+        httpClient.setProtocols(Collections.singletonList(Protocol.HTTP_1_1));
+//        httpClient.setConnectTimeout(25, TimeUnit.SECONDS);
+//        httpClient.setConnectTimeout(10, TimeUnit.SECONDS);
+//        httpClient.setReadTimeout(30, TimeUnit.SECONDS);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(appConfig.getFitBitBaseUrl())

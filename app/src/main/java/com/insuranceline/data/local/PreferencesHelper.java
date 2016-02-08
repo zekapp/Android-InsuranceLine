@@ -3,6 +3,7 @@ package com.insuranceline.data.local;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.insuranceline.data.remote.responses.FitBitTokenResponse;
 import com.insuranceline.di.qualifier.ApplicationContext;
 
 import javax.inject.Inject;
@@ -67,5 +68,12 @@ public class PreferencesHelper {
 
     public String getFitBitUserId() {
         return mPref.getString(FIT_BIT_USER_ID,"");
+    }
+
+    public void saveFitBitToken(FitBitTokenResponse fitBitTokenResponse) {
+        saveFitBitAccessToken(fitBitTokenResponse.getAccess_token());
+        saveFitBitRefreshToken(fitBitTokenResponse.getRefresh_token());
+        saveFitBitUserId(fitBitTokenResponse.getUser_id());
+        setFitBitConnected(true);
     }
 }

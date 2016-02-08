@@ -48,8 +48,8 @@ public class FBConnectPresenter extends BasePresenter<FBMvpView>  {
                     @Override
                     public void onError(Throwable e) {
                         // handle error
-                        getMvpView().hideProgress();
                         Timber.e("getTokenWithAuthCode Error: %s", e.getMessage() );
+                        getMvpView().hideProgress();
                         getMvpView().error(e.getLocalizedMessage());
                     }
 
@@ -92,5 +92,9 @@ public class FBConnectPresenter extends BasePresenter<FBMvpView>  {
                         Timber.d(s);
                     }
                 });
+    }
+
+    public void unSubscribe() {
+        mSubscription.unsubscribe();
     }
 }

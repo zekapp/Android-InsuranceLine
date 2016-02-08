@@ -1,6 +1,7 @@
 package com.insuranceline.ui.fragments.more;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,8 +11,10 @@ import android.widget.Toast;
 
 import com.insuranceline.R;
 import com.insuranceline.di.qualifier.ActivityContext;
+import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.fragments.BaseFragment;
 import com.insuranceline.ui.fragments.containers.BaseContainerFragment;
+import com.insuranceline.ui.login.connect.FBConnectActivity;
 
 import javax.inject.Inject;
 
@@ -66,5 +69,13 @@ public class MoreFragment extends BaseFragment {
     @OnClick(R.id.more_6)
     public void more6(){
 
+    }
+
+    @OnClick(R.id.more_7)
+    public void more7(){
+        Intent intent = new Intent(getActivity(), FBConnectActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }
