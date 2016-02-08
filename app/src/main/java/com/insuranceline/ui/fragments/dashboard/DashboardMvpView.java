@@ -14,7 +14,7 @@ public interface DashboardMvpView extends MvpView{
 
     void error(String error);
 
-    void onNoAciveGoal(String successMessage);
+    void onNoActiveGoal(String successMessage);
 
     /**
      * This fucntion updates the WheelProcess on Dashboard.

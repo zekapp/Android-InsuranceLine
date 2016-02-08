@@ -46,11 +46,18 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.tabhost) FragmentTabHost mTabHost;
 
-    int[] tabIcons = new int[]{
+    int[] tabIconsIdle = new int[]{
             R.drawable.icon_dash_idle,
             R.drawable.icon_goals_idle,
             R.drawable.icon_rewards_idle,
             R.drawable.icon_more_idle
+    };
+
+    int[] tabIconsActive = new int[]{
+            R.drawable.icon_dash_active,
+            R.drawable.icon_goals_active,
+            R.drawable.icon_rewards_active,
+            R.drawable.icon_more_active
     };
 
     @Inject EventBus mEventBus;
@@ -118,14 +125,15 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     }
 
     private void setBackGroundOfTabs() {
-        int heightValue = 50; // tabHeight
+        float heightValue = getResources().getDimension(R.dimen.tab_widget_height); // tabHeight
         float density = this.getResources().getDisplayMetrics().density;
         //loop through the TabWidget's child Views (the tabs) and set their height value.
         for (int i = 0; i < mTabHost.getTabWidget().getTabCount(); i++) {
-            mTabHost.getTabWidget().getChildAt(i).getLayoutParams().height = (int) (heightValue * density);
+            mTabHost.getTabWidget().getChildAt(i).getLayoutParams().height = (int)heightValue;//(int) (heightValue * density);
             View tabView = mTabHost.getTabWidget().getChildAt(i);
             tabView.setBackgroundResource(R.drawable.tab_selector);
-            ((ImageView)(tabView.findViewById(R.id.tabImage))).setImageResource(tabIcons[i]);
+            ImageView tabIcon = ((ImageView)(tabView.findViewById(R.id.tabImage)));
+            tabIcon.setImageResource(tabIconsIdle[i]);
         }
     }
 
@@ -195,6 +203,7 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
         return mToolbar;
     }
 
+
     @Override
     public void showTabHost(boolean show) {
 
@@ -203,5 +212,19 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     @Override
     public Bundle getSharebundle() {
         return null;
+    }
+
+    @Override
+    public void changeTabViewIcon(int selectedContainer) {
+        setIconSelected(selectedContainer);
+    }
+
+    private void setIconSelected(int selectedContainer) {
+        int size = tabIconsIdle.length;
+        for (int i = 0; i < size; i++) {
+            View tabView = mTabHost.getTabWidget().getChildAt(i);
+            ImageView tabIcon = ((ImageView)(tabView.findViewById(R.id.tabImage)));
+            tabIcon.setImageResource(i == selectedContainer ? tabIconsActive[i]:tabIconsIdle[i]);
+        }
     }
 }

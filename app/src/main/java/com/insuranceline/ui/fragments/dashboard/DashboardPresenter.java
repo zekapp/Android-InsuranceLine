@@ -145,7 +145,7 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
 /*    private void presentData(DailySummary dailySummary) {
         Goal goal = mDataManager.getActiveGoal();
         if (goal == null) {
-            getMvpView().onNoAciveGoal("There is no active goal");
+            getMvpView().onNoActiveGoal("There is no active goal");
         } else {
             Timber.d("incoming goal: %s", goal.getGoalId());
 

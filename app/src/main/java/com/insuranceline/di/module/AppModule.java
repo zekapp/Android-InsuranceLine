@@ -40,7 +40,8 @@ import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
 
 /**
- * Created by zeki on 17/01/2016.
+ * Created by Zeki Guler on 08,February,2016
+ * ©2015 Appscore. All Rights Reserved
  */
 
 @Module

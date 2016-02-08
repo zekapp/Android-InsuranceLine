@@ -16,6 +16,10 @@
 
     <color name="white">#FFFFFF</color>
     <color name="gray">#b8bcc0</color>
+
+    <color name="start_gray">#b8bcc0</color>
+    <color name="end_gray">#b8bcc0</color>
+
     <color name="black">#000000</color>
     <color name="orange">#efb400</color>
     <color name="progress_line_under_bar_color">#d0d0d5</color>

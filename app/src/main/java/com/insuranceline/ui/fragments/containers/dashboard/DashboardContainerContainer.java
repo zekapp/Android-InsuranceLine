@@ -38,6 +38,7 @@ public class DashboardContainerContainer extends BaseContainerFragment implement
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Timber.d("%s onCreateView", TAG);
+        msgToActvInterface.changeTabViewIcon(0);
         return inflater.inflate(R.layout.container_fragment, null);
     }
 

@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.insuranceline.R;
 import com.insuranceline.di.component.ActivityComponent;
+import com.insuranceline.ui.fragments.MessageFromFragmentInterface;
 import com.insuranceline.ui.main.MainActivity;
 
 
@@ -19,9 +20,24 @@ import com.insuranceline.ui.main.MainActivity;
 public class BaseContainerFragment extends Fragment {
     public static final String TAG = BaseContainerFragment.class.getSimpleName();
 
+    protected MessageFromFragmentInterface msgToActvInterface;
+
     private Fragment mCurrentFragment;
 
     private ActivityComponent mActivityComponent;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            if(context instanceof MainActivity) {
+                msgToActvInterface = ((MainActivity) context);
+            }
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
+    }
 
     public ActivityComponent getActivityComponent() {
         if (mActivityComponent == null)

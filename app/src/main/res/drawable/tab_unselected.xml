@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
     <item>
-      <shape android:shape="rectangle">
+        <shape android:shape="rectangle">
+            <size android:width="150dp" android:height="@dimen/tab_widget_height"/>
             <solid android:color="@color/colorPrimary" />
         </shape>
-   </item>
+    </item>
+    <item
+        android:top="50dp">
+        <shape android:shape="rectangle" >
+            <size android:width="30dp" android:height="2dp"/>
+            <gradient android:startColor="@color/start_gray"
+                      android:endColor="@color/end_gray"
+                      android:angle="270" />
+        </shape>
+    </item>
+
 </layer-list>

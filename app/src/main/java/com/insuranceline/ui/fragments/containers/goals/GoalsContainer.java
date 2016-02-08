@@ -42,6 +42,7 @@ public class GoalsContainer extends BaseContainerFragment implements GoalContain
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Timber.d("%s onCreateView", TAG);
+        msgToActvInterface.changeTabViewIcon(1);
         return inflater.inflate(R.layout.container_fragment, null);
     }
 

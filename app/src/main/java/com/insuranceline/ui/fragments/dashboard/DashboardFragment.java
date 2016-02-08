@@ -74,7 +74,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
     }
 
     @Override
-    public void onNoAciveGoal(String successMessage) {
+    public void onNoActiveGoal(String successMessage) {
         Toast.makeText(mContext,successMessage,Toast.LENGTH_LONG).show();
     }
 
