@@ -21,11 +21,10 @@ import timber.log.Timber;
  */
 public class DashboardContainerContainer extends BaseContainerFragment implements DashboardContainerMvpView {
     public static final String TAG = DashboardContainerContainer.class.getSimpleName();
-
-    private boolean mIsViewInitiated;
-
     @Inject
     DashboardContainerPresenter mPresenter;
+
+    private boolean mIsViewInitiated = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,19 +45,26 @@ public class DashboardContainerContainer extends BaseContainerFragment implement
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Timber.d("%s container on activity created", TAG);
-        if (!mIsViewInitiated) {
-            mIsViewInitiated = true;
-            mPresenter.fetchNextView();
-        }
+        mPresenter.fetchNextView();
     }
 
     @Override
-    public void initView(boolean isAnyGoalSet) {
+    public void initView(boolean isAnyGoalSet, boolean isPermissionDone, boolean keepInitializedView) {
         Timber.d("%s init view", TAG);
 
-        if (isAnyGoalSet) replaceFragment(DashboardFragment.getInstance(), false);
-        else              replaceFragment(DashboardEmptyFragment.getInstance(), false);
+        if (mIsViewInitiated && keepInitializedView) return;
+
+        if (isAnyGoalSet && isPermissionDone){
+            replaceFragment(DashboardFragment.getInstance(), false);
+        }
+        else{
+            replaceFragment(DashboardEmptyFragment.getInstance(isPermissionDone?
+                    R.string.dashboard_goal_need_be_start_info :
+                    R.string.dashboard_permission_need_info), false);
+        }
+
+
+        mIsViewInitiated = isPermissionDone && isAnyGoalSet;
 
     }
-
 }

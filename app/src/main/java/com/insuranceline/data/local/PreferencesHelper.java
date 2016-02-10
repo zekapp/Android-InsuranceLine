@@ -18,6 +18,8 @@ public class PreferencesHelper {
     private static final String EDGE_SYSTEM_ACCESS_TOKEN = "EDGE_SYSTEM_ACCESS_TOKEN";
     private static final String FIT_BIT_CONNECTION_STATUS = "FIT_BIT_CONNECTION_STATUS";
     private static final String FIT_BIT_USER_ID = "FIT_BIT_USER_ID";
+    private static final String FIT_BIT_SCOPE_PERMISSION = "FIT_BIT_SCOPE_PERMISSION";
+    private static final String APPLICATION_FIRST_LAUNCHING = "APPLICATION_FIRST_LAUNCHING";
 
     private final SharedPreferences mPref;
 
@@ -70,10 +72,28 @@ public class PreferencesHelper {
         return mPref.getString(FIT_BIT_USER_ID,"");
     }
 
+    private void savePermissionGrantedFitBitScopes(String scopes) {
+        mPref.edit().putString(FIT_BIT_SCOPE_PERMISSION, scopes).apply();
+    }
+
+    public String getPermissionGrantedFitBitScopes() {
+        return mPref.getString(FIT_BIT_SCOPE_PERMISSION,"");
+    }
+
     public void saveFitBitToken(FitBitTokenResponse fitBitTokenResponse) {
         saveFitBitAccessToken(fitBitTokenResponse.getAccess_token());
         saveFitBitRefreshToken(fitBitTokenResponse.getRefresh_token());
         saveFitBitUserId(fitBitTokenResponse.getUser_id());
+        savePermissionGrantedFitBitScopes(fitBitTokenResponse.getScope());
         setFitBitConnected(true);
+    }
+
+
+    public boolean isFirstLaunch() {
+        return mPref.getBoolean(APPLICATION_FIRST_LAUNCHING,true);
+    }
+
+    public void setIsFirstLaunch(boolean b) {
+        mPref.edit().putBoolean(APPLICATION_FIRST_LAUNCHING, b).apply();
     }
 }

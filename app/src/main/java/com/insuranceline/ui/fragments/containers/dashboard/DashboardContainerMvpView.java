@@ -7,5 +7,5 @@ import com.insuranceline.ui.base.MvpView;
  * ©2015 Appscore. All Rights Reserved
  */
 public interface DashboardContainerMvpView extends MvpView{
-    void initView(boolean isAnyGoalSet);
+    void initView(boolean isAnyGoalSet, boolean isPermissionDone, boolean keepInitializedView);
 }

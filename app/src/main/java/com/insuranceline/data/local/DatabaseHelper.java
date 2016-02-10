@@ -150,8 +150,7 @@ public class DatabaseHelper {
 //    }
 
     public Goal fetchActiveGoal() {
-        return new Select().from(Goal.class).where(Condition.column(Goal$Table.ISACTIVE).is(true)).querySingle();
-
+        return new Select().from(Goal.class).where(Condition.column(Goal$Table.MSTATUS).eq(Goal.GOAL_STATUS_ACTIVE)).querySingle();
     }
 
     public void saveDailySummary(DailySummary dailySummary) {
@@ -174,14 +173,14 @@ public class DatabaseHelper {
         return count > 0;
     }
 
-/*    public Observable<DailySummary> getDailySummary() {
-        return Observable.create(new Observable.OnSubscribe<DailySummary>() {
+    public Observable<List<Goal>> fetchAllGoalInAscendingOrder() {
+        return Observable.create(new Observable.OnSubscribe<List<Goal>>() {
             @Override
-            public void call(Subscriber<? super DailySummary> subscriber) {
-                DailySummary dailySummary = new  Select().from(DailySummary.class).where().querySingle();
-                subscriber.onNext(dailySummary);
-                subscriber.onCompleted();
+            public void call(Subscriber<? super List<Goal>> subscriber) {
+                subscriber.onNext(new Select().from(Goal.class).where().orderBy(true,Goal$Table.MGOALID).queryList());
             }
         });
-    }*/
+
+    }
+
 }

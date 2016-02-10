@@ -35,7 +35,7 @@ import timber.log.Timber;
  * Created by Zeki Guler on 02,February,2016
  * ©2015 Appscore. All Rights Reserved
  */
-public class MainActivity extends BaseActivity implements MessageFromFragmentInterface{
+public class MainActivity extends BaseActivity implements MessageFromFragmentInterface, MainActivityMvpView{
 
 
     private static final String TAB_1_TAG = "tab_1";
@@ -43,9 +43,15 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     private static final String TAB_3_TAG = "tab_3";
     private static final String TAB_4_TAG = "tab_4";
 
+    public static final int DASHBOARD_CONTAINER_INDEX = 0;
+    public static final int GOAL_CONTAINER_INDEX      = 1;
+    public static final int REWARD_CONTAINER_INDEX    = 2;
+    public static final int MORE_CONTAINER_INDEX      = 3;
+
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.tabhost) FragmentTabHost mTabHost;
 
+    @Inject MainActivityPresenter mMainActivityPresenter;
     int[] tabIconsIdle = new int[]{
             R.drawable.icon_dash_idle,
             R.drawable.icon_goals_idle,
@@ -68,7 +74,7 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
         getActivityComponent().inject(this);
         setContentView(R.layout.activity_fitbit_main);
         ButterKnife.bind(this);
-
+        mMainActivityPresenter.attachView(this);
         setSupportActionBar(mToolbar);
 
         mTabHost.setup(this, getSupportFragmentManager(), R.id.tabFrameLayout);
@@ -110,6 +116,9 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
                 hideKeyboard();
             }
         });
+
+        mMainActivityPresenter.getFirstTabIndex();
+
     }
 
     @Override
@@ -124,16 +133,36 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
         mEventBus.unregister(this);
     }
 
+    /**
+     * TabWidget related function
+     *
+     * @link setIconSelected to change tab icon.
+     * @link R.drawable.tab_selector to change the background of widget for selector.
+     * */
     private void setBackGroundOfTabs() {
         float heightValue = getResources().getDimension(R.dimen.tab_widget_height); // tabHeight
         float density = this.getResources().getDisplayMetrics().density;
         //loop through the TabWidget's child Views (the tabs) and set their height value.
+        // remove divider from tabwidget
+        mTabHost.getTabWidget().setDividerDrawable(null);
         for (int i = 0; i < mTabHost.getTabWidget().getTabCount(); i++) {
             mTabHost.getTabWidget().getChildAt(i).getLayoutParams().height = (int)heightValue;//(int) (heightValue * density);
             View tabView = mTabHost.getTabWidget().getChildAt(i);
             tabView.setBackgroundResource(R.drawable.tab_selector);
             ImageView tabIcon = ((ImageView)(tabView.findViewById(R.id.tabImage)));
             tabIcon.setImageResource(tabIconsIdle[i]);
+        }
+    }
+
+    /**
+     * This fuction called by container via Activity Message interface.
+     * */
+    private void setIconSelected(int selectedContainer) {
+        int size = mTabHost.getTabWidget().getChildCount();
+        for (int i = 0; i < size; i++) {
+            View tabView = mTabHost.getTabWidget().getChildAt(i);
+            ImageView tabIcon = ((ImageView)(tabView.findViewById(R.id.tabImage)));
+            tabIcon.setImageResource(i == selectedContainer ? tabIconsActive[i]:tabIconsIdle[i]);
         }
     }
 
@@ -219,12 +248,11 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
         setIconSelected(selectedContainer);
     }
 
-    private void setIconSelected(int selectedContainer) {
-        int size = tabIconsIdle.length;
-        for (int i = 0; i < size; i++) {
-            View tabView = mTabHost.getTabWidget().getChildAt(i);
-            ImageView tabIcon = ((ImageView)(tabView.findViewById(R.id.tabImage)));
-            tabIcon.setImageResource(i == selectedContainer ? tabIconsActive[i]:tabIconsIdle[i]);
-        }
+
+
+    /******************* MVP Fucntions *********************/
+    @Override
+    public void changeTab(int tabIndex) {
+        mTabHost.setCurrentTab(tabIndex);
     }
 }

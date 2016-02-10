@@ -22,7 +22,7 @@
         android:layout_marginRight="55dp"
         android:layout_marginTop="80dp"
         android:gravity="center"
-        android:text="@string/no_data_info"
+        android:text="@string/dashboard_permission_need_info"
         android:textColor="@color/general_text_color"
         android:textSize="19sp" />
 

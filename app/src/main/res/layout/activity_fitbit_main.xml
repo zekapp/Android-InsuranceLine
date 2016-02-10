@@ -31,12 +31,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--this tab widget is just show purposes.-->
         <TabWidget
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="50dip"
             android:layout_alignParentTop="true"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:fadingEdge="none"
+            android:showDividers="none"/>
 
         <FrameLayout
             android:id="@+id/tabFrameLayout"

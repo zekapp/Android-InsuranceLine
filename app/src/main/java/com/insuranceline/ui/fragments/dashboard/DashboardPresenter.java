@@ -5,14 +5,18 @@ import com.insuranceline.data.remote.model.DashboardModel;
 import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.base.BasePresenter;
+import com.insuranceline.utils.TimeUtils;
 
 import java.text.DecimalFormat;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -36,13 +40,22 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
     @Override
     public void attachView(DashboardMvpView mvpView) {
         super.attachView(mvpView);
+    }
+
+    @Override
+    public void detachView() {
+        super.detachView();
         if (mSubscription != null) mSubscription.unsubscribe();
     }
 
-
     public void fetch() {
-
-        mDataManager.getDashboardModel()
+        mSubscription = mDataManager.getDashboardModel()
+                .repeatWhen(new Func1<Observable<? extends Void>, Observable<?>>() {
+                    @Override
+                    public Observable<?> call(Observable<? extends Void> observable) {
+                        return observable.delay(1, TimeUnit.MINUTES);
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DashboardModel>() {
@@ -53,7 +66,7 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.e("onError(%s)",e.getMessage());
+                        Timber.e("onError(%s)", e.getMessage());
                     }
 
                     @Override

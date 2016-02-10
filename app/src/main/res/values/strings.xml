@@ -53,10 +53,14 @@
     <string name="third_goal_challenge_text">Complete 500.000 steps and you will be eligible to redeem a Healt Voucher worth $50*</string>
     <string name="second_goal">2nd Goal</string>
     <string name="third_goal">3rd Goal</string>
-    <string name="no_data_info"><![CDATA[There is no data to display. Go to <b> More > Manage Fitbit Permissions</b> and check the permissions.]]></string>
     <string name="goal_def">Goal 100,000 steps</string>
     <string name="connect_fit_bit_title">Connect FitBit</string>
     <string name="connect_fit_bit_info">When you connect Fitbit to our app. Your Fitbit activities will automatically show up.\n\nAny activity will automatically contribute to your Fitbit all day stats like calories and active minutes.</string>
+    <string name="dashboard_goal_need_be_start_info"><![CDATA[There is no data to display. Go to <b> Goal > Start the goal</b> and turn back this page again.]]></string>
+    <string name="dashboard_permission_need_info"><![CDATA[There is no data to display. Go to <b> More > Manage Fitbit Permissions</b> and check the permissions.]]></string>
+    <string name="btn_start_text">Start</string>
+    <string name="btn_progress_text">In Progress</string>
+    <string name="btn_done_text">done</string>
 
 
 </resources>

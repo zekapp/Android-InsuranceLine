@@ -1,10 +1,13 @@
 package com.insuranceline.data.vo;
 
 import com.insuranceline.data.local.AppDatabase;
+import com.insuranceline.utils.TimeUtils;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Zeki Guler on 05,February,2016
@@ -12,10 +15,15 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
  */
 @Table(databaseName = AppDatabase.NAME)
 public class Goal extends BaseModel {
-    private static final int TYPE_STEPS = 1;
-    private static final int TYPE_CALORIE = 2;
-    private static final int TYPE_ACTIVE_MIN = 3;
-    private static final int TYPE_DISTANCE = 4;
+    private static final int TYPE_STEPS         = 1;
+    private static final int TYPE_CALORIE       = 2;
+    private static final int TYPE_ACTIVE_MIN    = 3;
+    private static final int TYPE_DISTANCE      = 4;
+    public static final int GOAL_STATUS_IDLE    = 0;
+    public static final int GOAL_STATUS_ACTIVE  = 1;
+    public static final int GOAL_STATUS_DONE    = 2;
+
+
     @Column
     @PrimaryKey(autoincrement = false)
     long mGoalId;
@@ -27,7 +35,7 @@ public class Goal extends BaseModel {
     int mAchieved;
 
     @Column
-    long mStartDate;
+    long mBaseDate;
 
     @Column
     long mEndDate;
@@ -35,8 +43,8 @@ public class Goal extends BaseModel {
     @Column(defaultValue = "1")
     int mGoalType = 1;
 
-    @Column(defaultValue = "true")
-    boolean isActive = true;
+    @Column(defaultValue = "0")
+    int mStatus = GOAL_STATUS_IDLE;
 
     @Column
     int mRequiredDailySteps;
@@ -74,12 +82,12 @@ public class Goal extends BaseModel {
         this.mAchieved = achieved;
     }
 
-    public long getStartDate() {
-        return mStartDate;
+    public long getBaseDate() {
+        return mBaseDate;
     }
 
-    public void setStartDate(long startDate) {
-        this.mStartDate = startDate;
+    public void setBaseDate(long baseDate) {
+        this.mBaseDate = baseDate;
     }
 
     public long getEndDate() {
@@ -130,28 +138,39 @@ public class Goal extends BaseModel {
         this.requiredDailyDistance = requiredDailyDistance;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public int getStatus() {
+        return mStatus;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setStatus(int status) {
+        mStatus = status;
     }
 
-    public static Goal createDefaultGoal() {
+    public static Goal createDefaultGoal(int goalId) {
         Goal goal = new Goal();
         goal.setAchieved(0);
-        goal.setActive(true);
+        goal.setStatus(GOAL_STATUS_IDLE);
+        goal.setGoalId(goalId);
         goal.setEndDate(0);
-        goal.setGoalId(1);
-        goal.setStartDate(System.currentTimeMillis());
-        goal.setRequiredDailyActiveMin(20);
+        goal.setBaseDate(System.currentTimeMillis());
+        goal.setRequiredDailyActiveMin(60);
         goal.setRequiredDailyCalorie(3000);
-        goal.setRequiredDailyDistance(10);
-        goal.setRequiredDailySteps(1000);
+        goal.setRequiredDailyDistance(8);
+        goal.setRequiredDailySteps(5000);
         goal.setGoalType(TYPE_STEPS); // STEPS
         goal.setTarget(100000); // Target ids 100,000 steps in 3 months (date is not important)
         return goal;
     }
 
+    private static int calculateReqDailyActiveMin(Goal prevGoal) {
+        return 0;
+    }
+
+    public int getNextTarget(int dayLeft) {
+        return dayLeft * getTarget() / getAchievedInDays();
+    }
+
+    public int getAchievedInDays() {
+        return (int)TimeUnit.MILLISECONDS.toDays(getEndDate() - getBaseDate());
+    }
 }

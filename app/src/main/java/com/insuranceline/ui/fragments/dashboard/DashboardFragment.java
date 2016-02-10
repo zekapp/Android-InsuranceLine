@@ -56,6 +56,12 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
         mDashboardPresenter.fetch();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mDashboardPresenter.detachView();
+    }
+
     /******* MVP View Methods Implementation*/
 
     @Override

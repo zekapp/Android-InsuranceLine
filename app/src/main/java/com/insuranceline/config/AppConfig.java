@@ -30,6 +30,7 @@ public class AppConfig {
 
     private static final String FIT_BIT_WEB_URL         = "https://www.fitbit.com/oauth2/";
     private static final String FIT_BIT_BASE_API_URL    = "https://api.fitbit.com/";
+    private static final int     APPLICATION_LIFE_DAYS   = 150; // 3 Months
 
 
     private final SharedPreferences mSharedPreferences;
@@ -87,5 +88,9 @@ public class AppConfig {
                 "&scope=activity profile heartrate location nutrition settings social sleep weight" +
                 "&prompt=login" +
                 "&redirect_uri=" + FIT_BIT_REDIRECT_URI;
+    }
+
+    public int getAppLife() {
+        return APPLICATION_LIFE_DAYS;
     }
 }

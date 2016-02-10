@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
     <item >
         <shape android:shape="rectangle" >
-            <size android:width="150dp" android:height="@dimen/tab_widget_height"/>
+            <size android:width="@dimen/tab_widget_width" android:height="@dimen/tab_widget_height"/>
             <solid android:color="@color/colorPrimary" />
         </shape>
     </item>

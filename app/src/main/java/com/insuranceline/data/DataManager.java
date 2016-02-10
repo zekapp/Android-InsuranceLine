@@ -23,9 +23,7 @@ import com.insuranceline.event.LogOutEvent;
 import com.insuranceline.utils.TimeUtils;
 import com.path.android.jobqueue.JobManager;
 
-import java.sql.Time;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -49,6 +47,7 @@ import timber.log.Timber;
 @Singleton
 public class DataManager {
 
+    public static final int GOAL_COUNTS = 3;
     private final EdgeApiService mEdgeApiService;
     private final FitBitApiService mFitBitApiService;
     private final DatabaseHelper mDatabaseHelper;
@@ -57,6 +56,8 @@ public class DataManager {
     private final PreferencesHelper mPreferencesHelper;
     private final AppConfig mAppConfig;
     private final EventBus mEventBus;
+
+    private List<Goal> mCatchedGoals = null;
 
     @Inject
     public DataManager(ApiService apiService, EdgeApiService edgeApiService,
@@ -73,7 +74,7 @@ public class DataManager {
         this.mAppConfig = appConfig;
         this.mEventBus = eventBus;
 
-        createFistGoalAsDefaultIfNotCreated();
+        createGoalsAsDefaultIfNotCreated();
 
         createFirstDailySummaryIfNotCreated();
     }
@@ -84,9 +85,11 @@ public class DataManager {
         }
     }
 
-    private void createFistGoalAsDefaultIfNotCreated() {
+    private void createGoalsAsDefaultIfNotCreated() {
         if(!mDatabaseHelper.isAnyGoalCreated()){
-            mDatabaseHelper.saveGoal(Goal.createDefaultGoal());
+            for (int i = 0; i < GOAL_COUNTS; i++) {
+                mDatabaseHelper.saveGoal(Goal.createDefaultGoal(i));
+            }
         }
     }
 
@@ -252,6 +255,62 @@ public class DataManager {
     }
 
 
+    /**
+     *  Getting goal For Goal Section.
+     * */
+    public Observable<Goal> getGoalForGoalFragHost() {
+
+        return getGoalData().map(new Func1<List<Goal>, Goal>() {
+            @Override
+            public Goal call(List<Goal> goals) {
+                Goal res = null;
+                for (Goal goal : mCatchedGoals) {
+                    if (goal.getStatus() == Goal.GOAL_STATUS_ACTIVE) {
+                        res = goal;
+                    } else if (goal.getStatus() == Goal.GOAL_STATUS_IDLE) {
+                        res = goal;
+                        break;
+                    }
+                }
+
+                if (res == null)
+                    res = goals.get(goals.size() - 1);
+
+                return res;
+            }
+        });
+    }
+
+    private Observable<List<Goal>> getGoalData(){
+        return Observable.
+                concat(getCatchedGoalData(), getDiskGoalData())
+                .takeFirst(new Func1<List<Goal>, Boolean>() {
+                    @Override
+                    public Boolean call(List<Goal> goals) {
+                        return goals!=null;
+                    }
+                });
+    }
+
+    private Observable<List<Goal>> getDiskGoalData() {
+        Timber.d("Catch Goald Data");
+        return mDatabaseHelper
+                .fetchAllGoalInAscendingOrder()
+                .doOnNext(new Action1<List<Goal>>() {
+                    @Override
+                    public void call(List<Goal> goals) {
+                        Timber.d("GoalData Catch Updated");
+                        mCatchedGoals = goals;
+                    }
+                });
+    }
+
+    private Observable<List<Goal>> getCatchedGoalData() {
+        Timber.d("Disk Goal Data");
+        return Observable.just(mCatchedGoals);
+    }
+
+
     /****** DAILY ACTIVITY SUMMARY RELATED FUNCTIONS **************/
 
     /**
@@ -259,6 +318,10 @@ public class DataManager {
      *
      * 1- get daily data from db
      * 2- get daily summary from api and save it to db.
+     * this observable always return the getDashboardFromDb resul if success.
+     * At the same time it hits the getDashboardFromApiWithSave but it never emits the object from
+     * it. getDashboardFromApiWithSave saves the data to Db. Next time you called this model
+     * it returns the updated value
      *
      *
      * */
@@ -275,6 +338,9 @@ public class DataManager {
 //    }
 
 
+    /**
+     * Observable fetch 2 different data from Db and make
+     * */
     private Observable<DashboardModel> getDashboardFromDb() {
         return Observable.zip(
                 getDailySummaryFromDb(),
@@ -304,11 +370,11 @@ public class DataManager {
                 new Func3<DailySummary, Integer, Goal, DashboardModel>() {
                     @Override
                     public DashboardModel call(DailySummary dailySummary, Integer achieved, Goal goal) {
-                        DashboardModel dashboadModel = new DashboardModel();
-                        dashboadModel.setmDailySummary(dailySummary);
+                        DashboardModel dashboardModel = new DashboardModel();
+                        dashboardModel.setmDailySummary(dailySummary);
                         goal.setAchieved(achieved);
-                        dashboadModel.setActiveGoal(goal);
-                        return dashboadModel;
+                        dashboardModel.setActiveGoal(goal);
+                        return dashboardModel;
                     }
                 });
     }
@@ -336,7 +402,7 @@ public class DataManager {
     public Observable<Integer> getAchievedStepsCountsForActiveGoalFromApiWithSave(){
         final Goal activeGoal = getActiveGoal();
         if (activeGoal != null){
-            String baseDate = TimeUtils.convertReadableDate(activeGoal.getStartDate(), TimeUtils.DATE_FORMAT_TYPE_5);
+            String baseDate = TimeUtils.convertReadableDate(activeGoal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_5);
             return mFitBitApiService.getStepsCountsBetweenDates(baseDate, "today")
                     .map(new Func1<StepsCountResponse, Integer>() {
                         @Override
@@ -377,57 +443,57 @@ public class DataManager {
         };
     }
 
+    public boolean isFitBitScopePermissionDone() {
+        String scopeText = mPreferencesHelper.getPermissionGrantedFitBitScopes().toLowerCase();
+
+        if (scopeText.isEmpty())
+            return false;
+        else
+            return scopeText.contains("activity");
+    }
+
+    public boolean isFirstLaunch() {
+        boolean isFirtLaunching = mPreferencesHelper.isFirstLaunch();
+        mPreferencesHelper.setIsFirstLaunch(false);
+        return isFirtLaunching;
+    }
+
+    public void startActivity(long goalId) {
+        Goal fistGoal   = mCatchedGoals.get(0);
+        Goal secondGoal = mCatchedGoals.get(1);
+        Goal thirdGoal  = mCatchedGoals.get(2);
+
+        if(goalId == 0){
+            fistGoal.setBaseDate(System.currentTimeMillis());
+            fistGoal.setStatus(Goal.GOAL_STATUS_ACTIVE);
+        } else if (goalId == 1){
+            secondGoal.setBaseDate(System.currentTimeMillis());
+            secondGoal.setStatus(Goal.GOAL_STATUS_ACTIVE);
+
+            // Target Calculation
+            int dayleft = getHowManyDaysLeft(fistGoal);
+            int target  = fistGoal.getNextTarget(dayleft);
+            secondGoal.setTarget(target);
+
+            // Active Minute Calculation
+//            int reqActiveMin = firstGoal.getNextActiveMinute(dayleft, target);
+//            secondGoal.setRequiredDailyActiveMin();
+        }
+    }
+
+    private int getHowManyDaysLeft(Goal... goals) {
+        int size = goals.length;
+
+        if (size < 2) {
+            return (mAppConfig.getAppLife() - goals[0].getAchievedInDays()) / 2;
+        } else {
+            int sumDay = 0;
+
+            for (Goal goal : goals) {
+                sumDay += goal.getAchievedInDays();
+            }
+
+            return mAppConfig.getAppLife() - sumDay;
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-/*
-        //Working sample
-return Observable
-                .concat(getDailySummaryFromDb(), getDailySummaryFromApiWithSave())
-                .onErrorResumeNext(getDailySummaryFromDb());*/
-
-
-
-//        return getDailySummaryFromApiWithSave()
-//                .startWith(getDailySummaryFromDb());
-
-
-/*                    .takeFirst(new Func1<DailySummary, Boolean>() {
-                        @Override
-                        public Boolean call(DailySummary dailySummary) {
-                            Timber.d("dailySummary null: %s, dailySummary fresh: %s", dailySummary == null, dailySummary != null && dailySummary.isUpToDate() );
-                            return dailySummary != null;// && dailySummary.isUpToDate();
-                        }
-                    });*/
-
-//    public Observable<DailySummary> getDailySummary(){
-//            return Observable
-//                    .concat(getDailySummaryFromDb(), getDailySummaryFromApiWithSave());
-///*                    .takeFirst(new Func1<DailySummary, Boolean>() {
-//                        @Override
-//                        public Boolean call(DailySummary dailySummary) {
-//                            Timber.d("dailySummary null: %s, dailySummary fresh: %s", dailySummary == null, dailySummary != null && dailySummary.isUpToDate() );
-//                            return dailySummary != null;// && dailySummary.isUpToDate();
-//                        }
-//                    });*/
-//    }
-
-/*    *//** Fetch data and then save to db*//*
-    public Observable<DailySummary> getDailySummaryFromApiWithSave(){
-        return mFitBitApiService.getDailySummary()
-                .flatMap(new Func1<DailySummaryResponse, Observable<? extends DailySummary>>() {
-                    @Override
-                    public Observable<? extends DailySummary> call(DailySummaryResponse dailySummaryResponse) {
-                        Timber.d("getDailySummaryFromApiWithSave");
-                        return mDatabaseHelper.saveDailySummary(dailySummaryResponse);
-                    }
-                });
-    }*/

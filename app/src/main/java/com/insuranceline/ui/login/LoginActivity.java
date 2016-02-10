@@ -40,6 +40,11 @@ public class LoginActivity extends BaseActivity implements LoginMvpView{
         mLoginPresenter.attachView(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLoginPresenter.detachView();
+    }
 
     @Override
     protected void onStop() {
