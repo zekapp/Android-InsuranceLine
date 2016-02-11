@@ -26,4 +26,9 @@
     <color name="divition_bar_color">#d0d0d5</color>
     <color name="progress_wheel_deftext_color">#efefef</color>
 
+    <color name="refresh_progress_1">#f68d6c</color>
+    <color name="refresh_progress_2">#ffc700</color>
+    <color name="refresh_progress_3">#43bd9f</color>
+    <color name="refresh_progress_4">#425255</color>
+
 </resources>

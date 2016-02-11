@@ -2,6 +2,7 @@ package com.insuranceline.ui.fragments.dashboard;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
     @Bind(R.id.calories_line_progress) ProgressLine mCalProgressLine;
     @Bind(R.id.active_minutes_line_progress) ProgressLine mActiveMinProgressLine;
     @Bind(R.id.daily_distance_line_progress) ProgressLine mDailyDistProgressLine;
+    @Bind(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Inject DashboardPresenter mDashboardPresenter;
 
@@ -39,13 +41,13 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivityComponent().inject(this);
-        mDashboardPresenter.attachView(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setTitle("Dashboard");
         final View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        mDashboardPresenter.attachView(this);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -62,6 +64,24 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
         mDashboardPresenter.detachView();
     }
 
+    private void trySetupSwipeRefresh() {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setColorSchemeResources(
+                    R.color.refresh_progress_1,
+                    R.color.refresh_progress_2,
+                    R.color.refresh_progress_3,
+                    R.color.refresh_progress_4);
+
+
+/*            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    mDashboardPresenter.fetch();
+                }
+            });*/
+        }
+    }
+
     /******* MVP View Methods Implementation*/
 
     @Override
@@ -71,7 +91,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
 
     @Override
     public void hideProgress() {
-
+//        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

@@ -20,7 +20,7 @@ public final class StepsCountResponse {
         public int value;
     }
 
-    public int getTotlaStepsCount(){
+    public int getTotalStepsCount(){
         int count = 0;
         if (steps != null && !steps.isEmpty()){
             for (Steps step : steps){

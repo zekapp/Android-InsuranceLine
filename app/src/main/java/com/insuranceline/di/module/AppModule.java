@@ -15,7 +15,8 @@ import com.insuranceline.data.local.AppDatabase;
 import com.insuranceline.data.remote.ApiService;
 import com.insuranceline.data.remote.EdgeApiService;
 import com.insuranceline.data.remote.FitBitApiService;
-import com.insuranceline.data.remote.oauth.TokenApiService;
+import com.insuranceline.data.remote.oauth.FitBitOauthApiService;
+import com.insuranceline.data.remote.oauth.OauthInterceptor;
 import com.insuranceline.data.remote.oauth.TokenAuthenticator;
 import com.insuranceline.di.qualifier.ApplicationContext;
 import com.path.android.jobqueue.Job;
@@ -28,7 +29,6 @@ import com.squareup.okhttp.Protocol;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
@@ -113,7 +113,9 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public FitBitApiService fitBitApiService(AppConfig appConfig, TokenAuthenticator tokenAuthenticator) {
+    public FitBitApiService fitBitApiService(AppConfig appConfig,
+                                             TokenAuthenticator tokenAuthenticator,
+                                             OauthInterceptor oauthInterceptor) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -123,6 +125,7 @@ public class AppModule {
 
         OkHttpClient httpClient = new OkHttpClient();
         httpClient.interceptors().add(logging);
+        httpClient.interceptors().add(oauthInterceptor);
         httpClient.setAuthenticator(tokenAuthenticator);
         httpClient.networkInterceptors().add(new StethoInterceptor());
 
@@ -144,7 +147,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public TokenApiService fitBitAuthApiService(AppConfig appConfig) {
+    public FitBitOauthApiService fitBitAuthApiService(AppConfig appConfig) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -163,7 +166,7 @@ public class AppModule {
                 .client(httpClient)
                 .build();
 
-        return retrofit.create(TokenApiService.class);
+        return retrofit.create(FitBitOauthApiService.class);
     }
 
     @Provides

@@ -1,7 +1,6 @@
 package com.insuranceline.data.vo;
 
 import com.insuranceline.data.local.AppDatabase;
-import com.insuranceline.utils.TimeUtils;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
@@ -32,7 +31,16 @@ public class Goal extends BaseModel {
     int mTarget;
 
     @Column
-    int mAchieved;
+    int mAchievedSteps;
+
+    @Column
+    int mAchievedCalorie;
+
+    @Column
+    int mAchievedActiveMin;
+
+    @Column
+    int mAchievedDistance;
 
     @Column
     long mBaseDate;
@@ -74,12 +82,12 @@ public class Goal extends BaseModel {
         this.mTarget = target;
     }
 
-    public int getAchieved() {
-        return mAchieved;
+    public int getAchievedSteps() {
+        return mAchievedSteps;
     }
 
-    public void setAchieved(int achieved) {
-        this.mAchieved = achieved;
+    public void setAchievedSteps(int achievedSteps) {
+        this.mAchievedSteps = achievedSteps;
     }
 
     public long getBaseDate() {
@@ -146,9 +154,37 @@ public class Goal extends BaseModel {
         mStatus = status;
     }
 
+
+    public int getAchievedCalorie() {
+        return mAchievedCalorie;
+    }
+
+    public void setAchievedCalorie(int achievedCalorie) {
+        mAchievedCalorie = achievedCalorie;
+    }
+
+    public int getAchievedActiveMin() {
+        return mAchievedActiveMin;
+    }
+
+    public void setAchievedActiveMin(int achievedActiveMin) {
+        mAchievedActiveMin = achievedActiveMin;
+    }
+
+    public int getAchievedDistance() {
+        return mAchievedDistance;
+    }
+
+    public void setAchievedDistance(int achievedDistance) {
+        mAchievedDistance = achievedDistance;
+    }
+
     public static Goal createDefaultGoal(int goalId) {
         Goal goal = new Goal();
-        goal.setAchieved(0);
+        goal.setAchievedSteps(0);
+        goal.setAchievedCalorie(0);
+        goal.setAchievedDistance(0);
+        goal.setAchievedActiveMin(0);
         goal.setStatus(GOAL_STATUS_IDLE);
         goal.setGoalId(goalId);
         goal.setEndDate(0);
@@ -171,6 +207,23 @@ public class Goal extends BaseModel {
     }
 
     public int getAchievedInDays() {
-        return (int)TimeUnit.MILLISECONDS.toDays(getEndDate() - getBaseDate());
+        long days = (int)TimeUnit.MILLISECONDS.toDays(getEndDate() - getBaseDate());
+        return days > 0 ? (int)days : 1;
+    }
+
+    public int getNextActiveMinute() {
+        return  getRequiredDailyActiveMin();
+    }
+
+    public int getNextReqCalorie() {
+        return getRequiredDailyCalorie();
+    }
+
+    public int getNextDailyReqSteps() {
+        return getRequiredDailyDistance();
+    }
+
+    public boolean isActive() {
+        return getStatus() == GOAL_STATUS_ACTIVE;
     }
 }

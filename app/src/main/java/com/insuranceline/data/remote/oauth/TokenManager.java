@@ -20,12 +20,12 @@ import timber.log.Timber;
 @Singleton
 public class TokenManager {
 
-    private final TokenApiService mTokenApiService;
+    private final FitBitOauthApiService mFitBitOauthApiService;
     private final PreferencesHelper mPreferencesHelper;
 
     @Inject
-    public TokenManager(TokenApiService tokenApiService, PreferencesHelper preferencesHelper){
-        this.mTokenApiService = tokenApiService;
+    public TokenManager(FitBitOauthApiService fitBitOauthApiService, PreferencesHelper preferencesHelper){
+        this.mFitBitOauthApiService = fitBitOauthApiService;
         this.mPreferencesHelper = preferencesHelper;
     }
 
@@ -33,7 +33,7 @@ public class TokenManager {
     public FitBitTokenResponse refreshToken() throws IOException {
         String oldRefreshToken = mPreferencesHelper.getFitBitRefreshToken();
 
-        Response<FitBitTokenResponse> response = mTokenApiService.refreshToken("refresh_token", oldRefreshToken)
+        Response<FitBitTokenResponse> response = mFitBitOauthApiService.refreshToken("refresh_token", oldRefreshToken)
                 .execute();
 
         if (response.isSuccess()) {
@@ -50,5 +50,13 @@ public class TokenManager {
             throw new NetworkException(response.code());
         }
 
+    }
+
+    public boolean isTokenSet() {
+        return !mPreferencesHelper.getFitBitAccessToken().isEmpty();
+    }
+
+    public String getAccessToken() {
+        return mPreferencesHelper.getFitBitAccessToken();
     }
 }

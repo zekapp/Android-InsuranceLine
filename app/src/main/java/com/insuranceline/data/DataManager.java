@@ -220,7 +220,15 @@ public class DataManager {
         return mPreferencesHelper.isFitBitConnected();
     }
 
+    /**
+     *  AUTHENTICATION FUNCTION
+     *
+     * Before calling this function be sure that token set empty.
+     * Otherwise OauthInterceptors will be called and modify your header
+     *
+     */
     public Observable<String> getTokenWithAuthCode(String code) {
+        mPreferencesHelper.deleteFitBitToken();
         return mFitBitApiService
                 .accessTokenRequest(
                         mAppConfig.getFitBitClientId(),
@@ -243,7 +251,8 @@ public class DataManager {
 
     public boolean isAnyGoalActive() {
         Goal goal = getActiveGoal();
-        return goal != null;
+        if (goal != null) return goal.isActive();
+        else              return false;
     }
 
 
@@ -256,8 +265,39 @@ public class DataManager {
 
 
     /**
-     *  Getting goal For Goal Section.
+     *  Get Goal for for goal fragment.
+     *
+     *  This function returns the active goal. If there is not active goal it
+     *  returns the idle one with lowest id. If all goal done it just return the latest
+     *  goal.
+     *
      * */
+    public Goal getRelevantGoal() {
+        if (mCatchedGoals == null)
+            mCatchedGoals = mDatabaseHelper.fetchAllGoalInAscendingOrder();
+
+        Goal res = null;
+
+        for (Goal goal : mCatchedGoals) {
+            if (goal.getStatus() == Goal.GOAL_STATUS_ACTIVE) {
+                return goal;
+            } else if (goal.getStatus() == Goal.GOAL_STATUS_IDLE) {
+                if (res == null) res = goal;
+                else if (goal.getGoalId() < res.getGoalId()) {
+                    res = goal;
+                }
+            }
+        }
+
+        if (res == null)
+            return mCatchedGoals.get(2); // get latest goal
+
+        return res;
+    }
+
+/*    *//**
+     *  Getting goal For Goal Section.
+     * *//*
     public Observable<Goal> getGoalForGoalFragHost() {
 
         return getGoalData().map(new Func1<List<Goal>, Goal>() {
@@ -283,7 +323,7 @@ public class DataManager {
 
     private Observable<List<Goal>> getGoalData(){
         return Observable.
-                concat(getCatchedGoalData(), getDiskGoalData())
+                concat(getCachedGoalData(), getDiskGoalData())
                 .takeFirst(new Func1<List<Goal>, Boolean>() {
                     @Override
                     public Boolean call(List<Goal> goals) {
@@ -305,13 +345,13 @@ public class DataManager {
                 });
     }
 
-    private Observable<List<Goal>> getCatchedGoalData() {
+    private Observable<List<Goal>> getCachedGoalData() {
         Timber.d("Disk Goal Data");
         return Observable.just(mCatchedGoals);
-    }
+    }*/
 
 
-    /****** DAILY ACTIVITY SUMMARY RELATED FUNCTIONS **************/
+    /******** DAILY ACTIVITY SUMMARY AND STEPS SUM COUNT **************/
 
     /**
      * Get Daily Summary Activiy. This function combines two observables
@@ -372,7 +412,7 @@ public class DataManager {
                     public DashboardModel call(DailySummary dailySummary, Integer achieved, Goal goal) {
                         DashboardModel dashboardModel = new DashboardModel();
                         dashboardModel.setmDailySummary(dailySummary);
-                        goal.setAchieved(achieved);
+                        goal.setAchievedSteps(achieved);
                         dashboardModel.setActiveGoal(goal);
                         return dashboardModel;
                     }
@@ -407,12 +447,12 @@ public class DataManager {
                     .map(new Func1<StepsCountResponse, Integer>() {
                         @Override
                         public Integer call(StepsCountResponse stepsCountResponse) {
-                            return stepsCountResponse.getTotlaStepsCount();
+                            return stepsCountResponse.getTotalStepsCount();
                         }
                     }).doOnNext(new Action1<Integer>() {
                         @Override
                         public void call(Integer integer) {
-                            activeGoal.setAchieved(integer);
+                            activeGoal.setAchievedSteps(integer);
                             activeGoal.save();
                         }
                     })
@@ -458,26 +498,76 @@ public class DataManager {
         return isFirtLaunching;
     }
 
+
+    /********   Algrithm Calculation   ********/
     public void startActivity(long goalId) {
-        Goal fistGoal   = mCatchedGoals.get(0);
+        Timber.d("Goald Id: %s", goalId);
+
+        Goal firstGoal   = mCatchedGoals.get(0);
         Goal secondGoal = mCatchedGoals.get(1);
         Goal thirdGoal  = mCatchedGoals.get(2);
 
+        //First Goal
         if(goalId == 0){
-            fistGoal.setBaseDate(System.currentTimeMillis());
-            fistGoal.setStatus(Goal.GOAL_STATUS_ACTIVE);
-        } else if (goalId == 1){
+            firstGoal.setBaseDate(System.currentTimeMillis());
+            firstGoal.setStatus(Goal.GOAL_STATUS_ACTIVE);
+
+            mDatabaseHelper.saveGoal(firstGoal);
+        }
+        //Second Goal
+        else if (goalId == 1){
             secondGoal.setBaseDate(System.currentTimeMillis());
             secondGoal.setStatus(Goal.GOAL_STATUS_ACTIVE);
 
             // Target Calculation
-            int dayleft = getHowManyDaysLeft(fistGoal);
-            int target  = fistGoal.getNextTarget(dayleft);
-            secondGoal.setTarget(target);
+            int reqDay = getHowManyDaysLeft(firstGoal);
+            int newTarget  = firstGoal.getNextTarget(reqDay);
+            secondGoal.setTarget(newTarget);
 
-            // Active Minute Calculation
-//            int reqActiveMin = firstGoal.getNextActiveMinute(dayleft, target);
-//            secondGoal.setRequiredDailyActiveMin();
+            // Daily Req Steps;
+            secondGoal.setRequiredDailySteps(newTarget/ reqDay);
+
+            // Daily Active Minute Calculation
+            int reqActiveMin = firstGoal.getNextActiveMinute();
+            secondGoal.setRequiredDailyActiveMin(reqActiveMin);
+
+            // Daily Req Calorie.
+            int reqActiveCalorie = firstGoal.getNextReqCalorie();
+            secondGoal.setRequiredDailyCalorie(reqActiveCalorie);
+
+
+            // Daily Req Distance.
+            int reqDistance = firstGoal.getNextDailyReqSteps();
+            secondGoal.setRequiredDailySteps(reqDistance);
+
+            mDatabaseHelper.saveGoal(secondGoal);
+        }
+        //Third Goal
+        else if(goalId == 2){
+            thirdGoal.setBaseDate(System.currentTimeMillis());
+            thirdGoal.setStatus(Goal.GOAL_STATUS_ACTIVE);
+
+            // Target Calculation
+            int reqDay = getHowManyDaysLeft(firstGoal, secondGoal);
+            int newTarget  = secondGoal.getNextTarget(reqDay);
+            thirdGoal.setTarget(newTarget);
+
+            // Daily Req Steps;
+            thirdGoal.setRequiredDailySteps(newTarget/ reqDay);
+
+            // Daily Active Minute Calculation
+            int reqActiveMin = secondGoal.getNextActiveMinute();
+            thirdGoal.setRequiredDailyActiveMin(reqActiveMin);
+
+            // Daily Req Calorie.
+            int reqActiveCalorie = secondGoal.getNextReqCalorie();
+            thirdGoal.setRequiredDailyCalorie(reqActiveCalorie);
+
+            // Daily Req Distance.
+            int reqDistance = secondGoal.getNextDailyReqSteps();
+            thirdGoal.setRequiredDailySteps(reqDistance);
+
+            mDatabaseHelper.saveGoal(thirdGoal);
         }
     }
 

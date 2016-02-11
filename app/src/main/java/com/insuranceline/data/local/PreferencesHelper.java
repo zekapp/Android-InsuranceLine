@@ -96,4 +96,9 @@ public class PreferencesHelper {
     public void setIsFirstLaunch(boolean b) {
         mPref.edit().putBoolean(APPLICATION_FIRST_LAUNCHING, b).apply();
     }
+
+    public void deleteFitBitToken() {
+        saveFitBitAccessToken("");
+        saveFitBitRefreshToken("");
+    }
 }

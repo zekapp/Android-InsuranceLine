@@ -13,7 +13,7 @@ import rx.Observable;
  * Created by Zeki Guler on 02,February,2016
  * ©2015 Appscore. All Rights Reserved
  */
-public interface TokenApiService {
+public interface FitBitOauthApiService {
 
     // todo: get app secret from appConfig
     @Headers({
@@ -23,4 +23,5 @@ public interface TokenApiService {
     @POST("oauth2/token")
     Call<FitBitTokenResponse> refreshToken(@Field("grant_type")    String grandType,
                                             @Field("refresh_token") String oldRefreshToken);
+
 }

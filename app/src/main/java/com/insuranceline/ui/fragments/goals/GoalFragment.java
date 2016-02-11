@@ -43,7 +43,6 @@ public class GoalFragment extends BaseFragment implements GoalFragmentMvpView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivityComponent().inject(this);
-        mGoalFragmentPresenter.attachView(this);
     }
 
     @Override
@@ -51,10 +50,16 @@ public class GoalFragment extends BaseFragment implements GoalFragmentMvpView {
         setTitle("Goals");
         final View view = inflater.inflate(R.layout.fragment_goal, container, false);
         ButterKnife.bind(this, view);
+        mGoalFragmentPresenter.attachView(this);
         mGoalFragmentPresenter.updateView();
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mGoalFragmentPresenter.detachView();
+    }
 
     /******* MVP Related Function ********/
     @Override
@@ -73,13 +78,14 @@ public class GoalFragment extends BaseFragment implements GoalFragmentMvpView {
     }
 
     @Override
-    public void updateButtonTitle(@StringRes int buttonStatus, boolean enabled) {
+    public void updateButtonTitleAndStatus(@StringRes int buttonStatus, boolean enabled) {
         mStartButton.setText(buttonStatus);
         mStartButton.setEnabled(enabled);
     }
 
     @OnClick(R.id.start_button)
-    public void onStartbuttonClicked(){
+    public void onStartButtonClicked(){
+        Toast.makeText(getActivity(), "Activit Started Called", Toast.LENGTH_LONG).show();
         mGoalFragmentPresenter.activityStarted();
     }
 

@@ -17,5 +17,5 @@ public interface GoalFragmentMvpView extends MvpView{
 
     void updateGoalTitle(@StringRes  int titleRes);
 
-    void updateButtonTitle(@StringRes int buttonStatus, boolean enabled);
+    void updateButtonTitleAndStatus(@StringRes int buttonStatus, boolean enabled);
 }

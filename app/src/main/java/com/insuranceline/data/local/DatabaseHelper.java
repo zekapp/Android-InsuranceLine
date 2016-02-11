@@ -173,14 +173,17 @@ public class DatabaseHelper {
         return count > 0;
     }
 
-    public Observable<List<Goal>> fetchAllGoalInAscendingOrder() {
+/*    public Observable<List<Goal>> fetchAllGoalInAscendingOrder() {
         return Observable.create(new Observable.OnSubscribe<List<Goal>>() {
             @Override
             public void call(Subscriber<? super List<Goal>> subscriber) {
                 subscriber.onNext(new Select().from(Goal.class).where().orderBy(true,Goal$Table.MGOALID).queryList());
             }
         });
+    }*/
 
+    public List<Goal> fetchAllGoalInAscendingOrder() {
+        return new Select().from(Goal.class).where().queryList();
     }
 
 }

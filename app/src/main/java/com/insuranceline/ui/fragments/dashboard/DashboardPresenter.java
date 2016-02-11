@@ -5,7 +5,6 @@ import com.insuranceline.data.remote.model.DashboardModel;
 import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.base.BasePresenter;
-import com.insuranceline.utils.TimeUtils;
 
 import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
@@ -45,23 +44,25 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
     @Override
     public void detachView() {
         super.detachView();
+        Timber.d("Dashboard MvpView detachView()");
         if (mSubscription != null) mSubscription.unsubscribe();
     }
 
     public void fetch() {
         mSubscription = mDataManager.getDashboardModel()
-                .repeatWhen(new Func1<Observable<? extends Void>, Observable<?>>() {
+/*                .repeatWhen(new Func1<Observable<? extends Void>, Observable<?>>() {
                     @Override
                     public Observable<?> call(Observable<? extends Void> observable) {
                         return observable.delay(1, TimeUnit.MINUTES);
                     }
-                })
+                })*/
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DashboardModel>() {
                     @Override
                     public void onCompleted() {
                         Timber.d("onCompleted()");
+                        if (getMvpView() != null) getMvpView().hideProgress();
                     }
 
                     @Override
@@ -72,7 +73,8 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
                     @Override
                     public void onNext(DashboardModel dashboardModel) {
                         Timber.d("onNext(): Cal:%s", dashboardModel.getmDailySummary().getDailyCalories());
-                        presentData(dashboardModel);
+                        if (getMvpView() != null)
+                            presentData(dashboardModel);
                     }
                 });
 
@@ -103,9 +105,9 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
                 dailySummary.getDailyDistance());
 
         getMvpView().updateWheelProgress(
-                calculateDegree(activeGoal.getTarget(), activeGoal.getAchieved()),
-                calculatePercentage(activeGoal.getTarget(), activeGoal.getAchieved()),
-                mformatter.format(activeGoal.getAchieved()) +" steps");
+                calculateDegree(activeGoal.getTarget(), activeGoal.getAchievedSteps()),
+                calculatePercentage(activeGoal.getTarget(), activeGoal.getAchievedSteps()),
+                mformatter.format(activeGoal.getAchievedSteps()) +" steps");
 
     }
 

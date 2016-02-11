@@ -10,10 +10,7 @@ import com.insuranceline.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
-import rx.Observer;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -66,11 +63,28 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
     @Override
     public void detachView() {
         super.detachView();
-        if (mSubscription != null) mSubscription.unsubscribe();
     }
 
     public void updateView() {
-        mSubscription = mDataManager.getGoalForGoalFragHost()
+        Goal goal = mDataManager.getRelevantGoal();
+        int index = (int) goal.getGoalId();
+        Timber.d("Index of goal: %s", index);
+        getMvpView().updateCupImg(cupIcons[index]);
+        getMvpView().updateGoalDef(goalInfo[index]);
+        getMvpView().updateGoalTitle(goalTitle[index]);
+
+        int status =  goal.getStatus();
+        int tiIndx = status ==  Goal.GOAL_STATUS_IDLE ? 0 : status == Goal.GOAL_STATUS_ACTIVE ? 1 : 2;
+
+        getMvpView().updateButtonTitleAndStatus(buttonStatus[tiIndx], goal.getStatus() == Goal.GOAL_STATUS_IDLE);
+    }
+
+    public void activityStarted() {
+        mDataManager.startActivity(mGoal.getGoalId());
+        updateView();
+    }
+}
+/*        mSubscription = mDataManager.getGoalForGoalFragHost()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<Goal>() {
@@ -93,12 +107,6 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
                         getMvpView().updateCupImg(cupIcons[index]);
                         getMvpView().updateGoalDef(goalInfo[index]);
                         getMvpView().updateGoalTitle(goalTitle[index]);
-                        getMvpView().updateButtonTitle(buttonStatus[index], goal.getStatus() == Goal.GOAL_STATUS_IDLE);
+                        getMvpView().updateButtonTitleAndStatus(buttonStatus[index], goal.getStatus() == Goal.GOAL_STATUS_IDLE);
                     }
-                });
-    }
-
-    public void activityStarted() {
-        mDataManager.startActivity(mGoal.getGoalId());
-    }
-}
+                });*/
