@@ -45,7 +45,7 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
     public void detachView() {
         super.detachView();
         Timber.d("Dashboard MvpView detachView()");
-        if (mSubscription != null) mSubscription.unsubscribe();
+        stopFetchingData();
     }
 
     public void fetch() {
@@ -96,7 +96,7 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
 
         // Steps Update
         getMvpView().updateDailySteps(
-                dailyPerDone(activeGoal.getRequiredDailySteps(), dailySummary.getDailySteps()),
+                dailyPerDone((int)activeGoal.getRequiredDailySteps(), dailySummary.getDailySteps()),
                 dailySummary.getDailySteps());
 
         // Steps Update
@@ -105,8 +105,8 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
                 dailySummary.getDailyDistance());
 
         getMvpView().updateWheelProgress(
-                calculateDegree(activeGoal.getTarget(), activeGoal.getAchievedSteps()),
-                calculatePercentage(activeGoal.getTarget(), activeGoal.getAchievedSteps()),
+                calculateDegree((int)activeGoal.getTarget(), (int)activeGoal.getAchievedSteps()),
+                calculatePercentage((int)activeGoal.getTarget(), (int)activeGoal.getAchievedSteps()),
                 mformatter.format(activeGoal.getAchievedSteps()) +" steps");
 
     }
@@ -129,10 +129,19 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
         return (int)(done * 100) / required;
     }
 
+    public void resetGoal(int target) {
+        mDataManager.resetGoals(target);
+    }
 
+    public void stopFetchingData() {
+        try{
+            if (mSubscription != null)
+                mSubscription.unsubscribe();
+        }catch (Exception e){
+            Timber.e(e.getMessage());
+        }
 
-
-
+    }
 
 
     //        //working example

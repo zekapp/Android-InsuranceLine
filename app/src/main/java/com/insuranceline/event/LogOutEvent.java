@@ -1,7 +1,8 @@
 package com.insuranceline.event;
 
 /**
- * Created by zeki on 7/02/2016.
+ * Created by Zeki Guler on 12,February,2016
+ * ©2015 Appscore. All Rights Reserved
  */
 public class LogOutEvent {
     private String logoutReason;

@@ -1,28 +1,56 @@
 package com.insuranceline.ui.fragments.rewards;
 
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.insuranceline.R;
 import com.insuranceline.ui.fragments.BaseFragment;
 
+import javax.inject.Inject;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Zeki Guler on 04,February,2016
  * ©2015 Appscore. All Rights Reserved
  */
-public class FirstRewardFragment extends BaseFragment {
+public class FirstRewardFragment extends BaseFragment implements RewardMvpView{
+
+    private static final long RELATED_REWARD_INDEX = 0;
+
+    @Bind(R.id.start_button) Button startButton;
+    @Bind(R.id.reward_def)   TextView mTextView;
+
+    @Inject RewardPresenter mRewardPresenter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivityComponent().inject(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_first_reward, container, false);
         ButterKnife.bind(this,view);
+        mRewardPresenter.attachView(this);
+        mRewardPresenter.updateViewAccordingToGoalIndex(RELATED_REWARD_INDEX);
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRewardPresenter.detachView();
     }
 
     @Override
@@ -33,5 +61,23 @@ public class FirstRewardFragment extends BaseFragment {
 
     public static FirstRewardFragment getInstance() {
         return new FirstRewardFragment();
+    }
+
+    /******** MVP Func *******/
+    @Override
+    public void updateButtonStatus(String title, @DrawableRes int background, boolean isButtonEnabled) {
+        startButton.setText(title);
+        startButton.setBackgroundResource(background);
+        startButton.setEnabled(isButtonEnabled);
+    }
+
+    @Override
+    public void updateDefinition(@StringRes int defResId) {
+        mTextView.setText(defResId);
+    }
+
+    @OnClick(R.id.start_button)
+    public void onStartButton(){
+        mRewardPresenter.startGoal(RELATED_REWARD_INDEX);
     }
 }

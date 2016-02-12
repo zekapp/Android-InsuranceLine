@@ -153,6 +153,14 @@ public class DatabaseHelper {
         return new Select().from(Goal.class).where(Condition.column(Goal$Table.MSTATUS).eq(Goal.GOAL_STATUS_ACTIVE)).querySingle();
     }
 
+    public Goal fetchLastGoal() {
+        return new Select()
+                .from(Goal.class)
+                .where(Condition.column(Goal$Table.MSTATUS).eq(Goal.GOAL_STATUS_DONE))
+                .orderBy(false,Goal$Table.MENDDATE)
+                .querySingle();
+    }
+
     public void saveDailySummary(DailySummary dailySummary) {
         dailySummary.save();
     }
@@ -165,6 +173,12 @@ public class DatabaseHelper {
 
     public void saveGoal(Goal defaultGoal) {
         defaultGoal.save();
+    }
+
+    public void saveGoals(List<Goal> catchedGoals) {
+        for (Goal goal : catchedGoals){
+            saveGoal(goal);
+        }
     }
 
     public boolean isAnyDailySummaryCreated() {
@@ -185,5 +199,4 @@ public class DatabaseHelper {
     public List<Goal> fetchAllGoalInAscendingOrder() {
         return new Select().from(Goal.class).where().queryList();
     }
-
 }

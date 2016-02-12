@@ -71,6 +71,7 @@
 
         </activity>
 
+        <activity android:name=".ui.claim.ClaimingRewardActivity" android:theme="@style/Theme.Transparent"/>
 
         <!--Services-->
 

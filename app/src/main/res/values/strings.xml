@@ -61,6 +61,7 @@
     <string name="btn_start_text">Start</string>
     <string name="btn_progress_text">In Progress</string>
     <string name="btn_done_text">done</string>
+    <string name="action_rest_goal">Reset</string>
 
 
 </resources>

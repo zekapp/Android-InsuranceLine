@@ -1,12 +1,21 @@
 package com.insuranceline.ui.fragments.more;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputType;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.insuranceline.R;
@@ -15,6 +24,7 @@ import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.fragments.BaseFragment;
 import com.insuranceline.ui.fragments.containers.BaseContainerFragment;
 import com.insuranceline.ui.login.connect.FBConnectActivity;
+import com.insuranceline.utils.DialogFactory;
 
 import javax.inject.Inject;
 

@@ -1,6 +1,7 @@
 package com.insuranceline.ui.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -14,9 +15,11 @@ import android.widget.Toast;
 
 import com.insuranceline.R;
 import com.insuranceline.event.GeneralErrorEvent;
+import com.insuranceline.event.GoalAchieveEvent;
 import com.insuranceline.event.LogOutEvent;
 import com.insuranceline.event.SubscriberPriority;
 import com.insuranceline.ui.base.BaseActivity;
+import com.insuranceline.ui.claim.ClaimingRewardActivity;
 import com.insuranceline.ui.fragments.MessageFromFragmentInterface;
 import com.insuranceline.ui.fragments.containers.BaseContainerFragment;
 import com.insuranceline.ui.fragments.containers.MoreContainer;
@@ -203,6 +206,18 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
         if (!isPopFragment) {
             finish();
         }
+    }
+
+    private void dipatchRewardClaimActivity() {
+        Intent transp = new Intent(this, ClaimingRewardActivity.class);
+        startActivity(transp);
+    }
+
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(GoalAchieveEvent event) {
+        Toast.makeText(this, "GoalAchieveEvent Achieved",Toast.LENGTH_LONG).show();
+        dipatchRewardClaimActivity();
     }
 
     @SuppressWarnings("unused")

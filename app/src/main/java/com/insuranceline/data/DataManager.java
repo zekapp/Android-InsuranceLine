@@ -19,11 +19,14 @@ import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Goal;
 import com.insuranceline.data.vo.Sample;
 import com.insuranceline.event.GeneralErrorEvent;
+import com.insuranceline.event.GoalAchieveEvent;
 import com.insuranceline.event.LogOutEvent;
+import com.insuranceline.utils.CampaignAlgorithm;
 import com.insuranceline.utils.TimeUtils;
 import com.path.android.jobqueue.JobManager;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -77,6 +80,8 @@ public class DataManager {
         createGoalsAsDefaultIfNotCreated();
 
         createFirstDailySummaryIfNotCreated();
+
+        mCatchedGoals = mDatabaseHelper.fetchAllGoalInAscendingOrder();
     }
 
     private void createFirstDailySummaryIfNotCreated() {
@@ -88,7 +93,7 @@ public class DataManager {
     private void createGoalsAsDefaultIfNotCreated() {
         if(!mDatabaseHelper.isAnyGoalCreated()){
             for (int i = 0; i < GOAL_COUNTS; i++) {
-                mDatabaseHelper.saveGoal(Goal.createDefaultGoal(i));
+                mDatabaseHelper.saveGoal(Goal.createDefaultGoal(i,mAppConfig.getEndOfCampaign()));
             }
         }
     }
@@ -263,6 +268,13 @@ public class DataManager {
         return mDatabaseHelper.fetchActiveGoal();
     }
 
+    /**
+     *  Getting Last Done goal.
+     * */
+    public Goal getLastDoneGoal() {
+        return mDatabaseHelper.fetchLastGoal();
+    }
+
 
     /**
      *  Get Goal for for goal fragment.
@@ -270,6 +282,8 @@ public class DataManager {
      *  This function returns the active goal. If there is not active goal it
      *  returns the idle one with lowest id. If all goal done it just return the latest
      *  goal.
+     *
+     *  When a goal achieved next goal status change to Idle automatically.
      *
      * */
     public Goal getRelevantGoal() {
@@ -356,7 +370,9 @@ public class DataManager {
     /**
      * Get Daily Summary Activiy. This function combines two observables
      *
-     * 1- get daily data from db
+     * concat: emit the emissions from two or more Observables without interleaving them
+     *
+     * 1- get daily data from db. It always comes first and it serves first
      * 2- get daily summary from api and save it to db.
      * this observable always return the getDashboardFromDb resul if success.
      * At the same time it hits the getDashboardFromApiWithSave but it never emits the object from
@@ -368,7 +384,18 @@ public class DataManager {
     public Observable<DashboardModel> getDashboardModel(){
         return Observable
                 .concat(getDashboardFromDb(), getDashboardFromApiWithSave())
+                .repeatWhen(repeatWithDelay())
+                .doOnNext(ifGoalAchievedFireEvent())
                 .onErrorResumeNext(Observable.<DashboardModel>empty());
+    }
+
+    private Func1<? super Observable<? extends Void>, ? extends Observable<?>> repeatWithDelay() {
+        return new Func1<Observable<? extends Void>, Observable<?>>() {
+            @Override
+            public Observable<?> call(Observable<? extends Void> observable) {
+                return observable.delay(30, TimeUnit.SECONDS);
+            }
+        };
     }
 
 //    public Observable<DailySummary> getDailySummary(){
@@ -379,7 +406,7 @@ public class DataManager {
 
 
     /**
-     * Observable fetch 2 different data from Db and make
+     * Observable fetch 2 different data from Db and zip
      * */
     private Observable<DashboardModel> getDashboardFromDb() {
         return Observable.zip(
@@ -405,7 +432,7 @@ public class DataManager {
     private Observable<DashboardModel> getDashboardFromApiWithSave() {
         return Observable.zip(
                 getDailySummaryFromApiWithSave(),
-                getAchievedStepsCountsForActiveGoalFromApiWithSave(),
+                getAchievedStepsCountsForActiveGoalFromApiWithSave().debounce(500, TimeUnit.MILLISECONDS), // debounce for update token
                 Observable.just(getActiveGoal()),
                 new Func3<DailySummary, Integer, Goal, DashboardModel>() {
                     @Override
@@ -414,9 +441,22 @@ public class DataManager {
                         dashboardModel.setmDailySummary(dailySummary);
                         goal.setAchievedSteps(achieved);
                         dashboardModel.setActiveGoal(goal);
+
                         return dashboardModel;
                     }
                 });
+    }
+
+    private Action1<? super DashboardModel> ifGoalAchievedFireEvent() {
+        return new Action1<DashboardModel>() {
+            @Override
+            public void call(DashboardModel dashboardModel) {
+                Goal activeGoal = dashboardModel.getActiveGoal();
+                if (activeGoal.getAchievedSteps() >= activeGoal.getTarget()){
+                    mEventBus.post(new GoalAchieveEvent(activeGoal));
+                }
+            }
+        };
     }
 
     /** Fetch data and then save to db*/
@@ -440,6 +480,7 @@ public class DataManager {
 
 
     public Observable<Integer> getAchievedStepsCountsForActiveGoalFromApiWithSave(){
+        Timber.d("getAchievedStepsCountsForActiveGoalFromApiWithSave called");
         final Goal activeGoal = getActiveGoal();
         if (activeGoal != null){
             String baseDate = TimeUtils.convertReadableDate(activeGoal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_5);
@@ -500,90 +541,43 @@ public class DataManager {
 
 
     /********   Algrithm Calculation   ********/
+
     public void startActivity(long goalId) {
-        Timber.d("Goald Id: %s", goalId);
-
-        Goal firstGoal   = mCatchedGoals.get(0);
-        Goal secondGoal = mCatchedGoals.get(1);
-        Goal thirdGoal  = mCatchedGoals.get(2);
-
-        //First Goal
-        if(goalId == 0){
-            firstGoal.setBaseDate(System.currentTimeMillis());
-            firstGoal.setStatus(Goal.GOAL_STATUS_ACTIVE);
-
-            mDatabaseHelper.saveGoal(firstGoal);
-        }
-        //Second Goal
-        else if (goalId == 1){
-            secondGoal.setBaseDate(System.currentTimeMillis());
-            secondGoal.setStatus(Goal.GOAL_STATUS_ACTIVE);
-
-            // Target Calculation
-            int reqDay = getHowManyDaysLeft(firstGoal);
-            int newTarget  = firstGoal.getNextTarget(reqDay);
-            secondGoal.setTarget(newTarget);
-
-            // Daily Req Steps;
-            secondGoal.setRequiredDailySteps(newTarget/ reqDay);
-
-            // Daily Active Minute Calculation
-            int reqActiveMin = firstGoal.getNextActiveMinute();
-            secondGoal.setRequiredDailyActiveMin(reqActiveMin);
-
-            // Daily Req Calorie.
-            int reqActiveCalorie = firstGoal.getNextReqCalorie();
-            secondGoal.setRequiredDailyCalorie(reqActiveCalorie);
-
-
-            // Daily Req Distance.
-            int reqDistance = firstGoal.getNextDailyReqSteps();
-            secondGoal.setRequiredDailySteps(reqDistance);
-
-            mDatabaseHelper.saveGoal(secondGoal);
-        }
-        //Third Goal
-        else if(goalId == 2){
-            thirdGoal.setBaseDate(System.currentTimeMillis());
-            thirdGoal.setStatus(Goal.GOAL_STATUS_ACTIVE);
-
-            // Target Calculation
-            int reqDay = getHowManyDaysLeft(firstGoal, secondGoal);
-            int newTarget  = secondGoal.getNextTarget(reqDay);
-            thirdGoal.setTarget(newTarget);
-
-            // Daily Req Steps;
-            thirdGoal.setRequiredDailySteps(newTarget/ reqDay);
-
-            // Daily Active Minute Calculation
-            int reqActiveMin = secondGoal.getNextActiveMinute();
-            thirdGoal.setRequiredDailyActiveMin(reqActiveMin);
-
-            // Daily Req Calorie.
-            int reqActiveCalorie = secondGoal.getNextReqCalorie();
-            thirdGoal.setRequiredDailyCalorie(reqActiveCalorie);
-
-            // Daily Req Distance.
-            int reqDistance = secondGoal.getNextDailyReqSteps();
-            thirdGoal.setRequiredDailySteps(reqDistance);
-
-            mDatabaseHelper.saveGoal(thirdGoal);
-        }
+        Timber.d("Start Goald Id: %s", goalId);
+        mCatchedGoals = CampaignAlgorithm.startGoal(goalId,mCatchedGoals,mAppConfig.getEndOfCampaign());
+        saveGoals();
     }
 
-    private int getHowManyDaysLeft(Goal... goals) {
-        int size = goals.length;
+    public void endGoal(long goalId) {
+        Timber.d("End Goald Id: %s", goalId);
+        mCatchedGoals = CampaignAlgorithm.endGoal(goalId,mCatchedGoals);
+        saveGoals();
+    }
 
-        if (size < 2) {
-            return (mAppConfig.getAppLife() - goals[0].getAchievedInDays()) / 2;
-        } else {
-            int sumDay = 0;
 
-            for (Goal goal : goals) {
-                sumDay += goal.getAchievedInDays();
+    public Goal getGoalById(long goalId) {
+        if(mCatchedGoals == null)
+            mCatchedGoals = mDatabaseHelper.fetchAllGoalInAscendingOrder();
+
+        for (Goal goal : mCatchedGoals){
+            if (goal.getGoalId() == goalId){
+                return goal;
             }
-
-            return mAppConfig.getAppLife() - sumDay;
         }
+
+        return mCatchedGoals.get(2);
+    }
+
+    public void resetGoals(long target){
+
+        for (Goal goal : mCatchedGoals) {
+            goal.reset(mAppConfig.getEndOfCampaign(),target);
+        }
+
+        saveGoals();
+    }
+
+    private void saveGoals() {
+        mDatabaseHelper.saveGoals(mCatchedGoals);
     }
 }

@@ -66,17 +66,17 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
     }
 
     public void updateView() {
-        Goal goal = mDataManager.getRelevantGoal();
-        int index = (int) goal.getGoalId();
+        mGoal = mDataManager.getRelevantGoal();
+        int index = (int) mGoal.getGoalId();
         Timber.d("Index of goal: %s", index);
         getMvpView().updateCupImg(cupIcons[index]);
         getMvpView().updateGoalDef(goalInfo[index]);
         getMvpView().updateGoalTitle(goalTitle[index]);
 
-        int status =  goal.getStatus();
+        int status =  mGoal.getStatus();
         int tiIndx = status ==  Goal.GOAL_STATUS_IDLE ? 0 : status == Goal.GOAL_STATUS_ACTIVE ? 1 : 2;
 
-        getMvpView().updateButtonTitleAndStatus(buttonStatus[tiIndx], goal.getStatus() == Goal.GOAL_STATUS_IDLE);
+        getMvpView().updateButtonTitleAndStatus(buttonStatus[tiIndx], mGoal.getStatus() == Goal.GOAL_STATUS_IDLE);
     }
 
     public void activityStarted() {

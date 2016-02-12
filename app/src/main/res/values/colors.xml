@@ -31,4 +31,6 @@
     <color name="refresh_progress_3">#43bd9f</color>
     <color name="refresh_progress_4">#425255</color>
 
+    <color name="transparent_gray">#a4000000</color>
+
 </resources>

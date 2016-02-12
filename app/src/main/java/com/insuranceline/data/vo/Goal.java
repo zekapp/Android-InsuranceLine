@@ -18,9 +18,11 @@ public class Goal extends BaseModel {
     private static final int TYPE_CALORIE       = 2;
     private static final int TYPE_ACTIVE_MIN    = 3;
     private static final int TYPE_DISTANCE      = 4;
-    public static final int GOAL_STATUS_IDLE    = 0;
-    public static final int GOAL_STATUS_ACTIVE  = 1;
-    public static final int GOAL_STATUS_DONE    = 2;
+
+    public static final int GOAL_STATUS_LOCK    = 0;
+    public static final int GOAL_STATUS_IDLE    = 1;
+    public static final int GOAL_STATUS_ACTIVE  = 2;
+    public static final int GOAL_STATUS_DONE    = 3;
 
 
     @Column
@@ -28,19 +30,19 @@ public class Goal extends BaseModel {
     long mGoalId;
 
     @Column
-    int mTarget;
+    long mTarget;
 
     @Column
-    int mAchievedSteps;
+    long mAchievedSteps;
 
     @Column
-    int mAchievedCalorie;
+    long mAchievedCalorie;
 
     @Column
-    int mAchievedActiveMin;
+    long mAchievedActiveMin;
 
     @Column
-    int mAchievedDistance;
+    long mAchievedDistance;
 
     @Column
     long mBaseDate;
@@ -51,11 +53,11 @@ public class Goal extends BaseModel {
     @Column(defaultValue = "1")
     int mGoalType = 1;
 
-    @Column(defaultValue = "0")
-    int mStatus = GOAL_STATUS_IDLE;
+    @Column()
+    int mStatus;
 
     @Column
-    int mRequiredDailySteps;
+    long mRequiredDailySteps;
 
     @Column
     int mRequiredDailyCalorie;
@@ -74,15 +76,15 @@ public class Goal extends BaseModel {
         mGoalId = goalId;
     }
 
-    public int getTarget() {
+    public long getTarget() {
         return mTarget;
     }
 
-    public void setTarget(int target) {
+    public void setTarget(long target) {
         this.mTarget = target;
     }
 
-    public int getAchievedSteps() {
+    public long getAchievedSteps() {
         return mAchievedSteps;
     }
 
@@ -114,11 +116,11 @@ public class Goal extends BaseModel {
         this.mGoalType = goalType;
     }
 
-    public int getRequiredDailySteps() {
+    public long getRequiredDailySteps() {
         return mRequiredDailySteps;
     }
 
-    public void setRequiredDailySteps(int requiredDailySteps) {
+    public void setRequiredDailySteps(long requiredDailySteps) {
         this.mRequiredDailySteps = requiredDailySteps;
     }
 
@@ -155,23 +157,23 @@ public class Goal extends BaseModel {
     }
 
 
-    public int getAchievedCalorie() {
+    public long getAchievedCalorie() {
         return mAchievedCalorie;
     }
 
-    public void setAchievedCalorie(int achievedCalorie) {
+    public void setAchievedCalorie(long achievedCalorie) {
         mAchievedCalorie = achievedCalorie;
     }
 
-    public int getAchievedActiveMin() {
+    public long getAchievedActiveMin() {
         return mAchievedActiveMin;
     }
 
-    public void setAchievedActiveMin(int achievedActiveMin) {
+    public void setAchievedActiveMin(long achievedActiveMin) {
         mAchievedActiveMin = achievedActiveMin;
     }
 
-    public int getAchievedDistance() {
+    public long getAchievedDistance() {
         return mAchievedDistance;
     }
 
@@ -179,36 +181,45 @@ public class Goal extends BaseModel {
         mAchievedDistance = achievedDistance;
     }
 
-    public static Goal createDefaultGoal(int goalId) {
+    public static Goal createDefaultGoal(int goalId, long endDate) {
         Goal goal = new Goal();
-        goal.setAchievedSteps(0);
-        goal.setAchievedCalorie(0);
-        goal.setAchievedDistance(0);
-        goal.setAchievedActiveMin(0);
-        goal.setStatus(GOAL_STATUS_IDLE);
         goal.setGoalId(goalId);
-        goal.setEndDate(0);
-        goal.setBaseDate(System.currentTimeMillis());
-        goal.setRequiredDailyActiveMin(60);
-        goal.setRequiredDailyCalorie(3000);
-        goal.setRequiredDailyDistance(8);
-        goal.setRequiredDailySteps(5000);
-        goal.setGoalType(TYPE_STEPS); // STEPS
-        goal.setTarget(100000); // Target ids 100,000 steps in 3 months (date is not important)
+        goal.reset(System.currentTimeMillis(), 100000);
         return goal;
+    }
+
+    public void reset( long endOfCampaignDate, long target) {
+        setAchievedSteps(0);
+        setAchievedCalorie(0);
+        setAchievedDistance(0);
+        setAchievedActiveMin(0);
+        setStatus(getGoalId() == 0 ? GOAL_STATUS_IDLE:GOAL_STATUS_LOCK);
+        setEndDate(endOfCampaignDate);
+        setBaseDate(System.currentTimeMillis());
+        setRequiredDailyActiveMin(60);
+        setRequiredDailyCalorie(3000);
+        setRequiredDailyDistance(8);
+        setRequiredDailySteps(5000);
+        setGoalType(TYPE_STEPS); // STEPS
+        setTarget(target);
     }
 
     private static int calculateReqDailyActiveMin(Goal prevGoal) {
         return 0;
     }
 
-    public int getNextTarget(int dayLeft) {
-        return dayLeft * getTarget() / getAchievedInDays();
+    public long getNextTarget(float leftDayForNextGoal, float difficulty ) {
+
+        float pacePerDay    = getTarget() / getAchievedInDays();
+        float newPacePerDay = pacePerDay * difficulty;
+        float taget         = newPacePerDay * leftDayForNextGoal;
+
+        return (long)taget;
     }
 
-    public int getAchievedInDays() {
-        long days = (int)TimeUnit.MILLISECONDS.toDays(getEndDate() - getBaseDate());
-        return days > 0 ? (int)days : 1;
+    public long getAchievedInDays() {
+        long days = TimeUnit.MILLISECONDS.toDays(getEndDate() - getBaseDate());
+        return days > 0 ? days : 1;
     }
 
     public int getNextActiveMinute() {
@@ -226,4 +237,6 @@ public class Goal extends BaseModel {
     public boolean isActive() {
         return getStatus() == GOAL_STATUS_ACTIVE;
     }
+
+
 }

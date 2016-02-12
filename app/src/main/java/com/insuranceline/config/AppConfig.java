@@ -1,16 +1,25 @@
 package com.insuranceline.config;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.insuranceline.di.qualifier.ApplicationContext;
+import com.insuranceline.utils.TimeUtils;
 
 import org.apache.commons.codec.binary.Base64;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import timber.log.Timber;
 
 /**
  * Created by Zeki Guler on 03,February,2016
@@ -30,11 +39,22 @@ public class AppConfig {
 
     private static final String FIT_BIT_WEB_URL         = "https://www.fitbit.com/oauth2/";
     private static final String FIT_BIT_BASE_API_URL    = "https://api.fitbit.com/";
-    private static final int     APPLICATION_LIFE_DAYS   = 150; // 3 Months
-
+    private static final String END_OF_CAMPAIN_DATE     = "15 09 2016 11:59 pm";
+    private static long BOOM_END;
 
     private final SharedPreferences mSharedPreferences;
     private String mEncodedAuthorizationHeader = "";
+
+    static {
+        try {
+            @SuppressLint("SimpleDateFormat")
+            SimpleDateFormat f = new SimpleDateFormat("dd MM yyyy HH:mm a");
+            Date d = f.parse(END_OF_CAMPAIN_DATE);
+            BOOM_END = d.getTime();
+        } catch (ParseException e) {
+            throw new RuntimeException("Wrong time format");
+        }
+    }
 
     @Inject
     public AppConfig(@ApplicationContext Context context) {
@@ -51,7 +71,6 @@ public class AppConfig {
     public String getApiUrl() {
         return "http://private-f7ff9-androidarchitecturetestapi.apiary-mock.com/api/v1/";
     }
-
 
     public String getEdgeSystemBaseUrl() {
         return EDGE_SYSTEM_BASE_URL;
@@ -90,7 +109,8 @@ public class AppConfig {
                 "&redirect_uri=" + FIT_BIT_REDIRECT_URI;
     }
 
-    public int getAppLife() {
-        return APPLICATION_LIFE_DAYS;
+    public long getEndOfCampaign() {
+        Timber.d("End Date: unix:%s readable:%s",BOOM_END, TimeUtils.convertReadableDate(BOOM_END, TimeUtils.DATE_FORMAT_TYPE_5));
+        return BOOM_END;
     }
 }

@@ -31,6 +31,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/reward_def"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -46,13 +47,16 @@
             android:textSize="9sp" />
     </LinearLayout>
 
-    <ImageView
+    <Button
         android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="70dp"
-        android:src="@drawable/btn_locked" />
+        android:background="@drawable/btn_locked"
+        android:enabled="false"
+        android:textAllCaps="false"
+        android:textColor="@color/white"/>
 
 </RelativeLayout>

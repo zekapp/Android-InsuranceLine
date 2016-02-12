@@ -7,6 +7,9 @@ import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.view.Gravity;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 
 import com.insuranceline.R;
 
@@ -86,4 +89,16 @@ public final class DialogFactory {
         return createProgressDialog(context, context.getString(messageResource));
     }
 
+
+    public static Dialog createDialogWithEditText(Context context ,EditText input, String title, String message,
+                                                  DialogInterface.OnClickListener positiveListener,
+                                                  DialogInterface.OnClickListener negativeListener ) {
+        return  new AlertDialog.Builder(context)
+                .setView(input)
+                .setTitle(title)
+                .setMessage(Html.fromHtml(message))
+                .setPositiveButton("Ok", positiveListener)
+                .setNegativeButton("Cancel", negativeListener)
+                .create();
+    }
 }
