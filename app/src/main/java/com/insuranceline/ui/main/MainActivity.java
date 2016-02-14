@@ -209,8 +209,8 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     }
 
     private void dipatchRewardClaimActivity() {
-        Intent transp = new Intent(this, ClaimingRewardActivity.class);
-        startActivity(transp);
+        Intent claimingActivity = new Intent(this, ClaimingRewardActivity.class);
+        startActivityForResult(claimingActivity, ClaimingRewardActivity.CLAIMING_CODE);
     }
 
 
@@ -269,5 +269,15 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     @Override
     public void changeTab(int tabIndex) {
         mTabHost.setCurrentTab(tabIndex);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Timber.d("Request Code: %s",requestCode);
+        if (requestCode == ClaimingRewardActivity.CLAIMING_CODE
+                && resultCode == RESULT_OK){
+            mTabHost.setCurrentTab(0);
+        }
     }
 }

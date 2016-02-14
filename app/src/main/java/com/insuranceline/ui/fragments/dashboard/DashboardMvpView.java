@@ -49,4 +49,5 @@ public interface DashboardMvpView extends MvpView{
      * */
     void updateDailyDistance(int dailyPercentageDone, float dailyDistanceDone);
 
+    void updateTarget(String target);
 }

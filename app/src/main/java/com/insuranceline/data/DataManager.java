@@ -8,6 +8,7 @@ import com.insuranceline.data.remote.ApiService;
 import com.insuranceline.data.remote.EdgeApiService;
 import com.insuranceline.data.remote.FitBitApiService;
 import com.insuranceline.data.remote.model.DashboardModel;
+import com.insuranceline.data.remote.responses.ClaimRewardResponse;
 import com.insuranceline.data.remote.responses.DailySummaryResponse;
 import com.insuranceline.data.remote.responses.EdgeResponse;
 import com.insuranceline.data.remote.responses.FitBitTokenResponse;
@@ -542,7 +543,7 @@ public class DataManager {
 
     /********   Algrithm Calculation   ********/
 
-    public void startActivity(long goalId) {
+    public void startNewGoal(long goalId) {
         Timber.d("Start Goald Id: %s", goalId);
         mCatchedGoals = CampaignAlgorithm.startGoal(goalId,mCatchedGoals,mAppConfig.getEndOfCampaign());
         saveGoals();
@@ -579,5 +580,13 @@ public class DataManager {
 
     private void saveGoals() {
         mDatabaseHelper.saveGoals(mCatchedGoals);
+    }
+
+    /**
+     * Claim the reward
+     * */
+    public Observable<ClaimRewardResponse> submitEmailForRewardClaim(String email, String id) {
+//        mEdgeApiService.submitEmail(email, id);
+        return Observable.just(new ClaimRewardResponse()).debounce(5, TimeUnit.SECONDS);
     }
 }

@@ -4,6 +4,9 @@ import com.insuranceline.di.module.ActivityModule;
 import com.insuranceline.di.scope.PerActivity;
 import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.claim.ClaimingRewardActivity;
+import com.insuranceline.ui.claim.CongratulationsFragment;
+import com.insuranceline.ui.claim.EmailGetFragment;
+import com.insuranceline.ui.claim.NextGoalFragment;
 import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainerContainer;
 import com.insuranceline.ui.fragments.containers.goals.GoalsContainer;
 import com.insuranceline.ui.fragments.dashboard.DashboardFragment;
@@ -58,4 +61,11 @@ public interface ActivityComponent {
     void inject(SecondRewardFragment secondRewardFragment);
 
     void inject(ThirdRewardFragment thirdRewardFragment);
+
+    void inject(CongratulationsFragment congratulationsFragment);
+
+    void inject(NextGoalFragment nextGoalFragment);
+
+    void inject(EmailGetFragment emailGetFragment);
+
 }

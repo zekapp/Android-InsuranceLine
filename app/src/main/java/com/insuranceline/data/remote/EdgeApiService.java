@@ -1,5 +1,6 @@
 package com.insuranceline.data.remote;
 
+import com.insuranceline.data.remote.responses.ClaimRewardResponse;
 import com.insuranceline.data.remote.responses.EdgeResponse;
 
 import retrofit.http.Field;
@@ -7,6 +8,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.Header;
 import retrofit.http.Headers;
 import retrofit.http.POST;
+import retrofit.http.Query;
 import rx.Observable;
 
 /**
@@ -26,4 +28,7 @@ public interface EdgeApiService {
 
     @POST("accepted")
     Observable<Boolean> tcResponse(@Header("Authorization") String token);
+
+    @POST("claimReward")
+    Observable<ClaimRewardResponse> submitEmail(@Query("email") String email, @Query("rewardId") String id);
 }

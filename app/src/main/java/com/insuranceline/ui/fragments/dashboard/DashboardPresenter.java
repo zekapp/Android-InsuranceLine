@@ -7,15 +7,12 @@ import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.base.BasePresenter;
 
 import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -141,6 +138,12 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
             Timber.e(e.getMessage());
         }
 
+    }
+
+    public void updateView() {
+        Goal activeGoal = mDataManager.getActiveGoal();
+        String target = String.format("Goal %s steps", mformatter.format(activeGoal.getTarget()));
+        getMvpView().updateTarget(target);
     }
 
 

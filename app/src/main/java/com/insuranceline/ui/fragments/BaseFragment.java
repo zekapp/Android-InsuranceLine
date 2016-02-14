@@ -96,7 +96,7 @@ public class BaseFragment extends Fragment {
 
     public ActivityComponent getActivityComponent() {
         if (mActivityComponent == null)
-            mActivityComponent =((MainActivity) getActivity()).getActivityComponent();
+            mActivityComponent =((BaseActivity) getActivity()).getActivityComponent();
         return mActivityComponent;
     }
 }

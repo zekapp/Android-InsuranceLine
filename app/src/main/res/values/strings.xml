@@ -62,6 +62,11 @@
     <string name="btn_progress_text">In Progress</string>
     <string name="btn_done_text">done</string>
     <string name="action_rest_goal">Reset</string>
+    <string name="reward_achievement_def">You have completed your first goal of 100.000 steps.</string>
+    <string name="reward_price_def">You have won two Village Movie Tickets!</string>
+    <string name="submit_email_def">Please provide the email address which you would like the reward to be sent to:</string>
+    <string name="reward_sent_info">Your reward has been sent to your email.</string>
+    <string name="next_goal_def">New Goal - 4000,000 steps</string>
 
 
 </resources>

@@ -78,7 +78,7 @@ public class RewardPresenter extends BasePresenter<RewardMvpView>{
 
 
     public void startGoal(long goaldId) {
-        mDataManager.startActivity(goaldId);
+        mDataManager.startNewGoal(goaldId);
         updateViewAccordingToGoalIndex(goaldId);
     }
 }

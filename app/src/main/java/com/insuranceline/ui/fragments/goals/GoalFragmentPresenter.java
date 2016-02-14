@@ -80,7 +80,7 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
     }
 
     public void activityStarted() {
-        mDataManager.startActivity(mGoal.getGoalId());
+        mDataManager.startNewGoal(mGoal.getGoalId());
         updateView();
     }
 }

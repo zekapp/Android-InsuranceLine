@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.progresviews.ProgressLine;
@@ -39,6 +40,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
     @Bind(R.id.active_minutes_line_progress) ProgressLine mActiveMinProgressLine;
     @Bind(R.id.daily_distance_line_progress) ProgressLine mDailyDistProgressLine;
     @Bind(R.id.swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.target) TextView mTargetTextView;
 
     @Inject DashboardPresenter mDashboardPresenter;
 
@@ -58,6 +60,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
         final View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         ButterKnife.bind(this, view);
         mDashboardPresenter.attachView(this);
+        mDashboardPresenter.updateView();
         mDashboardPresenter.fetch();
         return view;
     }
@@ -153,6 +156,10 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
         mDailyDistProgressLine.setmValueText(String.valueOf(dailyDistanceDone));
     }
 
+    @Override
+    public void updateTarget(String target) {
+        mTargetTextView.setText(target);
+    }
 
 
     @Override
