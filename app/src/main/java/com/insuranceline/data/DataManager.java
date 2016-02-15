@@ -462,7 +462,7 @@ public class DataManager {
 
     public boolean isCampaignStillActive() {
         return TimeUnit
-                .MICROSECONDS
+                .MILLISECONDS
                 .toDays(mAppConfig.getEndOfCampaign() - System.currentTimeMillis()) > 0;
     }
 

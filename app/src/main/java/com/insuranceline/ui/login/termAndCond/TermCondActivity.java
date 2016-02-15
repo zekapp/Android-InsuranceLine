@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.insuranceline.R;
 import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.base.BaseActivity;
+import com.insuranceline.ui.login.LoginActivity;
+import com.insuranceline.ui.login.connect.FBConnectActivity;
 import com.insuranceline.utils.DialogFactory;
 
 import javax.inject.Inject;
@@ -50,6 +52,17 @@ public class TermCondActivity extends BaseActivity implements TermCondMvpView{
         mToolbar.setNavigationIcon(R.drawable.icon_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        mToolbar.setNavigationIcon(R.drawable.icon_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TermCondActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

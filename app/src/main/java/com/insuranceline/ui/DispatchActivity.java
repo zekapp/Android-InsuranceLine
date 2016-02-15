@@ -1,9 +1,13 @@
 package com.insuranceline.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.DataManager;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.ui.base.BaseActivity;
@@ -12,6 +16,8 @@ import com.insuranceline.ui.login.connect.FBConnectActivity;
 import com.insuranceline.ui.login.termAndCond.TermCondActivity;
 import com.insuranceline.ui.main.MainActivity;
 import com.insuranceline.ui.sample.TestActivity;
+import com.insuranceline.utils.DialogFactory;
+import com.insuranceline.utils.Utils;
 
 import javax.inject.Inject;
 
@@ -71,8 +77,45 @@ public class DispatchActivity extends BaseActivity{
     }
 
     private void dispatchFitBitApp() {
-        boolean isConnected = mDataManager.isFitBitConnected();
 
+        boolean isFitBitAppInstalled = Utils.isPackageInstalled(AppConfig.FITBIT_PACKAGE_NAME, getPackageManager());
+
+        if (isFitBitAppInstalled){
+            dispatchInsuranceLineApp();
+        } else {
+            dispatchWarning();
+        }
+
+    }
+
+    private void dispatchWarning() {
+        String title = "Install";
+        String body = "Please install FitBit application from Google Play Store first.";
+
+        DialogFactory.createGenericDialog(this, title, body, "Install", "Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openPlayStore();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dispatchInsuranceLineApp();
+            }
+        }).show();
+    }
+
+    private void openPlayStore() {
+        final String appPackageName = AppConfig.FITBIT_PACKAGE_NAME; // getPackageName() from Context or Activity object
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
+    }
+
+    private void dispatchInsuranceLineApp() {
+        boolean isConnected = mDataManager.isFitBitConnected();
         if (!isConnected) dispatchFitBitConnect();
         else             dispatchFitBitMain();
     }

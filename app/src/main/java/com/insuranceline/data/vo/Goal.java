@@ -184,13 +184,13 @@ public class Goal extends BaseModel {
     public static Goal createDefaultGoal(int goalId, long endDate) {
         Goal goal = new Goal();
         goal.setGoalId(goalId);
-        goal.reset(System.currentTimeMillis(), 100000);
+        goal.reset(endDate, 100000);
         return goal;
     }
 
     public void reset( long endOfCampaignDate, long target) {
         boolean isCampaignActive = TimeUnit
-                .MICROSECONDS.toDays(endOfCampaignDate - System.currentTimeMillis()) > 0;
+                .MILLISECONDS.toDays(endOfCampaignDate - System.currentTimeMillis()) > 0;
 
         int stauts = isCampaignActive ?
                 getGoalId() == 0  ? GOAL_STATUS_IDLE : GOAL_STATUS_LOCK :

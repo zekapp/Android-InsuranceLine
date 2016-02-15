@@ -40,6 +40,8 @@ public class AppConfig {
     private static final String END_OF_CAMPAIGN_DATE    = "01 09 2016 11:59 pm";/*"15 09 2016 11:59 pm";*/
     private static long BOOM_END;
 
+    public static final String FITBIT_PACKAGE_NAME =  "com.fitbit.FitbitMobile";
+
     private final SharedPreferences mSharedPreferences;
     private String mEncodedAuthorizationHeader = "";
 

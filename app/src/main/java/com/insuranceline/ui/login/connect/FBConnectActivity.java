@@ -13,7 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.insuranceline.R;
@@ -21,6 +23,7 @@ import com.insuranceline.config.AppConfig;
 import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.base.BaseActivity;
 import com.insuranceline.ui.login.LoginActivity;
+import com.insuranceline.ui.main.MainActivity;
 import com.insuranceline.utils.DialogFactory;
 
 import org.chromium.customtabsclient.shared.CustomTabsHelper;
@@ -54,6 +57,7 @@ public class FBConnectActivity extends BaseActivity implements FBMvpView, Servic
 
     private ProgressDialog mProcessDialog;
     private boolean isMenuVisible = false;
+    private TextView mFinishTextView;
 
 
     private static class NavigationCallback extends CustomTabsCallback {
@@ -89,6 +93,25 @@ public class FBConnectActivity extends BaseActivity implements FBMvpView, Servic
         mToolbar.setNavigationIcon(R.drawable.icon_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mFinishTextView = (TextView)mToolbar.findViewById(R.id.finish);
+//        mToolbar.setNavigationIcon(R.drawable.icon_back);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FBConnectActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
+        mFinishTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchActivity();
+            }
+        });
+
     }
 
     @Override
@@ -102,10 +125,13 @@ public class FBConnectActivity extends BaseActivity implements FBMvpView, Servic
     protected void onResume() {
         super.onResume();
         startService();
+        mFinishTextView.setEnabled(isMenuVisible);
+        mFinishTextView.setVisibility(isMenuVisible?View.VISIBLE:View.GONE);
     }
 
 
-    @Override
+/*
+   @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         if (isMenuVisible)
@@ -130,6 +156,7 @@ public class FBConnectActivity extends BaseActivity implements FBMvpView, Servic
 
         return super.onOptionsItemSelected(item);
     }
+*/
 
     @OnClick(R.id.connect_fit_bit)
     @SuppressWarnings("unused")
@@ -164,7 +191,9 @@ public class FBConnectActivity extends BaseActivity implements FBMvpView, Servic
     @Override
     public void onSuccess() {
         isMenuVisible = true;
-        invalidateOptionsMenu();
+        /*invalidateOptionsMenu();*/
+        mFinishTextView.setEnabled(isMenuVisible);
+        mFinishTextView.setVisibility(View.VISIBLE);
         mConnectFitBitButton.setBackgroundResource(R.drawable.btn_connected);
         mConnectFitBitButton.setEnabled(false);
     }
