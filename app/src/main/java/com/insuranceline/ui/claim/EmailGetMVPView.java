@@ -16,4 +16,6 @@ public interface EmailGetMVPView extends MvpView {
     void hideProgress();
 
     void showProgress();
+
+    void allGoalAchieved();
 }

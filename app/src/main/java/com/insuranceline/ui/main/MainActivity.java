@@ -254,7 +254,7 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     }
 
     @Override
-    public Bundle getSharebundle() {
+    public Bundle getShareBundle() {
         return null;
     }
 
@@ -274,10 +274,10 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Timber.d("Request Code: %s",requestCode);
+        Timber.d("Request Code: %s ResulCode: %s",requestCode, resultCode);
         if (requestCode == ClaimingRewardActivity.CLAIMING_CODE
                 && resultCode == RESULT_OK){
-            mTabHost.setCurrentTab(0);
+            mTabHost.setCurrentTab(1);
         }
     }
 }

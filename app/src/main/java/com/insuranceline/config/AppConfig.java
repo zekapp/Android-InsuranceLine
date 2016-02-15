@@ -12,9 +12,7 @@ import org.apache.commons.codec.binary.Base64;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -39,7 +37,7 @@ public class AppConfig {
 
     private static final String FIT_BIT_WEB_URL         = "https://www.fitbit.com/oauth2/";
     private static final String FIT_BIT_BASE_API_URL    = "https://api.fitbit.com/";
-    private static final String END_OF_CAMPAIN_DATE     = "15 09 2016 11:59 pm";
+    private static final String END_OF_CAMPAIGN_DATE    = "01 09 2016 11:59 pm";/*"15 09 2016 11:59 pm";*/
     private static long BOOM_END;
 
     private final SharedPreferences mSharedPreferences;
@@ -49,7 +47,7 @@ public class AppConfig {
         try {
             @SuppressLint("SimpleDateFormat")
             SimpleDateFormat f = new SimpleDateFormat("dd MM yyyy HH:mm a");
-            Date d = f.parse(END_OF_CAMPAIN_DATE);
+            Date d = f.parse(END_OF_CAMPAIGN_DATE);
             BOOM_END = d.getTime();
         } catch (ParseException e) {
             throw new RuntimeException("Wrong time format");

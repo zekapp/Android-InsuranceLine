@@ -16,7 +16,7 @@ public interface MessageFromFragmentInterface {
 
     void showTabHost(boolean show);
 
-    Bundle getSharebundle();
+    Bundle getShareBundle();
 
     void changeTabViewIcon(int selectedContainer);
 }

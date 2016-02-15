@@ -6,6 +6,8 @@ import android.os.Bundle;
 import com.insuranceline.R;
 import com.insuranceline.ui.base.BaseActivity;
 
+import timber.log.Timber;
+
 /**
  * Created by Zeki Guler on 12,February,2016
  * ©2015 Appscore. All Rights Reserved
@@ -27,7 +29,8 @@ public class ClaimingRewardActivity extends BaseActivity {
     }
 
     public void finishWithCode() {
+        Timber.d("Finish Activity With Code called");
         setResult(Activity.RESULT_OK);
-        finishActivity(CLAIMING_CODE);
+        finish();
     }
 }

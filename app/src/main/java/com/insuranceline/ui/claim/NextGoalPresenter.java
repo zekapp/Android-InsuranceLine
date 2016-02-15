@@ -43,10 +43,18 @@ public class NextGoalPresenter extends BasePresenter<NextGoalMvpView>{
         Goal relevantGoal = mDataManager.getRelevantGoal();
         int indx = (int)relevantGoal.getGoalId();
 
-        String nextTarget = String.format("New Goal - %s steps",formatter.format(relevantGoal.getTarget()));
+        String nextTarget = String.format("New Goal - %s steps",formatter.format(mDataManager.getNextTarget(relevantGoal.getGoalId())));
+
         boolean enableStartButton = relevantGoal.getStatus() == Goal.GOAL_STATUS_IDLE;
         int cupResId = cupIcons[indx];
 
         getMvpView().updateNextGoal(nextTarget, enableStartButton, cupResId);
+    }
+
+    public void startNewGoal() {
+        Goal relevantGoal = mDataManager.getRelevantGoal();
+        mDataManager.startNewGoal(relevantGoal.getGoalId());
+
+        getMvpView().newActivityStarted();
     }
 }

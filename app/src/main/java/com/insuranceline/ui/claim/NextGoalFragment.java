@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.insuranceline.R;
 import com.insuranceline.ui.fragments.BaseFragment;
@@ -57,8 +58,14 @@ public class NextGoalFragment extends BaseFragment implements NextGoalMvpView{
         mNextTargetTextView.setText(nextTarget);
     }
 
+    @Override
+    public void newActivityStarted() {
+        ((ClaimingRewardActivity) getActivity()).finishWithCode();
+    }
+
     @OnClick(R.id.start_goal)
     public void onStarGoalClicked(){
-        ((ClaimingRewardActivity) getActivity()).finishWithCode();
+        Toast.makeText(getActivity(), "Start", Toast.LENGTH_LONG).show();
+        presenter.startNewGoal();
     }
 }

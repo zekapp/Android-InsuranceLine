@@ -100,7 +100,8 @@ public class EmailGetPresenter extends BasePresenter<EmailGetMVPView>{
         Goal relevantGoal = mDataManager.getRelevantGoal();
         if (relevantGoal.getStatus() == Goal.GOAL_STATUS_IDLE)
             getMvpView().onSuccess();
-        else
-            getMvpView().onError("You achieved all goal.");
+        else{
+            getMvpView().allGoalAchieved();
+        }
     }
 }

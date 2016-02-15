@@ -189,11 +189,18 @@ public class Goal extends BaseModel {
     }
 
     public void reset( long endOfCampaignDate, long target) {
+        boolean isCampaignActive = TimeUnit
+                .MICROSECONDS.toDays(endOfCampaignDate - System.currentTimeMillis()) > 0;
+
+        int stauts = isCampaignActive ?
+                getGoalId() == 0  ? GOAL_STATUS_IDLE : GOAL_STATUS_LOCK :
+                GOAL_STATUS_DONE;
+
         setAchievedSteps(0);
         setAchievedCalorie(0);
         setAchievedDistance(0);
         setAchievedActiveMin(0);
-        setStatus(getGoalId() == 0 ? GOAL_STATUS_IDLE:GOAL_STATUS_LOCK);
+        setStatus(stauts);
         setEndDate(endOfCampaignDate);
         setBaseDate(System.currentTimeMillis());
         setRequiredDailyActiveMin(60);

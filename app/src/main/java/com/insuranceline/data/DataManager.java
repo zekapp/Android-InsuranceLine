@@ -453,11 +453,17 @@ public class DataManager {
             @Override
             public void call(DashboardModel dashboardModel) {
                 Goal activeGoal = dashboardModel.getActiveGoal();
-                if (activeGoal.getAchievedSteps() >= activeGoal.getTarget()){
+                if (activeGoal.getAchievedSteps() >= activeGoal.getTarget() && isCampaignStillActive()){
                     mEventBus.post(new GoalAchieveEvent(activeGoal));
                 }
             }
         };
+    }
+
+    public boolean isCampaignStillActive() {
+        return TimeUnit
+                .MICROSECONDS
+                .toDays(mAppConfig.getEndOfCampaign() - System.currentTimeMillis()) > 0;
     }
 
     /** Fetch data and then save to db*/
@@ -547,6 +553,10 @@ public class DataManager {
         Timber.d("Start Goald Id: %s", goalId);
         mCatchedGoals = CampaignAlgorithm.startGoal(goalId,mCatchedGoals,mAppConfig.getEndOfCampaign());
         saveGoals();
+    }
+
+    public int getNextTarget(long newGoalId){
+        return CampaignAlgorithm.calculateNextTarget(newGoalId, mCatchedGoals, mAppConfig.getEndOfCampaign());
     }
 
     public void endGoal(long goalId) {

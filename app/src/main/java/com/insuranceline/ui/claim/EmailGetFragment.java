@@ -103,4 +103,9 @@ public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
         mProcessDialog.show();
     }
 
+    @Override
+    public void allGoalAchieved() {
+        ((ClaimingRewardActivity)getActivity()).finishWithCode();
+    }
+
 }

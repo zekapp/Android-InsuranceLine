@@ -5,14 +5,16 @@ import com.insuranceline.data.vo.Goal;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import timber.log.Timber;
+
 /**
  * Created by Zeki Guler on 12,February,2016
  * ©2015 Appscore. All Rights Reserved
  */
 public class CampaignAlgorithm {
 
-    private static final float DIFFICULTY_SCALE_FOR_SECOND_GOAL = 1.01f;
-    private static final float DIFFICULTY_SCALE_FOR_THIRD_GOAL  = 1.015f;
+    private static final float DIFFICULTY_SCALE_FOR_SECOND_GOAL = 5f;//1.01f;
+    private static final float DIFFICULTY_SCALE_FOR_THIRD_GOAL  = 5f;//1.015f;
 
     private static final float LEFT_DAY_SCALE_FOR_SECOND_GOAL = 0.4f;
 
@@ -23,6 +25,8 @@ public class CampaignAlgorithm {
         Goal goal3 = getGoalById(2, goalList);
 
         long dayLef = TimeUnit.MILLISECONDS.toDays(endOfCampaignDate - System.currentTimeMillis());
+
+        Timber.d("Day Left to end of campain: %s", dayLef);
 
         // First Goal
         if (newGoalId == 0){
@@ -35,6 +39,9 @@ public class CampaignAlgorithm {
             float dayLeftForGoal2    = dayLef * LEFT_DAY_SCALE_FOR_SECOND_GOAL;
             float newStepPerDay      = stepPerDayPrevGoal * DIFFICULTY_SCALE_FOR_SECOND_GOAL;
             float newTarget          = dayLeftForGoal2 * newStepPerDay;
+
+            Timber.d("GOAL 2 ==> stepPerDayPrevGoal: %s, dayLeftForGoal2: %s, newStepPerDay: %s, newTarget: %s",
+                    stepPerDayPrevGoal, dayLeftForGoal2, newStepPerDay, newTarget);
 
             // target
             goal2.setTarget((long)newTarget);
@@ -59,6 +66,9 @@ public class CampaignAlgorithm {
             float newStepPerDay      = stepPerDayPrevGoal * DIFFICULTY_SCALE_FOR_THIRD_GOAL;
             float newTarget          = dayLeftForGoal3 * newStepPerDay;
 
+            Timber.d("GOAL 2 ==> stepPerDayPrevGoal: %s, dayLeftForGoal3: %s, newStepPerDay: %s, newTarget: %s",
+                    stepPerDayPrevGoal, dayLeftForGoal3, newStepPerDay, newTarget);
+
             // target
             goal3.setTarget((long)newTarget);
 
@@ -76,6 +86,49 @@ public class CampaignAlgorithm {
         }
 
         return goalList;
+    }
+
+    public static int calculateNextTarget(long newGoalId, List<Goal> goalList, long endOfCampaignDate ){
+
+        Goal goal1 = getGoalById(0, goalList);
+        Goal goal2 = getGoalById(1, goalList);
+        Goal goal3 = getGoalById(2, goalList);
+
+        long dayLef = TimeUnit.MILLISECONDS.toDays(endOfCampaignDate - System.currentTimeMillis());
+
+        Timber.d("Day Left to end of campain: %s", dayLef);
+        // First Goal
+        if (newGoalId == 0){
+            return (int)goal1.getTarget();
+        }
+        // Second Goal
+        else if(newGoalId == 1){
+            float stepPerDayPrevGoal = goal1.getTarget() / goal1.getAchievedInDays();
+            float dayLeftForGoal2    = dayLef * LEFT_DAY_SCALE_FOR_SECOND_GOAL;
+            float newStepPerDay      = stepPerDayPrevGoal * DIFFICULTY_SCALE_FOR_SECOND_GOAL;
+            float newTarget          = dayLeftForGoal2 * newStepPerDay;
+
+            Timber.d("GOAL 2 ==> stepPerDayPrevGoal: %s, dayLeftForGoal2: %s, newStepPerDay: %s, newTarget: %s",
+                    stepPerDayPrevGoal, dayLeftForGoal2, newStepPerDay, newTarget);
+            return  (int)newTarget;
+
+        }
+        // Third Goal
+        else if (newGoalId == 2){
+            float stepPerDayPrevGoal = goal2.getTarget() / goal2.getAchievedInDays();
+            float dayLeftForGoal3    = dayLef ;
+            float newStepPerDay      = stepPerDayPrevGoal * DIFFICULTY_SCALE_FOR_THIRD_GOAL;
+            float newTarget          = dayLeftForGoal3 * newStepPerDay;
+
+            Timber.d("GOAL 2 ==> stepPerDayPrevGoal: %s, dayLeftForGoal3: %s, newStepPerDay: %s, newTarget: %s",
+                    stepPerDayPrevGoal, dayLeftForGoal3, newStepPerDay, newTarget);
+
+            return  (int)newTarget;
+        } else {
+            throw new RuntimeException("No Goal Defined for this id: " + newGoalId);
+        }
+
+
     }
 
     public static List<Goal> endGoal(long endingGoalId, List<Goal> goalList){
