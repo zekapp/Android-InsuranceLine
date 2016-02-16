@@ -1,1 +1,1 @@
-include ':app' , ':shared', ":customtabs"
+include ':app', ':shared', ":customtabs", ':lumomodule'

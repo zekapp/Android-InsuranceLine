@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_high_to_low"
+          android:title="Short Highest to Lowest"
+          android:orderInCategory="100"
+          app:showAsAction="never"
+        />
+    <item android:id="@+id/action_low_to_high"
+          android:title="Short Lowest to Highest"
+          android:orderInCategory="100"
+          app:showAsAction="never"
+        />
+    <item android:id="@+id/action_a_to_z"
+          android:title="Sort A-Z"
+          android:orderInCategory="100"
+          app:showAsAction="never"
+        />
+    <item android:id="@+id/action_z_to_a"
+          android:title="Sort Z-A"
+          android:orderInCategory="100"
+          app:showAsAction="never"
+        />
+    <item android:id="@+id/action_gift_cards_only"
+          android:title="Show Gift Cards Only"
+          android:orderInCategory="100"
+          app:showAsAction="never"
+        />
+    <item android:id="@+id/action_discount_only"
+          android:title="Show Discount Codes Only"
+          android:orderInCategory="100"
+          app:showAsAction="never"
+        />
+    <item android:id="@+id/action_show_near_me"
+          android:title="Show Near Me"
+          android:orderInCategory="100"
+          app:showAsAction="never"
+        />
+    <item android:id="@+id/action_show_all"
+          android:title="Show All"
+          android:orderInCategory="100"
+          app:showAsAction="never"
+        />
+</menu>

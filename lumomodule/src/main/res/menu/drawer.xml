@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:checked="true"
+            android:id="@+id/rewards_categories_item"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/rewards_categories"
+            />
+        <item
+            android:id="@+id/news_item"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/news"
+            />
+        <item
+            android:id="@+id/near_me_item"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/near_me"
+            />
+
+        <item
+            android:id="@+id/your_cart_item"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/your_cart"/>
+            <!--android:actionLayout="@layout/badge_layout"-->
+
+        <item
+            android:id="@+id/my_account_item"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/lumo_my_account"
+            />
+
+        <item
+            android:id="@+id/setting_support_item"
+            android:icon="@mipmap/ic_launcher"
+            android:title="@string/setting_support"
+            />
+    </group>
+</menu>

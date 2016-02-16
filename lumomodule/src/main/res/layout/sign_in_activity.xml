@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_lumoameego"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_user"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_gravity="bottom"/>
+
+                <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="13dp"
+                    >
+
+                    <EditText
+                        android:id="@+id/enter_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/sign_in_username"
+                        android:layout_marginTop="7dp"
+                        android:imeOptions="actionNext"
+                        android:singleLine="true"/>
+                </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_password"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="7dp"
+                    android:layout_gravity="bottom"/>
+
+                <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="13dp"
+                    >
+
+                    <EditText
+                        android:id="@+id/enter_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password_hint"
+                        android:layout_marginTop="7dp"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:inputType="textPassword"/>
+                </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/colorSecondary"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/gotomyreward"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/got_my_reward"
+                    android:textColor="@color/white"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal|end|center_vertical"
+                    android:paddingRight="13dp"
+                    android:onClick="onGoToMyRewardClick"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:text="@string/forgot_password"
+                android:textColor="@color/white"
+                android:padding="7dp"
+                android:onClick="onForgotPasswordClicked"/>
+
+            <TextView
+                android:id="@+id/newhere"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:text="@string/forgot_newhere"
+                android:textColor="@color/white"
+                android:padding="7dp"
+                android:onClick="newHereOnClicked"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

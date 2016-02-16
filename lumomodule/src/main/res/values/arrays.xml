@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="upload_way_array">
+        <item>Take Picture</item>
+        <item>Pick From Library</item>
+    </string-array>
+
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="delivery_type">
+        <item>Email</item>
+        <item>Address</item>
+    </string-array>
+    <string-array name="card_type">
+        <item>VISA</item>
+        <item>MASTER CARD</item>
+        <item>AMERICAN EXPRESS</item>
+    </string-array>
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+    <string-array name="years">
+        <item>2015</item>
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+        <item>2023</item>
+        <item>2024</item>
+        <item>2025</item>
+        <item>2026</item>
+        <item>2027</item>
+        <item>2028</item>
+        <item>2029</item>
+        <item>2030</item>
+    </string-array>
+    <string-array name="gplus_colors">
+        <item>@color/md_red_400</item>
+    </string-array>
+    <string-array name="gplus_maps_colors">
+        <item>@color/colorPrimary</item>
+    </string-array>
+
+    <string-array name="gplus_yourcart_colors">
+        <item>@color/colorPrimary</item>
+        <item>@color/md_red_400</item>
+    </string-array>
+
+    <string-array name="card_delivery_type">
+        <item>Digital</item>
+        <item>Physical</item>
+    </string-array>
+    <string-array name="card_delivery_type_one">
+        <item>Via  Email</item>
+    </string-array>
+    <string-array name="filters">
+        <item>Sort Highest to Lowest</item>
+        <item>Sort Lowest to Highest</item>
+        <item>Sort A-Z</item>
+        <item>Sort Z-A</item>
+        <item>Show Gift Cards Only</item>
+        <item>Show Discount Codes Only</item>
+        <item>Show Near Me</item>
+        <item>Show All</item>
+    </string-array>
+    <string-array name="states">
+        <item>ACT</item>
+        <item>NSW</item>
+        <item>NT</item>
+        <item>QLD</item>
+        <item>SA</item>
+        <item>TAS</item>
+        <item>VIC</item>
+        <item>WA</item>
+    </string-array>
+    <string-array name="months_unmber">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+</resources>

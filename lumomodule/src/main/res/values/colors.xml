@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f79118</color>
+    <color name="colorPrimaryDark">#dd8514</color>
+    <color name="colorSecondary">#5e676a</color>
+    <color name="colorSecondaryDark">#252525</color>
+
+    <color name="windowColor">#f1f1f1</color>
+    <color name="windowPrimaryColor">#fcfeff</color>
+    <color name="windowPrimaryColorDark1">#e9e5e0</color>
+    <color name="windowPrimaryColorDark2">#b3b1a9</color>
+    <color name="menuBackgroundColor">#222423</color>
+    <color name="menuBackgroundColorDark">#1e1e1e</color>
+    <color name="menuBackgroundColorDarker">#1a1b1a</color>
+
+    <color name="refresh_progress_1">@color/colorPrimary</color>
+    <color name="refresh_progress_2">@color/colorPrimaryDark</color>
+    <color name="refresh_progress_3">@color/colorSecondary</color>
+    <color name="refresh_progress_4">@color/colorSecondaryDark</color>
+
+    <color name="news_backround">#fafafa</color>
+    <color name="news_card_background">#fefefe</color>
+    <color name="warning">#af1600</color>
+
+    <color name="mdtp_accent_color">@color/colorPrimary</color>
+    <color name="mdtp_accent_color_dark">@color/colorPrimaryDark</color>
+
+    <color name="venue_open_green">#30c423</color>
+    <color name="venue_close_green">#c23724</color>
+
+    <color name="buttonColor">#67b2d1</color>
+
+    <color name="empty_profile_background">#d9d9d9</color>
+    <color name="reward_category_bg">#e3dcd9</color>
+    <color name="reward_category_item_bg">#6c6c6c</color>
+    <color name="stock_item_claim_bg">#6c6c6c</color>
+
+    <color name="yellow">#f7e300</color>
+    <color name="fuchsia">#FF00FF</color>
+    <color name="red">#FF0000</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="gray">#c7c7c7</color>
+    <color name="graydark">#ff787878</color>
+    <color name="olive">#808000</color>
+    <color name="purple">#800080</color>
+    <color name="maroon">#800000</color>
+    <color name="aqua">#00FFFF</color>
+    <color name="lime">#00FF00</color>
+    <color name="teal">#008080</color>
+    <color name="green">#8ec63a</color>
+    <color name="blue">#3e92ad</color>
+    <color name="navy">#000080</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="stock_item_bg_t1">#c5c5c5</color>
+    <color name="header_background">#f9f9f9</color>
+    <color name="transparent">#00ffffff</color>
+
+
+</resources>

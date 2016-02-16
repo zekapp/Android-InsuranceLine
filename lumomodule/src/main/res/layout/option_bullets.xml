@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TableRow
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_column="1"
+                android:text="•"
+                android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/bullet1"
+                android:layout_column="2"
+                android:layout_width="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginLeft="5dp"
+                android:text="@string/options_bullet_digital_1"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_column="1"
+                android:textColor="@color/white"
+                android:text="•"/>
+            <TextView
+                android:id="@+id/bullet2"
+                android:layout_column="2"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/white"
+                android:text="@string/options_bullet_digital_2"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_column="1"
+                android:textColor="@color/white"
+                android:text="•"/>
+            <TextView
+                android:id="@+id/bullet3"
+                android:layout_column="2"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/white"
+                android:text="@string/options_bullet_digital_3"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_column="1"
+                android:textColor="@color/white"
+                android:text="•"/>
+            <TextView
+                android:id="@+id/bullet4"
+                android:layout_column="2"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/white"
+                android:text="@string/options_bullet_digital_4"/>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

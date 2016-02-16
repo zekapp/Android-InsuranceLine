@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/customtabs" />
+            <option value="$PROJECT_DIR$/lumomodule" />
             <option value="$PROJECT_DIR$/shared" />
           </set>
         </option>
@@ -18,6 +19,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/customtabs" />
+            <option value="$PROJECT_DIR$/lumomodule" />
             <option value="$PROJECT_DIR$/shared" />
           </set>
         </option>

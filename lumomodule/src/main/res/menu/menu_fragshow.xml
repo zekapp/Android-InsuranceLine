@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:compat="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_refresh_black_24dp"
+        android:title="Refresh"
+        android:visible="true"
+        compat:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/menu_clearall"
+        android:icon="@drawable/ic_refresh_black_24dp"
+        android:title="Clear"
+        android:visible="true"
+        compat:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/menu_addcontent"
+        android:icon="@drawable/ic_refresh_black_24dp"
+        android:title="Add Content"
+        android:visible="true"
+        compat:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/menu_newlist"
+        android:icon="@drawable/ic_refresh_black_24dp"
+        android:title="New List"
+        android:visible="true"
+        compat:showAsAction="ifRoom|withText" />
+</menu>

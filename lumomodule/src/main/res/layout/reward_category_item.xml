@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/reward_category_item_bg">
+
+    <ImageView
+        android:id="@+id/sub_cat_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_folder"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="15dp"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/item_reward_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Category Name"
+        android:textColor="@color/white"
+        android:gravity="center_vertical"
+        android:padding="7dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="20sp"
+        android:layout_toRightOf="@+id/sub_cat_icon"
+        android:layout_toLeftOf="@+id/arrow" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/arrow">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:src="@drawable/ic_keyboard_arrow_right_white_24dp"/>
+    </LinearLayout>
+
+</RelativeLayout>
