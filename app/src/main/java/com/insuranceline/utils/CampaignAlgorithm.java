@@ -18,7 +18,7 @@ public class CampaignAlgorithm {
 
     private static final float LEFT_DAY_SCALE_FOR_SECOND_GOAL = 0.4f;
 
-    public static List<Goal> startGoal(long newGoalId, List<Goal> goalList, long endOfCampaignDate){
+    public static List<Goal> startGoal(long newGoalId,int bias,  List<Goal> goalList, long endOfCampaignDate){
 
         Goal goal1 = getGoalById(0, goalList);
         Goal goal2 = getGoalById(1, goalList);
@@ -32,6 +32,9 @@ public class CampaignAlgorithm {
         if (newGoalId == 0){
             goal1.setBaseDate(System.currentTimeMillis());
             goal1.setStatus(Goal.GOAL_STATUS_ACTIVE);
+
+            //set steps bias
+            goal1.setStepsBias(bias);
         }
         // Second Goal
         else if(newGoalId == 1){
@@ -58,6 +61,8 @@ public class CampaignAlgorithm {
             // set Status
             goal2.setStatus(Goal.GOAL_STATUS_ACTIVE);
 
+            //set steps bias
+            goal2.setStepsBias(bias);
         }
         // Third Goal
         else if (newGoalId == 2){
@@ -83,6 +88,9 @@ public class CampaignAlgorithm {
 
             // set Status
             goal3.setStatus(Goal.GOAL_STATUS_ACTIVE);
+
+            //set steps bias
+            goal3.setStepsBias(bias);
         }
 
         return goalList;

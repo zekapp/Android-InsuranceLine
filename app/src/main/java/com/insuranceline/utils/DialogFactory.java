@@ -101,4 +101,16 @@ public final class DialogFactory {
                 .setNegativeButton("Cancel", negativeListener)
                 .create();
     }
+
+    public static Dialog createDialogWithOption(Context context ,EditText input, String title, String message,
+                                                  DialogInterface.OnClickListener positiveListener,
+                                                  DialogInterface.OnClickListener negativeListener ) {
+        return  new AlertDialog.Builder(context)
+                .setView(input)
+                .setTitle(title)
+                .setMessage(Html.fromHtml(message))
+                .setPositiveButton("Ok", positiveListener)
+                .setNegativeButton("Cancel", negativeListener)
+                .create();
+    }
 }

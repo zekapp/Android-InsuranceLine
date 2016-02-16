@@ -14,4 +14,10 @@ public interface RewardMvpView extends MvpView{
     void updateButtonStatus(String title, @DrawableRes int background, boolean isButtonEnabled);
 
     void updateDefinition(@StringRes int defResId);
+
+    void onError(String error);
+
+    void showProgress();
+
+    void hideProgress();
 }

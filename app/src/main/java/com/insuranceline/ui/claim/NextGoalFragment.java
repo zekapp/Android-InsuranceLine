@@ -1,5 +1,6 @@
 package com.insuranceline.ui.claim;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.insuranceline.R;
 import com.insuranceline.ui.fragments.BaseFragment;
+import com.insuranceline.utils.DialogFactory;
 
 import javax.inject.Inject;
 
@@ -29,6 +31,8 @@ public class NextGoalFragment extends BaseFragment implements NextGoalMvpView{
     @Bind(R.id.next_reward_coupe) ImageView mNextCupImageView;
     @Bind(R.id.next_target) TextView mNextTargetTextView;
     @Inject NextGoalPresenter presenter;
+
+    private ProgressDialog mProcessDialog;
 
     public static NextGoalFragment newInstance() {
         NextGoalFragment fragment = new NextGoalFragment();
@@ -61,6 +65,22 @@ public class NextGoalFragment extends BaseFragment implements NextGoalMvpView{
     @Override
     public void newActivityStarted() {
         ((ClaimingRewardActivity) getActivity()).finishWithCode();
+    }
+
+    @Override
+    public void onError(String error) {
+        Toast.makeText(getActivity(),error,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showProgress() {
+        mProcessDialog = DialogFactory.createProgressDialog(getActivity(), "Please wait...");
+        mProcessDialog.show();
+    }
+
+    @Override
+    public void hideProgress() {
+        if (mProcessDialog != null) mProcessDialog.dismiss();
     }
 
     @OnClick(R.id.start_goal)

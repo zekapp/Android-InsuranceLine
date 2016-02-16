@@ -1,5 +1,6 @@
 package com.insuranceline.ui.fragments.goals;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.insuranceline.R;
 import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.fragments.BaseFragment;
+import com.insuranceline.utils.DialogFactory;
 
 import javax.inject.Inject;
 
@@ -38,6 +40,8 @@ public class GoalFragment extends BaseFragment implements GoalFragmentMvpView {
     public static GoalFragment getInstance(Goal goal){
         return new GoalFragment();
     }
+
+    private ProgressDialog mProcessDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,10 +87,26 @@ public class GoalFragment extends BaseFragment implements GoalFragmentMvpView {
         mStartButton.setEnabled(enabled);
     }
 
+    @Override
+    public void onError(String error) {
+        Toast.makeText(getActivity(),error,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showProgress() {
+        mProcessDialog = DialogFactory.createProgressDialog(getActivity(), "Please wait...");
+        mProcessDialog.show();
+    }
+
+    @Override
+    public void hideProgress() {
+        if (mProcessDialog != null) mProcessDialog.dismiss();
+    }
+
     @OnClick(R.id.start_button)
     public void onStartButtonClicked(){
-        Toast.makeText(getActivity(), "Activit Started Called", Toast.LENGTH_LONG).show();
-        mGoalFragmentPresenter.activityStarted();
+//        Toast.makeText(getActivity(), "Activit Started Called", Toast.LENGTH_LONG).show();
+        mGoalFragmentPresenter.startActivity();
     }
 
 }

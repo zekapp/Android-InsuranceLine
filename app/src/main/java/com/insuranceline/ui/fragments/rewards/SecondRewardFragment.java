@@ -1,5 +1,6 @@
 package com.insuranceline.ui.fragments.rewards;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
@@ -9,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.insuranceline.R;
 import com.insuranceline.ui.fragments.BaseFragment;
+import com.insuranceline.utils.DialogFactory;
 
 import javax.inject.Inject;
 
@@ -72,6 +75,24 @@ public class SecondRewardFragment extends BaseFragment implements RewardMvpView{
     @Override
     public void updateDefinition(@StringRes int defResId) {
         mTextView.setText(defResId);
+    }
+
+    private ProgressDialog mProcessDialog;
+
+    @Override
+    public void onError(String error) {
+        Toast.makeText(getActivity(),error,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showProgress() {
+        mProcessDialog = DialogFactory.createProgressDialog(getActivity(), "Please wait...");
+        mProcessDialog.show();
+    }
+
+    @Override
+    public void hideProgress() {
+        if (mProcessDialog != null) mProcessDialog.dismiss();
     }
 
     @OnClick(R.id.start_button)

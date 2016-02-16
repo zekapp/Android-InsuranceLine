@@ -482,7 +482,6 @@ public class DataManager {
                     }
                 })
                 .doOnError(handleNetworkError());
-
     }
 
 
@@ -495,7 +494,7 @@ public class DataManager {
                     .map(new Func1<StepsCountResponse, Integer>() {
                         @Override
                         public Integer call(StepsCountResponse stepsCountResponse) {
-                            return stepsCountResponse.getTotalStepsCount();
+                            return (stepsCountResponse.getTotalStepsCount() - activeGoal.getStepsBias());
                         }
                     }).doOnNext(new Action1<Integer>() {
                         @Override
@@ -547,11 +546,33 @@ public class DataManager {
     }
 
 
+    /**
+     * Calculate Bias
+     *
+     * */
+    public Observable<DailySummary> calculateDailyBias(){
+        return  mFitBitApiService.getDailySummary()
+                .map(new Func1<DailySummaryResponse, DailySummary>() {
+                    @Override
+                    public DailySummary call(DailySummaryResponse dailySummaryResponse) {
+                        return dailySummaryResponse.getDailySummary();
+                    }
+                })
+                .doOnNext(new Action1<DailySummary>() {
+                    @Override
+                    public void call(DailySummary dailySummary) {
+                        mDatabaseHelper.saveDailySummary(dailySummary);
+                    }
+                })
+                .doOnError(handleNetworkError());
+    }
+
+
     /********   Algrithm Calculation   ********/
 
-    public void startNewGoal(long goalId) {
+    public void startNewGoal(long goalId, int bias) {
         Timber.d("Start Goald Id: %s", goalId);
-        mCatchedGoals = CampaignAlgorithm.startGoal(goalId,mCatchedGoals,mAppConfig.getEndOfCampaign());
+        mCatchedGoals = CampaignAlgorithm.startGoal(goalId,bias, mCatchedGoals,mAppConfig.getEndOfCampaign());
         saveGoals();
     }
 

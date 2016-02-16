@@ -12,4 +12,10 @@ public interface NextGoalMvpView extends MvpView{
     void updateNextGoal(String nextTarget, boolean enableStartButton, @DrawableRes int cupResId);
 
     void newActivityStarted();
+
+    void onError(String error);
+
+    void showProgress();
+
+    void hideProgress();
 }

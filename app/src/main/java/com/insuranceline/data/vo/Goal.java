@@ -59,6 +59,9 @@ public class Goal extends BaseModel {
     @Column
     long mRequiredDailySteps;
 
+    @Column (defaultValue = "0")
+    int mStepsBias = 0;
+
     @Column
     int mRequiredDailyCalorie;
 
@@ -181,6 +184,14 @@ public class Goal extends BaseModel {
         mAchievedDistance = achievedDistance;
     }
 
+    public int getStepsBias() {
+        return mStepsBias;
+    }
+
+    public void setStepsBias(int stepsBias) {
+        mStepsBias = stepsBias;
+    }
+
     public static Goal createDefaultGoal(int goalId, long endDate) {
         Goal goal = new Goal();
         goal.setGoalId(goalId);
@@ -195,7 +206,7 @@ public class Goal extends BaseModel {
         int stauts = isCampaignActive ?
                 getGoalId() == 0  ? GOAL_STATUS_IDLE : GOAL_STATUS_LOCK :
                 GOAL_STATUS_DONE;
-
+        setStepsBias(0);
         setAchievedSteps(0);
         setAchievedCalorie(0);
         setAchievedDistance(0);

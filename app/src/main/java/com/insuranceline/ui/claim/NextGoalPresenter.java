@@ -4,12 +4,18 @@ import android.support.annotation.DrawableRes;
 
 import com.insuranceline.R;
 import com.insuranceline.data.DataManager;
+import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.base.BasePresenter;
 
 import java.text.DecimalFormat;
 
 import javax.inject.Inject;
+
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by zeki on 15/02/2016.
@@ -52,9 +58,30 @@ public class NextGoalPresenter extends BasePresenter<NextGoalMvpView>{
     }
 
     public void startNewGoal() {
-        Goal relevantGoal = mDataManager.getRelevantGoal();
-        mDataManager.startNewGoal(relevantGoal.getGoalId());
+        final Goal relevantGoal = mDataManager.getRelevantGoal();
+        getMvpView().showProgress();
+        mDataManager.calculateDailyBias()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<DailySummary>() {
+                    @Override
+                    public void onCompleted() {
+                        getMvpView().hideProgress();
+                    }
 
-        getMvpView().newActivityStarted();
+                    @Override
+                    public void onError(Throwable e) {
+                        getMvpView().hideProgress();
+                        Timber.d(e.getMessage());
+                        getMvpView().onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(DailySummary dailySummary) {
+                        getMvpView().hideProgress();
+                        mDataManager.startNewGoal(relevantGoal.getGoalId(),dailySummary.getDailySteps());
+                        getMvpView().newActivityStarted();
+                    }
+                });
     }
 }
