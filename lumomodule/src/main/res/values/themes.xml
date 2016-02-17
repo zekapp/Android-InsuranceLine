@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="AppTheme.Base"/>
+    <style name="AppTheme" parent="AppTheme.Base">
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
 
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/colorPrimary</item>
@@ -11,8 +13,8 @@
     <style name="ActionBar" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/colorPrimary</item>
         <item name="theme">@style/ThemeOverlay.MyApp.ActionBar</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <!--<item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -51,4 +53,10 @@
     <style name="Title.Expanded" parent="Title">
         <item name="android:textSize">32sp</item>
     </style>
+
+    <style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">false</item>
+        <item name="color">@android:color/black</item>
+    </style>
+
 </resources>

@@ -61,7 +61,7 @@ public enum LumoController {
         mRequestQueue.add(req);
     }
 
-    public Class<?> getSplashActivity() {
+    public Class<?> getDispatchActivity() {
         return DispatchActivity.class;
     }
 

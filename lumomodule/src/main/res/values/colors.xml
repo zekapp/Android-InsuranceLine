@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#f79118</color>
-    <color name="colorPrimaryDark">#dd8514</color>
+    <color name="colorPrimary">#659a00</color>
+    <color name="colorPrimaryDark">#757575</color>
     <color name="colorSecondary">#5e676a</color>
     <color name="colorSecondaryDark">#252525</color>
 
@@ -30,9 +30,9 @@
 
     <color name="buttonColor">#67b2d1</color>
 
-    <color name="empty_profile_background">#d9d9d9</color>
-    <color name="reward_category_bg">#e3dcd9</color>
-    <color name="reward_category_item_bg">#6c6c6c</color>
+    <color name="empty_profile_background">@color/white</color>
+    <color name="reward_category_bg">@color/white</color>
+    <color name="reward_category_item_bg">@color/white</color>
     <color name="stock_item_claim_bg">#6c6c6c</color>
 
     <color name="yellow">#f7e300</color>
@@ -56,5 +56,8 @@
     <color name="header_background">#f9f9f9</color>
     <color name="transparent">#00ffffff</color>
 
+
+    <color name="material_drawer_primary">#4c9459</color>
+    <color name="material_drawer_primary_dark">#4c9459</color>
 
 </resources>

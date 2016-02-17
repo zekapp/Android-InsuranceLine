@@ -37,8 +37,8 @@ public class RewardsFragment extends BaseFragment {
 
     private RewardsAdapter     mAdapter;
 
-    RecyclerView mRecyclerView;
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public static RewardsFragment newInstance() {
         return new RewardsFragment();

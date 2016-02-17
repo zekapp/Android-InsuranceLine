@@ -1,11 +1,9 @@
 package com.insuranceline.ui;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.DataManager;
@@ -15,14 +13,12 @@ import com.insuranceline.ui.login.LoginActivity;
 import com.insuranceline.ui.login.connect.FBConnectActivity;
 import com.insuranceline.ui.login.termAndCond.TermCondActivity;
 import com.insuranceline.ui.main.MainActivity;
-import com.insuranceline.ui.sample.TestActivity;
 import com.insuranceline.utils.DialogFactory;
 import com.insuranceline.utils.Utils;
 
 import javax.inject.Inject;
 
 import au.com.lumo.ameego.LumoController;
-import au.com.lumo.ameego.MainAppCallback;
 import rx.Observer;
 import rx.Subscription;
 import timber.log.Timber;
@@ -75,9 +71,9 @@ public class DispatchActivity extends BaseActivity{
     }
 
     private void dispatchLumoAmeego(EdgeUser edgeUser) {
-        Toast.makeText(this,"Lumo Ameego is launching...",Toast.LENGTH_LONG).show();
+//        Toast.makeText(this,"Lumo Ameego is launching...",Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(this, au.com.lumo.ameego.DispatchActivity.class);
+        Intent intent = new Intent(this, LumoController.getInstance().getDispatchActivity());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

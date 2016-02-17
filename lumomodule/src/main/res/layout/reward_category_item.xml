@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Category Name"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:gravity="center_vertical"
         android:padding="7dp"
         android:singleLine="true"

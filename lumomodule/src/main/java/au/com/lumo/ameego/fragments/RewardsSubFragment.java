@@ -38,8 +38,8 @@ public class RewardsSubFragment extends BaseFragment{
     private final static String TAG                 = RewardsSubFragment.class.getSimpleName();
     private final static String REWARD_SUB_FRAG_KEY = "reward_sub_frag_key";
 
-    /*@Bind(R.id.simpleList)  */RecyclerView mRecyclerView;
-    /*@Bind(R.id.empty_state) */ImageView mEmptyStateImage;
+    private RecyclerView mRecyclerView;
+    private ImageView mEmptyStateImage;
 
     private static MCategory   mMainCategories;
     private RewardsSubAdapter  mAdapter;
@@ -86,6 +86,8 @@ public class RewardsSubFragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mRecyclerView    = (RecyclerView) view.findViewById(R.id.simpleList);
+        mEmptyStateImage = (ImageView) view.findViewById(R.id.empty_state);
         initializeAdapter();
         setList();
         updateView();

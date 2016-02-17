@@ -29,8 +29,8 @@ public class StockDetailListFragment extends BaseFragment {
     public  static final String TAG            = StockDetailListFragment.class.getSimpleName();
     public  static final String STOCK_ITEM_KEY = "STOCK_ITEM_KEY_LIST";
 
-    /*@Bind(R.id.simpleList)   */ RecyclerView   mRecyclerView;
-    /*@Bind(R.id.empty_state)  */ ImageView      mEmptyState;
+    private RecyclerView   mRecyclerView;
+    private ImageView      mEmptyState;
 
     private MMerchantPositionVM mMMerchantPositionVM;
     private StockAdapter        mAdapter;
@@ -57,6 +57,8 @@ public class StockDetailListFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.simpleList);
+        mEmptyState   = (ImageView) view.findViewById(R.id.empty_state);
         setList();
     }
 

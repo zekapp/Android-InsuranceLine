@@ -2,7 +2,6 @@ package au.com.lumo.ameego.viewHolders;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,9 +22,9 @@ public class StockItemViewHolder extends RecyclerView.ViewHolder {
     private static final String TAG = StockItemViewHolder.class.getSimpleName();
     private final Context mContext;
 
-    /*@Bind(R.id.stock_item_tumbnail)   */ImageView thumbnail;
-    /*@Bind(R.id.stock_item_percentage) */TextView  percentage;
-    /*@Bind(R.id.stock_item_merchname)  */TextView  thumbName;
+    private ImageView thumbnail;
+    private TextView  percentage;
+    private TextView  thumbName;
 
     private IViewHolderClick  listener;
     private Object                 mT;
@@ -34,6 +33,9 @@ public class StockItemViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         mContext = context;
         this.listener = listener;
+        thumbnail   = (ImageView) itemView.findViewById(R.id.stock_item_tumbnail);
+        percentage  = (TextView) itemView.findViewById(R.id.stock_item_percentage);
+        thumbName   = (TextView) itemView.findViewById(R.id.stock_item_merchname);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

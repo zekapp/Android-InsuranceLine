@@ -24,14 +24,14 @@ public class StockDetailType1Fragment extends BaseFragment{
     public  static final String STOCK_ITEM_KEY = "STOCK_ITEM_KEY_TYPE_1";
 
 
-    /*@Bind(R.id.stock_detail_name)       */   TextView  mStockName;
-    /*@Bind(R.id.stock_detail_discount)   */   TextView  mStockDiscount;
-    /*@Bind(R.id.stock_detail_img)        */   ImageView mStockImage;
-    /*@Bind(R.id.stock_detail_def)        */   TextView  mStockDef;
-    /*@Bind(R.id.stock_detail_claim)      */   TextView  mStockClaim;
-    /*@Bind(R.id.stock_detail_visit_web)  */   TextView  mStockWeb;
-    /*@Bind(R.id.stock_terms)             */    TextView  mTerms;
-    /*@Bind(R.id.terms_container)         */      LinearLayout mTermsLayout;
+    private TextView  mStockName;
+    private TextView  mStockDiscount;
+    private ImageView mStockImage;
+    private TextView  mStockDef;
+    private TextView  mStockClaim;
+    private TextView  mStockWeb;
+    private TextView  mTerms;
+    private LinearLayout mTermsLayout;
 
 
     private MStockItem   mStockItem;
@@ -59,6 +59,28 @@ public class StockDetailType1Fragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mStockName     = (TextView) view.findViewById(R.id.stock_detail_name);
+        mStockDiscount = (TextView) view.findViewById(R.id.stock_detail_discount);
+        mStockImage    = (ImageView) view.findViewById(R.id.stock_detail_img);
+        mStockDef      = (TextView) view.findViewById(R.id.stock_detail_def);
+        mStockClaim    = (TextView) view.findViewById(R.id.stock_detail_claim);
+        mStockWeb      = (TextView) view.findViewById(R.id.stock_detail_visit_web);
+        mTerms         = (TextView) view.findViewById(R.id.stock_terms);
+        mTermsLayout   = (LinearLayout) view.findViewById(R.id.terms_container);
+
+        view.findViewById(R.id.stock_detail_visit_web).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                visitWebPage();
+            }
+        });
+        view.findViewById(R.id.stock_detail_view_location).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewLocation();
+            }
+        });
+
         updateViews();
     }
 
@@ -123,7 +145,6 @@ public class StockDetailType1Fragment extends BaseFragment{
     protected int getLayout() {
         return R.layout.fragment_stock_detail_type1;
     }
-
     /*@OnClick(R.id.stock_detail_visit_web)*/
     void visitWebPage(){
         mIActivity.replaceWith(WebViewFragment.newInstance(mStockItem.getRedemptionURL(), ""));

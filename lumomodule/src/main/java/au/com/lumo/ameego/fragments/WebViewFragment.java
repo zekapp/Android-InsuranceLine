@@ -3,7 +3,6 @@ package au.com.lumo.ameego.fragments;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -25,9 +24,9 @@ public class WebViewFragment extends BaseFragment{
     private static String CUSTOM_WEB_VIEW_INITIAL_PAGE_KEY = "CUSTOM_WEB_VIEW_INITIAL_PAGE_KEY";
     private static String CUSTOM_WEB_VIEW_PAGE_TITLE_KEY   = "CUSTOM_WEB_VIEW_PAGE_TITLE_KEY";
 
-    /*@Bind(R.id.webview)     */WebView mWebView;
-    /*@Bind(R.id.progressBar) */ProgressBar mProgress;
-    /*@Bind(R.id.empty_state) */TextView mEmptyState;
+    private WebView mWebView;
+    private ProgressBar mProgress;
+    private TextView mEmptyState;
 
     private String initilaPageUrl ;
     private String mTitle = "Custome Link";
@@ -81,6 +80,32 @@ public class WebViewFragment extends BaseFragment{
         super.onViewCreated(view, savedInstanceState);
         mConManager = (ConnectivityManager) getActivity()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        mWebView    = (WebView) view.findViewById(R.id.webview);
+        mProgress   = (ProgressBar) view.findViewById(R.id.progressBar);
+        mEmptyState = (TextView) view.findViewById(R.id.empty_state);
+
+        view.findViewById(R.id.webview_goback).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goBack();
+            }
+        });
+        view.findViewById(R.id.webview_goforward).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goForward();
+            }
+        });
+        view.findViewById(R.id.webview_refresh).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refresh();
+            }
+        });
+
+
+
 
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setBuiltInZoomControls(true);
@@ -152,6 +177,7 @@ public class WebViewFragment extends BaseFragment{
     public void setValue(int progress) {
         this.mProgress.setProgress(progress);
     }
+
 
     /*@OnClick(R.id.webview_goback)*/
     void goBack(){

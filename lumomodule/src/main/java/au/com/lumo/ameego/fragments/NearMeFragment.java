@@ -5,7 +5,6 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -45,8 +44,8 @@ public class NearMeFragment extends BaseFragment {
     private static final int DEFAULT_SEARCH_DIAMETER =  2000; //2 km
     private static final String TAG                  = NearMeFragment.class.getSimpleName();
 
-    /*@Bind(R.id.progress_bar)        */SmoothProgressBar mProgressBar;
-    /*@Bind(R.id.search_merchandise)  */SearchView mSearchView;
+    private SmoothProgressBar mProgressBar;
+    private SearchView mSearchView;
 
     private SupportMapFragment              mMapFragment;
     private Location                        mCurLocation;
@@ -64,6 +63,14 @@ public class NearMeFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mProgressBar = (SmoothProgressBar) view.findViewById(R.id.progress_bar);
+        mSearchView  = (SearchView) view.findViewById(R.id.search_merchandise);
+        view.findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRefreshClicked();
+            }
+        });
         setUpSearchView();
     }
 

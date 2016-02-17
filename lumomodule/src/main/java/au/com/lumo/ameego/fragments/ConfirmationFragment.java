@@ -1,7 +1,6 @@
 package au.com.lumo.ameego.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,16 +23,16 @@ import au.com.lumo.ameego.utils.WarningUtilsMD;
 public class ConfirmationFragment extends BaseFragment{
     public static final String TAG = ConfirmationFragment.class.getSimpleName();
 
-    /*@Bind(R.id.conf_card_type)   */TextView mCardTypeTv;
-    /*@Bind(R.id.conf_card_name)   */TextView mCardNameTv;
-    /*@Bind(R.id.conf_card_number) */TextView mCardNumberTv;
-    /*@Bind(R.id.conf_expiry)      */TextView mCardExpiryDateTv;
-    /*@Bind(R.id.conf_ccv)         */TextView mCardCCVTv;
-    /*@Bind(R.id.conf_user_name)   */TextView mUserNameTv;
-    /*@Bind(R.id.conf_address)     */TextView mUserAddressTv;
-    /*@Bind(R.id.conf_email)       */TextView mUserEmailTv;
-    /*@Bind(R.id.conf_total_cost)  */TextView mTotalCostTv;
-    /*@Bind(R.id.conf_phone)       */TextView mPhoneTv;
+    private TextView mCardTypeTv;
+    private TextView mCardNameTv;
+    private TextView mCardNumberTv;
+    private TextView mCardExpiryDateTv;
+    private TextView mCardCCVTv;
+    private TextView mUserNameTv;
+    private TextView mUserAddressTv;
+    private TextView mUserEmailTv;
+    private TextView mTotalCostTv;
+    private TextView mPhoneTv;
 
 
 
@@ -74,6 +73,22 @@ public class ConfirmationFragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mCardTypeTv         = (TextView) view.findViewById(R.id.conf_card_type);
+        mCardNameTv         = (TextView) view.findViewById(R.id.conf_card_name);
+        mCardNumberTv       = (TextView) view.findViewById(R.id.conf_card_number);
+        mCardExpiryDateTv   = (TextView) view.findViewById(R.id.conf_expiry);
+        mCardCCVTv          = (TextView) view.findViewById(R.id.conf_ccv);
+        mUserNameTv         = (TextView) view.findViewById(R.id.conf_user_name);
+        mUserAddressTv      = (TextView) view.findViewById(R.id.conf_address);
+        mUserEmailTv        = (TextView) view.findViewById(R.id.conf_email);
+        mTotalCostTv        = (TextView) view.findViewById(R.id.conf_total_cost);
+        mPhoneTv            = (TextView) view.findViewById(R.id.conf_phone);
+        view.findViewById(R.id.confirmation_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                     onConfirmClicked(v);
+            }
+        });
         updateFields();
     }
 

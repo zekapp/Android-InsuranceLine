@@ -23,12 +23,12 @@ import au.com.lumo.ameego.utils.Constants;
  */
 public class SettingsFragment extends BaseFragment{
 
-    /*@Bind(R.id.logged_in_as)    */TextView mLogedNameTv;
-    /*@Bind(R.id.app_version)     */TextView mAppVersionTv;
-    /*@Bind(R.id.terms_condition) */TextView mTermCondTv;
-    /*@Bind(R.id.email_customer)  */TextView mEmailSuppportTv;
-    /*@Bind(R.id.logout_button)   */TextView mLogoutTv;
-    /*@Bind(R.id.call_support)    */ImageView mCallSupImg;
+    TextView mLogedNameTv;
+    TextView mAppVersionTv;
+    TextView mTermCondTv;
+    TextView mEmailSuppportTv;
+    TextView mLogoutTv;
+    ImageView mCallSupImg;
 
     private MUser mUser;
 
@@ -45,6 +45,44 @@ public class SettingsFragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mLogedNameTv     = (TextView) view.findViewById(R.id.logged_in_as);
+        mAppVersionTv    = (TextView) view.findViewById(R.id.app_version);
+        mTermCondTv      = (TextView) view.findViewById(R.id.terms_condition);
+        mEmailSuppportTv = (TextView) view.findViewById(R.id.email_customer);
+        mLogoutTv        = (TextView) view.findViewById(R.id.logout_button);
+        mCallSupImg      = (ImageView) view.findViewById(R.id.call_support);
+
+        view.findViewById(R.id.privacy_policy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPrivacyClicked();
+            }
+        });
+        view.findViewById(R.id.terms_condition).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTermCond();
+            }
+        });
+        view.findViewById(R.id.email_customer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onEmailCliecked();
+            }
+        });
+        view.findViewById(R.id.logout_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLogOut();
+            }
+        });
+        view.findViewById(R.id.call_customer_support).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCallSuppotClicked();
+            }
+        });
+
         updateLoggedAs();
         updateAppversion();
     }

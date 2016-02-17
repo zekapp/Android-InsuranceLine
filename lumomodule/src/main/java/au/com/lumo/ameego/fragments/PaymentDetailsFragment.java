@@ -3,7 +3,6 @@ package au.com.lumo.ameego.fragments;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -42,6 +41,35 @@ public class PaymentDetailsFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPaymentDetail = PrefUtils.getPaymentDetails(getActivity());
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mNameOnCardEt    = (EditText) view.findViewById(R.id.detail_name_on_card);
+        mCardNumberEt    = (EditText) view.findViewById(R.id.detail_card_number);
+        mCardCvvEt       = (EditText) view.findViewById(R.id.detail_cvv);
+        mCardTypeEt      = (EditText) view.findViewById(R.id.detail_card_type);
+        mCardExpMonthEt  = (EditText) view.findViewById(R.id.detail_card_exp_month);
+        mCardExpYearEt   = (EditText) view.findViewById(R.id.detail_card_exp_year);
+        view.findViewById(R.id.detail_card_exp_month).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCardType(v);
+            }
+        });
+        view.findViewById(R.id.detail_card_exp_year).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                  onExpMont(v);
+            }
+        });
+        view.findViewById(R.id.detail_next).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                   onNextClicked(v);
+            }
+        });
     }
 
     @Override

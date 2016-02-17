@@ -42,8 +42,8 @@ public class StockDetailListForStupidFragment extends BaseFragment{
     private static final int NEAR_ME            = 6;
     private static final int SHOW_ALL           = 7;
 
-    /*@Bind(R.id.simpleList)    */RecyclerView   mRecyclerView;
-    /*@Bind(R.id.empty_state)   */ImageView mEmptyState;
+    private RecyclerView   mRecyclerView;
+    private ImageView mEmptyState;
 
     private MMerchant               mMerchandt;
     private ArrayList<MStockItem>   mStockItems;
@@ -73,6 +73,14 @@ public class StockDetailListForStupidFragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.simpleList);
+        mEmptyState   = (ImageView) view.findViewById(R.id.empty_state);
+        view.findViewById(R.id.menu_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                     onfilterclicked();
+            }
+        });
         setList();
     }
 

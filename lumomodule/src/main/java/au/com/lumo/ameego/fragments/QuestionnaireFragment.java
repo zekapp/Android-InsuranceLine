@@ -28,7 +28,7 @@ public class QuestionnaireFragment extends BaseFragment implements IQuestionnair
 
     private static final String QUESTIONNAIRE_ID_KEY = "QUESTIONNAIRE_ID_KEY";
 
-    /*@Bind(R.id.list) */     ExpandableListView mListView;
+    ExpandableListView mListView;
 
     private IQuestionnairePresenter mIQuestionnairePresenter;
     private IAdapterPresenter       mIAdapterPresenter;
@@ -65,6 +65,13 @@ public class QuestionnaireFragment extends BaseFragment implements IQuestionnair
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mListView = (ExpandableListView) view.findViewById(R.id.list);
+        view.findViewById(R.id.ques_done).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDoneClicked();
+            }
+        });
         setListView();
         mIQuestionnairePresenter.fetchQuestionnaire(mQuestionerId);
     }

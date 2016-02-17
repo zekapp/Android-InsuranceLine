@@ -19,11 +19,11 @@ import au.com.lumo.ameego.utils.StringUtils;
 public class ShoppingCartViewHolder extends RecyclerView.ViewHolder{
     private static final String TAG = ShoppingCartViewHolder.class.getSimpleName();
 
-    /*@Bind(R.id.shop_cart_item_name)     */TextView  itemNameTextView;
-    /*@Bind(R.id.shop_cart_item_detail)   */TextView  itemDetailTextView;
-    /*@Bind(R.id.shop_cart_item_price)    */TextView  itemPriceTextView;
-    /*@Bind(R.id.shop_cart_item_quantity) */TextView  itemQuantityTextView;
-    /*@Bind(R.id.shop_cart_card_img)      */ImageView mCardImgView;
+    private TextView  itemNameTextView;
+    private TextView  itemDetailTextView;
+    private TextView  itemPriceTextView;
+    private TextView  itemQuantityTextView;
+    private ImageView mCardImgView;
 
     private Context           mContext;
     private IViewHolderClick  mListener;
@@ -32,6 +32,33 @@ public class ShoppingCartViewHolder extends RecyclerView.ViewHolder{
     public ShoppingCartViewHolder(Context context, View itemView, final IViewHolderClick listener) {
         super(itemView);
         mContext = context;
+        itemNameTextView       = (TextView) itemView.findViewById(R.id.shop_cart_item_name);
+        itemDetailTextView     = (TextView) itemView.findViewById(R.id.shop_cart_item_detail);
+        itemPriceTextView      = (TextView) itemView.findViewById(R.id.shop_cart_item_price);
+        itemQuantityTextView   = (TextView) itemView.findViewById(R.id.shop_cart_item_quantity);
+        mCardImgView           = (ImageView) itemView.findViewById(R.id.shop_cart_card_img);
+
+
+        itemView.findViewById(R.id.shop_cart_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCartRemovedClicked(v);
+            }
+        });
+        itemView.findViewById(R.id.shop_cart_item_increase).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCartIncreaseClicked(v);
+            }
+        });
+        itemView.findViewById(R.id.shop_cart_item_decrease).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCartDecreaseClicked(v);
+            }
+        });
+
+
 
         mListener = listener;
         itemView.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +88,8 @@ public class ShoppingCartViewHolder extends RecyclerView.ViewHolder{
     public MShoppingCartItem getItem(){
         return mShoppingCart;
     }
+
+
 
     /*@OnClick(R.id.shop_cart_cancel)*/
     void onCartRemovedClicked(View view){

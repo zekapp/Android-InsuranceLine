@@ -20,14 +20,14 @@ import au.com.lumo.ameego.utils.WarningUtilsMD;
 public class CheckoutFragment extends BaseFragment{
     public static final String TAG = CheckoutFragment.class.getSimpleName();
 
-    /*@Bind(R.id.checkout_suburb)         */EditText mSuburbEditText;
-    /*@Bind(R.id.checkout_state)          */EditText mStateEditText;
-    /*@Bind(R.id.checkout_email)          */EditText mEmailEditText;
-    /*@Bind(R.id.checkout_postcode)       */EditText mPostCodeEditText;
-    /*@Bind(R.id.checkout_last_name)      */EditText mLastNameEditText;
-    /*@Bind(R.id.checkout_first_name)     */EditText mFirstNameEditText;
-    /*@Bind(R.id.checkout_street_address) */EditText mStreetAddressEditText;
-    /*@Bind(R.id.checkout_contact_number) */EditText mContactEditText;
+    private EditText mSuburbEditText;
+    private EditText mStateEditText;
+    private EditText mEmailEditText;
+    private EditText mPostCodeEditText;
+    private EditText mLastNameEditText;
+    private EditText mFirstNameEditText;
+    private EditText mStreetAddressEditText;
+    private EditText mContactEditText;
 
     private PaymentDetails mPaymentDetails;
 
@@ -64,6 +64,26 @@ public class CheckoutFragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mSuburbEditText         = (EditText) view.findViewById(R.id.checkout_suburb);
+        mStateEditText          = (EditText) view.findViewById(R.id.checkout_state);
+        mEmailEditText          = (EditText) view.findViewById(R.id.checkout_email);
+        mPostCodeEditText       = (EditText) view.findViewById(R.id.checkout_postcode);
+        mLastNameEditText       = (EditText) view.findViewById(R.id.checkout_last_name);
+        mFirstNameEditText      = (EditText) view.findViewById(R.id.checkout_first_name);
+        mStreetAddressEditText  = (EditText) view.findViewById(R.id.checkout_street_address);
+        mContactEditText        = (EditText) view.findViewById(R.id.checkout_contact_number);
+        view.findViewById(R.id.footer_checkout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCheckout(v);
+            }
+        });
+        view.findViewById(R.id.checkout_state).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStateClicked(v);
+            }
+        });
         updateFields();
     }
 
@@ -85,7 +105,7 @@ public class CheckoutFragment extends BaseFragment{
 
     @SuppressWarnings("unused")
     /*@OnClick(R.id.footer_checkout)*/
-    void onCheckout(View view){
+    public void onCheckout(View view){
         String name     = mFirstNameEditText.getText().toString();
         String surname  = mLastNameEditText.getText().toString();
         String email    = mEmailEditText.getText().toString();

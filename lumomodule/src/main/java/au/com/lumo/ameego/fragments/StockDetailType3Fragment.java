@@ -31,35 +31,33 @@ public class StockDetailType3Fragment extends BaseFragment {
     public  static final String MERCHANDISE_KEY = "MERHANDISE_KEY_TYPE_3";
 
 
-    /*@Bind(R.id.merchant_name)         */   TextView  mMerchantName;
-    /*@Bind(R.id.merchant_discount)     */   TextView  mMerchantDiscount;
-    /*@Bind(R.id.merchant_img)          */   ImageView mMerchantImg;
-    /*@Bind(R.id.merchant_def)          */   TextView  mMerchantDef;
-/**/
-    /*@Bind(R.id.stock_detail_name)     */   TextView  mStockName;
-    /*@Bind(R.id.stock_detail_discount) */   TextView  mStockDiscount;
-    /*@Bind(R.id.stock_detail_img)      */   ImageView mStockImage;
-    /*@Bind(R.id.stock_detail_def)      */   TextView  mStockDef;
-/**/
+    private  TextView  mMerchantName;
+    private  TextView  mMerchantDiscount;
+    private  ImageView mMerchantImg;
+    private  TextView  mMerchantDef;
+    private  TextView  mStockName;
+    private  TextView  mStockDiscount;
+    private  ImageView mStockImage;
+    private  TextView  mStockDef;
+    private  TextView  mDeliveryType;
+    private  TextView  mCardPrice;
+    private  TextView  mQuantity;
+    private  TextView  mStockClaim;
+    private  LinearLayout mClaimLiLa;
+    private  TextView      mTerms;
+    private  LinearLayout  mTermsLayout;
+    private  TextView  mCardValueName;
+
 /*//    @Bind(R.id.digital_option)      */    TableRow  mPhysicalOptTr; // hide if digital selected.
-    /*@Bind(R.id.delivery_type)         */  TextView  mDeliveryType;
-    /*@Bind(R.id.card_price)            */  TextView  mCardPrice;
-    /*@Bind(R.id.iten_quantity)         */  TextView  mQuantity;
-    /*@Bind(R.id.stock_claim)           */  TextView  mStockClaim;
-    /*@Bind(R.id.claim_layout)          */  LinearLayout mClaimLiLa;
-/**/
-    /*@Bind(R.id.stock_terms)           */  TextView      mTerms;
-    /*@Bind(R.id.terms_container)       */  LinearLayout  mTermsLayout;
-    /*@Bind(R.id.card_value_title)      */  TextView  mCardValueName;
 /**/
     /***/
      /** Karl added*/
      /**/
-    /*@Bind(R.id.card_option_title)     */  TextView mCardOptionTitle;
-    /*@Bind(R.id.bullet1)               */  TextView mBulletText1;
-    /*@Bind(R.id.bullet2)               */  TextView mBulletText2;
-    /*@Bind(R.id.bullet3)               */  TextView mBulletText3;
-    /*@Bind(R.id.bullet4)               */  TextView mBulletText4;
+    private TextView mCardOptionTitle;
+    private TextView mBulletText1;
+    private TextView mBulletText2;
+    private TextView mBulletText3;
+    private TextView mBulletText4;
 
     private MStockItem mStockItem;
     private MMerchant  mMerchant;
@@ -89,6 +87,60 @@ public class StockDetailType3Fragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mMerchantName       = (TextView) view.findViewById(R.id.merchant_name);
+        mMerchantDiscount   = (TextView) view.findViewById(R.id.merchant_discount);
+        mMerchantImg        = (ImageView) view.findViewById(R.id.merchant_img);
+        mMerchantDef        = (TextView) view.findViewById(R.id.merchant_def);
+        mStockName          = (TextView) view.findViewById(R.id.stock_detail_name);
+        mStockDiscount      = (TextView) view.findViewById(R.id.stock_detail_discount);
+        mStockImage         = (ImageView) view.findViewById(R.id.stock_detail_img);
+        mStockDef           = (TextView) view.findViewById(R.id.stock_detail_def);
+        mDeliveryType       = (TextView) view.findViewById(R.id.delivery_type);
+        mCardPrice          = (TextView) view.findViewById(R.id.card_price);
+        mQuantity           = (TextView) view.findViewById(R.id.iten_quantity);
+        mStockClaim         = (TextView) view.findViewById(R.id.stock_claim);
+        mClaimLiLa          = (LinearLayout) view.findViewById(R.id.claim_layout);
+        mTerms              = (TextView) view.findViewById(R.id.stock_terms);
+        mTermsLayout        = (LinearLayout) view.findViewById(R.id.terms_container);
+        mCardValueName      = (TextView) view.findViewById(R.id.card_value_title);
+
+        mCardOptionTitle    = (TextView) view.findViewById(R.id.card_option_title);
+        mBulletText1        = (TextView) view.findViewById(R.id.bullet1);
+        mBulletText2        = (TextView) view.findViewById(R.id.bullet2);
+        mBulletText3        = (TextView) view.findViewById(R.id.bullet3);
+        mBulletText4        = (TextView) view.findViewById(R.id.bullet4);
+
+        view.findViewById(R.id.delivery_type).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deliveryTypeClicked();
+            }
+        });
+        view.findViewById(R.id.card_price).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardPriceClicked();
+            }
+        });
+        view.findViewById(R.id.stock_detail_increase_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemIncreased();
+            }
+        });
+        view.findViewById(R.id.stock_detail_decrease_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemDecreased();
+            }
+        });
+        view.findViewById(R.id.stock_detail_add_to_card).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToCart();
+            }
+        });
+
         if(mCardSelector == null)
             mCardSelector = new CardSelector(getActivity(), mStockItem, new CustomCrdSelecterInterface());
         updateViews();
@@ -187,6 +239,12 @@ public class StockDetailType3Fragment extends BaseFragment {
 
         mCardValueName.setText(mStockItem.isDisplayNameAsCardType() ? "CARD TYPE:" : "CARD VALUE:");
     }
+
+
+
+
+
+
 
     /*@OnClick(R.id.delivery_type)*/
     void deliveryTypeClicked(){

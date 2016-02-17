@@ -3,7 +3,6 @@ package au.com.lumo.ameego.fragments;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import java.util.Iterator;
 import au.com.lumo.ameego.R;
 import au.com.lumo.ameego.adapters.ScopingCartAdapter;
 import au.com.lumo.ameego.callbacks.GenericCallback;
-import au.com.lumo.ameego.callbacks.WarnYesNoSelectCallback;
 import au.com.lumo.ameego.fragments.basefragments.BaseFragment;
 import au.com.lumo.ameego.manager.NetworkManager;
 import au.com.lumo.ameego.model.MCartItemInfo;
@@ -39,9 +37,9 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 public class YourCartFragment extends BaseFragment{
     public static final String TAG = YourCartFragment.class.getSimpleName();
 
-    /*@Bind(R.id.simpleList)   */RecyclerView      mRecyclerView;
-    /*@Bind(R.id.empty_state)  */ImageView         mEmptyState;
-    /*@Bind(R.id.progress_bar) */SmoothProgressBar mProgressBar;
+    private RecyclerView      mRecyclerView;
+    private ImageView         mEmptyState;
+    private SmoothProgressBar mProgressBar;
 
     private View                         mFooter;
     private ScopingCartAdapter           mAdapter;
@@ -61,7 +59,14 @@ public class YourCartFragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.simpleList);
+        mEmptyState   = (ImageView) view.findViewById(R.id.empty_state);
+        mProgressBar  = (SmoothProgressBar) view.findViewById(R.id.progress_bar);
+
         mProgressBar.progressiveStop();
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.simpleList);
+        mEmptyState   = (ImageView) view.findViewById(R.id.empty_state);
+        mProgressBar  = (SmoothProgressBar) view.findViewById(R.id.progress_bar);
         initListView();
     }
 

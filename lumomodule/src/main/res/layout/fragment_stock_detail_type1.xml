@@ -19,6 +19,17 @@
             style="@style/ActionBar"
             app:layout_scrollFlags="scroll|enterAlways"
             />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/toolbar_dropshadow" />
+
+        </FrameLayout>
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView

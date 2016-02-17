@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_width="match_parent"
-            android:minHeight="?attr/actionBarSize"
             style="@style/ActionBar"
-            app:layout_scrollFlags="scroll|enterAlways"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/toolbar_dropshadow" />
+
+        </FrameLayout>
     </android.support.design.widget.AppBarLayout>
 
 
@@ -39,12 +49,12 @@
                     android:id="@+id/detail_card_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/detail_card_type"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     android:cursorVisible="false"
                     android:focusable="false"
-                    android:focusableInTouchMode="false"/>
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/detail_card_type"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
             </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
 
             <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
@@ -56,8 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/detail_name_on_card"
-                    android:inputType="textCapSentences"
-                    />
+                    android:inputType="textCapSentences" />
             </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
 
             <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
@@ -70,8 +79,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/detail_card_number"
                     android:inputType="numberDecimal"
-                    android:maxLength="16"
-                    />
+                    android:maxLength="16" />
             </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
 
             <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
@@ -82,12 +90,12 @@
                     android:id="@+id/detail_card_exp_month"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/detail_card_exp_month"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     android:cursorVisible="false"
                     android:focusable="false"
-                    android:focusableInTouchMode="false"/>
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/detail_card_exp_month"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
             </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
 
             <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
@@ -98,12 +106,12 @@
                     android:id="@+id/detail_card_exp_year"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/detail_card_exp_year"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
                     android:cursorVisible="false"
                     android:focusable="false"
-                    android:focusableInTouchMode="false"/>
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/detail_card_exp_year"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
             </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
 
             <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
@@ -116,26 +124,25 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/detail_cvv"
                     android:inputType="numberPassword"
-                    android:maxLength="4"
-                    />
+                    android:maxLength="4" />
             </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
 
             <LinearLayout
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
                 android:layout_gravity="right"
-                android:background="@color/colorPrimary">
+                android:layout_marginTop="20dp"
+                android:background="@color/colorPrimary"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/detail_next"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:text="@string/next"
                     android:textColor="@color/white"
-                    android:gravity="center"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

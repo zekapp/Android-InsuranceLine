@@ -33,7 +33,7 @@ public class StockDetailType2Fragment extends BaseFragment {
     /*@Bind(R.id.stock_detail_discount)*/   TextView  mStockDiscount;
     /*@Bind(R.id.stock_detail_img)     */   ImageView mStockImage;
     /*@Bind(R.id.stock_detail_def)     */   TextView  mStockDef;
-/*//    @Bind(R.id.digital_option)     */     TableRow  mPhysicalOptTr; // hide if digital selected.
+/*//    @Bind(R.id.digital_option)     */   TableRow  mPhysicalOptTr;    // hide if digital selected.
     /*@Bind(R.id.delivery_type)        */   TextView  mDeliveryType;
     /*@Bind(R.id.card_price)           */   TextView  mCardPrice;
     /*@Bind(R.id.iten_quantity)        */   TextView  mQuantity;
@@ -76,6 +76,53 @@ public class StockDetailType2Fragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mStockName       = (TextView) view.findViewById(R.id.stock_detail_name);
+        mStockDiscount   = (TextView) view.findViewById(R.id.stock_detail_discount);
+        mStockImage      = (ImageView) view.findViewById(R.id.stock_detail_img);
+        mStockDef        = (TextView) view.findViewById(R.id.stock_detail_def);
+        mDeliveryType    = (TextView) view.findViewById(R.id.delivery_type);
+        mCardPrice       = (TextView) view.findViewById(R.id.card_price);
+        mQuantity        = (TextView) view.findViewById(R.id.iten_quantity);
+        mTerms           = (TextView) view.findViewById(R.id.stock_terms);
+        mTermsLayout     = (LinearLayout) view.findViewById(R.id.terms_container);
+        mCardValueName   = (TextView) view.findViewById(R.id.card_value_title);
+
+        mCardOptionTitle = (TextView) view.findViewById(R.id.card_option_title);
+        mBulletText1     = (TextView) view.findViewById(R.id.bullet1);
+        mBulletText2     = (TextView) view.findViewById(R.id.bullet2);
+        mBulletText3     = (TextView) view.findViewById(R.id.bullet3);
+        mBulletText4     = (TextView) view.findViewById(R.id.bullet4);
+
+        view.findViewById(R.id.delivery_type).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deliveryTypeClicked();
+            }
+        });
+        view.findViewById(R.id.card_price).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardPriceClicked();
+            }
+        });
+        view.findViewById(R.id.stock_detail_increase_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemIncreased();
+            }
+        });
+        view.findViewById(R.id.stock_detail_decrease_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemDecreased();
+            }
+        });
+        view.findViewById(R.id.stock_detail_add_to_card).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToCart();
+            }
+        });
 
         if(mCardSelector == null)
             mCardSelector = new CardSelector(getActivity(), mStockItem, new CustomCrdSelecterInterface());
@@ -141,7 +188,6 @@ public class StockDetailType2Fragment extends BaseFragment {
     protected int getLayout() {
         return R.layout.fragment_stock_detail_type2;
     }
-
 
     /*@OnClick(R.id.delivery_type)*/
     void deliveryTypeClicked(){

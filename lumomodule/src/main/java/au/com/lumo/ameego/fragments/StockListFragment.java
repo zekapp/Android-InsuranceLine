@@ -5,7 +5,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -49,11 +48,11 @@ public class StockListFragment extends BaseFragment{
     private static final int NEAR_ME            = 6;
     private static final int SHOW_ALL           = 7;
 
-    /*@Bind(R.id.simpleList)        */ RecyclerView            mRecyclerView;
-    /*@Bind(R.id.coordinator_layout)*/ CoordinatorLayout       mCoordinatorLayout;
-    /*@Bind(R.id.collapsing_toolbar)*/ CollapsingToolbarLayout mCollapsingToolbar;
-    /*@Bind(R.id.headerImageId)     */ ImageView               mHeaderImage;
-    /*@Bind(R.id.empty_state)       */ ImageView               mEmptyState;
+    private RecyclerView            mRecyclerView;
+    private CoordinatorLayout       mCoordinatorLayout;
+    private CollapsingToolbarLayout mCollapsingToolbar;
+    private ImageView               mHeaderImage;
+    private ImageView               mEmptyState;
 
     private MCategory              mCategory;
     private StockAdapter           mAdapter;
@@ -91,6 +90,12 @@ public class StockListFragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mRecyclerView        = (RecyclerView) view.findViewById(R.id.simpleList);
+        mCoordinatorLayout   = (CoordinatorLayout) view.findViewById(R.id.coordinator_layout);
+        mCollapsingToolbar   = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
+        mHeaderImage         = (ImageView) view.findViewById(R.id.headerImageId);
+        mEmptyState          = (ImageView) view.findViewById(R.id.empty_state);
+
         setList();
         loadHeaderImage();
     }
