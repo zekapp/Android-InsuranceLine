@@ -32,6 +32,7 @@ import java.util.Collections;
 
 import javax.inject.Singleton;
 
+import au.com.lumo.ameego.LumoController;
 import dagger.Module;
 import dagger.Provides;
 import de.greenrobot.event.EventBus;
@@ -173,6 +174,14 @@ public class AppModule {
     @Singleton
     public SQLiteDatabase database() {
         return FlowManager.getDatabase(AppDatabase.NAME).getWritableDatabase();
+    }
+
+    @Provides
+    @Singleton
+    public LumoController lumoController(@ApplicationContext Context context){
+        return new LumoController
+                .Builder(context)
+                .build();
     }
 
     @Provides

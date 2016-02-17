@@ -1,7 +1,5 @@
 package au.com.lumo.ameego.manager;
 
-import android.util.Log;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -23,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import au.com.lumo.ameego.AppController;
+import au.com.lumo.ameego.LumoController;
 import au.com.lumo.ameego.callbacks.GenericArrayCallBack;
 import au.com.lumo.ameego.callbacks.GenericCallback;
 import au.com.lumo.ameego.callbacks.GenericTwoReturnCallback;
@@ -134,11 +132,11 @@ public class NetworkManager {
 
                 };
 
-        AppController.getInstance().addToRequestQueue(jsonObjRequest, Constants.RequestTags.LOG_IN_TAG);
+        LumoController.getInstance().addToRequestQueue(jsonObjRequest, Constants.RequestTags.LOG_IN_TAG);
     }
 
     public static void logout(final GenericCallback<MUser> callback) {
-        final MUser user = AppController.getInstance().getUser();
+        final MUser user = LumoController.getInstance().getUser();
         if(user == null) return;
 
         StringRequest jsonObjRequest = new StringRequest(
@@ -176,12 +174,12 @@ public class NetworkManager {
 
         };
 
-        AppController.getInstance().addToRequestQueue(jsonObjRequest, Constants.RequestTags.LOGOUT_TAG);
+        LumoController.getInstance().addToRequestQueue(jsonObjRequest, Constants.RequestTags.LOGOUT_TAG);
     }
 
 
     public static void fetchSiteNodeVM(final GenericCallback<MSiteHelper> callback) {
-        final MUser user = AppController.getInstance().getUser();
+        final MUser user = LumoController.getInstance().getUser();
         if(user == null) return;
 
         JsonObjectRequest request = new JsonObjectRequest(
@@ -223,11 +221,11 @@ public class NetworkManager {
             }
         };
 
-        AppController.getInstance().addToRequestQueue(request, Constants.RequestTags.SITE_NODE_VM_TAG);
+        LumoController.getInstance().addToRequestQueue(request, Constants.RequestTags.SITE_NODE_VM_TAG);
     }
 
     public static void fetchAssociatedStockDetail(int merchantId, int associatedStockItemId, final GenericTwoReturnCallback<MMerchant, MStockItem> callback) {
-        final MUser user = AppController.getInstance().getUser();
+        final MUser user = LumoController.getInstance().getUser();
         if(user == null) return;
 
 //        Log.d(TAG, "fetchAssociatedStockDetail req: " + String.format(Constants.Server.GET_ASSOCIATED_STOCK, merchantId, associatedStockItemId));
@@ -271,11 +269,11 @@ public class NetworkManager {
             }
         };
 
-        AppController.getInstance().addToRequestQueue(request, Constants.RequestTags.GET_ASSOCIATED_STOCK_TAG);
+        LumoController.getInstance().addToRequestQueue(request, Constants.RequestTags.GET_ASSOCIATED_STOCK_TAG);
     }
 
     public static void fetchStockDetail(int stockId, final GenericCallback<MStockItem> callback) {
-        final MUser user = AppController.getInstance().getUser();
+        final MUser user = LumoController.getInstance().getUser();
         if(user == null) return;
 
         JsonObjectRequest request = new JsonObjectRequest(
@@ -317,12 +315,12 @@ public class NetworkManager {
             }
         };
 
-        AppController.getInstance().addToRequestQueue(request, Constants.RequestTags.GET_STOCK_TAG);
+        LumoController.getInstance().addToRequestQueue(request, Constants.RequestTags.GET_STOCK_TAG);
 
     }
 
     public static void fetchSubCategory(int subCategoryId, final GenericCallback<MCategory> callback) {
-        final MUser user = AppController.getInstance().getUser();
+        final MUser user = LumoController.getInstance().getUser();
         if(user == null) return;
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -360,11 +358,11 @@ public class NetworkManager {
             }
         };
 
-        AppController.getInstance().addToRequestQueue(request, Constants.RequestTags.GET_SUBCATEGORIES_TAG);
+        LumoController.getInstance().addToRequestQueue(request, Constants.RequestTags.GET_SUBCATEGORIES_TAG);
 
     }
     public static void updateCart(ArrayList<MCartItemInfo> mCurrentCartItemInfo, final GenericCallback<MShoppingCartVM> callback) {
-        final MUser user = AppController.getInstance().getUser();
+        final MUser user = LumoController.getInstance().getUser();
         if(user == null) {
             callback.done(null, new Exception("User is null"));
             return;
@@ -415,11 +413,11 @@ public class NetworkManager {
             }
         };
 
-        AppController.getInstance().addToRequestQueue(jsonRequest, Constants.RequestTags.UPDATE_CART_TAG);
+        LumoController.getInstance().addToRequestQueue(jsonRequest, Constants.RequestTags.UPDATE_CART_TAG);
     }
 
     public static void getLatestCart(final GenericCallback<MShoppingCartVM> callback) {
-        final MUser user = AppController.getInstance().getUser();
+        final MUser user = LumoController.getInstance().getUser();
         if(user == null) return;
 
         JsonObjectRequest request = new JsonObjectRequest(
@@ -467,11 +465,11 @@ public class NetworkManager {
             }
         };
 
-        AppController.getInstance().addToRequestQueue(request, Constants.RequestTags.GET_SHOPPING_CART_TAG);
+        LumoController.getInstance().addToRequestQueue(request, Constants.RequestTags.GET_SHOPPING_CART_TAG);
     }
 
     public static void fetchNearMerchandise(LatLng mCurLocation, String searchQuerry, int distance, final GenericArrayCallBack<MMerchantPositionVM> callback){
-        final MUser user = AppController.getInstance().getUser();
+        final MUser user = LumoController.getInstance().getUser();
         if(user == null) {
             callback.done(null, new Exception("User is null"));
             return;
@@ -527,7 +525,7 @@ public class NetworkManager {
             callback.done(null,e);
         }
 
-        AppController.getInstance().addToRequestQueue(jsonRequest, Constants.RequestTags.GET_NEAR_ME_TAG);
+        LumoController.getInstance().addToRequestQueue(jsonRequest, Constants.RequestTags.GET_NEAR_ME_TAG);
     }
 
 
@@ -555,7 +553,7 @@ public class NetworkManager {
     * */
 
     public static void pay(PaymentDetails paymentDetails, final  GenericCallback<MShoppingCartVM> callback) {
-        final MUser user = AppController.getInstance().getUser();
+        final MUser user = LumoController.getInstance().getUser();
         if(user == null) {
             callback.done(null, new Exception("User is null"));
             return;
@@ -605,11 +603,11 @@ public class NetworkManager {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        AppController.getInstance().addToRequestQueue(jsonRequest, Constants.RequestTags.PAY_TAG);
+        LumoController.getInstance().addToRequestQueue(jsonRequest, Constants.RequestTags.PAY_TAG);
     }
 
     public static void fetchQuestionnaire(final int questionId, final  GenericCallback<MQuestionnaire> callback) {
-        final MUser user = AppController.getInstance().getUser();
+        final MUser user = LumoController.getInstance().getUser();
         if(user == null) return;
 
         JsonObjectRequest request = new JsonObjectRequest(
@@ -656,11 +654,11 @@ public class NetworkManager {
             }
         };
 
-        AppController.getInstance().addToRequestQueue(request, Constants.RequestTags.GET_QUESTIONNAIRE_TAG);
+        LumoController.getInstance().addToRequestQueue(request, Constants.RequestTags.GET_QUESTIONNAIRE_TAG);
     }
 
     public static void postQuestionnaire(MQuestionnaireAnswer answer,final  GenericCallback<MQuestionnaireAnswerResponse> callback) {
-        final MUser user = AppController.getInstance().getUser();
+        final MUser user = LumoController.getInstance().getUser();
         if(user == null) {
             callback.done(null, new Exception("User is null"));
             return;
@@ -706,7 +704,7 @@ public class NetworkManager {
             }
         };
 
-        AppController.getInstance().addToRequestQueue(jsonRequest, Constants.RequestTags.POST_QUESTIONNAIRE_TAG);
+        LumoController.getInstance().addToRequestQueue(jsonRequest, Constants.RequestTags.POST_QUESTIONNAIRE_TAG);
     }
 }
 /*

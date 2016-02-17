@@ -37,8 +37,8 @@ public class RewardsFragment extends BaseFragment {
 
     private RewardsAdapter     mAdapter;
 
-    /*@Bind(R.id.simpleList)           */RecyclerView mRecyclerView;
-    /*@Bind(R.id.swipe_refresh_layout) */SwipeRefreshLayout mSwipeRefreshLayout;
+    RecyclerView mRecyclerView;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     public static RewardsFragment newInstance() {
         return new RewardsFragment();
@@ -67,6 +67,8 @@ public class RewardsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mRecyclerView       = (RecyclerView) view.findViewById(R.id.simpleList);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         initializeAdapter();
         trySetupSwipeRefresh();
         initializeList();

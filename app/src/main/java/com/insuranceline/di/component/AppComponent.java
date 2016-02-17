@@ -9,6 +9,7 @@ import com.insuranceline.di.module.AppModule;
 
 import javax.inject.Singleton;
 
+import au.com.lumo.ameego.LumoController;
 import dagger.Component;
 import de.greenrobot.event.EventBus;
 
@@ -25,6 +26,7 @@ public interface AppComponent {
     TokenAuthenticator getTokenAuthenticator();
     AppConfig getAppConfig();
     EventBus getEventBus();
+    LumoController getLumocontroller();
 
     void inject(FetchSamplesJob getFetchSamplesJob);
 }

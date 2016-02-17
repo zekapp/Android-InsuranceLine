@@ -38,7 +38,6 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
         mContext     = context;
         mDataManager = dataManager;
         mAppConfig   = appConfig;
-
     }
 
     @Override

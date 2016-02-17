@@ -9,6 +9,7 @@ import com.insuranceline.di.module.AppModule;
 import com.facebook.stetho.Stetho;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+import au.com.lumo.ameego.LumoController;
 import timber.log.Timber;
 
 /**
@@ -30,6 +31,7 @@ public class App extends Application{
             Timber.plant(new Timber.DebugTree());
         }
 
+
         getComponent();
     }
 
@@ -50,4 +52,6 @@ public class App extends Application{
     public void setComponent(AppComponent applicationComponent) {
         mAppComponent = applicationComponent;
     }
+
+
 }

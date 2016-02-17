@@ -27,8 +27,8 @@ public class EdgeUser extends BaseModel implements Validation {
     @Column
     long mExpireIn;
 
-    @Column(defaultValue = "true")
-    boolean isFitBitUser = true;
+    @Column(defaultValue = "false")
+    boolean isFitBitUser = false;
 
     @Column(defaultValue = "false")
     boolean isTermCondAccepted = false;

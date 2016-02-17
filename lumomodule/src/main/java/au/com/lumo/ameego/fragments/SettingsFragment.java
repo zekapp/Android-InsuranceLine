@@ -4,13 +4,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import au.com.lumo.ameego.AppController;
+import au.com.lumo.ameego.LumoController;
 import au.com.lumo.ameego.DispatchActivity;
 import au.com.lumo.ameego.R;
 import au.com.lumo.ameego.callbacks.GenericCallback;
@@ -40,7 +39,7 @@ public class SettingsFragment extends BaseFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUser = AppController.getInstance().getUser();
+        mUser = LumoController.getInstance().getUser();
     }
 
     @Override
@@ -121,7 +120,7 @@ public class SettingsFragment extends BaseFragment{
         });
 
         Toast.makeText(getActivity(), "Logout successful", Toast.LENGTH_LONG).show();
-        AppController.getInstance().saveUser(null);
+        LumoController.getInstance().saveUser(null);
         Intent intent = new Intent(getActivity(), DispatchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NEW_TASK);

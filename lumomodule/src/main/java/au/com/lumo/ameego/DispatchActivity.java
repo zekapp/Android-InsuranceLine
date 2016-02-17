@@ -3,8 +3,6 @@ package au.com.lumo.ameego;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,7 +24,7 @@ public class DispatchActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MUser user = AppController.getInstance().getUser();
+        MUser user = LumoController.getInstance().getUser();
 
         if(user == null){
             directUserToWelcomePage();
@@ -95,7 +93,7 @@ public class DispatchActivity extends Activity {
     private void updateAndSaveUser(MSiteHelper site) {
         MUser temp = site.getMember();
 
-        MUser savedUser = AppController.getInstance().getUser();
+        MUser savedUser = LumoController.getInstance().getUser();
 
         savedUser.setAppId(temp.getAppId());
         savedUser.setEmail(temp.getEmail());
@@ -111,7 +109,7 @@ public class DispatchActivity extends Activity {
 
         showInLog(savedUser);
 
-        AppController.getInstance().saveUser(savedUser);
+        LumoController.getInstance().saveUser(savedUser);
 //        PrefUtils.saveUser(this, savedUser);
     }
 
@@ -145,10 +143,13 @@ public class DispatchActivity extends Activity {
     }
 
     private void directUserToWelcomePage() {
-        Intent i = new Intent(this, SignInActivity.class);
+        MainAppCallback callback = LumoController.getInstance().getMainAppCalback();
+        if (callback != null) callback.directUserToWelcomePage();
+
+/*        Intent i = new Intent(this, SignInActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(i);
+        startActivity(i);*/
     }
 
     private void directUserToMainActivity() {

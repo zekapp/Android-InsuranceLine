@@ -21,6 +21,8 @@ import com.insuranceline.utils.Utils;
 
 import javax.inject.Inject;
 
+import au.com.lumo.ameego.LumoController;
+import au.com.lumo.ameego.MainAppCallback;
 import rx.Observer;
 import rx.Subscription;
 import timber.log.Timber;
@@ -74,6 +76,11 @@ public class DispatchActivity extends BaseActivity{
 
     private void dispatchLumoAmeego(EdgeUser edgeUser) {
         Toast.makeText(this,"Lumo Ameego is launching...",Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(this, au.com.lumo.ameego.DispatchActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     private void dispatchFitBitApp() {
@@ -140,5 +147,4 @@ public class DispatchActivity extends BaseActivity{
                 | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-
 }

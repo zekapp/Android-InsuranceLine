@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import au.com.lumo.ameego.AppController;
+import au.com.lumo.ameego.LumoController;
 import au.com.lumo.ameego.DispatchActivity;
 import au.com.lumo.ameego.R;
 import au.com.lumo.ameego.adapters.RewardsSubAdapter;
@@ -176,7 +175,7 @@ public class RewardsSubFragment extends BaseFragment{
     }
 
     private void logout() {
-        AppController.getInstance().saveUser(null);
+        LumoController.getInstance().saveUser(null);
         Intent intent = new Intent(getActivity(), DispatchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NEW_TASK);

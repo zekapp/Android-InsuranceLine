@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -107,7 +106,7 @@ public class SignInActivity extends AppCompatActivity {
                     Toast.makeText(SignInActivity.this, "Login successful", Toast.LENGTH_LONG).show();
                     Toast.makeText(SignInActivity.this, "Welcome ",         Toast.LENGTH_LONG).show();
                     user.setUsername(email);
-                    AppController.getInstance().saveUser(user);
+                    LumoController.getInstance().saveUser(user);
                     reDirectToBaseActivity();
                 } else {
 //                    Log.d(TAG, "Error: " + e.getMessage());

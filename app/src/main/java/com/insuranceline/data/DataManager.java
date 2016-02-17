@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import au.com.lumo.ameego.LumoController;
 import de.greenrobot.event.EventBus;
 import retrofit.HttpException;
 import rx.Observable;
@@ -60,6 +61,7 @@ public class DataManager {
     private final PreferencesHelper mPreferencesHelper;
     private final AppConfig mAppConfig;
     private final EventBus mEventBus;
+    private final LumoController mLumoController;
 
     private List<Goal> mCatchedGoals = null;
 
@@ -67,7 +69,7 @@ public class DataManager {
     public DataManager(ApiService apiService, EdgeApiService edgeApiService,
                        FitBitApiService fitBitApiService, DatabaseHelper databaseHelper,
                        JobManager jobManager, PreferencesHelper preferencesHelper,
-                       AppConfig appConfig, EventBus eventBus){
+                       AppConfig appConfig, EventBus eventBus, LumoController lumoController){
 
         this.mEdgeApiService = edgeApiService;
         this.mFitBitApiService = fitBitApiService;
@@ -77,6 +79,7 @@ public class DataManager {
         this.mPreferencesHelper = preferencesHelper;
         this.mAppConfig = appConfig;
         this.mEventBus = eventBus;
+        this.mLumoController = lumoController;
 
         createGoalsAsDefaultIfNotCreated();
 
@@ -190,6 +193,7 @@ public class DataManager {
                     @Override
                     public Observable<? extends EdgeUser> call(EdgeResponse edgeResponse) {
                         mPreferencesHelper.saveEdgeSystemToken(edgeResponse.getmAccessToken());
+                        mLumoController.saveUser(edgeResponse.createLumoUser(email));
                         return mDatabaseHelper.createEdgeUser(email,edgeResponse);
                     }
                 });
