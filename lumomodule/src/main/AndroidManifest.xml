@@ -16,7 +16,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppThemeLumo"
+        >
         <activity
             android:name="au.com.lumo.ameego.SplashActivity"
             android:label="@string/app_name"
@@ -33,7 +34,7 @@
         <activity
             android:name="au.com.lumo.ameego.SignInActivity"
             android:label="@string/sign_in_activity"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppThemeLumo"
             android:screenOrientation="portrait"/>
 
         <activity

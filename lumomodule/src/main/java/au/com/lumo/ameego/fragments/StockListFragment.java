@@ -1,10 +1,12 @@
 package au.com.lumo.ameego.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -56,6 +58,14 @@ public class StockListFragment extends BaseFragment{
 
     private MCategory              mCategory;
     private StockAdapter           mAdapter;
+    private AppBarLayout           mAppBarLayout;
+    private Toolbar                 mToolbar;
+
+    private enum State {
+        EXPANDED,
+        COLLAPSED,
+        IDLE
+    }
 
     public static StockListFragment newInstance(MCategory category) {
 
@@ -73,7 +83,6 @@ public class StockListFragment extends BaseFragment{
         return R.layout.fragment_stock_list;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,10 +90,50 @@ public class StockListFragment extends BaseFragment{
     }
 
     @Override
+    protected void setToolbar(View view) {
+        mToolbar = (Toolbar) view.findViewById(getToolbarId());
+        mToolbar.setTitle(getTitle());
+        mToolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mIActivity.openDrawer();
+            }
+        });
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mCollapsingToolbar.setTitle(getTitle());
-        mCollapsingToolbar.setExpandedTitleColor(0x00ffffff);
+//        mCollapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.white)/*0x00ffffff*/);
+//        mCollapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.black));
+
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            private State state;
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == 0) {
+                    if (state != State.EXPANDED) {
+                        mToolbar.setNavigationIcon(R.drawable.ic_menu);
+                        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
+                    }
+                    state = State.EXPANDED;
+                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+                    if (state != State.COLLAPSED) {
+                        mToolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+                        mToolbar.setTitleTextColor(getResources().getColor(R.color.black));
+                    }
+                    state = State.COLLAPSED;
+                } else {
+                    if (state != State.IDLE) {
+                        mToolbar.setNavigationIcon(R.drawable.ic_menu);
+                        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
+                    }
+                    state = State.IDLE;
+                }
+            }
+        });
     }
 
     @Override
@@ -95,7 +144,13 @@ public class StockListFragment extends BaseFragment{
         mCollapsingToolbar   = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
         mHeaderImage         = (ImageView) view.findViewById(R.id.headerImageId);
         mEmptyState          = (ImageView) view.findViewById(R.id.empty_state);
-
+        mAppBarLayout        = (AppBarLayout) view.findViewById(R.id.appbar);
+        view.findViewById(R.id.menu_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onfilterclicked();
+            }
+        });
         setList();
         loadHeaderImage();
     }

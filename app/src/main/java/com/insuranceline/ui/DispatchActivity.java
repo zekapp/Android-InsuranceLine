@@ -54,7 +54,7 @@ public class DispatchActivity extends BaseActivity{
             public void onNext(EdgeUser edgeUser) {
                 if (edgeUser.isTermCondAccepted()){
                     if (edgeUser.isFitBitUser())
-                        dispatchFitBitApp();
+                        dispatchInsuranceLineApp();
                     else
                         dispatchLumoAmeego(edgeUser);
                 }else
@@ -79,43 +79,6 @@ public class DispatchActivity extends BaseActivity{
         startActivity(intent);
     }
 
-    private void dispatchFitBitApp() {
-
-        boolean isFitBitAppInstalled = Utils.isPackageInstalled(AppConfig.FITBIT_PACKAGE_NAME, getPackageManager());
-
-        if (isFitBitAppInstalled){
-            dispatchInsuranceLineApp();
-        } else {
-            dispatchWarning();
-        }
-
-    }
-
-    private void dispatchWarning() {
-        String title = "Install";
-        String body = "Please install FitBit application from Google Play Store first.";
-
-        DialogFactory.createGenericDialog(this, title, body, "Install", "Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                openPlayStore();
-            }
-        }, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dispatchInsuranceLineApp();
-            }
-        }).show();
-    }
-
-    private void openPlayStore() {
-        final String appPackageName = AppConfig.FITBIT_PACKAGE_NAME; // getPackageName() from Context or Activity object
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-        } catch (android.content.ActivityNotFoundException anfe) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-        }
-    }
 
     private void dispatchInsuranceLineApp() {
         boolean isConnected = mDataManager.isFitBitConnected();

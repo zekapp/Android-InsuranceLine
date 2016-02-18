@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -18,7 +17,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -26,16 +24,14 @@ import com.mikepenz.materialdrawer.model.interfaces.Badgeable;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import au.com.lumo.ameego.callbacks.GenericCallback;
+import au.com.lumo.ameego.fragments.MoreLumoFragment;
 import au.com.lumo.ameego.fragments.NearMeFragment;
 import au.com.lumo.ameego.fragments.RewardsFragment;
-import au.com.lumo.ameego.fragments.SettingsFragment;
-import au.com.lumo.ameego.fragments.WebViewFragment;
 import au.com.lumo.ameego.fragments.YourCartFragment;
 import au.com.lumo.ameego.fragments.basefragments.BaseFragment;
 import au.com.lumo.ameego.interfaces.IMessageToActivity;
 import au.com.lumo.ameego.manager.NetworkManager;
 import au.com.lumo.ameego.model.MShoppingCartVM;
-import au.com.lumo.ameego.utils.Constants;
 import au.com.lumo.ameego.utils.Navigator;
 import au.com.lumo.ameego.utils.PrefUtils;
 import de.greenrobot.event.EventBus;
@@ -95,8 +91,8 @@ public class BaseActivity extends AppCompatActivity {
 
     private void needBadgeUpdate(MShoppingCartVM cart) {
         if (cart != null && cart.getShoppingCartItemsHelper() != null)
-            updateBadgeNumber(cart.getShoppingCartItemsHelper().getItems().size(), Constants.DrawerItems.DRAWER_CART);
-        else updateBadgeNumber(0, Constants.DrawerItems.DRAWER_CART);
+            updateBadgeNumber(cart.getShoppingCartItemsHelper().getItems().size(), 2);
+        else updateBadgeNumber(0, 2);
     }
 
     private void updateBadgeNumber(int badgeNum, int index) {
@@ -254,12 +250,13 @@ public class BaseActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withHeader(R.layout.header)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.rewards_categories).withIcon(GoogleMaterial.Icon.gmd_card_giftcard).withIdentifier(1),
-                        new PrimaryDrawerItem().withName(R.string.news).withIcon(GoogleMaterial.Icon.gmd_local_library).withIdentifier(2),
-                        new PrimaryDrawerItem().withName(R.string.near_me).withIcon(GoogleMaterial.Icon.gmd_gps_fixed).withIdentifier(3),
-                        new PrimaryDrawerItem().withName(R.string.your_cart).withIcon(GoogleMaterial.Icon.gmd_shopping_cart).withBadge("0").withIdentifier(4),
-                        new PrimaryDrawerItem().withName(R.string.lumo_my_account).withIcon(GoogleMaterial.Icon.gmd_person).withIdentifier(5),
-                        new PrimaryDrawerItem().withName(R.string.setting_support).withIcon(GoogleMaterial.Icon.gmd_help).withIdentifier(6)
+                        new PrimaryDrawerItem().withName(R.string.rewards_categories).withIcon(R.drawable.icon_deals_idle).withSelectedIcon(R.drawable.icon_deals_active).withIdentifier(1),
+                        /*new PrimaryDrawerItem().withName(R.string.news).withIcon(GoogleMaterial.Icon.gmd_local_library).withSelectedIcon(R.drawable.icon_deals_idle).withIdentifier(2),*/
+                        new PrimaryDrawerItem().withName(R.string.near_me).withIcon(R.drawable.icon_nearme_idle).withSelectedIcon(R.drawable.icon_nearme_active).withIdentifier(2),
+                        new PrimaryDrawerItem().withName(R.string.your_cart).withIcon(R.drawable.icon_cart_idle).withSelectedIcon(R.drawable.icon_cart_active).withBadge("0").withIdentifier(3),
+                        new PrimaryDrawerItem().withName(R.string.more).withIcon(R.drawable.icon_more_idle).withSelectedIcon(R.drawable.icon_more_active).withIdentifier(4)
+                        /*new PrimaryDrawerItem().withName(R.string.lumo_my_account).withIcon(GoogleMaterial.Icon.gmd_person).withIdentifier(4),*/
+                        /*new PrimaryDrawerItem().withName(R.string.setting_support).withIcon(GoogleMaterial.Icon.gmd_help).withIdentifier(5)*/
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -268,11 +265,12 @@ public class BaseActivity extends AppCompatActivity {
 
                         switch (drawerItem.getIdentifier()){
                             case 1: setNewRootFragment(RewardsFragment.newInstance());  break;
-                            case 2: setNewRootFragment(WebViewFragment.newInstance(Constants.Url.TWITTER_URL, getResources().getString(R.string.news))); break;
-                            case 3: setNewRootFragment(NearMeFragment.newInstance());   break;
-                            case 4: setNewRootFragment(YourCartFragment.newInstance()); break;
-                            case 5: setNewRootFragment(WebViewFragment.newInstance(Constants.Url.MY_ACCOUNT, getResources().getString(R.string.lumo_my_account))); break;
-                            case 6: setNewRootFragment(SettingsFragment.newInstance()); break;
+                            /*case 2: setNewRootFragment(WebViewFragment.newInstance(Constants.Url.TWITTER_URL, getResources().getString(R.string.news))); break;*/
+                            case 2: setNewRootFragment(NearMeFragment.newInstance());   break;
+                            case 3: setNewRootFragment(YourCartFragment.newInstance()); break;
+                            case 4: setNewRootFragment(MoreLumoFragment.newInstance()); break;
+                            /*case 4: setNewRootFragment(WebViewFragment.newInstance(Constants.Url.MY_ACCOUNT, getResources().getString(R.string.lumo_my_account))); break;*/
+                            /*case 5: setNewRootFragment(SettingsFragment.newInstance()); break;*/
                         }
                         return false;
                     }

@@ -291,55 +291,55 @@ public class LumoSpecificUtils {
 
     public static int getIcon(int id) {
         switch (id){
-            case 21: return R.drawable.ic_icon_eat;
-            case 25: return R.drawable.ic_entertainment;
-            case 34: return R.drawable.ic_icon_fashion;
-            case 40: return R.drawable.ic_icon_house;
-            case 46: return R.drawable.ic_icon_wellbeing;
-            case 50: return R.drawable.ic_automotive;
-            case 55: return R.drawable.ic_7_travel;
-            case 65: return R.drawable.ic_8_estore;
-            default: return R.drawable.icon_gps;
+            case 21: return R.drawable.icon_eatanddrink;
+            case 25: return R.drawable.icon_entertainment;
+            case 34: return R.drawable.icon_fashionretail;
+            case 40: return R.drawable.icon_house;
+            case 46: return R.drawable.icon_wellbeing;
+            case 50: return R.drawable.icon_automotive;
+            case 55: return R.drawable.icon_travel;
+            case 65: return R.drawable.icon_estore;
+            default: return R.drawable.icon_loc;
 
         }
     }
 
     public static @DrawableRes int getSubCatIcon(int id) {
         switch (id){
-            case 253: return R.drawable.ic_1a_resaurants_cafes;
-            case 218: return R.drawable.ic_1b_grocery;
-            case 191: return R.drawable.ic_1c_liquor;
+            case 253: return R.drawable.icon_restaurantandcafes;
+            case 218: return R.drawable.icon_groceries;
+            case 191: return R.drawable.icon_liquor;
 
-            case 273: return R.drawable.ic_2a_tickets;
-            case 176: return R.drawable.ic_2b_attractions;
+            case 273: return R.drawable.icon_tickets;
+            case 176: return R.drawable.icon_amusement;
             case 287: return R.drawable.ic_2c_experiences;
-            case 254: return R.drawable.ic_2d_reading;
-            case 288: return R.drawable.ic_2e_music_gaming;
+            case 254: return R.drawable.icon_books;
+            case 288: return R.drawable.icon_games;
 
-            case 303: return R.drawable.ic_shoes_accessories;
-            case 185: return R.drawable.ic_icon_sportswear;
-            case 148: return R.drawable.ic_mens;
-            case 149: return R.drawable.ic_womens;
-            case 295: return R.drawable.ic_baby_kids;
+            case 303: return R.drawable.icon_watch;
+            case 185: return R.drawable.icon_sports;
+            case 148: return R.drawable.icon_mens;
+            case 149: return R.drawable.icon_womens;
+            case 295: return R.drawable.icon_kids;
 
-            case 46: return R.drawable.ic_4a_office;
-            case 291: return R.drawable.ic_4b_homewares;
-            case 209: return R.drawable.ic_4d_services;
-            case 29: return R.drawable.ic_4c_technology;
+            case 46: return R.drawable.icon_office;
+            case 291: return R.drawable.icon_homewares;
+            case 209: return R.drawable.icon_services_2;
+            case 29: return R.drawable.icon_tech;
 
-            case 40: return R.drawable.ic_5a_fitness;
-            case 32: return R.drawable.ic_5b_health;
-            case 296: return R.drawable.ic_5c_spa_beauty;
+            case 40: return R.drawable.icon_fitness;
+            case 32: return R.drawable.icon_health;
+            case 296: return R.drawable.icon_beauty;
 
-            case 297: return R.drawable.ic_6a_accessories;
-            case 279: return R.drawable.ic_6b_fuel;
-            case 124: return R.drawable.ic_6c_services;
+            case 297: return R.drawable.icon_accessories;
+            case 279: return R.drawable.icon_fuel;
+            case 124: return R.drawable.icon_services;
 
-            case 56: return R.drawable.ic_7a_accomodation;
-            case 134: return R.drawable.ic_7b_flights;
+            case 56: return R.drawable.icon_accomodation;
+            case 134: return R.drawable.icon_airplane;
             case 261: return R.drawable.ic_7c_insurance;
-            case 304: return R.drawable.ic_7d_travel_accessories;
-            case 302: return R.drawable.ic_7a_accomodation;
+            case 304: return R.drawable.icon_accessories;
+            case 302: return R.drawable.icon_accomodation;
 
             default: return R.drawable.icon_gps;
 

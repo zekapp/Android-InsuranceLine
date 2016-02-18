@@ -1,32 +1,16 @@
 package com.insuranceline.ui.fragments.more;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.InputType;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.insuranceline.R;
-import com.insuranceline.di.qualifier.ActivityContext;
-import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.fragments.BaseFragment;
-import com.insuranceline.ui.fragments.containers.BaseContainerFragment;
 import com.insuranceline.ui.login.connect.FBConnectActivity;
-import com.insuranceline.utils.DialogFactory;
-
-import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,7 +22,7 @@ import butterknife.OnClick;
 public class MoreFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_more, container, false);
+        final View view = inflater.inflate(R.layout.fragment_more_lumo, container, false);
         ButterKnife.bind(this, view);
         getActivityComponent().inject(this);
         return view;

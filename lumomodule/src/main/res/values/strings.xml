@@ -13,11 +13,11 @@
     <string name="error_field_required">This field is required</string>
     <string name="error_invalid_email">The email address entered is invalid.</string>
     <string name="baseActivityName">Lumo</string>
-    <string name="rewards_categories">Rewards</string>
+    <string name="rewards_categories">Deals</string>
     <string name="news">News</string>
     <string name="near_me">Near Me</string>
     <string name="your_cart">Cart</string>
-    <string name="lumo_my_account">Lumo - My Account</string>
+    <string name="lumo_my_account">My Account</string>
     <string name="setting_support"><![CDATA[Settings & Support]]></string>
     <string name="sample_name">User Name</string>
     <string name="sample_email">name.surname@lumo.com</string>
@@ -111,6 +111,8 @@
     <string name="error_size_cvv_number">CVV number must be 3 digits</string>
     <string name="error_size_cvv_number2">CVV number must be 4 digits</string>
     <string name="no_internet_connection">Unable to load content with an internet connection. Please connect to the internet to view the page</string>
+    <string name="more">More</string>
+    <string name="insurance_website">Visit InsuranceLine Website</string>
 
 
 </resources>

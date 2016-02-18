@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.insuranceline">
+<manifest package="com.insuranceline"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
+        android:name="com.insuranceline.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name="com.insuranceline.App">
+        tools:replace="android:icon,android:theme">
 
 
         <activity
             android:name=".ui.splash.SplashActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -51,27 +55,33 @@
 
         <activity
             android:name=".ui.login.termAndCond.TermCondActivity"
-            android:parentActivityName=".ui.login.LoginActivity"
             android:label="@string/term_cond_activity_name"
+            android:parentActivityName=".ui.login.LoginActivity"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".ui.login.connect.FBConnectActivity"
             android:label="@string/activity_name_fit_bit_connect"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".ui.login.LoginActivity">
+            android:parentActivityName=".ui.login.LoginActivity"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="apitester" android:host="logincallback" />
+
+                <data
+                    android:host="logincallback"
+                    android:scheme="apitester"/>
             </intent-filter>
 
         </activity>
 
-        <activity android:name=".ui.claim.ClaimingRewardActivity" android:theme="@style/Theme.Transparent"/>
+        <activity
+            android:name=".ui.claim.ClaimingRewardActivity"
+            android:theme="@style/Theme.Transparent"/>
 
         <!--Services-->
 

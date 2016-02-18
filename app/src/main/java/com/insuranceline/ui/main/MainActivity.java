@@ -1,7 +1,9 @@
 package com.insuranceline.ui.main;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -14,6 +16,7 @@ import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.insuranceline.R;
+import com.insuranceline.config.AppConfig;
 import com.insuranceline.event.GeneralErrorEvent;
 import com.insuranceline.event.GoalAchieveEvent;
 import com.insuranceline.event.LogOutEvent;
@@ -26,6 +29,8 @@ import com.insuranceline.ui.fragments.containers.MoreContainer;
 import com.insuranceline.ui.fragments.containers.RewardsContainer;
 import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainerContainer;
 import com.insuranceline.ui.fragments.containers.goals.GoalsContainer;
+import com.insuranceline.utils.DialogFactory;
+import com.insuranceline.utils.Utils;
 
 import javax.inject.Inject;
 
@@ -134,6 +139,40 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     protected void onStop() {
         super.onStop();
         mEventBus.unregister(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean isFitBitAppInstalled = Utils.isPackageInstalled(AppConfig.FITBIT_PACKAGE_NAME, getPackageManager());
+        if (!isFitBitAppInstalled){
+            dispatchWarning();
+        }
+    }
+
+    private void dispatchWarning() {
+        String title = "Install";
+        String body = "Please install FitBit application from Google Play Store first.";
+
+        DialogFactory.createGenericDialog(this, title, body, "Install", "Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openPlayStore();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }).show();
+    }
+
+    private void openPlayStore() {
+        final String appPackageName = AppConfig.FITBIT_PACKAGE_NAME; // getPackageName() from Context or Activity object
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
     }
 
     /**

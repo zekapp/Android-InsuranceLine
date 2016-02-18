@@ -20,9 +20,10 @@
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/colorPrimary"
+            app:contentScrim="@color/white"
             app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp">
+            app:expandedTitleMarginEnd="64dp"
+            app:titleEnabled="false">
             <ImageView
                 android:id="@+id/headerImageId"
                 android:layout_width="match_parent"
@@ -39,7 +40,9 @@
                 android:layout_width="match_parent"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:layout_collapseMode="pin"
+                style="@style/MaterialDrawer.DrawerArrowStyle"
                 >
+
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -71,6 +74,7 @@
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="center|right|top"
         android:layout_margin="10dp"
-        android:padding="7dp"/>
+        android:padding="7dp"
+        android:visibility="gone"/>
 
 </android.support.design.widget.CoordinatorLayout>

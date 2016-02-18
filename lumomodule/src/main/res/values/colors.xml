@@ -10,13 +10,16 @@
     <color name="windowPrimaryColorDark1">#e9e5e0</color>
     <color name="windowPrimaryColorDark2">#b3b1a9</color>
     <color name="menuBackgroundColor">#222423</color>
-    <color name="menuBackgroundColorDark">#1e1e1e</color>
+    <color name="menuBackgroundColorDark">@color/white</color>
     <color name="menuBackgroundColorDarker">#1a1b1a</color>
 
-    <color name="refresh_progress_1">@color/colorPrimary</color>
-    <color name="refresh_progress_2">@color/colorPrimaryDark</color>
-    <color name="refresh_progress_3">@color/colorSecondary</color>
-    <color name="refresh_progress_4">@color/colorSecondaryDark</color>
+    <color name="refresh_progress_1">#659a00</color>
+    <color name="refresh_progress_2">#f8b202</color>
+    <color name="refresh_progress_3">#ffffff</color>
+    <color name="refresh_progress_4">@color/black</color>
+
+    <color name="insurance_green">#58a869</color>
+
 
     <color name="news_backround">#fafafa</color>
     <color name="news_card_background">#fefefe</color>
@@ -35,11 +38,15 @@
     <color name="reward_category_item_bg">@color/white</color>
     <color name="stock_item_claim_bg">#6c6c6c</color>
 
+    <color name="pages_bg">#f0f0f0</color>
+    <color name="more_item_line">#bebbbb</color>
+
     <color name="yellow">#f7e300</color>
     <color name="fuchsia">#FF00FF</color>
     <color name="red">#FF0000</color>
     <color name="silver">#C0C0C0</color>
-    <color name="gray">#c7c7c7</color>
+    <color name="gray">#757575</color>
+    <color name="gray_transparent">#b3757575</color>
     <color name="graydark">#ff787878</color>
     <color name="olive">#808000</color>
     <color name="purple">#800080</color>
@@ -51,6 +58,7 @@
     <color name="blue">#3e92ad</color>
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
+    <color name="transparent_black">#ab000000</color>
     <color name="white">#FFFFFF</color>
     <color name="stock_item_bg_t1">#c5c5c5</color>
     <color name="header_background">#f9f9f9</color>

@@ -67,7 +67,7 @@ public abstract class BaseFragment extends Fragment {
         if(!hasCustomToolbar()) return;
         mToolbar = (Toolbar) view.findViewById(getToolbarId());
         mToolbar.setTitle(getTitle());
-        mToolbar.setNavigationIcon(R.drawable.ic_menu);
+        mToolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
