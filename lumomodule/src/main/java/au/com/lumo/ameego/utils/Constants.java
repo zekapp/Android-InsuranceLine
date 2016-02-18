@@ -19,6 +19,7 @@ public class Constants {
         public static final String PRIVACY_POLICY             = Server.SERVER_URL + "Info/Privacy";
         public static final String TERMS_CONDITION            = Server.SERVER_URL + "Redirect/Go?target=TERMS&userKey=%s&appID=%s&args=m";
         public static final String MY_ACCOUNT                 = "https://myaccount.lumoenergy.com.au";
+        public static final String INSURANCE_LINE_WEB         = "https://www.insuranceline.com.au";
         public static final String EMPTY_CASE_URL             = "https://lumorewards.com.au/";
         public static final String IMAGE_BASE                 = "https://lumorewards.com.au/Default/Resources/Image/";
     }

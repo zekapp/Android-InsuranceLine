@@ -1,150 +1,344 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:background="@color/pages_bg">
 
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_width="match_parent"
-                android:minHeight="?attr/actionBarSize"
-                style="@style/ActionBar"
-                app:layout_scrollFlags="scroll|enterAlways"/>
+            android:orientation="vertical"
+            android:paddingBottom="40dp">
 
-            <FrameLayout
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <View
+                android:layout_height="wrap_content"
+                >
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_height="?attr/actionBarSize"
                     android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:background="@drawable/toolbar_dropshadow" />
+                    android:minHeight="?attr/actionBarSize"
+                    style="@style/ActionBar"
+                    app:layout_scrollFlags="scroll|enterAlways"/>
 
-            </FrameLayout>
-        </android.support.design.widget.AppBarLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="15dp">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/toolbar_under_shadow_height"
+                        android:background="@drawable/toolbar_dropshadow" />
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/logged_in_as"
-                android:textColor="@color/colorPrimary"
-                />
+                </FrameLayout>
+            </android.support.design.widget.AppBarLayout>
 
-            <TextView
-                android:id="@+id/logged_in_as"
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/logged_in_as"
+                    android:layout_marginLeft="@dimen/lumo_setting_leftt_margin"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:padding="7dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:id="@+id/def"/>
+
+
+                <TextView
+                    android:id="@+id/logged_in_as"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="michell.callanana"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/def"
+                    android:gravity="right"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_marginRight="@dimen/lumo_setting_right_margin"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_version"
+                    android:layout_marginLeft="@dimen/lumo_setting_leftt_margin"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:padding="7dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:id="@+id/def1"/>
+
+
+                <TextView
+                    android:id="@+id/app_version"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1.0.0"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/def1"
+                    android:gravity="right"
+                    android:ellipsize="end"
+                    android:layout_marginRight="@dimen/lumo_setting_right_margin"
+                    android:maxLines="1"/>
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/test_message"
-                android:maxLines="1"/>
+                android:textColor="@color/insurance_green"
+                android:text="@string/setting_support_customer_support_title"
+                android:layout_marginLeft="@dimen/lumo_setting_leftt_margin"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:padding="7dp"
+                android:singleLine="true"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"/>
+
+            <RelativeLayout
+                android:id="@+id/call_customer_support"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/call_customer_support"
+                    android:layout_marginLeft="@dimen/lumo_setting_leftt_margin"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:padding="7dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:id="@+id/def2"/>
+
+
+                <TextView
+                    android:id="@+id/phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1300887787"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/def2"
+                    android:gravity="right"
+                    android:ellipsize="end"
+                    android:layout_marginRight="@dimen/lumo_setting_right_margin"
+                    android:maxLines="1"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/email_customer"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email_customer"
+                    android:layout_marginLeft="@dimen/lumo_setting_leftt_margin"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:padding="7dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:id="@+id/def3"/>
+
+
+                <TextView
+                    android:id="@+id/email_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="michelle@insuranceline.com.au"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/def3"
+                    android:gravity="right"
+                    android:ellipsize="end"
+                    android:layout_marginRight="@dimen/lumo_setting_right_margin"
+                    android:maxLines="1"/>
+
+            </RelativeLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/insurance_green"
+                android:text="@string/setting_support_policies_text"
+                android:layout_marginLeft="@dimen/lumo_setting_leftt_margin"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:padding="7dp"
+                android:singleLine="true"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"/>
+
+            <RelativeLayout
+                android:id="@+id/privacy_policy"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/privacy_policy"
+                    android:layout_marginLeft="@dimen/lumo_setting_leftt_margin"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:padding="7dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:ellipsize="end"
+                    android:layout_marginRight="@dimen/lumo_setting_right_margin"
+                    android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    android:maxLines="1"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/terms_condition"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/terms_condition_setting"
+                    android:layout_marginLeft="@dimen/lumo_setting_leftt_margin"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:padding="7dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:ellipsize="end"
+                    android:layout_marginRight="@dimen/lumo_setting_right_margin"
+                    android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    android:maxLines="1"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/logout_button"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal"
+                android:layout_marginTop="27dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/logout_button"
+                    android:layout_marginLeft="@dimen/lumo_setting_leftt_margin"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:padding="7dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:ellipsize="end"
+                    android:layout_marginRight="@dimen/lumo_setting_right_margin"
+                    android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    android:maxLines="1"/>
+
+            </RelativeLayout>
+
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="15dp">
+    </ScrollView>
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="@string/app_version"
-                android:textColor="@color/colorPrimary"
-                />
-
-            <TextView
-                android:id="@+id/app_version"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/app_version_test"
-                android:maxLines="1"/>
-        </LinearLayout>
-
-        <ImageView android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gray"/>
-
-        <TextView
-            android:id="@+id/call_customer_support"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/call_customer_support"
-            android:textColor="@color/colorPrimary"
-            android:padding="13dp"
-            android:clickable="true"
-            android:background="?selectableItemBackground"
-            android:drawableRight="@drawable/ic_call_black_24dp"
-            android:gravity="center_vertical"/>
-
-        <ImageView android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gray"/>
-
-        <TextView
-            android:id="@+id/privacy_policy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/privacy_policy"
-            android:textColor="@color/colorPrimary"
-            android:padding="15dp"
-            android:clickable="true"
-            android:background="?selectableItemBackground"/>
-
-        <ImageView android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gray"/>
-
-        <TextView
-            android:id="@+id/terms_condition"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/terms_condition_setting"
-            android:textColor="@color/colorPrimary"
-            android:padding="15dp"
-            android:clickable="true"
-            android:background="?selectableItemBackground"/>
-
-        <ImageView android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gray"/>
-
-        <TextView
-            android:id="@+id/email_customer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/email_customer"
-            android:textColor="@color/colorPrimary"
-            android:padding="15dp"
-            android:clickable="true"
-            android:background="?selectableItemBackground"/>
-
-        <ImageView android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gray"/>
-
-
-        <TextView
-            android:id="@+id/logout_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/logout_button"
-            android:textColor="@color/colorPrimary"
-            android:padding="15dp"
-            android:clickable="true"
-            android:background="?selectableItemBackground"/>
-
-        <ImageView android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/gray"/>
-
-    </LinearLayout>
 
 
     <ImageView

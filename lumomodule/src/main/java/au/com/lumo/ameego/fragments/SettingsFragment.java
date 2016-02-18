@@ -25,12 +25,11 @@ public class SettingsFragment extends BaseFragment{
 
     TextView mLogedNameTv;
     TextView mAppVersionTv;
-    TextView mTermCondTv;
-    TextView mEmailSuppportTv;
-    TextView mLogoutTv;
     ImageView mCallSupImg;
 
     private MUser mUser;
+    private TextView mPhoneNumber;
+    private TextView mEmailNo;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -47,10 +46,11 @@ public class SettingsFragment extends BaseFragment{
         super.onViewCreated(view, savedInstanceState);
         mLogedNameTv     = (TextView) view.findViewById(R.id.logged_in_as);
         mAppVersionTv    = (TextView) view.findViewById(R.id.app_version);
-        mTermCondTv      = (TextView) view.findViewById(R.id.terms_condition);
-        mEmailSuppportTv = (TextView) view.findViewById(R.id.email_customer);
-        mLogoutTv        = (TextView) view.findViewById(R.id.logout_button);
         mCallSupImg      = (ImageView) view.findViewById(R.id.call_support);
+        mPhoneNumber     = (TextView) view.findViewById(R.id.phone_number);
+        mEmailNo         = (TextView) view.findViewById(R.id.email_no);
+
+
 
         view.findViewById(R.id.privacy_policy).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +85,16 @@ public class SettingsFragment extends BaseFragment{
 
         updateLoggedAs();
         updateAppversion();
+        updatePhoneNumber();
+        updateEmailAddress();
+    }
+
+    private void updateEmailAddress() {
+        mEmailNo.setText(Constants.SUPPORT_EMAIL);
+    }
+
+    private void updatePhoneNumber() {
+        mPhoneNumber.setText(Constants.SUPPORT_PHONE_NUMBER);
     }
 
     @Override
