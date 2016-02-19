@@ -20,17 +20,17 @@ import au.com.lumo.ameego.utils.WarningUtilsMD;
 public class PaymentDetailsFragment extends BaseFragment {
     public static final String TAG = PaymentDetailsFragment.class.getSimpleName();
 
-    /*@Bind(R.id.detail_name_on_card)  */   EditText mNameOnCardEt;
-    /*@Bind(R.id.detail_card_number)   */   EditText mCardNumberEt;
-    /*@Bind(R.id.detail_cvv)           */   EditText mCardCvvEt;
-    /*@Bind(R.id.detail_card_type)     */   EditText mCardTypeEt;
-    /*@Bind(R.id.detail_card_exp_month)*/   EditText mCardExpMonthEt;
-    /*@Bind(R.id.detail_card_exp_year) */   EditText mCardExpYearEt;
+    private  EditText mNameOnCardEt;
+    private  EditText mCardNumberEt;
+    private  EditText mCardCvvEt;
+    private  EditText mCardTypeEt;
+    private  EditText mCardExpMonthEt;
+    private  EditText mCardExpYearEt;
 
     private PaymentDetails mPaymentDetail;
 
     private int mCardType = 1;      // Default is VISA
-    private int mExpMonth = 1;      // Defaulr is January
+    private int mExpMonth = 1;      // Default is January
     private int mExpYear = 2015;   // Default is 2015
 
     public static PaymentDetailsFragment newInstance() {
@@ -50,24 +50,32 @@ public class PaymentDetailsFragment extends BaseFragment {
         mCardNumberEt    = (EditText) view.findViewById(R.id.detail_card_number);
         mCardCvvEt       = (EditText) view.findViewById(R.id.detail_cvv);
         mCardTypeEt      = (EditText) view.findViewById(R.id.detail_card_type);
-        mCardExpMonthEt  = (EditText) view.findViewById(R.id.detail_card_exp_month);
+        mCardExpMonthEt  = (EditText) view.findViewById(R.id.detail_card_expiry);
         mCardExpYearEt   = (EditText) view.findViewById(R.id.detail_card_exp_year);
-        view.findViewById(R.id.detail_card_exp_month).setOnClickListener(new View.OnClickListener() {
+
+        view.findViewById(R.id.detail_card_type).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCardType(v);
             }
         });
+
+        view.findViewById(R.id.detail_card_expiry).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            onExpMont(v);
+            }
+        });
         view.findViewById(R.id.detail_card_exp_year).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  onExpMont(v);
+              onExpYear(v);
             }
         });
         view.findViewById(R.id.detail_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                   onNextClicked(v);
+               onNextClicked(v);
             }
         });
     }
@@ -147,9 +155,11 @@ public class PaymentDetailsFragment extends BaseFragment {
         WarningUtilsMD.alertDialogOption(getActivity(), "Select Card Expiry Month", R.array.months_unmber, new WarnOptionSelectCallback() {
             @Override
             public void done(int which) {
-                ((EditText) view).setText(months[which]);
+//                ((EditText) view).setText(months[which]);
 
                 mExpMonth = which + 1;
+
+                onExpYear(view);
 //                Log.d(TAG, "Card Exp Month: " + mExpMonth);
             }
 
@@ -166,7 +176,13 @@ public class PaymentDetailsFragment extends BaseFragment {
         WarningUtilsMD.alertDialogOption(getActivity(), "Select Card Expiry Year", R.array.years, new WarnOptionSelectCallback() {
             @Override
             public void done(int which) {
-                ((EditText) view).setText(years[which]);
+                String year = years[which];
+                String month = String.valueOf(mExpMonth);
+
+                ((EditText) view).setText(String.format("%s/%s",month,year));
+
+
+
                 mExpYear = 2015 + which;
 //                Log.d(TAG, "Card Exp Year: " + mExpYear);
             }
@@ -184,8 +200,8 @@ public class PaymentDetailsFragment extends BaseFragment {
         String cardNumber = mCardNumberEt.getText().toString();
         String cardCvv = mCardCvvEt.getText().toString();
         String cardType = mCardTypeEt.getText().toString();
-        String expMonth = mCardExpMonthEt.getText().toString();
-        String expYear = mCardExpYearEt.getText().toString();
+//        String expMonth = mCardExpMonthEt.getText().toString();
+//        String expYear = mCardExpYearEt.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -233,13 +249,13 @@ public class PaymentDetailsFragment extends BaseFragment {
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(expMonth)) {
+        if (TextUtils.isEmpty(String.valueOf(mExpMonth))) {
             mCardExpMonthEt.setError(getString(R.string.error_field_required));
             focusView = mCardExpMonthEt;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(expYear)) {
+        if (TextUtils.isEmpty(String.valueOf(mExpYear))) {
             mCardExpYearEt.setError(getString(R.string.error_field_required));
             focusView = mCardExpYearEt;
             cancel = true;

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +68,7 @@ public class YourCartFragment extends BaseFragment{
         mRecyclerView = (RecyclerView) view.findViewById(R.id.simpleList);
         mEmptyState   = (ImageView) view.findViewById(R.id.empty_state);
         mProgressBar  = (SmoothProgressBar) view.findViewById(R.id.progress_bar);
+
         initListView();
     }
 
@@ -130,8 +132,8 @@ public class YourCartFragment extends BaseFragment{
         mHandlingFeeTv  = (TextView         )mFooter.findViewById(R.id.footer_handling_fee);
         mTotalFeeTv     = (TextView         )mFooter.findViewById(R.id.footer_total);
         mCreditCardFee  = (TextView         )mFooter.findViewById(R.id.footer_creditcard_fee);
-        TextView checkoutText = (TextView)mFooter.findViewById(R.id.footer_checkout);
-        checkoutText.setOnClickListener(new View.OnClickListener() {
+
+        mFooter.findViewById(R.id.footer_checkout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Toast.makeText(getActivity(), " checkout clicked...", Toast.LENGTH_SHORT).show();

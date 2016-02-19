@@ -281,7 +281,7 @@ public class NearMeFragment extends BaseFragment {
                             .title(name)
                             .snippet(address)
                             .position(latLng)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_location)));
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_loc)));
 
             mHashMap.put(marker, i);
         }

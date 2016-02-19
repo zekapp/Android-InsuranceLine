@@ -37,7 +37,8 @@
         android:alpha="255"
         android:background="@color/white"
         android:iconifiedByDefault="false"
-        android:queryHint="@string/search_venue" />
+        android:queryHint="@string/search_venue"
+        android:visibility="gone"/>
     <!--android:background="#e9e5e0"-->
     <RelativeLayout
         android:layout_width="match_parent"

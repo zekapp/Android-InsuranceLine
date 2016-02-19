@@ -48,8 +48,7 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/conf_card_type"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="@string/conf_card_type"/>
 
                 <TextView
                     android:id="@+id/conf_card_type"
@@ -67,8 +66,7 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/conf_card_name"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="@string/conf_card_name"/>
 
                 <TextView
                     android:id="@+id/conf_card_name"
@@ -86,8 +84,7 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/conf_card_number"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="@string/conf_card_number"/>
 
                 <TextView
                     android:id="@+id/conf_card_number"
@@ -110,8 +107,7 @@
                     <TextView
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/conf_expiry"
-                        android:textColor="@color/colorPrimary"/>
+                        android:text="@string/conf_expiry"/>
 
                     <TextView
                         android:id="@+id/conf_expiry"
@@ -128,8 +124,7 @@
                     <TextView
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/conf_ccv"
-                        android:textColor="@color/colorPrimary"/>
+                        android:text="@string/conf_ccv"/>
 
                     <TextView
                         android:id="@+id/conf_ccv"
@@ -155,8 +150,7 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/conf_user_name"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="@string/conf_user_name"/>
 
                 <TextView
                     android:id="@+id/conf_user_name"
@@ -174,8 +168,7 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/conf_address"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="@string/conf_address"/>
 
                 <TextView
                     android:id="@+id/conf_address"
@@ -194,8 +187,7 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/conf_email"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="@string/conf_email"/>
 
                 <TextView
                     android:id="@+id/conf_email"
@@ -213,8 +205,7 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/conf_phone"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="@string/conf_phone"/>
 
                 <TextView
                     android:id="@+id/conf_phone"
@@ -240,7 +231,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/conf_total_cost"
-                    android:textColor="@color/colorPrimary"/>
+                    />
 
                 <TextView
                     android:id="@+id/conf_total_cost"
@@ -249,24 +240,17 @@
                     android:text="@string/test_message_very_short"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="130dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right"
-                android:layout_marginTop="120dp"
-                android:background="@color/colorPrimary"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/confirmation_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/confirmation"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
+            <Button
+                android:id="@+id/confirmation_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/lumo_orange_button_bg"
+                android:text="@string/confirmation"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                />
 
         </LinearLayout>
 

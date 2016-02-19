@@ -54,11 +54,11 @@
         <item>@color/md_red_400</item>
     </string-array>
     <string-array name="gplus_maps_colors">
-        <item>@color/colorPrimary</item>
+        <item>@color/insurance_green</item>
     </string-array>
 
     <string-array name="gplus_yourcart_colors">
-        <item>@color/colorPrimary</item>
+        <item>@color/insurance_green</item>
         <item>@color/md_red_400</item>
     </string-array>
 

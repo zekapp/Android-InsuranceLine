@@ -25,6 +25,8 @@
 
     <!--Toolbar -->
     <dimen name="toolbar_under_shadow_height">5dp</dimen>
+    <dimen name="button_width">265dp</dimen>
+    <dimen name="button_height">50dp</dimen>
 
 
 </resources>

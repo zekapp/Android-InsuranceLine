@@ -1,137 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/black"
-    >
+    android:layout_height="match_parent"
+    android:background="@color/pages_bg"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:paddingBottom="100dp">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
-        android:padding="30dp">
+        android:orientation="vertical"
+        android:background="@color/pages_bg">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:text="@string/footer_subtotal"
+            />
 
-            <TextView
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:text="@string/footer_subtotal"
-                android:textColor="@color/white"/>
-
-            <TextView
-                android:id="@+id/footer_subtotal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="$117"
-                android:textColor="@color/white"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/footer_subtotal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:gravity="right"
+            android:text="$117"
+            android:layout_alignParentRight="true"
+            />
 
-            <TextView
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:text="@string/footer_delivery_fee"
-                android:textColor="@color/white"/>
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/footer_delivery_fee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="$5.98"
-                android:textColor="@color/white"/>
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp"
+        android:background="@color/pages_bg">
+
+        <TextView
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:visibility="gone">
+            android:text="@string/footer_delivery_fee"/>
 
-            <TextView
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:text="@string/footer_handling_fee"
-                android:textColor="@color/white"/>
-
-            <TextView
-                android:id="@+id/footer_handling_fee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="$0.00"
-                android:textColor="@color/white"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/footer_delivery_fee"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:gravity="right"
+            android:text="$5.98"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
-            <TextView
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:text="@string/footer_credit_card_fee"
-                android:textColor="@color/white"/>
 
-            <TextView
-                android:id="@+id/footer_creditcard_fee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="$0.00"
-                android:textColor="@color/white"/>
-        </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp"
+        android:background="@color/pages_bg"
+        android:visibility="gone">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:text="@string/footer_handling_fee"/>
 
-            <TextView
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:text="@string/footer_total"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/footer_total"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="$0.00"
-                android:textColor="@color/white"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/footer_handling_fee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="$0.00"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
 
-        <LinearLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp"
+        android:background="@color/pages_bg"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:text="@string/footer_credit_card_fee"/>
+
+        <TextView
+            android:id="@+id/footer_creditcard_fee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="$0.00"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:background="@color/pages_bg"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:text="@string/footer_total"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/footer_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="$0.00"
+            android:layout_alignParentRight="true"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/footer_checkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/lumo_orange_button_bg"
+        android:text="Proceed to Payment"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        />
+
+    <!--    <LinearLayout
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:orientation="vertical"
             android:layout_gravity="right"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:background="@color/black"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/footer_checkout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:text="@string/checkout"
                 android:textColor="@color/white"
-                android:gravity="center"
                 android:textStyle="bold"/>
 
-        </LinearLayout>
+        </LinearLayout>-->
 
 
-    </LinearLayout>
 
 </LinearLayout>
+
+

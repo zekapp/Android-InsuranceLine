@@ -136,9 +136,20 @@
                 android:text="@string/card_options_digital"
                 android:textColor="@color/colorPrimaryDark" />
 
-            <include layout="@layout/option_bullets" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
 
-            <include layout="@layout/stock_terms_layout" />
+                <include layout="@layout/option_bullets" />
+
+                <include layout="@layout/stock_terms_layout" />
+
+            </LinearLayout>
+
+
 
             <include layout="@layout/select_cart" />
 

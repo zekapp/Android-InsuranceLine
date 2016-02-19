@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/pages_bg"
+              android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -16,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:minHeight="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            app:layout_scrollFlags="scroll|enterAlways"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -25,155 +26,251 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
-                android:background="@drawable/toolbar_dropshadow" />
+                android:background="@drawable/toolbar_dropshadow"/>
 
         </FrameLayout>
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5">
-
-                    <EditText
-                        android:id="@+id/checkout_first_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/checkout_first_name_hint"
-                        android:inputType="textCapSentences"
-                        android:nextFocusDown="@+id/checkout_last_name" />
-                </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
-
-                <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5">
-
-                    <EditText
-                        android:id="@+id/checkout_last_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/checkout_last_name_hint"
-                        android:inputType="textCapSentences" />
-                </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
-            </LinearLayout>
+            android:paddingBottom="10dp">
 
 
             <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="60dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/checkout_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/white"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:hint="@string/first_name"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+            </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
+
+
+            <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/checkout_last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/white"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:hint="@string/checkout_last_name_hint"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+            </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
+
+
+            <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/checkout_street_address"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/white"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
                     android:hint="@string/checkout_street_address"
-                    android:inputType="textCapSentences" />
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
             </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
 
+
             <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="60dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/checkout_suburb"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/white"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
                     android:hint="@string/checkout_suburb"
-                    android:inputType="textCapSentences" />
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
             </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
 
             <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="60dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/checkout_postcode"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/white"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
                     android:hint="@string/checkout_postcode"
                     android:inputType="numberDecimal"
-                    android:maxLength="4" />
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
             </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
 
 
             <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="60dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/checkout_state"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/white"
                     android:cursorVisible="false"
-                    android:focusable="false"
+                    android:ellipsize="end"
                     android:focusableInTouchMode="false"
+                    android:gravity="center_vertical"
                     android:hint="@string/checkout_state"
                     android:imeOptions="actionNext"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
 
             </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
 
+
             <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="60dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/checkout_email"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/white"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
                     android:hint="@string/checkout_email"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
             </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
 
+
             <au.com.lumo.ameego.uiUtils.CustomTextInputLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="60dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/reward_category_item_bg"
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/checkout_contact_number"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/white"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
                     android:hint="@string/checkout_contact_number"
                     android:inputType="numberDecimal"
-                    android:maxLength="10" />
+                    android:maxLength="10"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
             </au.com.lumo.ameego.uiUtils.CustomTextInputLayout>
 
-            <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right"
-                android:layout_marginTop="20dp"
-                android:background="@color/colorPrimary"
-                android:orientation="vertical">
+            <Button
+                android:id="@+id/footer_checkout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/lumo_orange_button_bg"
+                android:text="Next"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                />
 
-                <TextView
-                    android:id="@+id/footer_checkout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/next"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:onClick="onCheckout"
-                    />
+            <!--          <LinearLayout
+                          android:layout_width="100dp"
+                          android:layout_height="40dp"
+                          android:layout_gravity="right"
+                          android:layout_marginTop="20dp"
+                          android:background="@color/colorPrimary"
+                          android:orientation="vertical">
 
-            </LinearLayout>
+                          <TextView
+                              android:id="@+id/footer_checkout"
+                              android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:gravity="center"
+                              android:text="@string/next"
+                              android:textColor="@color/white"
+                              android:textStyle="bold"
+                              android:onClick="onCheckout"
+                              />
+
+                      </LinearLayout>-->
 
         </LinearLayout>
     </ScrollView>

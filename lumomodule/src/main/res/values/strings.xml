@@ -37,31 +37,31 @@
     <string name="card_options_digital">DIGITAL GIFT CARD</string>
     <string name="card_options_physical">PHYSICAL GIFT CARD</string>
     <string name="test_option">Lorem ipsum dolor sit amet, nibh enim volutpat feugiat semper nostra est, amet pellentesque condimentum elementum purus. Viverra nascetur, blandit sapien quisque lectus, curabitur maecenas. Commodo nullam sit nullam mi erat aliquet. Donec metus nisl vehicula donec. Morbi libero nulla, felis sagittis felis in vehicula, suspendisse nunc lacinia sodales. Non ac egestas vehicula odio, nunc mattis ut neque quam nulla, non nulla vivamus iaculis augue ultrices iusto. Turpis dolor magna justo libero, semper lectus vehicula vel. Aliquam iaculis. Nec integer sapien dis purus, praesent eget hendrerit nec proin sollicitudin. Eget lacus ac velit justo in, pharetra leo massa ut lacus diam convallis, quam integer cras odio nec. Neque integer morbi. Nulla suspendisse commodo quis, justo pellentesque vivamus, pellentesque fusce risus erat scelerisque curabitur, quisque varius consectetuer.</string>
-    <string name="devivery_type_text">DELIVERY TYPE:</string>
+    <string name="devivery_type_text">Details</string>
     <string name="card_value_text">CARD VALUE</string>
-    <string name="stock_detail_add_card">ADD TO CART</string>
+    <string name="stock_detail_add_card">Add to Cart</string>
     <string name="item">ITEM:</string>
     <string name="shop_cart_item_detail">DETAILS:</string>
     <string name="shop_cart_item_price">PRICE:</string>
-    <string name="shop_cart_item_quantity">QUANTITY:</string>
-    <string name="footer_subtotal">Subtotal:</string>
-    <string name="footer_delivery_fee">Delivery Fee:</string>
+    <string name="shop_cart_item_quantity">Quantity</string>
+    <string name="footer_subtotal">Subtotal</string>
+    <string name="footer_delivery_fee">Delivery</string>
     <string name="footer_handling_fee">Handling Fee:</string>
-    <string name="footer_total">TOTAL</string>
+    <string name="footer_total">Total</string>
     <string name="checkout">CHECKOUT</string>
     <string name="checkout_first_name_hint">First Name</string>
-    <string name="checkout_last_name_hint">Surname</string>
+    <string name="checkout_last_name_hint">Last Name</string>
     <string name="checkout_street_address">Street Address</string>
     <string name="checkout_suburb">Suburb</string>
     <string name="checkout_postcode">Postcode</string>
-    <string name="checkout_state">State</string>
+    <string name="checkout_state">Select State</string>
     <string name="checkout_email">Email Address</string>
-    <string name="checkout_contact_number">Contact Phone Number</string>
+    <string name="checkout_contact_number">Contact Phone No.</string>
     <string name="next">Next</string>
     <string name="checkout_title">Checkout</string>
-    <string name="detail_card_type">Card Type</string>
-    <string name="detail_name_on_card">Name on Card</string>
-    <string name="detail_card_number">Card Number</string>
+    <string name="detail_card_type">Select Card</string>
+    <string name="detail_name_on_card">Card Holder</string>
+    <string name="detail_card_number">Card No.</string>
     <string name="detail_card_exp_month">Expiry Month</string>
     <string name="detail_card_exp_year">Expiry Year</string>
     <string name="detail_cvv">CVV</string>
@@ -101,7 +101,7 @@
     <string name="price_tite">Select Price</string>
     <string name="questionnaire_title">Questionnaire</string>
     <string name="search_venue">Search Merchandise By Name</string>
-    <string name="footer_credit_card_fee">Credit Card Fee:</string>
+    <string name="footer_credit_card_fee">Card Fee</string>
     <string name="terms_condition_setting"><![CDATA[View Terms & Conditions]]></string>
     <string name="conf_phone">Phone:</string>
     <string name="payment_detail_title">Payment Details</string>
@@ -117,6 +117,12 @@
     <string name="user_name">Username</string>
     <string name="setting_support_customer_support_title">Customer Support</string>
     <string name="setting_support_policies_text">Policies</string>
+    <string name="first_name">First Name</string>
+    <string name="detail_cvv_cvc">CVV/CVC</string>
+    <string name="detail_card_expiry">Expiry (MM/YY)</string>
+    <string name="select_delivery_type">Select Delivery Type</string>
+    <string name="select_card_value">Select Card Value</string>
+    <string name="select_quantity">Select Quantity</string>
 
 
 </resources>

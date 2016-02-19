@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="TERMS"
         android:layout_marginTop="5dp"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:textColor="@color/insurance_green_dark_gray"/>
 
     <TextView
         android:id="@+id/stock_terms"
@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/test_message_medium"
-        android:textColor="@color/white"
         android:linksClickable="true"
         android:autoLink="web|phone"
         />

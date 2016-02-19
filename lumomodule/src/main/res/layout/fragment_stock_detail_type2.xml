@@ -4,7 +4,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/menuBackgroundColorDark">
+              android:background="@color/white">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -33,57 +33,87 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="10dp"
+            android:background="@color/white"
             android:paddingBottom="40dp">
 
-            <TextView
-                android:id="@+id/stock_detail_name"
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:textColor="@color/white"
-                android:text="@string/stock_detail_test_title"/>
-            <TextView
-                android:id="@+id/stock_detail_discount"
+                android:layout_margin="10dp">
+
+                <ImageView
+                    android:id="@+id/stock_detail_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/automotive"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentBottom="true">
+
+                    <TextView
+                        android:id="@+id/stock_detail_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="25sp"
+                        android:textColor="@color/white"
+                        android:text="@string/stock_detail_test_title"/>
+                    <TextView
+                        android:id="@+id/stock_detail_discount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="25sp"
+                        android:padding="7dp"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        android:textStyle="bold"
+                        android:text="@string/stock_detail_test_discount"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:text="@string/stock_detail_test_discount"/>
-
-            <ImageView
-                android:id="@+id/stock_detail_img"
-                android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/automotive"/>
-
-            <TextView
-                android:id="@+id/stock_detail_def"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/test_message_medium"
-                android:textColor="@color/white"
-                android:layout_marginTop="10dp"/>
+                android:orientation="vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
 
 
-            <TextView
-                android:id="@+id/card_option_title"
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/card_options_digital"
-                android:textColor="@color/colorPrimaryDark"/>
+                <TextView
+                    android:id="@+id/stock_detail_def"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/test_message_medium"
+                    android:layout_marginTop="10dp"/>
 
-            <include layout="@layout/option_bullets"/>
 
-            <include layout="@layout/stock_terms_layout"/>
+                <TextView
+                    android:id="@+id/card_option_title"
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/card_options_digital"
+                    android:textColor="@color/black"/>
+
+                <include layout="@layout/option_bullets"/>
+
+                <include layout="@layout/stock_terms_layout"/>
+
+
+            </LinearLayout>
 
             <include layout="@layout/select_cart"/>
 

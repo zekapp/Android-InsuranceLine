@@ -29,26 +29,26 @@ public class StockDetailType2Fragment extends BaseFragment {
     public  static final String STOCK_ITEM_KEY = "STOCK_ITEM_KEY_TYPE_2";
 
 
-    /*@Bind(R.id.stock_detail_name)    */   TextView  mStockName;
-    /*@Bind(R.id.stock_detail_discount)*/   TextView  mStockDiscount;
-    /*@Bind(R.id.stock_detail_img)     */   ImageView mStockImage;
-    /*@Bind(R.id.stock_detail_def)     */   TextView  mStockDef;
-/*//    @Bind(R.id.digital_option)     */   TableRow  mPhysicalOptTr;    // hide if digital selected.
-    /*@Bind(R.id.delivery_type)        */   TextView  mDeliveryType;
-    /*@Bind(R.id.card_price)           */   TextView  mCardPrice;
-    /*@Bind(R.id.iten_quantity)        */   TextView  mQuantity;
-    /*@Bind(R.id.stock_terms)          */   TextView  mTerms;
-    /*@Bind(R.id.terms_container)      */   LinearLayout mTermsLayout;
-    /*@Bind(R.id.card_value_title)     */   TextView  mCardValueName;
+    private TextView  mStockName;
+    private TextView  mStockDiscount;
+    private ImageView mStockImage;
+    private TextView  mStockDef;
+    private TableRow  mPhysicalOptTr;    // hide if digital selected.
+    private TextView  mDeliveryType;
+    private TextView  mCardPrice;
+    private TextView  mQuantity;
+    private TextView  mTerms;
+    private LinearLayout mTermsLayout;
+    /*private TextView  mCardValueName;*/
 /**/
     /***/
      /** Karl added*/
      /**/
-    /*@Bind(R.id.card_option_title)    */   TextView mCardOptionTitle;
-    /*@Bind(R.id.bullet1)              */   TextView mBulletText1;
-    /*@Bind(R.id.bullet2)              */   TextView mBulletText2;
-    /*@Bind(R.id.bullet3)              */   TextView mBulletText3;
-    /*@Bind(R.id.bullet4)              */   TextView mBulletText4;
+    private TextView mCardOptionTitle;
+    private TextView mBulletText1;
+    private TextView mBulletText2;
+    private TextView mBulletText3;
+    private TextView mBulletText4;
 
 
     private MStockItem mStockItem;
@@ -85,7 +85,7 @@ public class StockDetailType2Fragment extends BaseFragment {
         mQuantity        = (TextView) view.findViewById(R.id.iten_quantity);
         mTerms           = (TextView) view.findViewById(R.id.stock_terms);
         mTermsLayout     = (LinearLayout) view.findViewById(R.id.terms_container);
-        mCardValueName   = (TextView) view.findViewById(R.id.card_value_title);
+        /*mCardValueName   = (TextView) view.findViewById(R.id.card_value_title);*/
 
         mCardOptionTitle = (TextView) view.findViewById(R.id.card_option_title);
         mBulletText1     = (TextView) view.findViewById(R.id.bullet1);
@@ -166,7 +166,9 @@ public class StockDetailType2Fragment extends BaseFragment {
 
             mTerms.setText(Html.fromHtml(s));
         }
-        mCardValueName.setText(mStockItem.isDisplayNameAsCardType() ? "CARD TYPE:" : "CARD VALUE:");
+//        mCardValueName.setText(mStockItem.isDisplayNameAsCardType() ? "CARD TYPE:" : "CARD VALUE:");
+        mCardPrice.setText(mStockItem.isDisplayNameAsCardType() ? "Select Card Type:" : "Select Card Value");
+
     }
 
     @Override

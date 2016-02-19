@@ -46,7 +46,7 @@ public class StockDetailType3Fragment extends BaseFragment {
     private  LinearLayout mClaimLiLa;
     private  TextView      mTerms;
     private  LinearLayout  mTermsLayout;
-    private  TextView  mCardValueName;
+    /*private  TextView  mCardValueName;*/
 
 /*//    @Bind(R.id.digital_option)      */    TableRow  mPhysicalOptTr; // hide if digital selected.
 /**/
@@ -102,7 +102,7 @@ public class StockDetailType3Fragment extends BaseFragment {
         mClaimLiLa          = (LinearLayout) view.findViewById(R.id.claim_layout);
         mTerms              = (TextView) view.findViewById(R.id.stock_terms);
         mTermsLayout        = (LinearLayout) view.findViewById(R.id.terms_container);
-        mCardValueName      = (TextView) view.findViewById(R.id.card_value_title);
+        /*mCardValueName      = (TextView) view.findViewById(R.id.card_value_title);*/
 
         mCardOptionTitle    = (TextView) view.findViewById(R.id.card_option_title);
         mBulletText1        = (TextView) view.findViewById(R.id.bullet1);
@@ -237,14 +237,9 @@ public class StockDetailType3Fragment extends BaseFragment {
             mTerms.setText(Html.fromHtml(s));
         }
 
-        mCardValueName.setText(mStockItem.isDisplayNameAsCardType() ? "CARD TYPE:" : "CARD VALUE:");
+        /*mCardValueName.setText(mStockItem.isDisplayNameAsCardType() ? "CARD TYPE:" : "CARD VALUE:");*/
+        mCardPrice.setText(mStockItem.isDisplayNameAsCardType() ? "Select Card Type:" : "Select Card Value");
     }
-
-
-
-
-
-
 
     /*@OnClick(R.id.delivery_type)*/
     void deliveryTypeClicked(){

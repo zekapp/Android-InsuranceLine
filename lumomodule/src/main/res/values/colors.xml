@@ -20,7 +20,6 @@
 
     <color name="insurance_green">#58a869</color>
 
-
     <color name="news_backround">#fafafa</color>
     <color name="news_card_background">#fefefe</color>
     <color name="warning">#af1600</color>
@@ -36,6 +35,8 @@
     <color name="empty_profile_background">@color/white</color>
     <color name="reward_category_bg">@color/white</color>
     <color name="reward_category_item_bg">@color/white</color>
+
+    <color name="insurance_green_dark_gray">#757575</color>
     <color name="stock_item_claim_bg">#6c6c6c</color>
 
     <color name="pages_bg">#f0f0f0</color>
@@ -67,5 +68,6 @@
 
     <color name="material_drawer_primary">#4c9459</color>
     <color name="material_drawer_primary_dark">#4c9459</color>
+    <color name="orange">#efb400</color>
 
 </resources>

@@ -40,6 +40,7 @@
         <activity
             android:name="au.com.lumo.ameego.BaseActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/baseActivityName"/>
 
         <activity
