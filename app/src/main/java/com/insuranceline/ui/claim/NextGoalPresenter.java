@@ -22,7 +22,7 @@ import timber.log.Timber;
  */
 public class NextGoalPresenter extends BasePresenter<NextGoalMvpView>{
 
-    private DataManager mDataManager;
+    private final DataManager mDataManager;
 
     @DrawableRes
     int[] cupIcons = {

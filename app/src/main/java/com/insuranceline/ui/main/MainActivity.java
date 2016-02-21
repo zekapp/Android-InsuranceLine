@@ -148,6 +148,8 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
         if (!isFitBitAppInstalled){
             dispatchWarning();
         }
+
+        mMainActivityPresenter.setNextOpenReminderAlarm();
     }
 
     private void dispatchWarning() {

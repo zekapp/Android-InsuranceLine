@@ -3,8 +3,11 @@ package com.insuranceline.data.local;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.remote.responses.FitBitTokenResponse;
 import com.insuranceline.di.qualifier.ApplicationContext;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -20,6 +23,11 @@ public class PreferencesHelper {
     private static final String FIT_BIT_USER_ID = "FIT_BIT_USER_ID";
     private static final String FIT_BIT_SCOPE_PERMISSION = "FIT_BIT_SCOPE_PERMISSION";
     private static final String APPLICATION_FIRST_LAUNCHING = "APPLICATION_FIRST_LAUNCHING";
+    private static final String BOOST_NOTIFICATION_PERIOD = "BOOST_NOTIFICATION_PERIOD";
+    private static final String BOOST_NOTIFICATION_BASE_TIME = "BOOST_NOTIFICATION_BASE_TIME";
+    private static final String REMINDER_NOTIFICATION_PERIOD = "REMINDER_NOTIFICATION_PERIOD";
+    private static final String REMINDER_NOTIFICATION_BASE_TIME = "REMINDER_NOTIFICATION_BASE_TIME";
+    private static final String END_OF_CAMPAIGN_DATE = "END_OF_CAMPAIGN_DATE";
 
     private final SharedPreferences mPref;
 
@@ -100,5 +108,50 @@ public class PreferencesHelper {
     public void deleteFitBitToken() {
         saveFitBitAccessToken("");
         saveFitBitRefreshToken("");
+    }
+
+    public long getBoostNotificationPeriod() {
+        return mPref.getLong(BOOST_NOTIFICATION_PERIOD, TimeUnit.DAYS.toMillis(AppConfig.BOOST_NOTIFICATION_PERIOD_DAYS));
+    }
+
+    public long getBaseTimeOfBoostNotification() {
+        return mPref.getLong(BOOST_NOTIFICATION_BASE_TIME,System.currentTimeMillis());
+    }
+
+    public void saveBaseTimeOfBoostNotification(long baseTime) {
+        mPref.edit().putLong(BOOST_NOTIFICATION_BASE_TIME, baseTime).apply();
+    }
+
+    public long getReminderNotificationPeriod() {
+        return mPref.getLong(REMINDER_NOTIFICATION_PERIOD, TimeUnit.DAYS.toMillis(AppConfig.REMINDER_NOTIFICATION_PERIOD_DAYS));
+    }
+
+    public long getBaseTimeOfReminderNotification() {
+        return mPref.getLong(REMINDER_NOTIFICATION_BASE_TIME, System.currentTimeMillis());
+    }
+
+    public void saveBaseTimeOfReminderNotification(long baseTime) {
+        mPref.edit().putLong(REMINDER_NOTIFICATION_BASE_TIME, baseTime).apply();
+    }
+
+    public long getEndOfCampaignDate(long defaultCampaignEndDate) {
+        return mPref.getLong(END_OF_CAMPAIGN_DATE, defaultCampaignEndDate);
+    }
+
+    /***** TEST PURPOSES FUNCTION **** */
+
+    // This function is only test purposes
+    public void saveBoostNotificationPeriod(int min){
+        mPref.edit().putLong(BOOST_NOTIFICATION_PERIOD, TimeUnit.MINUTES.toMillis(min)).apply();
+    }
+
+    // This function is only test purposes
+    public void saveReminderNotificationPeriod(int min){
+        mPref.edit().putLong(REMINDER_NOTIFICATION_PERIOD, TimeUnit.MINUTES.toMillis(min)).apply();
+    }
+
+    // This function is only test purposes. User always default value.
+    public void saveEndOfCampaignDate(long boomEnd) {
+        mPref.edit().putLong(END_OF_CAMPAIGN_DATE, boomEnd).apply();
     }
 }

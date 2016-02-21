@@ -22,6 +22,7 @@ import com.insuranceline.data.vo.Sample;
 import com.insuranceline.event.GeneralErrorEvent;
 import com.insuranceline.event.GoalAchieveEvent;
 import com.insuranceline.event.LogOutEvent;
+import com.insuranceline.receiver.NotificationHelper;
 import com.insuranceline.utils.CampaignAlgorithm;
 import com.insuranceline.utils.TimeUtils;
 import com.path.android.jobqueue.JobManager;
@@ -29,6 +30,7 @@ import com.path.android.jobqueue.JobManager;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -62,6 +64,7 @@ public class DataManager {
     private final AppConfig mAppConfig;
     private final EventBus mEventBus;
     private final LumoController mLumoController;
+    private final NotificationHelper mNotificationHelper;
 
     private List<Goal> mCatchedGoals = null;
 
@@ -69,7 +72,8 @@ public class DataManager {
     public DataManager(ApiService apiService, EdgeApiService edgeApiService,
                        FitBitApiService fitBitApiService, DatabaseHelper databaseHelper,
                        JobManager jobManager, PreferencesHelper preferencesHelper,
-                       AppConfig appConfig, EventBus eventBus, LumoController lumoController){
+                       AppConfig appConfig, EventBus eventBus, LumoController lumoController,
+                       NotificationHelper notificationHelper){
 
         this.mEdgeApiService = edgeApiService;
         this.mFitBitApiService = fitBitApiService;
@@ -80,6 +84,7 @@ public class DataManager {
         this.mAppConfig = appConfig;
         this.mEventBus = eventBus;
         this.mLumoController = lumoController;
+        this.mNotificationHelper = notificationHelper;
 
         createGoalsAsDefaultIfNotCreated();
 
@@ -269,6 +274,7 @@ public class DataManager {
     /**
      *  Getting active goal.
      * */
+    @Nullable
     public Goal getActiveGoal() {
         return mDatabaseHelper.fetchActiveGoal();
     }
@@ -578,6 +584,7 @@ public class DataManager {
         Timber.d("Start Goald Id: %s", goalId);
         mCatchedGoals = CampaignAlgorithm.startGoal(goalId,bias, mCatchedGoals,mAppConfig.getEndOfCampaign());
         saveGoals();
+        setBoostNotification();
     }
 
     public int getNextTarget(long newGoalId){
@@ -623,5 +630,31 @@ public class DataManager {
     public Observable<ClaimRewardResponse> submitEmailForRewardClaim(String email, String id) {
 //        mEdgeApiService.submitEmail(email, id);
         return Observable.just(new ClaimRewardResponse()).debounce(5, TimeUnit.SECONDS);
+    }
+
+    public boolean isCampaignEnd() {
+        return System.currentTimeMillis() >= mAppConfig.getEndOfCampaign();
+    }
+
+
+    /*** Notification Related functions *****/
+    public void setNextReminderNotification() {
+        if (!isCampaignEnd())
+            mNotificationHelper.setNextReminderNotification();
+    }
+
+    public void resetBoostNotification() {
+        if (!isCampaignEnd())
+            mNotificationHelper.resetBoostNotification();
+    }
+
+    public void resetReminderNotification() {
+        if (!isCampaignEnd())
+            mNotificationHelper.resetReminderNotification();
+    }
+
+    public void setBoostNotification() {
+        if (!isCampaignEnd())
+            mNotificationHelper.setBoostNotification();
     }
 }

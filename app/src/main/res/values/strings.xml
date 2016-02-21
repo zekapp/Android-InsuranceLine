@@ -67,6 +67,10 @@
     <string name="submit_email_def">Please provide the email address which you would like the reward to be sent to:</string>
     <string name="reward_sent_info">Your reward has been sent to your email.</string>
     <string name="next_goal_def">New Goal - 4000,000 steps</string>
+    <string name="boost_notification_push_text">21 days passed.</string>
+    <string name="boost_notification_content">21 days related content</string>
+    <string name="reminder_notification_push_text">14 Days passed</string>
+    <string name="reminder_notification_content">14 Days passed. Content related information</string>
 
 
 </resources>

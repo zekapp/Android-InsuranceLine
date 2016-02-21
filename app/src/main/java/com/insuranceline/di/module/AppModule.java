@@ -1,6 +1,7 @@
 package com.insuranceline.di.module;
 
 
+import android.app.AlarmManager;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -209,5 +210,10 @@ public class AppModule {
     @Singleton
     public EventBus eventBus() {
         return new EventBus();
+    }
+
+    @Provides
+    public AlarmManager alarmManager(@ApplicationContext Context context){
+        return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 }

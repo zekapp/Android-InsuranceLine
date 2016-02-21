@@ -1,10 +1,8 @@
 package com.insuranceline.config;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.SharedPreferences;
 
-import com.insuranceline.di.qualifier.ApplicationContext;
+import com.insuranceline.data.local.PreferencesHelper;
 import com.insuranceline.utils.TimeUtils;
 
 import org.apache.commons.codec.binary.Base64;
@@ -37,12 +35,17 @@ public class AppConfig {
 
     private static final String FIT_BIT_WEB_URL         = "https://www.fitbit.com/oauth2/";
     private static final String FIT_BIT_BASE_API_URL    = "https://api.fitbit.com/";
-    private static final String END_OF_CAMPAIGN_DATE    = "01 09 2016 11:59 pm";/*"15 09 2016 11:59 pm";*/
+    private static final String END_OF_CAMPAIGN_DATE    = "01 09 2016 11:59 pm";
+
+    public static final long BOOST_NOTIFICATION_PERIOD_DAYS = 21; // day
+    public static final long REMINDER_NOTIFICATION_PERIOD_DAYS = 14; // day
+
+
     private static long BOOM_END;
 
     public static final String FITBIT_PACKAGE_NAME =  "com.fitbit.FitbitMobile";
 
-    private final SharedPreferences mSharedPreferences;
+    private final PreferencesHelper mSharedPreferences;
     private String mEncodedAuthorizationHeader = "";
 
     static {
@@ -57,8 +60,8 @@ public class AppConfig {
     }
 
     @Inject
-    public AppConfig(@ApplicationContext Context context) {
-        mSharedPreferences = context.getSharedPreferences("app_cfg", Context.MODE_PRIVATE);
+    public AppConfig(PreferencesHelper preferencesHelper) {
+        mSharedPreferences = preferencesHelper;
         mEncodedAuthorizationHeader = enCode();
     }
 
@@ -111,6 +114,6 @@ public class AppConfig {
 
     public long getEndOfCampaign() {
         Timber.d("End Date: unix:%s readable:%s",BOOM_END, TimeUtils.convertReadableDate(BOOM_END, TimeUtils.DATE_FORMAT_TYPE_5));
-        return BOOM_END;
+        return mSharedPreferences.getEndOfCampaignDate(BOOM_END);
     }
 }

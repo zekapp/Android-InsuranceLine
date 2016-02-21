@@ -89,6 +89,17 @@
             android:name="org.chromium.customtabsclient.shared.KeepAliveService"
             android:exported="true"/>
 
+
+        <service android:name=".controller.AlarmIntentService" />
+
+        <receiver android:enabled="true" android:exported="false"
+            android:name=".receiver.AlarmReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

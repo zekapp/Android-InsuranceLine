@@ -31,4 +31,8 @@ public class MainActivityPresenter extends BasePresenter<MainActivityMvpView> {
     public void getFirstTabIndex(){
         getMvpView().changeTab(mDataManager.isFirstLaunch()? MainActivity.GOAL_CONTAINER_INDEX :MainActivity.DASHBOARD_CONTAINER_INDEX);
     }
+
+    public void setNextOpenReminderAlarm() {
+        mDataManager.setNextReminderNotification();
+    }
 }

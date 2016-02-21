@@ -104,6 +104,7 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
                     @Override
                     public void onNext(DailySummary dailySummary) {
                         getMvpView().hideProgress();
+
                         mDataManager.startNewGoal(mGoal.getGoalId(),dailySummary.getDailySteps());
                         updateView();
                     }
