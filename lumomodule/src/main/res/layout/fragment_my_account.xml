@@ -15,7 +15,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:minHeight="?attr/actionBarSize"
-            style="@style/ActionBar"
+            style="@style/MaterialDrawer.DrawerArrowStyle"
             app:layout_scrollFlags="scroll|enterAlways"
             />
     </android.support.design.widget.AppBarLayout>

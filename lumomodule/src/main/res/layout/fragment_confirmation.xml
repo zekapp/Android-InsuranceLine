@@ -13,21 +13,13 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/ActionBar"
+            style="@style/MaterialDrawer.DrawerArrowStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:minHeight="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             />
 
-        <FrameLayout android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <View android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="@drawable/toolbar_dropshadow"/>
-
-        </FrameLayout>
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView

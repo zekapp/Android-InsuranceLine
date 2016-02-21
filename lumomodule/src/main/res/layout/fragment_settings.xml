@@ -28,19 +28,8 @@
                     android:layout_height="?attr/actionBarSize"
                     android:layout_width="match_parent"
                     android:minHeight="?attr/actionBarSize"
-                    style="@style/ActionBar"
+                    style="@style/MaterialDrawer.DrawerArrowStyle"
                     app:layout_scrollFlags="scroll|enterAlways"/>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/toolbar_under_shadow_height"
-                        android:background="@drawable/toolbar_dropshadow" />
-
-                </FrameLayout>
             </android.support.design.widget.AppBarLayout>
 
             <RelativeLayout

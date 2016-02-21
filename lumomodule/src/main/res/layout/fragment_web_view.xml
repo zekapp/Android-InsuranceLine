@@ -22,23 +22,12 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                style="@style/ActionBar"
+                style="@style/MaterialDrawer.DrawerArrowStyle"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:minHeight="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"
                 />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:background="@drawable/toolbar_dropshadow" />
-
-            </FrameLayout>
         </android.support.design.widget.AppBarLayout>
 
         <ProgressBar
@@ -69,21 +58,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="7dp"
-            android:src="@drawable/ic_keyboard_arrow_left_white_24dp"/>
+            android:src="@drawable/ic_keyboard_arrow_left_black_24dp"/>
 
         <ImageView
             android:id="@+id/webview_goforward"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="7dp"
-            android:src="@drawable/ic_keyboard_arrow_right_white_24dp"/>
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
 
         <ImageView
             android:id="@+id/webview_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="7dp"
-            android:src="@drawable/ic_refresh_white_24dp"/>
+            android:src="@drawable/ic_refresh_black_24dp"/>
 
     </LinearLayout>
 
