@@ -27,119 +27,124 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:orientation="vertical"
             android:paddingBottom="40dp">
 
-            <TextView
-                android:id="@+id/merchant_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stock_detail_test_title"
-                android:textColor="@color/white"
-                android:textSize="25sp" />
-
-            <TextView
-                android:id="@+id/merchant_discount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stock_detail_test_discount"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="25sp" />
-
-            <ImageView
-                android:id="@+id/merchant_img"
-                android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/automotive" />
-
-            <TextView
-                android:id="@+id/merchant_def"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/test_message_medium"
-                android:textColor="@color/white" />
-
-
-            <LinearLayout
-                android:id="@+id/claim_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/stock_item_claim_bg"
-                android:orientation="vertical"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/how_to_claim"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:id="@+id/stock_claim"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/test_message_short"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/stock_detail_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="@string/stock_detail_test_title"
-                android:textColor="@color/white"
-                android:textSize="25sp" />
-
-            <TextView
-                android:id="@+id/stock_detail_discount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/stock_detail_test_discount"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="25sp" />
-
-            <ImageView
-                android:id="@+id/stock_detail_img"
-                android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:scaleType="centerCrop" />
-
-            <TextView
-                android:id="@+id/stock_detail_def"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/test_message_medium"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/card_option_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/card_options_digital"
-                android:textColor="@color/colorPrimaryDark" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="vertical"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                >
 
-                <include layout="@layout/option_bullets" />
+                <TextView
+                    android:id="@+id/merchant_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stock_detail_test_title"
+                    android:textSize="25sp" />
 
-                <include layout="@layout/stock_terms_layout" />
+                <TextView
+                    android:id="@+id/merchant_discount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stock_detail_test_discount"
+                    android:textSize="25sp" />
+
+                <ImageView
+                    android:id="@+id/merchant_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/automotive" />
+
+                <TextView
+                    android:id="@+id/merchant_def"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/test_message_medium" />
+
+
+                <LinearLayout
+                    android:id="@+id/claim_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/stock_item_claim_bg"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/how_to_claim"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/stock_claim"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/test_message_short"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/stock_detail_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="@string/stock_detail_test_title"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/stock_detail_discount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stock_detail_test_discount"
+                    android:textSize="25sp" />
+
+                <ImageView
+                    android:id="@+id/stock_detail_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/stock_detail_def"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/test_message_medium"
+                    />
+
+                <TextView
+                    android:id="@+id/card_option_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/card_options_digital"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical"
+                    >
+
+                    <include layout="@layout/option_bullets" />
+
+                    <include layout="@layout/stock_terms_layout" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
-
-
 
             <include layout="@layout/select_cart" />
 

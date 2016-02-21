@@ -20,16 +20,6 @@
             app:layout_scrollFlags="scroll|enterAlways"
             />
 
-<!--        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="@drawable/toolbar_dropshadow" />
-
-        </FrameLayout>-->
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
@@ -73,9 +63,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="25sp"
-                        android:padding="7dp"
                         android:textColor="@color/white"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:textStyle="bold"
                         android:text="@string/stock_detail_test_discount"/>
                 </LinearLayout>
@@ -138,7 +127,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/stock_detail_view_loc"
-                android:textColor="@color/colorPrimaryDark"
                 android:gravity="center_horizontal"
                 android:visibility="gone"/>
 
