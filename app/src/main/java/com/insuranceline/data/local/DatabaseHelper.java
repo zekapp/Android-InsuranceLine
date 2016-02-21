@@ -3,7 +3,6 @@ package com.insuranceline.data.local;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.insuranceline.data.remote.responses.EdgeResponse;
 import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Goal;
@@ -19,6 +18,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import au.com.lumo.ameego.model.MUser;
 import rx.Observable;
 import rx.Subscriber;
 import timber.log.Timber;
@@ -71,7 +71,7 @@ public class DatabaseHelper {
         return new Select().from(Sample.class).where().limit(page*perPage).offset(perPage).queryList();
     }
 
-    public Observable<EdgeUser> createEdgeUser(final String email, final EdgeResponse edgeResponse) {
+    public Observable<EdgeUser> createEdgeUser(final MUser user, final boolean isFitbitUser) {
         return Observable.create(new Observable.OnSubscribe<EdgeUser>() {
             @Override
             public void call(final Subscriber<? super EdgeUser> subscriber) {
@@ -79,11 +79,11 @@ public class DatabaseHelper {
                     @Override
                     public void run() {
                         EdgeUser edgeUser = new EdgeUser();
-                        edgeUser.setEmail(email);
-                        edgeUser.setmTokenType(edgeResponse.getmTokenType());
-                        edgeUser.setmExpireIn(edgeResponse.getmExpireIn());
-                        edgeUser.setmAccessToken(edgeResponse.getmAccessToken());
-//                        edgeUser.setFitBitUser(true);
+                        edgeUser.setEmail(user.getEmail());
+                        edgeUser.setmTokenType(user.getAccess_token());
+                        edgeUser.setmAccessToken(user.getToken_type());
+                        edgeUser.setmExpireIn(user.getExpires_in());
+                        edgeUser.setFitBitUser(isFitbitUser);
                         edgeUser.save();
 
                         subscriber.onNext(edgeUser);
@@ -199,4 +199,5 @@ public class DatabaseHelper {
     public List<Goal> fetchAllGoalInAscendingOrder() {
         return new Select().from(Goal.class).where().queryList();
     }
+
 }

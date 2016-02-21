@@ -19,7 +19,8 @@ import com.insuranceline.R;
 import com.insuranceline.config.AppConfig;
 import com.insuranceline.event.GeneralErrorEvent;
 import com.insuranceline.event.GoalAchieveEvent;
-import com.insuranceline.event.LogOutEvent;
+import com.insuranceline.event.LogOutFromEdgeEvent;
+import com.insuranceline.event.LogOutFromFitBitEvent;
 import com.insuranceline.event.SubscriberPriority;
 import com.insuranceline.ui.base.BaseActivity;
 import com.insuranceline.ui.claim.ClaimingRewardActivity;
@@ -34,6 +35,7 @@ import com.insuranceline.utils.Utils;
 
 import javax.inject.Inject;
 
+import au.com.lumo.ameego.DispatchActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
@@ -144,19 +146,20 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     @Override
     protected void onResume() {
         super.onResume();
+        Timber.d("onResume()");
         boolean isFitBitAppInstalled = Utils.isPackageInstalled(AppConfig.FITBIT_PACKAGE_NAME, getPackageManager());
         if (!isFitBitAppInstalled){
-            dispatchWarning();
+            dispatchWarningForInstallFitBit();
         }
 
         mMainActivityPresenter.setNextOpenReminderAlarm();
     }
 
-    private void dispatchWarning() {
+    private void dispatchWarningForInstallFitBit() {
         String title = "Install";
         String body = "Please install FitBit application from Google Play Store first.";
 
-        DialogFactory.createGenericDialog(this, title, body, "Install", "Cancel", new DialogInterface.OnClickListener() {
+        DialogFactory.createGenericDialog(this, title, body, "Install", "Cancel", true, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 openPlayStore();
@@ -166,6 +169,55 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
             public void onClick(DialogInterface dialog, int which) {
             }
         }).show();
+    }
+
+    private void dispatchWarningForConnectFitBit() {
+        String title = "FitBit Session Expired";
+        String body = "Your FitBit account expired. Please reconnect your FitBit.";
+
+        DialogFactory.createGenericDialog(this, title, body, "Connect", "", false, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openFBConnect();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }).show();
+    }
+
+    private void dispatchWarningForEdgeSystemLogout() {
+        String title = "Loyalty Session Expired";
+        String body = "Your FitBit account expired. Please login again.";
+
+        DialogFactory.createGenericDialog(this, title, body, "Login", "", false, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openLoginPage();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }).show();
+    }
+
+    private void openLoginPage() {
+        mMainActivityPresenter.deleteEdgeUser();
+        gotDispatch();
+    }
+
+    private void openFBConnect() {
+        mMainActivityPresenter.setFitBitDisconnected();
+        gotDispatch();
+    }
+
+    private void gotDispatch() {
+        Intent intent = new Intent(this, DispatchActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     private void openPlayStore() {
@@ -262,9 +314,17 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     }
 
     @SuppressWarnings("unused")
-    public void onEventMainThread(LogOutEvent event) {
-        Toast.makeText(this, "Logout Need",Toast.LENGTH_LONG).show();
+    public void onEventMainThread(LogOutFromFitBitEvent event) {
+//        Toast.makeText(this, "Logout Need",Toast.LENGTH_LONG).show();
+        dispatchWarningForConnectFitBit();
     }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(LogOutFromEdgeEvent event) {
+//        Toast.makeText(this, "Logout Need",Toast.LENGTH_LONG).show();
+        dispatchWarningForEdgeSystemLogout();
+    }
+
 
     @SuppressWarnings("unused")
     public void onEventMainThread(GeneralErrorEvent event) {

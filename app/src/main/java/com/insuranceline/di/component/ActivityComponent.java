@@ -11,6 +11,7 @@ import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainerCon
 import com.insuranceline.ui.fragments.containers.goals.GoalsContainer;
 import com.insuranceline.ui.fragments.dashboard.DashboardFragment;
 import com.insuranceline.ui.fragments.goals.GoalFragment;
+import com.insuranceline.ui.fragments.more.DebugModeFragment;
 import com.insuranceline.ui.fragments.more.MoreFragment;
 import com.insuranceline.ui.fragments.rewards.FirstRewardFragment;
 import com.insuranceline.ui.fragments.rewards.SecondRewardFragment;
@@ -67,5 +68,7 @@ public interface ActivityComponent {
     void inject(NextGoalFragment nextGoalFragment);
 
     void inject(EmailGetFragment emailGetFragment);
+
+    void inject(DebugModeFragment debugModeFragment);
 
 }

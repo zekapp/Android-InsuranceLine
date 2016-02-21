@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import au.com.lumo.ameego.model.MSiteHelper;
 import au.com.lumo.ameego.model.MUser;
 import au.com.lumo.ameego.utils.PrefUtils;
 
@@ -63,6 +64,33 @@ public enum LumoController {
 
     public Class<?> getDispatchActivity() {
         return DispatchActivity.class;
+    }
+
+    public MUser updateUser(MSiteHelper mSiteHelper) {
+
+        return updateAndSaveUser(mSiteHelper);
+    }
+
+    private MUser updateAndSaveUser(MSiteHelper site) {
+        MUser temp = site.getMember();
+
+        MUser savedUser = getUser();
+
+        savedUser.setAppId(temp.getAppId());
+        savedUser.setEmail(temp.getEmail());
+        savedUser.setClientId(temp.getClientId());
+        savedUser.setUsername(temp.getUsername());
+        savedUser.setLastName(temp.getLastName());
+        savedUser.setFirstName(temp.getFirstName());
+        savedUser.setAccountExpiryDate(temp.getAccountExpiryDate());
+        savedUser.setContactPhoneNumber(temp.getContactPhoneNumber());
+        savedUser.setDemographicQuestionnaireID(temp.getDemographicQuestionnaireID());
+        savedUser.setDemographicQuestionsAnswered(temp.isDemographicQuestionsAnswered());
+        savedUser.setDemographicQuestionsRequired(temp.isDemographicQuestionsRequired());
+
+        saveUser(savedUser);
+
+        return savedUser;
     }
 
     public static class Builder{

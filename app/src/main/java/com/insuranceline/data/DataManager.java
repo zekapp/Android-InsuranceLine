@@ -21,7 +21,8 @@ import com.insuranceline.data.vo.Goal;
 import com.insuranceline.data.vo.Sample;
 import com.insuranceline.event.GeneralErrorEvent;
 import com.insuranceline.event.GoalAchieveEvent;
-import com.insuranceline.event.LogOutEvent;
+import com.insuranceline.event.LogOutFromEdgeEvent;
+import com.insuranceline.event.LogOutFromFitBitEvent;
 import com.insuranceline.receiver.NotificationHelper;
 import com.insuranceline.utils.CampaignAlgorithm;
 import com.insuranceline.utils.TimeUtils;
@@ -35,6 +36,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import au.com.lumo.ameego.LumoController;
+import au.com.lumo.ameego.model.MSiteHelper;
+import au.com.lumo.ameego.model.MUser;
 import de.greenrobot.event.EventBus;
 import retrofit.HttpException;
 import rx.Observable;
@@ -191,8 +194,27 @@ public class DataManager {
             }
         });
     }
-
     public Observable<EdgeUser> loginEdgeSystem(final String email, String password) {
+        return mEdgeApiService.loginToEdgeSystem(email,password,"password")
+                .flatMap(new Func1<EdgeResponse, Observable<MSiteHelper>>() {
+                    @Override
+                    public Observable<MSiteHelper> call(EdgeResponse response) {
+                        mPreferencesHelper.saveEdgeSystemToken(response.getmAccessToken());
+                        mLumoController.saveUser(response.createLumoUser(email));
+                        return mEdgeApiService.getSite(response.getmTokenType() + " " +response.getmAccessToken());
+                    }
+                }).flatMap(new Func1<MSiteHelper, Observable<EdgeUser>>() {
+                    @Override
+                    public Observable<EdgeUser> call(MSiteHelper mSiteHelper) {
+                        MUser user = mLumoController.updateUser(mSiteHelper);
+                        // todo: remove when done
+                        boolean isFitBitUser = mPreferencesHelper.isUseFitBitOwner();
+                        return mDatabaseHelper.createEdgeUser(user,isFitBitUser);
+                    }
+                });
+    }
+
+/*    public Observable<EdgeUser> loginEdgeSystem(final String email, String password) {
         return mEdgeApiService.loginToEdgeSystem(email,password,"password")
                 .concatMap(new Func1<EdgeResponse, Observable<? extends EdgeUser>>() {
                     @Override
@@ -202,7 +224,7 @@ public class DataManager {
                         return mDatabaseHelper.createEdgeUser(email,edgeResponse);
                     }
                 });
-    }
+    }*/
 
     public Observable<EdgeUser> getUser() {
         return Observable.create(new Observable.OnSubscribe<EdgeUser>() {
@@ -233,6 +255,10 @@ public class DataManager {
 
     public boolean isFitBitConnected() {
         return mPreferencesHelper.isFitBitConnected();
+    }
+
+    public void setFitBitDisconnect() {
+        mPreferencesHelper.deleteFitBitToken();
     }
 
     /**
@@ -491,7 +517,7 @@ public class DataManager {
                         mDatabaseHelper.saveDailySummary(dailySummary);
                     }
                 })
-                .doOnError(handleNetworkError());
+                .doOnError(handleFitBitNetworkError());
     }
 
 
@@ -513,13 +539,13 @@ public class DataManager {
                             activeGoal.save();
                         }
                     })
-                    .doOnError(handleNetworkError());
+                    .doOnError(handleFitBitNetworkError());
         } else {
             return Observable.empty();
         }
     }
 
-    private Action1<Throwable> handleNetworkError(){
+    private Action1<Throwable> handleFitBitNetworkError(){
         return new Action1<Throwable>() {
             @Override
             public void call(Throwable throwable) {
@@ -528,7 +554,28 @@ public class DataManager {
                     // if token expires some reason. Users need to be logout.
                     if (httpException.code() == 401){
                         Timber.e("Network Error: 401 !!!");
-                        mEventBus.post(new LogOutEvent("Session expired."));
+                        mEventBus.post(new LogOutFromFitBitEvent("Session expired."));
+                    }
+                } else if(throwable != null){
+                    mEventBus.post(new GeneralErrorEvent(throwable));
+                    Timber.e("Error: %s", throwable.getMessage());
+                } else {
+                    Timber.e("Unknown Network Error. Throwable is null");
+                }
+            }
+        };
+    }
+
+    private Action1<Throwable> handleEdgeNetworkError(){
+        return new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                if (throwable instanceof HttpException){
+                    HttpException httpException = (HttpException)throwable;
+                    // if token expires some reason. Users need to be logout.
+                    if (httpException.code() == 401){
+                        Timber.e("Network Error: 401 !!!");
+                        mEventBus.post(new LogOutFromEdgeEvent("Edge Session expired."));
                     }
                 } else if(throwable != null){
                     mEventBus.post(new GeneralErrorEvent(throwable));
@@ -574,7 +621,7 @@ public class DataManager {
                         mDatabaseHelper.saveDailySummary(dailySummary);
                     }
                 })
-                .doOnError(handleNetworkError());
+                .doOnError(handleFitBitNetworkError());
     }
 
 
@@ -656,5 +703,18 @@ public class DataManager {
     public void setBoostNotification() {
         if (!isCampaignEnd())
             mNotificationHelper.setBoostNotification();
+    }
+
+    // This function is just for test purposes
+    public void setUserAsFitBit(boolean isFitBitUser) {
+        mPreferencesHelper.setUserAsFitBit(isFitBitUser);
+    }
+
+    public void saveUserName(String email) {
+        mPreferencesHelper.saveUserName(email);
+    }
+
+    public void savePassword(String password) {
+        mPreferencesHelper.savePassword(password);
     }
 }

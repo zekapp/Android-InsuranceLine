@@ -126,9 +126,6 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
         return (int)(done * 100) / required;
     }
 
-    public void resetGoal(int target) {
-        mDataManager.resetGoals(target);
-    }
 
     public void stopFetchingData() {
         try{

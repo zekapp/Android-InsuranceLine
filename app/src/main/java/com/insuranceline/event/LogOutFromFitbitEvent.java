@@ -4,10 +4,10 @@ package com.insuranceline.event;
  * Created by Zeki Guler on 12,February,2016
  * ©2015 Appscore. All Rights Reserved
  */
-public class LogOutEvent {
+public class LogOutFromFitBitEvent {
     private String logoutReason;
 
-    public LogOutEvent(String logoutReason){
+    public LogOutFromFitBitEvent(String logoutReason){
 
         this.logoutReason = logoutReason;
     }

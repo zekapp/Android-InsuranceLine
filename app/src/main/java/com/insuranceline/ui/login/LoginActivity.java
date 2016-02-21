@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,14 +24,20 @@ import butterknife.OnClick;
  * Created by Zeki Guler on 29,January,2016
  * ©2015 Appscore. All Rights Reserved
  */
-public class LoginActivity extends BaseActivity implements LoginMvpView{
+public class LoginActivity extends BaseActivity implements LoginMvpView {
 
-    @Inject LoginPresenter mLoginPresenter;
+    @Inject
+    LoginPresenter mLoginPresenter;
 
-    @Bind(R.id.login_email) EditText    mLoginEmmailEditText;
-    @Bind(R.id.login_password) EditText mLoginPasswordEditText;
+    @Bind(R.id.login_email)
+    EditText mLoginEmmailEditText;
+    @Bind(R.id.login_password)
+    EditText mLoginPasswordEditText;
+    @Bind(R.id.user_type)
+    CheckBox userType;
 
     private ProgressDialog mProcessDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +61,9 @@ public class LoginActivity extends BaseActivity implements LoginMvpView{
             mProcessDialog.dismiss();
     }
 
-    /***** MVP View methods implementation *****/
+    /*****
+     * MVP View methods implementation
+     *****/
 
     @Override
     public void showProgress() {
@@ -69,7 +78,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView{
 
     @Override
     public void showLoginError(String error) {
-        Toast.makeText(this,error,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -93,12 +102,13 @@ public class LoginActivity extends BaseActivity implements LoginMvpView{
     @SuppressWarnings("unused")
     public void onLoginStart(View view) {
         resetErrors();
+        mLoginPresenter.setUserAsFitBitUser(userType.isChecked());
         mLoginPresenter.attemptToLogin(
                 mLoginEmmailEditText.getText().toString(),
                 mLoginPasswordEditText.getText().toString());
     }
 
-    private void resetErrors(){
+    private void resetErrors() {
         mLoginEmmailEditText.setError(null);
         mLoginPasswordEditText.setError(null);
     }
@@ -116,5 +126,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView{
         Intent intent = new Intent(this, TestActivity.class);
         startActivity(intent);
     }
+
+
 
 }

@@ -28,6 +28,9 @@ public class PreferencesHelper {
     private static final String REMINDER_NOTIFICATION_PERIOD = "REMINDER_NOTIFICATION_PERIOD";
     private static final String REMINDER_NOTIFICATION_BASE_TIME = "REMINDER_NOTIFICATION_BASE_TIME";
     private static final String END_OF_CAMPAIGN_DATE = "END_OF_CAMPAIGN_DATE";
+    private static final String USER_TYPE_AS_FIT_BIT = "USER_TYPE_AS_FIT_BIT";
+    private static final String USER_NAME = "USER_NAME";
+    private static final String USER_PASSWORD = "USER_PASSWORD";
 
     private final SharedPreferences mPref;
 
@@ -108,6 +111,7 @@ public class PreferencesHelper {
     public void deleteFitBitToken() {
         saveFitBitAccessToken("");
         saveFitBitRefreshToken("");
+        setFitBitConnected(false);
     }
 
     public long getBoostNotificationPeriod() {
@@ -153,5 +157,31 @@ public class PreferencesHelper {
     // This function is only test purposes. User always default value.
     public void saveEndOfCampaignDate(long boomEnd) {
         mPref.edit().putLong(END_OF_CAMPAIGN_DATE, boomEnd).apply();
+    }
+
+    // This function is only test purposes. User always default value.
+    public void setUserAsFitBit(boolean isFitBitUser) {
+        mPref.edit().putBoolean(USER_TYPE_AS_FIT_BIT, isFitBitUser).apply();
+    }
+
+    // This function is only test purposes. User always default value.
+    public boolean isUseFitBitOwner() {
+        return mPref.getBoolean(USER_TYPE_AS_FIT_BIT, true);
+    }
+
+    public void saveUserName(String email) {
+        mPref.edit().putString(USER_NAME, email).apply();
+    }
+
+    public String getUserName() {
+        return mPref.getString(USER_NAME, "");
+    }
+
+    public void savePassword(String password) {
+        mPref.edit().putString(USER_PASSWORD, password).apply();
+    }
+
+    public String getPassword() {
+        return mPref.getString(USER_PASSWORD, "");
     }
 }

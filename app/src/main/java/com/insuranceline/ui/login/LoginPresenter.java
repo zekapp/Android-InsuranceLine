@@ -79,7 +79,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
         return valid;
     }
 
-    private void login(String email, String password) {
+    private void login(final String email, final String password) {
         getMvpView().showProgress();
         mSubscription = mDataManager.loginEdgeSystem(email, password)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -112,9 +112,15 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
 
             @Override
             public void onNext(EdgeUser edgeResponse) {
+                mDataManager.saveUserName(email);
+                mDataManager.savePassword(password);
                 getMvpView().hideProgress();
                 getMvpView().loginSuccess();
             }
         });
+    }
+
+    public void setUserAsFitBitUser(boolean isFitBitUser) {
+        mDataManager.setUserAsFitBit(isFitBitUser);
     }
 }

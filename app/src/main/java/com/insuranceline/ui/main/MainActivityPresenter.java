@@ -35,4 +35,12 @@ public class MainActivityPresenter extends BasePresenter<MainActivityMvpView> {
     public void setNextOpenReminderAlarm() {
         mDataManager.setNextReminderNotification();
     }
+
+    public void setFitBitDisconnected() {
+        mDataManager.setFitBitDisconnect();
+    }
+
+    public void deleteEdgeUser() {
+        mDataManager.deleteEdgeUser();
+    }
 }

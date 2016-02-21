@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.view.Gravity;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import com.insuranceline.R;
@@ -50,6 +48,7 @@ public final class DialogFactory {
                                              String message,
                                              String positiveButton,
                                              String negativeButton,
+                                             boolean isCancelable,
                                              DialogInterface.OnClickListener positiveListener,
                                              DialogInterface.OnClickListener negativeListener) {
 
@@ -57,6 +56,7 @@ public final class DialogFactory {
                 .setTitle(title)
                 .setMessage(Html.fromHtml(message))
                 .setPositiveButton(positiveButton, positiveListener)
+                .setCancelable(isCancelable)
                 .setNegativeButton(negativeButton, negativeListener);
         return alertDialog.create();
     }
@@ -74,6 +74,7 @@ public final class DialogFactory {
                 context.getString(messageResource),
                 context.getString(positiveButtonResource),
                 context.getString(negativeButtonResource),
+                true,
                 positiveListener,
                 negativeListener);
     }
