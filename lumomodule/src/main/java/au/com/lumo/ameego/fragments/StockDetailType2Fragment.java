@@ -76,13 +76,14 @@ public class StockDetailType2Fragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         mStockName       = (TextView) view.findViewById(R.id.stock_detail_name);
         mStockDiscount   = (TextView) view.findViewById(R.id.stock_detail_discount);
         mStockImage      = (ImageView) view.findViewById(R.id.stock_detail_img);
         mStockDef        = (TextView) view.findViewById(R.id.stock_detail_def);
         mDeliveryType    = (TextView) view.findViewById(R.id.delivery_type);
         mCardPrice       = (TextView) view.findViewById(R.id.card_price);
-        mQuantity        = (TextView) view.findViewById(R.id.iten_quantity);
+        mQuantity        = (TextView) view.findViewById(R.id.item_quantity);
         mTerms           = (TextView) view.findViewById(R.id.stock_terms);
         mTermsLayout     = (LinearLayout) view.findViewById(R.id.terms_container);
         /*mCardValueName   = (TextView) view.findViewById(R.id.card_value_title);*/
@@ -121,6 +122,13 @@ public class StockDetailType2Fragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 addToCart();
+            }
+        });
+
+        view.findViewById(R.id.item_quantity).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCardSelector.cardCountClicked();
             }
         });
 
@@ -238,7 +246,7 @@ public class StockDetailType2Fragment extends BaseFragment {
 
         @Override
         public void quantityChanged(int quantity) {
-            mQuantity.setText("QUANTITY: " + String.valueOf(quantity));
+            mQuantity.setText(quantity == 0 ? getString(R.string.select_quantity):"Quantity: " + String.valueOf(quantity));
         }
     }
 

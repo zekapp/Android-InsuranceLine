@@ -1,8 +1,6 @@
 package au.com.lumo.ameego.presenters;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -173,6 +171,24 @@ public class CardSelector {
             @Override
             public void done(int which) {
                 stockItemSelected(which);
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        });
+    }
+
+    public void cardCountClicked(){
+        String[] countList = mContext.getResources().getStringArray(R.array.card_count);
+        WarningUtilsMD.alertDialogOption(mContext, mContext.getString(R.string.count_tite), countList, new WarnOptionSelectCallback(){
+
+            @Override
+            public void done(int which) {
+                selectedItem.setQuantity(which + 1);
+                if( mI != null) mI.quantityChanged(selectedItem.getQuantity());
+
             }
 
             @Override

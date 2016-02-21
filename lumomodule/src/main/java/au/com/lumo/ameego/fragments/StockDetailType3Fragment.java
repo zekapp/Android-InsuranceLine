@@ -87,6 +87,7 @@ public class StockDetailType3Fragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         mMerchantName       = (TextView) view.findViewById(R.id.merchant_name);
         mMerchantDiscount   = (TextView) view.findViewById(R.id.merchant_discount);
         mMerchantImg        = (ImageView) view.findViewById(R.id.merchant_img);
@@ -97,7 +98,7 @@ public class StockDetailType3Fragment extends BaseFragment {
         mStockDef           = (TextView) view.findViewById(R.id.stock_detail_def);
         mDeliveryType       = (TextView) view.findViewById(R.id.delivery_type);
         mCardPrice          = (TextView) view.findViewById(R.id.card_price);
-        mQuantity           = (TextView) view.findViewById(R.id.iten_quantity);
+        mQuantity           = (TextView) view.findViewById(R.id.item_quantity);
         mStockClaim         = (TextView) view.findViewById(R.id.stock_claim);
         mClaimLiLa          = (LinearLayout) view.findViewById(R.id.claim_layout);
         mTerms              = (TextView) view.findViewById(R.id.stock_terms);
@@ -140,9 +141,16 @@ public class StockDetailType3Fragment extends BaseFragment {
                 addToCart();
             }
         });
+        view.findViewById(R.id.item_quantity).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCardSelector.cardCountClicked();
+            }
+        });
 
         if(mCardSelector == null)
             mCardSelector = new CardSelector(getActivity(), mStockItem, new CustomCrdSelecterInterface());
+
         updateViews();
     }
 
@@ -288,7 +296,7 @@ public class StockDetailType3Fragment extends BaseFragment {
 
         @Override
         public void quantityChanged(int quantity) {
-            mQuantity.setText("QUANTITY: " + String.valueOf(quantity));
+            mQuantity.setText(quantity == 0 ? getString(R.string.select_quantity):"Quantity: " + String.valueOf(quantity));
         }
     }
 

@@ -66,6 +66,42 @@
         <item>Digital</item>
         <item>Physical</item>
     </string-array>
+
+
+    <string-array name="card_count">
+        <item>1  Card</item>
+        <item>2  Cards</item>
+        <item>3  Cards</item>
+        <item>4  Cards</item>
+        <item>5  Cards</item>
+        <item>6  Cards</item>
+        <item>7  Cards</item>
+        <item>8  Cards</item>
+        <item>9  Cards</item>
+        <item>10 Cards</item>
+        <item>11 Cards</item>
+        <item>12 Cards</item>
+        <item>13 Cards</item>
+        <item>14 Cards</item>
+        <item>15 Cards</item>
+        <item>16 Cards</item>
+        <item>17 Cards</item>
+        <item>18 Cards</item>
+        <item>19 Cards</item>
+        <item>20 Cards</item>
+        <item>21 Cards</item>
+        <item>22 Cards</item>
+        <item>23 Cards</item>
+        <item>24 Cards</item>
+        <item>25 Cards</item>
+        <item>26 Cards</item>
+        <item>27 Cards</item>
+        <item>28 Cards</item>
+        <item>29 Cards</item>
+        <item>30 Cards</item>
+    </string-array>
+
+
     <string-array name="card_delivery_type_one">
         <item>Via  Email</item>
     </string-array>

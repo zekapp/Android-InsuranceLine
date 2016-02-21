@@ -99,6 +99,7 @@
     <string name="options_bullet_physical_4"> We only deliver to Australian physical addresses (no PO boxes)</string>
     <string name="delivery_type_tite">Select Delivery Type</string>
     <string name="price_tite">Select Price</string>
+    <string name="count_tite">Select Count</string>
     <string name="questionnaire_title">Questionnaire</string>
     <string name="search_venue">Search Merchandise By Name</string>
     <string name="footer_credit_card_fee">Card Fee</string>

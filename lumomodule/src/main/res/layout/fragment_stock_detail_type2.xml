@@ -18,17 +18,6 @@
             style="@style/MaterialDrawer.DrawerArrowStyle"
             app:layout_scrollFlags="scroll|enterAlways"
             />
-
-<!--        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="@drawable/toolbar_dropshadow" />
-
-        </FrameLayout>-->
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
@@ -43,46 +32,34 @@
             android:background="@color/white"
             android:paddingBottom="40dp">
 
-
-            <RelativeLayout
+            <TextView
+                android:id="@+id/stock_detail_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:textSize="25sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="@string/stock_detail_test_title"/>
 
-                <ImageView
-                    android:id="@+id/stock_detail_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="230dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/automotive"/>
+            <TextView
+                android:id="@+id/stock_detail_discount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:visibility="visible"
+                android:textStyle="bold"
+                android:text="@string/stock_detail_test_discount"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="20dp"
-                    android:layout_alignParentBottom="true">
+            <ImageView
+                android:id="@+id/stock_detail_img"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/automotive"/>
 
-                    <TextView
-                        android:id="@+id/stock_detail_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="25sp"
-                        android:textColor="@color/white"
-                        android:text="@string/stock_detail_test_title"/>
-                    <TextView
-                        android:id="@+id/stock_detail_discount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="25sp"
-                        android:padding="7dp"
-                        android:textColor="@color/white"
-                        android:visibility="gone"
-                        android:textStyle="bold"
-                        android:text="@string/stock_detail_test_discount"/>
-                </LinearLayout>
 
-            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -102,7 +79,7 @@
 
                 <TextView
                     android:id="@+id/card_option_title"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/card_options_digital"
@@ -111,7 +88,6 @@
                 <include layout="@layout/option_bullets"/>
 
                 <include layout="@layout/stock_terms_layout"/>
-
 
             </LinearLayout>
 
