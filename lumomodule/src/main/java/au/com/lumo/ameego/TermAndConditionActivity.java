@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -25,19 +24,30 @@ public class TermAndConditionActivity extends AppCompatActivity {
 
     private static final String TAG = TermAndConditionActivity.class.getSimpleName();
 
-    /*@Bind(R.id.webview)     */WebView mWebView;
-    /*@Bind(R.id.progressBar) */ProgressBar mProgress;
-    /*@Bind(R.id.toolbar)     */Toolbar mToolbar;
+    private WebView mWebView;
+    private ProgressBar mProgress;
+    private Toolbar mToolbar;
 
     private String initilaPageUrl = "https://www.google.com.au/";
-    private MUser  mUser;
+    private MUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_cond);
+        mWebView = (WebView) findViewById(R.id.webview);
+        mProgress = (ProgressBar) findViewById(R.id.progressBar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        findViewById(R.id.term_cond_done).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDoneClick();
+            }
+        });
 
         setToolbar();
+
 
         mUser = PrefUtils.getUser(this);
         initilaPageUrl = String.format(Constants.Url.TERMS_CONDITION, mUser.getAccess_token(), mUser.getAppId());
@@ -54,14 +64,14 @@ public class TermAndConditionActivity extends AppCompatActivity {
 
     private void setToolbar() {
 
-        if(mToolbar == null) {
+        if (mToolbar == null) {
 //            Log.d("TEST" ,"Didn't find a toolbar");
             return;
         }
 
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar == null) return;
+        if (actionBar == null) return;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(false);
 
@@ -116,7 +126,7 @@ public class TermAndConditionActivity extends AppCompatActivity {
     }
 
     /*@OnClick(R.id.term_cond_done)*/
-    void onDoneClick(){
+    void onDoneClick() {
 
         PrefUtils.setTermAndCondSeen(this, true);
 

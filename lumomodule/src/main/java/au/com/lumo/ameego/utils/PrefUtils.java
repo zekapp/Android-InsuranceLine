@@ -10,7 +10,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
-import au.com.lumo.ameego.DispatchActivity;
 import au.com.lumo.ameego.model.MShoppingCartVM;
 import au.com.lumo.ameego.model.MSiteNodeVm;
 import au.com.lumo.ameego.model.MUser;

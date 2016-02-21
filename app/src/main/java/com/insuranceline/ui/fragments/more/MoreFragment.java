@@ -22,7 +22,7 @@ import butterknife.OnClick;
 public class MoreFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_more_lumo, container, false);
+        final View view = inflater.inflate(R.layout.fragment_more, container, false);
         ButterKnife.bind(this, view);
         getActivityComponent().inject(this);
         return view;

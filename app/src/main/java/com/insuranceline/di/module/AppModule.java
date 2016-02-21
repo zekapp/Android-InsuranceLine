@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insuranceline.App;
 import com.insuranceline.config.AppConfig;
+import com.insuranceline.controller.ModuleController;
 import com.insuranceline.data.job.BaseJob;
 import com.insuranceline.data.local.AppDatabase;
 import com.insuranceline.data.remote.ApiService;
@@ -178,9 +179,10 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public LumoController lumoController(@ApplicationContext Context context){
+    public LumoController lumoController(@ApplicationContext Context context, ModuleController moduleController){
         return new LumoController
                 .Builder(context)
+                .setCallback(moduleController)
                 .build();
     }
 

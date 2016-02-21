@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
@@ -33,25 +32,41 @@ import au.com.lumo.ameego.utils.WarningUtilsMD;
  */
 public class QuestionnaireActivity extends AppCompatActivity implements IQuestionnaireView {
 
-    /*@Bind(R.id.list)    */ExpandableListView mListView;
-    /*@Bind(R.id.toolbar) */Toolbar            mToolbar;
+    private ExpandableListView mListView;
+    private Toolbar mToolbar;
 
-    private int        mQuestionerId;
+    private int mQuestionerId;
 
     private IQuestionnairePresenter mIQuestionnairePresenter;
-    private IAdapterPresenter       mIAdapterPresenter;
-    private QuestionnaireAdapter    mAdapter;
-    private MUser                   mUser;
+    private IAdapterPresenter mIAdapterPresenter;
+    private QuestionnaireAdapter mAdapter;
+    private MUser mUser;
 
 /*    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }*/
 
-        @Override
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questionnaire);
+        mListView = (ExpandableListView) findViewById(R.id.list);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        findViewById(R.id.ques_done).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDoneClicked();
+            }
+        });
+        findViewById(R.id.ques_clear).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeQuestioner();
+            }
+        });
+
 
         mUser = PrefUtils.getUser(this);
 
@@ -63,7 +78,7 @@ public class QuestionnaireActivity extends AppCompatActivity implements IQuestio
         if (mIQuestionnairePresenter == null)
             mIQuestionnairePresenter = new QuestionnairePresenterImp(this);
 
-        if (mAdapter == null){
+        if (mAdapter == null) {
             mAdapter = new QuestionnaireAdapter(this);
             mIAdapterPresenter = mAdapter;
         }
@@ -87,7 +102,7 @@ public class QuestionnaireActivity extends AppCompatActivity implements IQuestio
     public void questionerDownloadedSuccessfully(ArrayList<MQuestion> questions, HashMap<Integer, ArrayList<MListItem>> listItems) {
         mIAdapterPresenter.addAllItemsObject(questions, listItems);
 
-        for(int i=0; i < mAdapter.getGroupCount(); i++)
+        for (int i = 0; i < mAdapter.getGroupCount(); i++)
             mListView.expandGroup(i);
     }
 
@@ -117,8 +132,8 @@ public class QuestionnaireActivity extends AppCompatActivity implements IQuestio
 
     @Override
     public void problemOccurredWhilePushingQuestionnaireAnswer(ArrayList<MQuesRespWarning> warnings, String error) {
-        if(error == null){
-            Toast.makeText(this,"Please fill the form correctly",Toast.LENGTH_LONG).show();
+        if (error == null) {
+            Toast.makeText(this, "Please fill the form correctly", Toast.LENGTH_LONG).show();
             mIAdapterPresenter.setWarning(warnings);
         }
 //        else
@@ -139,14 +154,14 @@ public class QuestionnaireActivity extends AppCompatActivity implements IQuestio
     }
 
     private void setToolbar() {
-        if(mToolbar == null) {
+        if (mToolbar == null) {
 //            Log.d("TEST", "Didn't find a toolbar");
             return;
         }
 
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar == null) return;
+        if (actionBar == null) return;
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setHomeButtonEnabled(false);
 
@@ -161,9 +176,9 @@ public class QuestionnaireActivity extends AppCompatActivity implements IQuestio
     }
 
     /*@OnClick(R.id.ques_done)*/
-    void onDoneClicked(){
+    void onDoneClicked() {
 
-        String title   = "Submit questionnaire";
+        String title = "Submit questionnaire";
         String message = "Thanks for completing our questionnaire. Would you like to submit this to our team?";
 
         WarningUtilsMD.alertDialogYesNo(title, message, this, "Ok", "Cancel", new WarnYesNoSelectCallback() {
@@ -181,7 +196,7 @@ public class QuestionnaireActivity extends AppCompatActivity implements IQuestio
     }
 
     /*@OnClick(R.id.ques_clear)*/
-    void closeQuestioner(){
+    void closeQuestioner() {
         Intent intent = new Intent(this, BaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NEW_TASK);
