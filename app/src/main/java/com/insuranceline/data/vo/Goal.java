@@ -192,16 +192,16 @@ public class Goal extends BaseModel {
         mStepsBias = stepsBias;
     }
 
-    public static Goal createDefaultGoal(int goalId, long endDate) {
+    public static Goal createDefaultGoal(int goalId, long endDate, long initialstep) {
         Goal goal = new Goal();
         goal.setGoalId(goalId);
-        goal.reset(endDate, 100000);
+        goal.reset(endDate, initialstep);
         return goal;
     }
 
     public void reset( long endOfCampaignDate, long target) {
         boolean isCampaignActive = TimeUnit
-                .MILLISECONDS.toDays(endOfCampaignDate - System.currentTimeMillis()) > 0;
+                .MILLISECONDS.toMinutes(endOfCampaignDate - System.currentTimeMillis()) > 0;
 
         int stauts = isCampaignActive ?
                 getGoalId() == 0  ? GOAL_STATUS_IDLE : GOAL_STATUS_LOCK :
@@ -228,16 +228,16 @@ public class Goal extends BaseModel {
 
     public long getNextTarget(float leftDayForNextGoal, float difficulty ) {
 
-        float pacePerDay    = getTarget() / getAchievedInDays();
+        float pacePerDay    = getTarget() / getAchievedInMinutes();
         float newPacePerDay = pacePerDay * difficulty;
         float taget         = newPacePerDay * leftDayForNextGoal;
 
         return (long)taget;
     }
 
-    public long getAchievedInDays() {
-        long days = TimeUnit.MILLISECONDS.toDays(getEndDate() - getBaseDate());
-        return days > 0 ? days : 1;
+    public long getAchievedInMinutes() {
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(getEndDate() - getBaseDate());
+        return minutes > 0 ? minutes : 1;
     }
 
     public int getNextActiveMinute() {

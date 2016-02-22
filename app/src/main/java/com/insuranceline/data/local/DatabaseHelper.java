@@ -3,6 +3,7 @@ package com.insuranceline.data.local;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import com.insuranceline.data.remote.responses.WhoAmIResponse;
 import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Goal;
@@ -92,6 +93,7 @@ public class DatabaseHelper {
             }
         });
     }
+
 
     public EdgeUser getEdgeUser() {
         return new Select().from(EdgeUser.class).querySingle();
@@ -199,5 +201,6 @@ public class DatabaseHelper {
     public List<Goal> fetchAllGoalInAscendingOrder() {
         return new Select().from(Goal.class).where().queryList();
     }
+
 
 }

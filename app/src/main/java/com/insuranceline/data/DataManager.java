@@ -1,5 +1,5 @@
 package com.insuranceline.data;
-
+import com.insuranceline.BuildConfig;
 import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.job.fetch.FetchSamplesJob;
 import com.insuranceline.data.local.DatabaseHelper;
@@ -10,7 +10,8 @@ import com.insuranceline.data.remote.FitBitApiService;
 import com.insuranceline.data.remote.model.DashboardModel;
 import com.insuranceline.data.remote.responses.ClaimRewardResponse;
 import com.insuranceline.data.remote.responses.DailySummaryResponse;
-import com.insuranceline.data.remote.responses.EdgeResponse;
+import com.insuranceline.data.remote.responses.EdgeAuthResponse;
+import com.insuranceline.data.remote.responses.WhoAmIResponse;
 import com.insuranceline.data.remote.responses.FitBitTokenResponse;
 import com.insuranceline.data.remote.responses.SampleResponseData;
 import com.insuranceline.data.remote.responses.StepsCountResponse;
@@ -19,10 +20,10 @@ import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Goal;
 import com.insuranceline.data.vo.Sample;
+import com.insuranceline.event.FitBitLogoutEvent;
 import com.insuranceline.event.GeneralErrorEvent;
 import com.insuranceline.event.GoalAchieveEvent;
 import com.insuranceline.event.LogOutFromEdgeEvent;
-import com.insuranceline.event.LogOutFromFitBitEvent;
 import com.insuranceline.receiver.NotificationHelper;
 import com.insuranceline.utils.CampaignAlgorithm;
 import com.insuranceline.utils.TimeUtils;
@@ -36,8 +37,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import au.com.lumo.ameego.LumoController;
-import au.com.lumo.ameego.model.MSiteHelper;
-import au.com.lumo.ameego.model.MUser;
 import de.greenrobot.event.EventBus;
 import retrofit.HttpException;
 import rx.Observable;
@@ -105,7 +104,7 @@ public class DataManager {
     private void createGoalsAsDefaultIfNotCreated() {
         if(!mDatabaseHelper.isAnyGoalCreated()){
             for (int i = 0; i < GOAL_COUNTS; i++) {
-                mDatabaseHelper.saveGoal(Goal.createDefaultGoal(i,mAppConfig.getEndOfCampaign()));
+                mDatabaseHelper.saveGoal(Goal.createDefaultGoal(i,mAppConfig.getEndOfCampaign(), AppConfig.INITILA_TARGET_STEP_COUNT));
             }
         }
     }
@@ -194,31 +193,42 @@ public class DataManager {
             }
         });
     }
+
     public Observable<EdgeUser> loginEdgeSystem(final String email, String password) {
-        return mEdgeApiService.loginToEdgeSystem(email,password,"password")
-                .flatMap(new Func1<EdgeResponse, Observable<MSiteHelper>>() {
+        return mEdgeApiService.getAuthToken(email,password,"password")
+                .flatMap(new Func1<EdgeAuthResponse, Observable<EdgeUser>>() {
                     @Override
-                    public Observable<MSiteHelper> call(EdgeResponse response) {
+                    public Observable<EdgeUser> call(EdgeAuthResponse response) {
                         mPreferencesHelper.saveEdgeSystemToken(response.getmAccessToken());
-                        mLumoController.saveUser(response.createLumoUser(email));
-                        return mEdgeApiService.getSite(response.getmTokenType() + " " +response.getmAccessToken());
+                        return Observable.zip(
+                                mEdgeApiService.whoami(response.getmTokenType() + " " + response.getmAccessToken()),
+                                Observable.just(response),
+                                new Func2<WhoAmIResponse, EdgeAuthResponse, EdgeUser>() {
+                                    @Override
+                                    public EdgeUser call(WhoAmIResponse whoAmIResponse, EdgeAuthResponse edgeAuthResponse) {
+                                        mPreferencesHelper.saveEdgeSystemToken(edgeAuthResponse.getmAccessToken());
+
+                                        EdgeUser edgeUser = new EdgeUser
+                                                .Builder(whoAmIResponse, edgeAuthResponse)
+                                                .createMUser()
+                                                .setDebugEnable(BuildConfig.DEBUG, mPreferencesHelper.isUseFitBitOwner())
+                                                .build();
+
+                                        edgeUser.save();
+                                        mLumoController.saveUser(edgeUser.getLumoUser());
+
+                                        return edgeUser;
+                                    }
+                                });
                     }
-                }).flatMap(new Func1<MSiteHelper, Observable<EdgeUser>>() {
-                    @Override
-                    public Observable<EdgeUser> call(MSiteHelper mSiteHelper) {
-                        MUser user = mLumoController.updateUser(mSiteHelper);
-                        // todo: remove when done
-                        boolean isFitBitUser = mPreferencesHelper.isUseFitBitOwner();
-                        return mDatabaseHelper.createEdgeUser(user,isFitBitUser);
-                    }
-                });
+                }).doOnError(handleEdgeNetworkError());
     }
 
 /*    public Observable<EdgeUser> loginEdgeSystem(final String email, String password) {
-        return mEdgeApiService.loginToEdgeSystem(email,password,"password")
-                .concatMap(new Func1<EdgeResponse, Observable<? extends EdgeUser>>() {
+        return mEdgeApiService.getAuthToken(email,password,"password")
+                .concatMap(new Func1<EdgeAuthResponse, Observable<? extends EdgeUser>>() {
                     @Override
-                    public Observable<? extends EdgeUser> call(EdgeResponse edgeResponse) {
+                    public Observable<? extends EdgeUser> call(EdgeAuthResponse edgeResponse) {
                         mPreferencesHelper.saveEdgeSystemToken(edgeResponse.getmAccessToken());
                         mLumoController.saveUser(edgeResponse.createLumoUser(email));
                         return mDatabaseHelper.createEdgeUser(email,edgeResponse);
@@ -489,7 +499,7 @@ public class DataManager {
             @Override
             public void call(DashboardModel dashboardModel) {
                 Goal activeGoal = dashboardModel.getActiveGoal();
-                if (activeGoal.getAchievedSteps() >= activeGoal.getTarget() && isCampaignStillActive()){
+                if ((activeGoal.getAchievedSteps() >= activeGoal.getTarget()) && isCampaignStillActive()){
                     mEventBus.post(new GoalAchieveEvent(activeGoal));
                 }
             }
@@ -499,7 +509,7 @@ public class DataManager {
     public boolean isCampaignStillActive() {
         return TimeUnit
                 .MILLISECONDS
-                .toDays(mAppConfig.getEndOfCampaign() - System.currentTimeMillis()) > 0;
+                .toMinutes(mAppConfig.getEndOfCampaign() - System.currentTimeMillis()) > 0;
     }
 
     /** Fetch data and then save to db*/
@@ -554,7 +564,7 @@ public class DataManager {
                     // if token expires some reason. Users need to be logout.
                     if (httpException.code() == 401){
                         Timber.e("Network Error: 401 !!!");
-                        mEventBus.post(new LogOutFromFitBitEvent("Session expired."));
+                        mEventBus.post(new FitBitLogoutEvent("Session expired."));
                     }
                 } else if(throwable != null){
                     mEventBus.post(new GeneralErrorEvent(throwable));

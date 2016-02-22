@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -40,6 +41,10 @@ public class AppConfig {
     public static final long BOOST_NOTIFICATION_PERIOD_DAYS = 21; // day
     public static final long REMINDER_NOTIFICATION_PERIOD_DAYS = 14; // day
 
+    public static final String STAGING_APP_ID           = "929da5ad-2b68-4493-8a3d-1466a8792e00";
+    public static final String PRODUCTION_APP_ID        = "5e435d08-3537-4e50-ad41-05bfbdbf0bfb";
+    public static final int INITILA_TARGET_STEP_COUNT   = 100;
+
 
     private static long BOOM_END;
 
@@ -51,13 +56,14 @@ public class AppConfig {
     static {
         try {
             @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat f = new SimpleDateFormat("dd MM yyyy HH:mm a");
+            SimpleDateFormat f = new SimpleDateFormat("dd MM yyyy HH:mm a", Locale.US);
             Date d = f.parse(END_OF_CAMPAIGN_DATE);
             BOOM_END = d.getTime();
         } catch (ParseException e) {
             throw new RuntimeException("Wrong time format");
         }
     }
+
 
     @Inject
     public AppConfig(PreferencesHelper preferencesHelper) {
@@ -113,7 +119,8 @@ public class AppConfig {
     }
 
     public long getEndOfCampaign() {
-        Timber.d("End Date: unix:%s readable:%s",BOOM_END, TimeUtils.convertReadableDate(BOOM_END, TimeUtils.DATE_FORMAT_TYPE_5));
-        return mSharedPreferences.getEndOfCampaignDate(BOOM_END);
+        long endOfCampagn = mSharedPreferences.getEndOfCampaignDate(BOOM_END); // default return BOOM_END
+        Timber.d("End Date: unix:%s readable:%s",endOfCampagn, TimeUtils.convertReadableDate(endOfCampagn, TimeUtils.DATE_FORMAT_TYPE_5));
+        return endOfCampagn;
     }
 }

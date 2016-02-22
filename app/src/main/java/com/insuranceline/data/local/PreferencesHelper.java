@@ -151,17 +151,17 @@ public class PreferencesHelper {
 
     // This function is only test purposes
     public void saveReminderNotificationPeriod(int min){
-        mPref.edit().putLong(REMINDER_NOTIFICATION_PERIOD, TimeUnit.MINUTES.toMillis(min)).apply();
+        mPref.edit().putLong(REMINDER_NOTIFICATION_PERIOD, TimeUnit.MINUTES.toMillis(min)).commit();
     }
 
     // This function is only test purposes. User always default value.
     public void saveEndOfCampaignDate(long boomEnd) {
-        mPref.edit().putLong(END_OF_CAMPAIGN_DATE, boomEnd).apply();
+        mPref.edit().putLong(END_OF_CAMPAIGN_DATE, boomEnd).commit();
     }
 
     // This function is only test purposes. User always default value.
     public void setUserAsFitBit(boolean isFitBitUser) {
-        mPref.edit().putBoolean(USER_TYPE_AS_FIT_BIT, isFitBitUser).apply();
+        mPref.edit().putBoolean(USER_TYPE_AS_FIT_BIT, isFitBitUser).commit();
     }
 
     // This function is only test purposes. User always default value.

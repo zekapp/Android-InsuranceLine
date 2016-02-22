@@ -7,7 +7,7 @@ import au.com.lumo.ameego.model.MUser;
 /**
  * Created by zeki on 30/01/2016.
  */
-public class EdgeResponse {
+public class EdgeAuthResponse {
 
     @JsonProperty("access_token")
     String mAccessToken;
@@ -40,15 +40,5 @@ public class EdgeResponse {
 
     public void setmExpireIn(long mExpireIn) {
         this.mExpireIn = mExpireIn;
-    }
-
-    public MUser createLumoUser(String email){
-        MUser user = new MUser();
-        user.setAccess_token(getmAccessToken());
-        user.setToken_type(getmTokenType());
-        user.setExpires_in(getmExpireIn());
-        user.setEmail(email);
-        user.setUsername(email);
-        return user;
     }
 }

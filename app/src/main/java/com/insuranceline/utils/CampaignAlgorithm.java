@@ -2,6 +2,7 @@ package com.insuranceline.utils;
 
 import com.insuranceline.data.vo.Goal;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -24,9 +25,9 @@ public class CampaignAlgorithm {
         Goal goal2 = getGoalById(1, goalList);
         Goal goal3 = getGoalById(2, goalList);
 
-        long dayLef = TimeUnit.MILLISECONDS.toDays(endOfCampaignDate - System.currentTimeMillis());
+        long minutesLeft = TimeUnit.MILLISECONDS.toMinutes(endOfCampaignDate - System.currentTimeMillis());
 
-        Timber.d("Day Left to end of campain: %s", dayLef);
+        Timber.d("Day Left to end of campain: %s", TimeUnit.MINUTES.toDays(minutesLeft));
 
         // First Goal
         if (newGoalId == 0){
@@ -38,13 +39,13 @@ public class CampaignAlgorithm {
         }
         // Second Goal
         else if(newGoalId == 1){
-            float stepPerDayPrevGoal = goal1.getTarget() / goal1.getAchievedInDays();
-            float dayLeftForGoal2    = dayLef * LEFT_DAY_SCALE_FOR_SECOND_GOAL;
-            float newStepPerDay      = stepPerDayPrevGoal * DIFFICULTY_SCALE_FOR_SECOND_GOAL;
-            float newTarget          = dayLeftForGoal2 * newStepPerDay;
+            float stepsPerMinutePrevGoal  = goal1.getTarget() / goal1.getAchievedInMinutes();
+            float minutesLeftForGoal2     = minutesLeft * LEFT_DAY_SCALE_FOR_SECOND_GOAL;
+            float newStepsPerMinute       = stepsPerMinutePrevGoal * DIFFICULTY_SCALE_FOR_SECOND_GOAL;
+            float newTarget               = minutesLeftForGoal2 * newStepsPerMinute;
 
-            Timber.d("GOAL 2 ==> stepPerDayPrevGoal: %s, dayLeftForGoal2: %s, newStepPerDay: %s, newTarget: %s",
-                    stepPerDayPrevGoal, dayLeftForGoal2, newStepPerDay, newTarget);
+            Timber.d("GOAL 2 ==> stepsPerMinutePrevGoal: %s, minutesLeftForGoal2: %s, newStepsPerMinute: %s, newTarget: %s",
+                    stepsPerMinutePrevGoal, minutesLeftForGoal2, newStepsPerMinute, newTarget);
 
             // target
             goal2.setTarget((long)newTarget);
@@ -53,7 +54,7 @@ public class CampaignAlgorithm {
             goal2.setBaseDate(System.currentTimeMillis());
 
             // Daily Requirement
-            goal2.setRequiredDailySteps((long)newStepPerDay);
+            goal2.setRequiredDailySteps((long) (newStepsPerMinute * TimeUnit.DAYS.toMinutes(1)));
             goal2.setRequiredDailyActiveMin(goal1.getRequiredDailyActiveMin());
             goal2.setRequiredDailyCalorie(goal1.getRequiredDailyCalorie());
             goal2.setRequiredDailyDistance(goal1.getRequiredDailyDistance());
@@ -66,13 +67,13 @@ public class CampaignAlgorithm {
         }
         // Third Goal
         else if (newGoalId == 2){
-            float stepPerDayPrevGoal = goal2.getTarget() / goal2.getAchievedInDays();
-            float dayLeftForGoal3    = dayLef ;
-            float newStepPerDay      = stepPerDayPrevGoal * DIFFICULTY_SCALE_FOR_THIRD_GOAL;
-            float newTarget          = dayLeftForGoal3 * newStepPerDay;
+            float stepsPerMinutePrevGoal = goal2.getTarget() / goal2.getAchievedInMinutes();
+            float minutesLeftForGoal3    = minutesLeft;
+            float newStepsPerMinute      = stepsPerMinutePrevGoal * DIFFICULTY_SCALE_FOR_THIRD_GOAL;
+            float newTarget              = minutesLeftForGoal3 * newStepsPerMinute;
 
-            Timber.d("GOAL 2 ==> stepPerDayPrevGoal: %s, dayLeftForGoal3: %s, newStepPerDay: %s, newTarget: %s",
-                    stepPerDayPrevGoal, dayLeftForGoal3, newStepPerDay, newTarget);
+            Timber.d("GOAL 3 ==> minutesLeftForGoal3: %s, minutesLeftForGoal3: %s, newStepsPerMinute: %s, newTarget: %s",
+                    stepsPerMinutePrevGoal, minutesLeftForGoal3, newStepsPerMinute, newTarget);
 
             // target
             goal3.setTarget((long)newTarget);
@@ -81,7 +82,7 @@ public class CampaignAlgorithm {
             goal3.setBaseDate(System.currentTimeMillis());
 
             // Daily Requirement
-            goal3.setRequiredDailySteps((long)newStepPerDay);
+            goal3.setRequiredDailySteps((long) (newStepsPerMinute * TimeUnit.DAYS.toMinutes(1)));
             goal3.setRequiredDailyActiveMin(goal2.getRequiredDailyActiveMin());
             goal3.setRequiredDailyCalorie(goal2.getRequiredDailyCalorie());
             goal3.setRequiredDailyDistance(goal2.getRequiredDailyDistance());
@@ -102,34 +103,35 @@ public class CampaignAlgorithm {
         Goal goal2 = getGoalById(1, goalList);
         Goal goal3 = getGoalById(2, goalList);
 
-        long dayLef = TimeUnit.MILLISECONDS.toDays(endOfCampaignDate - System.currentTimeMillis());
+        long minutesLeft = TimeUnit.MILLISECONDS.toMinutes(endOfCampaignDate - System.currentTimeMillis());
 
-        Timber.d("Day Left to end of campain: %s", dayLef);
+        Timber.d("Day Left to end of campain: %s", TimeUnit.MINUTES.toDays(minutesLeft));
+
         // First Goal
         if (newGoalId == 0){
             return (int)goal1.getTarget();
         }
         // Second Goal
         else if(newGoalId == 1){
-            float stepPerDayPrevGoal = goal1.getTarget() / goal1.getAchievedInDays();
-            float dayLeftForGoal2    = dayLef * LEFT_DAY_SCALE_FOR_SECOND_GOAL;
-            float newStepPerDay      = stepPerDayPrevGoal * DIFFICULTY_SCALE_FOR_SECOND_GOAL;
-            float newTarget          = dayLeftForGoal2 * newStepPerDay;
+            float stepsPerMinutePrevGoal  = goal1.getTarget() / goal1.getAchievedInMinutes();
+            float minutesLeftForGoal2     = minutesLeft * LEFT_DAY_SCALE_FOR_SECOND_GOAL;
+            float newStepsPerMinute       = stepsPerMinutePrevGoal * DIFFICULTY_SCALE_FOR_SECOND_GOAL;
+            float newTarget               = minutesLeftForGoal2 * newStepsPerMinute;
 
-            Timber.d("GOAL 2 ==> stepPerDayPrevGoal: %s, dayLeftForGoal2: %s, newStepPerDay: %s, newTarget: %s",
-                    stepPerDayPrevGoal, dayLeftForGoal2, newStepPerDay, newTarget);
+            Timber.d("GOAL 2 ==> stepsPerMinutePrevGoal: %s, minutesLeftForGoal2: %s, newStepsPerMinute: %s, newTarget: %s",
+                    stepsPerMinutePrevGoal, minutesLeftForGoal2, newStepsPerMinute, newTarget);
             return  (int)newTarget;
 
         }
         // Third Goal
         else if (newGoalId == 2){
-            float stepPerDayPrevGoal = goal2.getTarget() / goal2.getAchievedInDays();
-            float dayLeftForGoal3    = dayLef ;
-            float newStepPerDay      = stepPerDayPrevGoal * DIFFICULTY_SCALE_FOR_THIRD_GOAL;
-            float newTarget          = dayLeftForGoal3 * newStepPerDay;
+            float stepsPerMinutePrevGoal = goal2.getTarget() / goal2.getAchievedInMinutes();
+            float minutesLeftForGoal3    = minutesLeft;
+            float newStepsPerMinute      = stepsPerMinutePrevGoal * DIFFICULTY_SCALE_FOR_THIRD_GOAL;
+            float newTarget              = minutesLeftForGoal3 * newStepsPerMinute;
 
-            Timber.d("GOAL 2 ==> stepPerDayPrevGoal: %s, dayLeftForGoal3: %s, newStepPerDay: %s, newTarget: %s",
-                    stepPerDayPrevGoal, dayLeftForGoal3, newStepPerDay, newTarget);
+            Timber.d("GOAL 3 ==> stepsPerMinutePrevGoal: %s, minutesLeftForGoal3: %s, newStepsPerMinute: %s, newTarget: %s",
+                    stepsPerMinutePrevGoal, minutesLeftForGoal3, newStepsPerMinute, newTarget);
 
             return  (int)newTarget;
         } else {

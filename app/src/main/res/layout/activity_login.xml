@@ -73,7 +73,8 @@
             android:layout_height="wrap_content"
             android:text="FitBit Owner"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:checked="true"/>
 
     </LinearLayout>
 

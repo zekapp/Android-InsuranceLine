@@ -35,30 +35,71 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/debug_reminder_notification_def" />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Boost Timer:"/>
 
                 <EditText
                     android:id="@+id/keep_going_notification_period"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:hint="Boost Period (ex: 21 minutes)"
+                    android:hint="21 Minutes"
                     android:inputType="numberDecimal" />
 
-            </android.support.design.widget.TextInputLayout>
+                <Button
+                    android:id="@+id/set_boost_period"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/orange_button_bg"
+                    android:layout_gravity="center_vertical"
+                    android:text="set"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/white"/>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Reminder Timer:"/>
 
                 <EditText
                     android:id="@+id/reminder_notification_period"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:hint="Reminder period (ex:14 minutes)"
+                    android:hint="14 Mintes"
                     android:inputType="numberDecimal" />
-            </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/set_reminder_period"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/orange_button_bg"
+                    android:layout_gravity="center_vertical"
+                    android:text="set"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
@@ -86,43 +127,75 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/debug_target_def" />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Campaign End In:"/>
 
                 <EditText
                     android:id="@+id/campaign_end_date"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:hint="Campaign End Date (Ex: 01 09 2016 11:59 pm)" />
+                    android:hint="60 Minutes"
+                    android:inputType="numberDecimal" />
 
-            </android.support.design.widget.TextInputLayout>
+                <Button
+                    android:id="@+id/set_end_campaign"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/orange_button_bg"
+                    android:layout_gravity="center_vertical"
+                    android:text="set"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/white"/>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="New target:"/>
 
                 <EditText
                     android:id="@+id/new_target"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:hint="Target For First Goal (Ex: 100)"
+                    android:hint="100 Steps"
                     android:inputType="numberDecimal" />
 
-            </android.support.design.widget.TextInputLayout>
+                <Button
+                    android:id="@+id/reset_button"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/orange_button_bg"
+                    android:layout_gravity="center_vertical"
+                    android:text="set"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
-
-
-        <Button
-            android:id="@+id/reset_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/orange_button_bg"
-            android:text="Reset"
-            android:textColor="@color/white" />
 
     </LinearLayout>
 </ScrollView>

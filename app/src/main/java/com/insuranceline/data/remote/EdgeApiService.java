@@ -1,7 +1,8 @@
 package com.insuranceline.data.remote;
 
 import com.insuranceline.data.remote.responses.ClaimRewardResponse;
-import com.insuranceline.data.remote.responses.EdgeResponse;
+import com.insuranceline.data.remote.responses.EdgeAuthResponse;
+import com.insuranceline.data.remote.responses.WhoAmIResponse;
 
 import au.com.lumo.ameego.model.MSiteHelper;
 import retrofit.http.Field;
@@ -25,11 +26,14 @@ public interface EdgeApiService {
     })
     @FormUrlEncoded
     @POST("auth")
-    Observable<EdgeResponse> loginToEdgeSystem(@Field("username") String userName, @Field("password") String password, @Field("grant_type") String type);
+    Observable<EdgeAuthResponse> getAuthToken(@Field("username") String userName, @Field("password") String password, @Field("grant_type") String type);
 
 
     @GET("api/v1/site")
     Observable<MSiteHelper> getSite(@Header("Authorization") String token); // do not forget to add Bearer to Token
+
+    @GET("api/v1/whoami")
+    Observable<WhoAmIResponse> whoami(@Header("Authorization") String token); // do not forget to add Bearer to Token
 
     @POST("accepted")
     Observable<Boolean> tcResponse(@Header("Authorization") String token);// do not forget to add Bearer to Token

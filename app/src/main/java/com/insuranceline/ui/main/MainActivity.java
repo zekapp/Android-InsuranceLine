@@ -17,10 +17,10 @@ import android.widget.Toast;
 
 import com.insuranceline.R;
 import com.insuranceline.config.AppConfig;
+import com.insuranceline.event.FitBitLogoutEvent;
 import com.insuranceline.event.GeneralErrorEvent;
 import com.insuranceline.event.GoalAchieveEvent;
 import com.insuranceline.event.LogOutFromEdgeEvent;
-import com.insuranceline.event.LogOutFromFitBitEvent;
 import com.insuranceline.event.SubscriberPriority;
 import com.insuranceline.ui.base.BaseActivity;
 import com.insuranceline.ui.claim.ClaimingRewardActivity;
@@ -309,12 +309,14 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
 
     @SuppressWarnings("unused")
     public void onEventMainThread(GoalAchieveEvent event) {
+        Timber.d("Goal Achieved");
         Toast.makeText(this, "GoalAchieveEvent Achieved",Toast.LENGTH_LONG).show();
         dipatchRewardClaimActivity();
     }
 
     @SuppressWarnings("unused")
-    public void onEventMainThread(LogOutFromFitBitEvent event) {
+    public void onEventMainThread(FitBitLogoutEvent event) {
+        Timber.d("LogOutFromFitBitEvent");
 //        Toast.makeText(this, "Logout Need",Toast.LENGTH_LONG).show();
         dispatchWarningForConnectFitBit();
     }
@@ -322,6 +324,7 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     @SuppressWarnings("unused")
     public void onEventMainThread(LogOutFromEdgeEvent event) {
 //        Toast.makeText(this, "Logout Need",Toast.LENGTH_LONG).show();
+        Timber.d("LogOutFromEdgeEvent");
         dispatchWarningForEdgeSystemLogout();
     }
 

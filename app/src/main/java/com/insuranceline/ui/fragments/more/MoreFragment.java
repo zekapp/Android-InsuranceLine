@@ -42,7 +42,7 @@ public class MoreFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         setTitle("More");
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
     }
 
     @OnClick(R.id.more_1)

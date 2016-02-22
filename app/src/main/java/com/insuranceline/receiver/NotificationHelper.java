@@ -12,6 +12,8 @@ import com.insuranceline.di.qualifier.ApplicationContext;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import timber.log.Timber;
+
 /**
  * Created by zeki on 21/02/2016.
  */
@@ -50,9 +52,10 @@ public class NotificationHelper {
      *
      * */
     public void resetBoostNotification(){
+
         long period = mPreferencesHelper.getBoostNotificationPeriod(); // default is 21 days.
         long baseTime = mPreferencesHelper.getBaseTimeOfBoostNotification();
-
+        Timber.d("setNextReminderNotification");
         setAlarmForBoostNotification(period + baseTime);
 
     }
@@ -63,7 +66,7 @@ public class NotificationHelper {
      * Each time app comes foreground, base time sets
      * */
     public void setNextReminderNotification(){
-
+        Timber.d("setNextReminderNotification");
         long period   = mPreferencesHelper.getReminderNotificationPeriod(); // default is 14 days
         long baseTime = System.currentTimeMillis();
         mPreferencesHelper.saveBaseTimeOfReminderNotification(baseTime);

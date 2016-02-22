@@ -74,7 +74,7 @@
 
     <string name="debug_boost_notification_def"><b>Boost Period (Minute):</b> if user can not achieve the goal in this amount of time, notification fires end of this time</string>
     <string name="debug_reminder_notification_def"><b>Reminder Period (Minute):</b> Notification is fired in every Reminder period.</string>
-    <string name="debug_campain_end"> <b>Campaign End Date:</b>  You must use the same format given in hint <b>ex: 01 01 2017 11:59 pm</b></string>
+    <string name="debug_campain_end"> <b>Campaign End:</b>  Set any mintes. Campaign is going to be end in thise amunt of time</string>
     <string name="debug_target_def"><b>Target:</b> Set the first target of goal. (Ex: 100 steps) algorith will calcualte the next goal</string>
 
 </resources>

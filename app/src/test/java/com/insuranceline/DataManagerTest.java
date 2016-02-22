@@ -11,7 +11,7 @@ import com.insuranceline.data.remote.ApiService;
 import com.insuranceline.data.remote.EdgeApiService;
 import com.insuranceline.data.remote.FitBitApiService;
 import com.insuranceline.data.remote.responses.SampleResponseData;
-import com.insuranceline.data.remote.responses.EdgeResponse;
+import com.insuranceline.data.remote.responses.EdgeAuthResponse;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Sample;
 import com.path.android.jobqueue.JobManager;
@@ -217,27 +217,27 @@ public class DataManagerTest {
     public void  loginEdgeApiFails(){
         String userName = "abc@abc.com";
         String password = "123456";
-        when(mEdgeApiService.loginToEdgeSystem(userName,password,"password"))
-                .thenReturn(Observable.<EdgeResponse>error(new RuntimeException()));
+        when(mEdgeApiService.getAuthToken(userName,password,"password"))
+                .thenReturn(Observable.<EdgeAuthResponse>error(new RuntimeException()));
 
         TestSubscriber<EdgeUser> testSubscriber = new TestSubscriber<>();
         mDataManager.loginEdgeSystem(userName, password).subscribe(testSubscriber);
         testSubscriber.assertNoValues();
         testSubscriber.assertError(Exception.class);
 
-        verify(mMockDatabaseHelper, never()).createEdgeUser(anyString(), any(EdgeResponse.class));
+        verify(mMockDatabaseHelper, never()).createEdgeUser(anyString(), any(EdgeAuthResponse.class));
     }
 
     @Test
     public void loginEdgeSuccess(){
         String userName = "abc@abc.com";
         String password = "123456";
-        EdgeResponse edgeResponse = TestDataFactory.getEdgeResponse();
-        EdgeUser edgeUser = TestDataFactory.getEdgeUser(userName,edgeResponse);
+        EdgeAuthResponse edgeAuthResponse = TestDataFactory.getEdgeResponse();
+        EdgeUser edgeUser = TestDataFactory.getEdgeUser(userName, edgeAuthResponse);
 
-        when(mEdgeApiService.loginToEdgeSystem(userName,password,"password"))
-                .thenReturn(Observable.just(edgeResponse));
-        when(mMockDatabaseHelper.createEdgeUser(userName,edgeResponse))
+        when(mEdgeApiService.getAuthToken(userName,password,"password"))
+                .thenReturn(Observable.just(edgeAuthResponse));
+        when(mMockDatabaseHelper.createEdgeUser(userName, edgeAuthResponse))
                 .thenReturn(Observable.just(edgeUser));
 
         TestSubscriber<EdgeUser> testSubscriber = new TestSubscriber<>();
@@ -245,7 +245,7 @@ public class DataManagerTest {
         testSubscriber.assertNoErrors();
         testSubscriber.assertValue(edgeUser);
 
-        verify(mMockDatabaseHelper).createEdgeUser(userName,edgeResponse);
+        verify(mMockDatabaseHelper).createEdgeUser(userName, edgeAuthResponse);
 
     }
 }

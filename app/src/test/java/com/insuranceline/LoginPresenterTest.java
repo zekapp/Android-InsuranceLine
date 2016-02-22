@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.DataManager;
-import com.insuranceline.data.remote.responses.EdgeResponse;
+import com.insuranceline.data.remote.responses.EdgeAuthResponse;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.ui.login.LoginMvpView;
 import com.insuranceline.ui.login.LoginPresenter;
@@ -133,7 +133,7 @@ public class LoginPresenterTest{
         String password = "123456";
 
         stubGetResourceAndPasswordLenght();
-        EdgeResponse response = TestDataFactory.getEdgeResponse();
+        EdgeAuthResponse response = TestDataFactory.getEdgeResponse();
         EdgeUser edgeUser = TestDataFactory.getEdgeUser(userName,response);
 
         when(mMockDataManger.loginEdgeSystem(userName,password))

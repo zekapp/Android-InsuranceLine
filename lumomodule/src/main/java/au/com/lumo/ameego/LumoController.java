@@ -66,14 +66,15 @@ public enum LumoController {
         return DispatchActivity.class;
     }
 
-    public MUser updateUser(MSiteHelper mSiteHelper) {
+    public MUser updateUser(MUser user) {
 
-        return updateAndSaveUser(mSiteHelper);
+        return updateAndSaveUser(user);
     }
 
-    private MUser updateAndSaveUser(MSiteHelper site) {
-        MUser temp = site.getMember();
+    private MUser updateAndSaveUser(MUser temp) {
 
+
+        // Current User if have
         MUser savedUser = getUser();
 
         savedUser.setAppId(temp.getAppId());

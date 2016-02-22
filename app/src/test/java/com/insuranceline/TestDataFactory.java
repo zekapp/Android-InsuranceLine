@@ -1,7 +1,7 @@
 package com.insuranceline;
 
 
-import com.insuranceline.data.remote.responses.EdgeResponse;
+import com.insuranceline.data.remote.responses.EdgeAuthResponse;
 import com.insuranceline.data.remote.responses.SampleResponse;
 import com.insuranceline.data.remote.responses.SampleResponseData;
 import com.insuranceline.data.vo.EdgeUser;
@@ -66,7 +66,7 @@ public class TestDataFactory {
         return UUID.randomUUID().toString();
     }
 
-    public static EdgeUser getEdgeUser(String email, EdgeResponse response) {
+    public static EdgeUser getEdgeUser(String email, EdgeAuthResponse response) {
         EdgeUser edgeUser = new EdgeUser();
         edgeUser.setEmail(email);
         edgeUser.setmAccessToken(response.getmAccessToken());
@@ -75,12 +75,12 @@ public class TestDataFactory {
         return edgeUser;
     }
 
-    public static EdgeResponse getEdgeResponse() {
-        EdgeResponse edgeResponse = new EdgeResponse();
-        edgeResponse.setmAccessToken(getRandomText());
-        edgeResponse.setmExpireIn(3600);
-        edgeResponse.setmTokenType("Bearer");
-        return edgeResponse;
+    public static EdgeAuthResponse getEdgeResponse() {
+        EdgeAuthResponse edgeAuthResponse = new EdgeAuthResponse();
+        edgeAuthResponse.setmAccessToken(getRandomText());
+        edgeAuthResponse.setmExpireIn(3600);
+        edgeAuthResponse.setmTokenType("Bearer");
+        return edgeAuthResponse;
 
     }
 }
