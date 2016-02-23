@@ -10,8 +10,10 @@ import org.apache.commons.codec.binary.Base64;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -36,14 +38,22 @@ public class AppConfig {
 
     private static final String FIT_BIT_WEB_URL         = "https://www.fitbit.com/oauth2/";
     private static final String FIT_BIT_BASE_API_URL    = "https://api.fitbit.com/";
-    private static final String END_OF_CAMPAIGN_DATE    = "01 09 2016 11:59 pm";
+
+    /** CAMPAIGN END DATE ==> 01 SEPTEMBER 2016 23:59:59 **/
+    private static final int CAMPAIGN_END_YEAR          = 2016;
+    private static final int CAMPAIGN_END_MONTH         = Calendar.SEPTEMBER;
+    private static final int CAMPAIGN_END_DAY_OF_MONTH  = 1;
+    private static final int CAMPAIGN_END_HOUR_OF_DAY   = 23;
+    private static final int CAMPAIGN_END_MINUTE        = 59;
+    private static final int CAMPAIGN_END_SECOND        = 59;
+
 
     public static final long BOOST_NOTIFICATION_PERIOD_DAYS = 21; // day
     public static final long REMINDER_NOTIFICATION_PERIOD_DAYS = 14; // day
 
     public static final String STAGING_APP_ID           = "929da5ad-2b68-4493-8a3d-1466a8792e00";
     public static final String PRODUCTION_APP_ID        = "5e435d08-3537-4e50-ad41-05bfbdbf0bfb";
-    public static final int INITILA_TARGET_STEP_COUNT   = 100;
+    public static final int INITIALS_TARGET_STEP_COUNT  = 100;
 
 
     private static long BOOM_END;
@@ -53,15 +63,19 @@ public class AppConfig {
     private final PreferencesHelper mSharedPreferences;
     private String mEncodedAuthorizationHeader = "";
 
+
     static {
-        try {
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat f = new SimpleDateFormat("dd MM yyyy HH:mm a", Locale.US);
-            Date d = f.parse(END_OF_CAMPAIGN_DATE);
-            BOOM_END = d.getTime();
-        } catch (ParseException e) {
-            throw new RuntimeException("Wrong time format");
-        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+
+        cal.set(Calendar.YEAR,          CAMPAIGN_END_YEAR);
+        cal.set(Calendar.MONTH,         CAMPAIGN_END_MONTH);
+        cal.set(Calendar.DAY_OF_MONTH,  CAMPAIGN_END_DAY_OF_MONTH);
+        cal.set(Calendar.HOUR_OF_DAY,   CAMPAIGN_END_HOUR_OF_DAY);
+        cal.set(Calendar.MINUTE,        CAMPAIGN_END_MINUTE);
+        cal.set(Calendar.SECOND,        CAMPAIGN_END_SECOND);
+
+        BOOM_END = cal.getTimeInMillis();
     }
 
 
@@ -119,8 +133,8 @@ public class AppConfig {
     }
 
     public long getEndOfCampaign() {
-        long endOfCampagn = mSharedPreferences.getEndOfCampaignDate(BOOM_END); // default return BOOM_END
-        Timber.d("End Date: unix:%s readable:%s",endOfCampagn, TimeUtils.convertReadableDate(endOfCampagn, TimeUtils.DATE_FORMAT_TYPE_5));
-        return endOfCampagn;
+        long endOfCampaignDate = mSharedPreferences.getEndOfCampaignDate(BOOM_END); // default return BOOM_END
+        Timber.d("End Date: unix:%s readable: %s",endOfCampaignDate, TimeUtils.convertReadableDate(endOfCampaignDate, TimeUtils.DATE_FORMAT_TYPE_1));
+        return endOfCampaignDate;
     }
 }

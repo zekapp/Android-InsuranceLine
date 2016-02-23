@@ -104,7 +104,7 @@ public class DataManager {
     private void createGoalsAsDefaultIfNotCreated() {
         if(!mDatabaseHelper.isAnyGoalCreated()){
             for (int i = 0; i < GOAL_COUNTS; i++) {
-                mDatabaseHelper.saveGoal(Goal.createDefaultGoal(i,mAppConfig.getEndOfCampaign(), AppConfig.INITILA_TARGET_STEP_COUNT));
+                mDatabaseHelper.saveGoal(Goal.createDefaultGoal(i,mAppConfig.getEndOfCampaign(), AppConfig.INITIALS_TARGET_STEP_COUNT));
             }
         }
     }
