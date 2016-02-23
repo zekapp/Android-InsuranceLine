@@ -124,17 +124,15 @@
                 android:id="@+id/shop_cart_item_increase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_add_circle_black_36dp"/>
+                android:src="@drawable/btn_plus"/>
 
             <ImageView
                 android:id="@+id/shop_cart_item_decrease"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_remove_circle_black_36dp"/>
+                android:src="@drawable/btn_minus"/>
 
         </LinearLayout>
 

@@ -174,10 +174,11 @@
 
 
             <TextView
+                android:id="@+id/version_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="1.0.0"/>
+                android:text="v.1.0.0"/>
 
         </RelativeLayout>
 

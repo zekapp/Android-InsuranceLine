@@ -14,11 +14,7 @@ import com.insuranceline.R;
 import com.insuranceline.data.DataManager;
 import com.insuranceline.data.local.PreferencesHelper;
 import com.insuranceline.ui.fragments.BaseFragment;
-import com.insuranceline.utils.TimeUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -26,7 +22,6 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 /**
  * Created by zeki on 21/02/2016.
@@ -62,7 +57,7 @@ public class DebugModeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setTitle("Debug");
+        setTitle("Test View");
     }
 
 
@@ -73,31 +68,20 @@ public class DebugModeFragment extends BaseFragment {
     }
 
 
-    @OnClick(R.id.set_boost_period)
-    public void onSetBoostClicked(){
+    @OnClick(R.id.set_reminder_button)
+    public void onSetReminderClicked(){
+        String reminderPerMin = reminderNotificationPeriod.getText().toString();
         String boostPerMin = keepGoingNotificationPeriod.getText().toString();
+
         boolean cancel = false;
         View focusView = null;
+
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(boostPerMin)) {
             keepGoingNotificationPeriod.setError(getString(R.string.error_field_required));
             focusView = keepGoingNotificationPeriod;
             cancel = true;
         }
-
-        if (cancel){
-            focusView.requestFocus();
-        }else{
-            prefHelper.saveBoostNotificationPeriod(Integer.valueOf(boostPerMin));
-            Toast.makeText(getActivity(),"Ok",Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @OnClick(R.id.set_reminder_period)
-    public void onSetReminderClicked(){
-        String reminderPerMin = reminderNotificationPeriod.getText().toString();
-        boolean cancel = false;
-        View focusView = null;
 
         if (TextUtils.isEmpty(reminderPerMin)) {
             reminderNotificationPeriod.setError(getString(R.string.error_field_required));
@@ -108,41 +92,27 @@ public class DebugModeFragment extends BaseFragment {
         if (cancel){
             focusView.requestFocus();
         }else{
+            prefHelper.saveBoostNotificationPeriod(Integer.valueOf(boostPerMin));
             prefHelper.saveReminderNotificationPeriod(Integer.valueOf(reminderPerMin));
             Toast.makeText(getActivity(),"Ok",Toast.LENGTH_SHORT).show();
         }
     }
 
-    @OnClick(R.id.set_end_campaign)
-    public void onSetEndOfCampaignClicked(){
+    @SuppressLint("unused")
+    @OnClick(R.id.reset_goals_button)
+    public void onResetButtonClicked() {
+        String target = newTarget.getText().toString();
         String endOfCampaign = campaignEndDate.getText().toString();
+
         boolean cancel = false;
         View focusView = null;
+
 
         if (TextUtils.isEmpty(endOfCampaign)) {
             campaignEndDate.setError(getString(R.string.error_field_required));
             focusView = campaignEndDate;
             cancel = true;
         }
-
-        if (cancel){
-            focusView.requestFocus();
-        }else{
-            prefHelper.saveEndOfCampaignDate(
-                    System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(Long.valueOf(endOfCampaign))
-            );
-            Toast.makeText(getActivity(),"Ok",Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    @SuppressLint("unused")
-    @OnClick(R.id.reset_button)
-    public void onResetButtonClicked() {
-        String target = newTarget.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
 
         if (TextUtils.isEmpty(target)) {
             newTarget.setError(getString(R.string.error_field_required));
@@ -153,7 +123,9 @@ public class DebugModeFragment extends BaseFragment {
         if (cancel){
             focusView.requestFocus();
         }else{
+            prefHelper.saveEndOfCampaignDate(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(Long.valueOf(endOfCampaign)));
             dataManager.resetGoals(Long.valueOf(target));
+
             msgToActvInterface.onBackPresses(this);
         }
 

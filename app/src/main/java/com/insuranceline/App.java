@@ -4,7 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.insuranceline.di.component.AppComponent;
-import com.insuranceline.di.component.DaggerAppComponent;
+import com.insuranceline.di.component
+        .DaggerAppComponent;
 import com.insuranceline.di.module.AppModule;
 import com.facebook.stetho.Stetho;
 import com.raizlabs.android.dbflow.config.FlowManager;

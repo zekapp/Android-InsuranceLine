@@ -1,6 +1,7 @@
 package com.insuranceline.ui.fragments.more;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.insuranceline.R;
@@ -19,6 +21,7 @@ import com.insuranceline.ui.login.connect.FBConnectActivity;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -30,23 +33,38 @@ public class MoreFragment extends BaseFragment {
 
     @Inject
     DataManager mDataManager;
+    @Bind(R.id.version_number)
+    TextView mVersionNumber;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_more, container, false);
         ButterKnife.bind(this, view);
         getActivityComponent().inject(this);
+        updateVersionNumber();
         return view;
+    }
+
+    private void updateVersionNumber() {
+        try {
+            String versionName = getActivity().getPackageManager()
+                    .getPackageInfo(getActivity().getPackageName(), 0).versionName;
+            mVersionNumber.setText(String.format("v.%s" ,versionName));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            mVersionNumber.setText("");
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         setTitle("More");
-//        setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
     }
 
     @OnClick(R.id.more_1)
-    public void more1(){
+    public void more1() {
         Intent intent = new Intent(getActivity(), FBConnectActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -54,33 +72,33 @@ public class MoreFragment extends BaseFragment {
     }
 
     @OnClick(R.id.more_2)
-    public void more2(){
+    public void more2() {
 
     }
 
     @OnClick(R.id.more_3)
-    public void more3(){
+    public void more3() {
 
     }
 
     @OnClick(R.id.more_4)
-    public void more4(){
+    public void more4() {
 
     }
 
     @OnClick(R.id.more_5)
-    public void more5(){
-        Toast.makeText(mContext,"Ok",Toast.LENGTH_LONG).show();
+    public void more5() {
+        Toast.makeText(mContext, "Ok", Toast.LENGTH_LONG).show();
         startFragment(AboutFragment.getInstance());
     }
 
     @OnClick(R.id.more_6)
-    public void more6(){
+    public void more6() {
 
     }
 
     @OnClick(R.id.more_7)
-    public void more7(){
+    public void more7() {
         mDataManager.deleteEdgeUser();
         Intent intent = new Intent(getActivity(), DispatchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -139,5 +157,11 @@ public class MoreFragment extends BaseFragment {
                         })
                 .show();
 */
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }

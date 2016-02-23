@@ -54,16 +54,6 @@
                     android:hint="21 Minutes"
                     android:inputType="numberDecimal" />
 
-                <Button
-                    android:id="@+id/set_boost_period"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/orange_button_bg"
-                    android:layout_gravity="center_vertical"
-                    android:text="set"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/white"/>
-
             </LinearLayout>
 
 
@@ -87,17 +77,20 @@
                     android:hint="14 Mintes"
                     android:inputType="numberDecimal" />
 
-                <Button
-                    android:id="@+id/set_reminder_period"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/orange_button_bg"
-                    android:layout_gravity="center_vertical"
-                    android:text="set"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/white"/>
-
             </LinearLayout>
+
+
+            <Button
+                android:id="@+id/set_reminder_button"
+                android:layout_marginTop="10dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/orange_button_bg"
+                android:layout_gravity="center_horizontal"
+                android:textAllCaps="false"
+                android:text="Set"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"/>
 
 
 
@@ -147,16 +140,6 @@
                     android:hint="60 Minutes"
                     android:inputType="numberDecimal" />
 
-                <Button
-                    android:id="@+id/set_end_campaign"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/orange_button_bg"
-                    android:layout_gravity="center_vertical"
-                    android:text="set"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/white"/>
-
             </LinearLayout>
 
 
@@ -182,17 +165,20 @@
                     android:hint="100 Steps"
                     android:inputType="numberDecimal" />
 
-                <Button
-                    android:id="@+id/reset_button"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/orange_button_bg"
-                    android:layout_gravity="center_vertical"
-                    android:text="set"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/white"/>
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/reset_goals_button"
+                android:layout_marginTop="10dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/orange_button_bg"
+                android:layout_gravity="center_horizontal"
+                android:text="Reset Goals"
+                android:textAllCaps="false"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"/>
 
 
         </LinearLayout>
