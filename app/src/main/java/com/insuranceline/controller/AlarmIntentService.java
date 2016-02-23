@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.insuranceline.App;
 import com.insuranceline.R;
 import com.insuranceline.data.DataManager;
 import com.insuranceline.receiver.AlarmReceiver;
@@ -35,6 +36,12 @@ public class AlarmIntentService extends IntentService {
      */
     public AlarmIntentService(String name) {
         super(name);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        App.get(this).getComponent().inject(this);
     }
 
     @Override

@@ -20,14 +20,15 @@ import timber.log.Timber;
  * Created by Zeki Guler on 05,February,2016
  * ©2015 Appscore. All Rights Reserved
  */
-public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
+public class DashboardPresenter extends BasePresenter<DashboardMvpView> {
 
 
     private final DataManager mDataManager;
     private Subscription mSubscription;
     private DecimalFormat mformatter = new DecimalFormat("#,###,###");
+
     @Inject
-    public DashboardPresenter(DataManager dataManager){
+    public DashboardPresenter(DataManager dataManager) {
 
         mDataManager = dataManager;
 
@@ -77,6 +78,7 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
 
 
     }
+
     private void presentData(DashboardModel dashboardModel) {
         // Active Minute Update
         Goal activeGoal = dashboardModel.getActiveGoal();
@@ -93,7 +95,7 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
 
         // Steps Update
         getMvpView().updateDailySteps(
-                dailyPerDone((int)activeGoal.getRequiredDailySteps(), dailySummary.getDailySteps()),
+                dailyPerDone((int) activeGoal.getRequiredDailySteps(), dailySummary.getDailySteps()),
                 dailySummary.getDailySteps());
 
         // Steps Update
@@ -102,9 +104,9 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
                 dailySummary.getDailyDistance());
 
         getMvpView().updateWheelProgress(
-                calculateDegree((int)activeGoal.getTarget(), (int)activeGoal.getAchievedSteps()),
-                calculatePercentage((int)activeGoal.getTarget(), (int)activeGoal.getAchievedSteps()),
-                mformatter.format(activeGoal.getAchievedSteps()) +" steps");
+                calculateDegree((int) activeGoal.getTarget(), (int) activeGoal.getAchievedSteps()),
+                calculatePercentage((int) activeGoal.getTarget(), (int) activeGoal.getAchievedSteps()),
+                mformatter.format(activeGoal.getAchievedSteps()) + " steps");
 
     }
 
@@ -125,15 +127,15 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
 
     // return int between 0 and 100
     private int dailyPerDone(int required, float done) {
-        return (int)(done * 100) / required;
+        return (int) (done * 100) / required;
     }
 
 
     public void stopFetchingData() {
-        try{
+        try {
             if (mSubscription != null)
                 mSubscription.unsubscribe();
-        }catch (Exception e){
+        } catch (Exception e) {
             Timber.e(e.getMessage());
         }
 
@@ -141,154 +143,12 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
 
     public void updateView() {
         Goal activeGoal = mDataManager.getActiveGoal();
-        String target = String.format("Goal %s steps", mformatter.format(activeGoal.getTarget()));
+        String target;
+        if (activeGoal != null )
+            target = String.format("Goal %s steps", mformatter.format(activeGoal.getTarget()));
+        else
+            target = "All rewards Achieved.";
+
         getMvpView().updateTarget(target);
     }
-
-
-    //        //working example
-//        mDataManager.getDailySummary()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<DailySummary>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        Timber.d("onCompleted()");
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Timber.e("onError(%s)",e.getMessage());
-//                    }
-//
-//                    @Override
-//                    public void onNext(DailySummary dailySummary) {
-//                        Timber.d("onNext(): Cal:%s", dailySummary.getDailyCalories());
-//                        presentData(dailySummary);
-//                    }
-//                });
-
-/*    private void presentData(DailySummary dailySummary) {
-        Goal goal = mDataManager.getActiveGoal();
-        if (goal == null) {
-            getMvpView().onNoActiveGoal("There is no active goal");
-        } else {
-            Timber.d("incoming goal: %s", goal.getGoalId());
-
-            // Active Minute Update
-            getMvpView().updateDailyActiveMinutes(
-                    dailyPerDone(goal.getRequiredDailyActiveMin(), dailySummary.getDailyActiveMinutes()),
-                    dailySummary.getDailyActiveMinutes());
-
-            // Calorie Update
-            getMvpView().updateDailyCalories(
-                    dailyPerDone(goal.getRequiredDailyCalorie(), dailySummary.getDailyCalories()),
-                    dailySummary.getDailyCalories());
-
-            // Steps Update
-            getMvpView().updateDailySteps(
-                    dailyPerDone(goal.getRequiredDailySteps(), dailySummary.getDailySteps()),
-                    dailySummary.getDailySteps());
-
-            // Steps Update
-            getMvpView().updateDailyDistance(
-                    dailyPerDone(goal.getRequiredDailyDistance(), dailySummary.getDailyDistance()),
-                    dailySummary.getDailyDistance());
-
-        }
-    }*/
 }
-
-/*        Observable.interval(10, TimeUnit.SECONDS)
-                .flatMap(new Func1<Long, Observable<DailySummary>>() {
-                    @Override
-                    public Observable<DailySummary> call(Long aLong) {
-                        return mDataManager.getDailySummary();
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<DailySummary>() {
-                    @Override
-                    public void onCompleted() {
-                        Timber.d("fetch onCompleted()");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.e(e.getMessage());
-                        getMvpView().error(e.getLocalizedMessage());
-                    }
-
-                    @Override
-                    public void onNext(DailySummary dailySummary) {
-                        Timber.d("onNext(): Cal:%s", dailySummary.getDailyCalories());
-                        presentData(dailySummary);
-                    }
-                });*/
-
-
-/*
-        //working example
-mDataManager.getDailySummary()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<DailySummary>() {
-                    @Override
-                    public void onCompleted() {
-                        Timber.d("onCompleted()");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.d("onError(%s)",e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(DailySummary dailySummary) {
-                        Timber.d("onNext(): Cal:%s", dailySummary.getDailyCalories());
-                        presentData(dailySummary);
-                    }
-                });*/
-
-
-/*        mDataManager.getDailySummaryFromDb()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<DailySummary>() {
-                    @Override
-                    public void onCompleted() {
-                        Timber.d("onCompleted()");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.d("onError(%s)",e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(DailySummary dailySummary) {
-                        Timber.d("onNext(): Cal:%s", dailySummary.getDailyCalories());
-                    }
-                });*/
-
-
-/*        mDataManager.getDailySummaryFromApiWithSave()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<DailySummary>() {
-                    @Override
-                    public void onCompleted() {
-                        Timber.d("onCompleted()");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.d("onError(%s)",e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(DailySummary dailySummary) {
-                        Timber.d("onNext(): Cal:%s", dailySummary.getDailyCalories());
-                    }
-                });*/

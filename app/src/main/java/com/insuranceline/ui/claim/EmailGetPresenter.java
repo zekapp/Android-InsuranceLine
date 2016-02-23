@@ -61,6 +61,11 @@ public class EmailGetPresenter extends BasePresenter<EmailGetMVPView>{
     private void submitEmail(String email) {
         Goal activeGoal = mDataManager.getActiveGoal();
 
+        if (activeGoal == null) {
+            Timber.e("This active goal is null. It shoudn't have been");
+            return;
+        }
+
         getMvpView().showProgress();
         mDataManager.submitEmailForRewardClaim(email, String.valueOf(activeGoal.getGoalId()))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -93,12 +98,13 @@ public class EmailGetPresenter extends BasePresenter<EmailGetMVPView>{
 
     private void endCurrentGoal() {
         Goal activeGoal = mDataManager.getActiveGoal();
-        mDataManager.endGoal(activeGoal.getGoalId());
+        if (activeGoal != null)
+            mDataManager.endGoal(activeGoal.getGoalId());
     }
 
     private void checkNextGoal() {
         Goal relevantGoal = mDataManager.getRelevantGoal();
-        if (relevantGoal.getStatus() == Goal.GOAL_STATUS_IDLE)
+        if ((relevantGoal.getStatus() == Goal.GOAL_STATUS_IDLE) && !mDataManager.isCampaignEnd())
             getMvpView().onSuccess();
         else{
             getMvpView().allGoalAchieved();

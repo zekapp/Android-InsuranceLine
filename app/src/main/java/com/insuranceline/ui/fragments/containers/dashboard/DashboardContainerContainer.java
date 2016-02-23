@@ -49,22 +49,22 @@ public class DashboardContainerContainer extends BaseContainerFragment implement
     }
 
     @Override
-    public void initView(boolean isAnyGoalSet, boolean isPermissionDone, boolean keepInitializedView) {
+    public void initView(boolean isAnyGoalSet, boolean isPermissionDone, boolean isAllGoalDone) {
         Timber.d("%s init view", TAG);
 
-        if (mIsViewInitiated && keepInitializedView) return;
+        /*if (mIsViewInitiated && keepInitializedView) return;*/
 
-        if (isAnyGoalSet && isPermissionDone){
+        if ((isAnyGoalSet && isPermissionDone) || (isAllGoalDone && isPermissionDone)) {
             replaceFragment(DashboardFragment.getInstance(), false);
         }
-        else{
-            replaceFragment(DashboardEmptyFragment.getInstance(isPermissionDone?
+        else {
+            replaceFragment(DashboardEmptyFragment.getInstance(isPermissionDone ?
                     R.string.dashboard_goal_need_be_start_info :
                     R.string.dashboard_permission_need_info), false);
         }
 
 
-        mIsViewInitiated = isPermissionDone && isAnyGoalSet;
+        /*mIsViewInitiated = isPermissionDone && isAnyGoalSet;*/
 
     }
 }

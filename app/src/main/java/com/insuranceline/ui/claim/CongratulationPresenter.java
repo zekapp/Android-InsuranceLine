@@ -11,6 +11,8 @@ import java.text.DecimalFormat;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 /**
  * Created by zeki on 14/02/2016.
  */
@@ -46,6 +48,12 @@ public class CongratulationPresenter extends BasePresenter<CongratulationMVpView
 
     public void updateView() {
         Goal activeGoal = mDataManager.getActiveGoal();
+
+        if (activeGoal == null) {
+            Timber.e("This active goal shoudn't have been null");
+            return;
+        }
+
         int indx = (int)activeGoal.getGoalId();
 
         String congDef = String.format("You have completed your %s goal of %s steps",

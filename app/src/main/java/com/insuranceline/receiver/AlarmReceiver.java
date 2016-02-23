@@ -18,6 +18,8 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     public static final int ALARM_FOR_REMINDER = 103;
 
     public static final String RECEIVER_ACTION_TYPE = "RECEIVER_ACTION_TYPE";
+    public static final String ALARM_TYPE_KEY = "alarm.receiver.type.key";
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -30,8 +32,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
             service.putExtra(RECEIVER_ACTION_TYPE, ALARM_FOR_RESTART);
             startWakefulService(context, service);
         }else {
-            int code = intent.getIntExtra("requestCode", 0);
+            int code = intent.getIntExtra(ALARM_TYPE_KEY, 0);
 
+            Timber.d("getIntExtra: %s", code);
             if (code == ALARM_FOR_BOOST){
                 Timber.d("Action: ALARM_FOR_BOOST");
                 service.putExtra(RECEIVER_ACTION_TYPE, ALARM_FOR_BOOST);

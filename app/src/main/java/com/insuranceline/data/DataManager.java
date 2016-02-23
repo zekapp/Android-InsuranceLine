@@ -291,6 +291,16 @@ public class DataManager {
         else              return false;
     }
 
+    public boolean isAllGoalDone() {
+        boolean isAllDone = true;
+        for (Goal goal : mCatchedGoals){
+            if (goal.getStatus() != Goal.GOAL_STATUS_DONE){
+                isAllDone = false;
+                break;
+            }
+        }
+        return isAllDone;
+    }
 
     /**
      *  Getting active goal.
@@ -406,7 +416,7 @@ public class DataManager {
         return Observable.zip(
                 getDailySummaryFromApiWithSave(),
                 getAchievedStepsCountsForActiveGoalFromApiWithSave().debounce(500, TimeUnit.MILLISECONDS), // debounce for update token
-                Observable.just(getActiveGoal()),
+                getActiveGoalObservable(),/*Observable.just(getActiveGoal()),*/
                 new Func3<DailySummary, Integer, Goal, DashboardModel>() {
                     @Override
                     public DashboardModel call(DailySummary dailySummary, Integer achieved, Goal goal) {
@@ -425,17 +435,11 @@ public class DataManager {
             @Override
             public void call(DashboardModel dashboardModel) {
                 Goal activeGoal = dashboardModel.getActiveGoal();
-                if ((activeGoal.getAchievedSteps() >= activeGoal.getTarget()) && isCampaignStillActive()){
+                if ((activeGoal.getAchievedSteps() >= activeGoal.getTarget()) && !isCampaignEnd()){
                     mEventBus.post(new GoalAchieveEvent(activeGoal));
                 }
             }
         };
-    }
-
-    public boolean isCampaignStillActive() {
-        return TimeUnit
-                .MILLISECONDS
-                .toMinutes(mAppConfig.getEndOfCampaign() - System.currentTimeMillis()) > 0;
     }
 
     /** Fetch data and then save to db*/

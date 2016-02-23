@@ -15,6 +15,7 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -151,10 +152,9 @@ public class DatabaseHelper {
 //        });
 //    }
 
+    @Nullable
     public Goal fetchActiveGoal() {
-        Goal goal = new Select().from(Goal.class).where(Condition.column(Goal$Table.MSTATUS).eq(Goal.GOAL_STATUS_ACTIVE)).querySingle();
-        Timber.d("fetchActiveGoal goal: %s", goal.getAchievedSteps());
-        return goal;
+        return new Select().from(Goal.class).where(Condition.column(Goal$Table.MSTATUS).eq(Goal.GOAL_STATUS_ACTIVE)).querySingle();
     }
 
     public Observable<Goal> fetchActiveGoalAsObservable() {

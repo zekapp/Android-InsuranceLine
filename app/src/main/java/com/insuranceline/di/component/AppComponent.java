@@ -3,6 +3,7 @@ package com.insuranceline.di.component;
 import android.app.AlarmManager;
 
 import com.insuranceline.config.AppConfig;
+import com.insuranceline.controller.AlarmIntentService;
 import com.insuranceline.data.DataManager;
 import com.insuranceline.data.job.fetch.FetchSamplesJob;
 import com.insuranceline.data.local.PreferencesHelper;
@@ -34,4 +35,5 @@ public interface AppComponent {
     NotificationHelper getNotificationHelper();
 
     void inject(FetchSamplesJob getFetchSamplesJob);
+    void inject(AlarmIntentService getAlarmIntentService);
 }

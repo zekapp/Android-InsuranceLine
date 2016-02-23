@@ -41,6 +41,9 @@ public class NotificationHelper {
     public void setBoostNotification(){
         long period = mPreferencesHelper.getBoostNotificationPeriod(); // default is 21 days.
         long baseTime = System.currentTimeMillis();
+
+        Timber.d("setBoostNotification per: %s baseTime: %s",period, baseTime);
+
         mPreferencesHelper.saveBaseTimeOfBoostNotification(baseTime);
         //set boost notification
         setAlarmForBoostNotification(baseTime + period);
@@ -55,7 +58,9 @@ public class NotificationHelper {
 
         long period = mPreferencesHelper.getBoostNotificationPeriod(); // default is 21 days.
         long baseTime = mPreferencesHelper.getBaseTimeOfBoostNotification();
-        Timber.d("setNextReminderNotification");
+
+        Timber.d("resetBoostNotification per: %s baseTime: %s",period, baseTime);
+
         setAlarmForBoostNotification(period + baseTime);
 
     }
@@ -66,9 +71,12 @@ public class NotificationHelper {
      * Each time app comes foreground, base time sets
      * */
     public void setNextReminderNotification(){
-        Timber.d("setNextReminderNotification");
+
         long period   = mPreferencesHelper.getReminderNotificationPeriod(); // default is 14 days
         long baseTime = System.currentTimeMillis();
+
+        Timber.d("setNextReminderNotification per: %s baseTime: %s",period, baseTime);
+
         mPreferencesHelper.saveBaseTimeOfReminderNotification(baseTime);
 
         setAlarmForReminderNotification(period + baseTime);
@@ -82,6 +90,8 @@ public class NotificationHelper {
 
         long period = mPreferencesHelper.getReminderNotificationPeriod(); // default is 14 days
         long baseTime = mPreferencesHelper.getBaseTimeOfReminderNotification();
+
+        Timber.d("resetReminderNotification per: %s baseTime: %s",period, baseTime);
 
         setAlarmForReminderNotification(period + baseTime);
     }
@@ -109,7 +119,8 @@ public class NotificationHelper {
     }
 
     private PendingIntent getReminderPendingIntent() {
-        Intent intent = new Intent(context, ReminderReceiver.class);
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra(AlarmReceiver.ALARM_TYPE_KEY, AlarmReceiver.ALARM_FOR_REMINDER);
         return PendingIntent.getBroadcast(context,
                 AlarmReceiver.ALARM_FOR_REMINDER,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -117,6 +128,7 @@ public class NotificationHelper {
 
     private PendingIntent getBoostPendingIntent() {
         Intent intent = new Intent(context, AlarmReceiver.class);
+        intent.putExtra(AlarmReceiver.ALARM_TYPE_KEY, AlarmReceiver.ALARM_FOR_BOOST);
         return PendingIntent.getBroadcast(context,
                 AlarmReceiver.ALARM_FOR_BOOST,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
