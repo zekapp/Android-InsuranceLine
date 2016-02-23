@@ -224,18 +224,6 @@ public class DataManager {
                 }).doOnError(handleEdgeNetworkError());
     }
 
-/*    public Observable<EdgeUser> loginEdgeSystem(final String email, String password) {
-        return mEdgeApiService.getAuthToken(email,password,"password")
-                .concatMap(new Func1<EdgeAuthResponse, Observable<? extends EdgeUser>>() {
-                    @Override
-                    public Observable<? extends EdgeUser> call(EdgeAuthResponse edgeResponse) {
-                        mPreferencesHelper.saveEdgeSystemToken(edgeResponse.getmAccessToken());
-                        mLumoController.saveUser(edgeResponse.createLumoUser(email));
-                        return mDatabaseHelper.createEdgeUser(email,edgeResponse);
-                    }
-                });
-    }*/
-
     public Observable<EdgeUser> getUser() {
         return Observable.create(new Observable.OnSubscribe<EdgeUser>() {
             @Override
@@ -259,9 +247,6 @@ public class DataManager {
                 });
     }
 
-//    public String getFitBitAccessToken(){
-//        return mPreferencesHelper.getFitBitAccessToken();
-//    }
 
     public boolean isFitBitConnected() {
         return mPreferencesHelper.isFitBitConnected();
@@ -356,62 +341,6 @@ public class DataManager {
         return res;
     }
 
-/*    *//**
-     *  Getting goal For Goal Section.
-     * *//*
-    public Observable<Goal> getGoalForGoalFragHost() {
-
-        return getGoalData().map(new Func1<List<Goal>, Goal>() {
-            @Override
-            public Goal call(List<Goal> goals) {
-                Goal res = null;
-                for (Goal goal : mCatchedGoals) {
-                    if (goal.getStatus() == Goal.GOAL_STATUS_ACTIVE) {
-                        res = goal;
-                    } else if (goal.getStatus() == Goal.GOAL_STATUS_IDLE) {
-                        res = goal;
-                        break;
-                    }
-                }
-
-                if (res == null)
-                    res = goals.get(goals.size() - 1);
-
-                return res;
-            }
-        });
-    }
-
-    private Observable<List<Goal>> getGoalData(){
-        return Observable.
-                concat(getCachedGoalData(), getDiskGoalData())
-                .takeFirst(new Func1<List<Goal>, Boolean>() {
-                    @Override
-                    public Boolean call(List<Goal> goals) {
-                        return goals!=null;
-                    }
-                });
-    }
-
-    private Observable<List<Goal>> getDiskGoalData() {
-        Timber.d("Catch Goald Data");
-        return mDatabaseHelper
-                .fetchAllGoalInAscendingOrder()
-                .doOnNext(new Action1<List<Goal>>() {
-                    @Override
-                    public void call(List<Goal> goals) {
-                        Timber.d("GoalData Catch Updated");
-                        mCatchedGoals = goals;
-                    }
-                });
-    }
-
-    private Observable<List<Goal>> getCachedGoalData() {
-        Timber.d("Disk Goal Data");
-        return Observable.just(mCatchedGoals);
-    }*/
-
-
     /******** DAILY ACTIVITY SUMMARY AND STEPS SUM COUNT **************/
 
     /**
@@ -432,8 +361,8 @@ public class DataManager {
         return Observable
                 .concat(getDashboardFromDb(), getDashboardFromApiWithSave())
                 .repeatWhen(repeatWithDelay())
-                .doOnNext(ifGoalAchievedFireEvent())
-                .onErrorResumeNext(Observable.<DashboardModel>empty());
+                .doOnNext(ifGoalAchievedFireEvent());
+                /*.onErrorResumeNext(Observable.<DashboardModel>empty())*/
     }
 
     private Func1<? super Observable<? extends Void>, ? extends Observable<?>> repeatWithDelay() {
@@ -445,23 +374,17 @@ public class DataManager {
         };
     }
 
-//    public Observable<DailySummary> getDailySummary(){
-//        return Observable
-//                .merge(getDailySummaryFromDb(), getDailySummaryFromApiWithSave())
-//                .onErrorResumeNext(Observable.<DailySummary>empty());
-//    }
-
-
     /**
      * Observable fetch 2 different data from Db and zip
      * */
     private Observable<DashboardModel> getDashboardFromDb() {
         return Observable.zip(
                 getDailySummaryFromDb(),
-                Observable.just(getActiveGoal()),
+                getActiveGoalObservable(),/*Observable.just(getActiveGoal()),*/
                 new Func2<DailySummary, Goal, DashboardModel>() {
                     @Override
                     public DashboardModel call(DailySummary dailySummary, Goal goal) {
+                        Timber.d("Observable<DashboardModel> getDashboardFromDb() Achieved: %s", goal.getAchievedSteps() );
                         DashboardModel dashboardModel = new DashboardModel();
                         dashboardModel.setActiveGoal(goal);
                         dashboardModel.setmDailySummary(dailySummary);
@@ -472,8 +395,11 @@ public class DataManager {
 
     /** Fetch daily summary data from db */
     public Observable<DailySummary> getDailySummaryFromDb(){
-        Timber.d("getDailySummaryFromDb");
         return mDatabaseHelper.getDailySummaryObservable();
+    }
+
+    public Observable<Goal> getActiveGoalObservable(){
+        return mDatabaseHelper.fetchActiveGoalAsObservable();
     }
 
     private Observable<DashboardModel> getDashboardFromApiWithSave() {

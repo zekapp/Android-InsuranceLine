@@ -3,7 +3,6 @@ package com.insuranceline.data.local;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.insuranceline.data.remote.responses.WhoAmIResponse;
 import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Goal;
@@ -123,6 +122,7 @@ public class DatabaseHelper {
         return Observable.create(new Observable.OnSubscribe<DailySummary>() {
             @Override
             public void call(Subscriber<? super DailySummary> subscriber) {
+                Timber.d("getDailySummaryObservable db helper");
                 DailySummary dailySummary = getDailySummary();
                 subscriber.onNext(dailySummary);
                 subscriber.onCompleted();
@@ -152,7 +152,20 @@ public class DatabaseHelper {
 //    }
 
     public Goal fetchActiveGoal() {
-        return new Select().from(Goal.class).where(Condition.column(Goal$Table.MSTATUS).eq(Goal.GOAL_STATUS_ACTIVE)).querySingle();
+        Goal goal = new Select().from(Goal.class).where(Condition.column(Goal$Table.MSTATUS).eq(Goal.GOAL_STATUS_ACTIVE)).querySingle();
+        Timber.d("fetchActiveGoal goal: %s", goal.getAchievedSteps());
+        return goal;
+    }
+
+    public Observable<Goal> fetchActiveGoalAsObservable() {
+        return Observable.create(new Observable.OnSubscribe<Goal>() {
+            @Override
+            public void call(Subscriber<? super Goal> subscriber) {
+                Timber.d("fetchActiveGoalAsObservable db helper");
+                subscriber.onNext(new Select().from(Goal.class).where(Condition.column(Goal$Table.MSTATUS).eq(Goal.GOAL_STATUS_ACTIVE)).querySingle());
+                subscriber.onCompleted();
+            }
+        });
     }
 
     public Goal fetchLastGoal() {
@@ -201,6 +214,4 @@ public class DatabaseHelper {
     public List<Goal> fetchAllGoalInAscendingOrder() {
         return new Select().from(Goal.class).where().queryList();
     }
-
-
 }

@@ -109,12 +109,14 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView>{
     }
 
     private String calculatePercentage(int target, int achieved) {
+        Timber.d("calculatePercentage Target: %s Achieved: %s", target, achieved);
         String per = String.valueOf((100 * achieved) / target);
         return per + "%";
     }
 
     //return 0 - 360
     private int calculateDegree(int target, int achieved) {
+        Timber.d("calculateDegree Target: %s Achieved: %s", target, achieved);
         if (target > 0)
             return (360 * achieved) / target;
         else
