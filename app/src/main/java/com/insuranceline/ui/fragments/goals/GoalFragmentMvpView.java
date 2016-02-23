@@ -13,7 +13,7 @@ public interface GoalFragmentMvpView extends MvpView{
 
     void updateCupImg(@DrawableRes int cupRes);
 
-    void updateGoalDef(@StringRes  int defRes);
+    void updateGoalDef(String defRes);
 
     void updateGoalTitle(@StringRes  int titleRes);
 

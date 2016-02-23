@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +72,7 @@ public class SecondRewardFragment extends BaseFragment implements RewardMvpView{
     }
 
     @Override
-    public void updateDefinition(@StringRes int defResId) {
+    public void updateDefinition(String defResId) {
         mTextView.setText(defResId);
     }
 

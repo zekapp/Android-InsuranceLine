@@ -76,7 +76,7 @@ public class ThirdRewardFragment extends BaseFragment  implements RewardMvpView{
     }
 
     @Override
-    public void updateDefinition(@StringRes int defResId) {
+    public void updateDefinition(String defResId) {
         mTextView.setText(defResId);
     }
 

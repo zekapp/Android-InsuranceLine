@@ -31,11 +31,22 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
             R.drawable.icon_goal3,
     };
 
-    @StringRes int[] goalInfo = {
+    // Idle definition
+    String idle_goal1def = "Complete %s steps and you will be eligible to redeem a Village Cinema Movie Voucher worth $20*";
+    String idle_goal2def = "Complete %s steps and you will be eligible to redeem a New Balance Voucher worth $30*";
+    String idle_goal3def = "Complete %s steps and you will be eligible to redeem a Health Voucher worth $50*";
+
+    String[] goalInfo = {
+            idle_goal1def,
+            idle_goal2def,
+            idle_goal3def
+    };
+
+/*    @StringRes int[] goalInfo = {
             R.string.first_goal_challenge_text,
             R.string.second_goal_challenge_text,
             R.string.third_goal_challenge_text,
-    };
+    };*/
 
     @StringRes int[] goalTitle = {
             R.string.first_goal,
@@ -74,7 +85,7 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
         int index = (int) mGoal.getGoalId();
         Timber.d("Index of goal: %s", index);
         getMvpView().updateCupImg(cupIcons[index]);
-        getMvpView().updateGoalDef(goalInfo[index]);
+        getMvpView().updateGoalDef(String.format(goalInfo[index], mGoal.getTarget()) /*goalInfo[index]*/);
         getMvpView().updateGoalTitle(goalTitle[index]);
 
         int status =  mGoal.getStatus();

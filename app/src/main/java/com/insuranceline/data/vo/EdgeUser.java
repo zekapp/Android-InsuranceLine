@@ -1,8 +1,5 @@
 package com.insuranceline.data.vo;
 
-import android.content.Context;
-import android.support.design.BuildConfig;
-
 import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.local.AppDatabase;
 import com.insuranceline.data.remote.responses.EdgeAuthResponse;
@@ -14,9 +11,7 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import au.com.lumo.ameego.MainAppCallback;
 import au.com.lumo.ameego.model.MUser;
-import de.greenrobot.event.util.AsyncExecutor;
 
 /**
  * Created by Zeki Guler on 02,February,2016
@@ -55,7 +50,7 @@ public class EdgeUser extends BaseModel implements Validation {
         mAccessToken = builder.mEdgeAuthResponse.getmAccessToken();
         mTokenType = builder.mEdgeAuthResponse.getmTokenType();
         mExpireIn = builder.mEdgeAuthResponse.getmExpireIn();
-        isTermCondAccepted = builder.mWhoAmIResponse.memberRecord.termsAndConditionsAccepted;
+        /*isTermCondAccepted = builder.mWhoAmIResponse.memberRecord.termsAndConditionsAccepted;*/
         isFitBitUser = builder.isDebugEnabled ? builder.isFitBitUser : isFitBitOwner(builder.mWhoAmIResponse.memberRecord.appId);
         lumoUser = builder.lumoUser;
     }

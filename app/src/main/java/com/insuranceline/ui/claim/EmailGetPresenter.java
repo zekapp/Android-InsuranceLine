@@ -11,6 +11,8 @@ import com.insuranceline.ui.base.BasePresenter;
 
 import javax.inject.Inject;
 
+import au.com.lumo.ameego.LumoController;
+import au.com.lumo.ameego.model.MUser;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -23,16 +25,23 @@ public class EmailGetPresenter extends BasePresenter<EmailGetMVPView>{
 
     private final DataManager mDataManager;
     private Context context;
+    private MUser lumoUser;
 
     @Inject
     public EmailGetPresenter(DataManager dataManager,@ActivityContext Context context) {
         mDataManager = dataManager;
         this.context = context;
+        lumoUser = LumoController.getInstance().getUser();
     }
 
     @Override
     public void attachView(EmailGetMVPView mvpView) {
         super.attachView(mvpView);
+        updateView();
+    }
+
+    private void updateView() {
+        getMvpView().fillEmailAddressField(lumoUser.getEmail());
     }
 
     @Override

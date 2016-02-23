@@ -1,7 +1,5 @@
 package com.insuranceline.ui.fragments.rewards;
 
-import android.support.annotation.StringRes;
-
 import com.insuranceline.R;
 import com.insuranceline.data.DataManager;
 import com.insuranceline.data.vo.DailySummary;
@@ -23,19 +21,42 @@ public class RewardPresenter extends BasePresenter<RewardMvpView>{
 
     private DataManager mDataManager;
 
-    @StringRes
-    int[] goalInfoIdleActiveDone = {
-            R.string.first_goal_challenge_text,
-            R.string.unlocked_second_reward_message,
-            R.string.unlocked_third_reward_message,
+
+    // Idle definition
+    String idle_goal1def = "Complete %s steps and you will be eligible to redeem a Village Cinema Movie Voucher worth $20*";
+    String idle_goal2def = "Complete %s steps and you will be eligible to redeem a New Balance Voucher worth $30*";
+    String idle_goal3def = "Complete %s steps and you will be eligible to redeem a Health Voucher worth $50*";
+
+    // Idle/active/done definition
+    String iad_goal1def = "Complete 100.000 steps and you will be eligible to redeem a Village Cinema Movie Voucher worth $20*";
+    String iad_goal2def = "Complete 200.000 steps and you will be eligible to redeem a New Balance Voucher worth $30*";
+    String iad_goal3def = "Complete 500.000 steps and you will be eligible to redeem a Health Voucher worth $50*";
+
+    String[] goalInfoIdleActiveDone = {
+            idle_goal1def,
+            idle_goal2def,
+            idle_goal3def
     };
 
-    @StringRes
-    int[] goalInfoLock = {
-            R.string.first_goal_challenge_text,
-            R.string.unlocked_second_reward_message,
-            R.string.unlocked_third_reward_message,
+    String[] goalInfoLock = {
+            iad_goal1def,
+            iad_goal2def,
+            iad_goal3def,
     };
+
+/*    @StringRes
+    int[] goalInfoIdleActiveDone = {
+            R.string.first_goal_challenge_text,
+            R.string.second_goal_challenge_text,
+            R.string.third_goal_challenge_text,
+    };*/
+
+//    @StringRes
+//    int[] goalInfoLock = {
+//            R.string.first_goal_challenge_text,
+//            R.string.unlocked_second_reward_message,
+//            R.string.unlocked_third_reward_message,
+//    };
 
     @Inject
     public RewardPresenter(DataManager dataManager) {
@@ -70,10 +91,10 @@ public class RewardPresenter extends BasePresenter<RewardMvpView>{
                 (buttonStatus == Goal.GOAL_STATUS_DONE)    ? R.drawable.gray_button_bg   :
                                                              R.drawable.btn_locked;
 
-        int definition =
-                (buttonStatus == Goal.GOAL_STATUS_IDLE)    ? goalInfoIdleActiveDone[indx] :
-                (buttonStatus == Goal.GOAL_STATUS_ACTIVE)  ? goalInfoIdleActiveDone[indx] :
-                (buttonStatus == Goal.GOAL_STATUS_DONE)    ? goalInfoIdleActiveDone[indx] :
+        String definition =
+                (buttonStatus == Goal.GOAL_STATUS_IDLE)    ? String.format(goalInfoIdleActiveDone[indx], goal.getTarget()) :
+                (buttonStatus == Goal.GOAL_STATUS_ACTIVE)  ? String.format(goalInfoIdleActiveDone[indx], goal.getTarget()) :
+                (buttonStatus == Goal.GOAL_STATUS_DONE)    ? String.format(goalInfoIdleActiveDone[indx], goal.getTarget()) :
                                                              goalInfoLock[indx];
 
 

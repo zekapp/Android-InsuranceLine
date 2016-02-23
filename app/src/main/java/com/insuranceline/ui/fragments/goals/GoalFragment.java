@@ -72,7 +72,7 @@ public class GoalFragment extends BaseFragment implements GoalFragmentMvpView {
     }
 
     @Override
-    public void updateGoalDef(@StringRes int defRes) {
+    public void updateGoalDef(String defRes) {
         mDefTextView.setText(defRes);
     }
 

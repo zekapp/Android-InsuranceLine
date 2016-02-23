@@ -1,4 +1,5 @@
 package com.insuranceline.data;
+
 import com.insuranceline.BuildConfig;
 import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.job.fetch.FetchSamplesJob;
@@ -11,11 +12,11 @@ import com.insuranceline.data.remote.model.DashboardModel;
 import com.insuranceline.data.remote.responses.ClaimRewardResponse;
 import com.insuranceline.data.remote.responses.DailySummaryResponse;
 import com.insuranceline.data.remote.responses.EdgeAuthResponse;
-import com.insuranceline.data.remote.responses.WhoAmIResponse;
 import com.insuranceline.data.remote.responses.FitBitTokenResponse;
 import com.insuranceline.data.remote.responses.SampleResponseData;
 import com.insuranceline.data.remote.responses.StepsCountResponse;
 import com.insuranceline.data.remote.responses.TermCondResponse;
+import com.insuranceline.data.remote.responses.WhoAmIResponse;
 import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Goal;
@@ -37,6 +38,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import au.com.lumo.ameego.LumoController;
+import au.com.lumo.ameego.model.MUser;
 import de.greenrobot.event.EventBus;
 import retrofit.HttpException;
 import rx.Observable;
@@ -194,34 +196,51 @@ public class DataManager {
         });
     }
 
-    public Observable<EdgeUser> loginEdgeSystem(final String email, String password) {
-        return mEdgeApiService.getAuthToken(email,password,"password")
-                .flatMap(new Func1<EdgeAuthResponse, Observable<EdgeUser>>() {
+    public Observable<EdgeUser> loginEdgeSystem() {
+        return getEdgeToken().flatMap(new Func1<EdgeAuthResponse, Observable<EdgeUser>>() {
+            @Override
+            public Observable<EdgeUser> call(EdgeAuthResponse response) {
+                return Observable.zip(
+                        mEdgeApiService.whoami(response.getmTokenType() + " " + response.getmAccessToken()),
+                        Observable.just(response),
+                        new Func2<WhoAmIResponse, EdgeAuthResponse, EdgeUser>() {
+                            @Override
+                            public EdgeUser call(WhoAmIResponse whoAmIResponse, EdgeAuthResponse edgeAuthResponse) {
+                                mPreferencesHelper.saveEdgeSystemToken(edgeAuthResponse.getmAccessToken());
+
+                                EdgeUser edgeUser = new EdgeUser
+                                        .Builder(whoAmIResponse, edgeAuthResponse)
+                                        .createMUser()
+                                        .setDebugEnable(BuildConfig.DEBUG, mPreferencesHelper.isUseFitBitOwner())
+                                        .build();
+
+                                edgeUser.save();
+                                mLumoController.saveUser(edgeUser.getLumoUser());
+
+                                return edgeUser;
+                            }
+                        });
+            }
+        });
+    }
+
+    public Observable<EdgeAuthResponse> getEdgeToken() {
+        return mEdgeApiService.getAuthToken(mPreferencesHelper.getUserLoginEmail(),mPreferencesHelper.getPassword(),"password")
+                .doOnNext(new Action1<EdgeAuthResponse>() {
                     @Override
-                    public Observable<EdgeUser> call(EdgeAuthResponse response) {
-                        mPreferencesHelper.saveEdgeSystemToken(response.getmAccessToken());
-                        return Observable.zip(
-                                mEdgeApiService.whoami(response.getmTokenType() + " " + response.getmAccessToken()),
-                                Observable.just(response),
-                                new Func2<WhoAmIResponse, EdgeAuthResponse, EdgeUser>() {
-                                    @Override
-                                    public EdgeUser call(WhoAmIResponse whoAmIResponse, EdgeAuthResponse edgeAuthResponse) {
-                                        mPreferencesHelper.saveEdgeSystemToken(edgeAuthResponse.getmAccessToken());
+                    public void call(EdgeAuthResponse edgeAuthResponse) {
+                        MUser lumoUSer = mLumoController.getUser();
 
-                                        EdgeUser edgeUser = new EdgeUser
-                                                .Builder(whoAmIResponse, edgeAuthResponse)
-                                                .createMUser()
-                                                .setDebugEnable(BuildConfig.DEBUG, mPreferencesHelper.isUseFitBitOwner())
-                                                .build();
-
-                                        edgeUser.save();
-                                        mLumoController.saveUser(edgeUser.getLumoUser());
-
-                                        return edgeUser;
-                                    }
-                                });
+                        if (lumoUSer != null)
+                            lumoUSer.setAccess_token(edgeAuthResponse.getmAccessToken());
                     }
-                }).doOnError(handleEdgeNetworkError());
+                })
+                .doOnError(handleEdgeNetworkError());
+    }
+
+
+    public void claimReward(int rewardId, String emailAddress){
+
     }
 
     public Observable<EdgeUser> getUser() {
@@ -514,15 +533,15 @@ public class DataManager {
                 if (throwable instanceof HttpException){
                     HttpException httpException = (HttpException)throwable;
                     // if token expires some reason. Users need to be logout.
-                    if (httpException.code() == 401){
-                        Timber.e("Network Error: 401 !!!");
+                    if (httpException.code() == 400){
+                        Timber.e("Network Error: 400 !!!");
                         mEventBus.post(new LogOutFromEdgeEvent("Edge Session expired."));
                     }
                 } else if(throwable != null){
                     mEventBus.post(new GeneralErrorEvent(throwable));
-                    Timber.e("Error: %s", throwable.getMessage());
+                    Timber.e("HandleEdgeNetworkError: %s", throwable.getMessage());
                 } else {
-                    Timber.e("Unknown Network Error. Throwable is null");
+                    Timber.e("Unknown Edge NEtwork Error. Throwable is null");
                 }
             }
         };
@@ -652,7 +671,7 @@ public class DataManager {
     }
 
     public void saveUserName(String email) {
-        mPreferencesHelper.saveUserName(email);
+        mPreferencesHelper.saveUserLoginEmail(email);
     }
 
     public void savePassword(String password) {

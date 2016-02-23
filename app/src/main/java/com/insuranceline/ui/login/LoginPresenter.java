@@ -53,7 +53,9 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
 
     public void attemptToLogin(String email, String password) {
         if (validate(email,password)){
-            login(email, password);
+            mDataManager.saveUserName(email);
+            mDataManager.savePassword(password);
+            login();
         }
     }
 
@@ -79,9 +81,9 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
         return valid;
     }
 
-    private void login(final String email, final String password) {
+    private void login() {
         getMvpView().showProgress();
-        mSubscription = mDataManager.loginEdgeSystem(email, password)
+        mSubscription = mDataManager.loginEdgeSystem()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<EdgeUser>() {
@@ -112,8 +114,6 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
 
             @Override
             public void onNext(EdgeUser edgeResponse) {
-                mDataManager.saveUserName(email);
-                mDataManager.savePassword(password);
                 getMvpView().hideProgress();
                 getMvpView().loginSuccess();
             }

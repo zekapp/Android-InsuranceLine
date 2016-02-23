@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.insuranceline.R;
 import com.insuranceline.data.DataManager;
@@ -78,17 +77,16 @@ public class MoreFragment extends BaseFragment {
 
     @OnClick(R.id.more_3)
     public void more3() {
-
+        startFragment(TermsAndCondition.getInstance());
     }
 
     @OnClick(R.id.more_4)
     public void more4() {
-
+        startFragment(PrivacyPolicy.getInstance());
     }
 
     @OnClick(R.id.more_5)
     public void more5() {
-        Toast.makeText(mContext, "Ok", Toast.LENGTH_LONG).show();
         startFragment(AboutFragment.getInstance());
     }
 

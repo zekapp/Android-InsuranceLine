@@ -1,8 +1,9 @@
 package com.insuranceline.data.remote;
 
-import com.insuranceline.data.remote.responses.ClaimRewardResponse;
 import com.insuranceline.data.remote.responses.EdgeAuthResponse;
+import com.insuranceline.data.remote.responses.ShoppingCardResponse;
 import com.insuranceline.data.remote.responses.WhoAmIResponse;
+import com.insuranceline.data.vo.ShoppingCart;
 
 import au.com.lumo.ameego.model.MSiteHelper;
 import retrofit.http.Field;
@@ -11,7 +12,6 @@ import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Headers;
 import retrofit.http.POST;
-import retrofit.http.Query;
 import rx.Observable;
 
 /**
@@ -35,9 +35,7 @@ public interface EdgeApiService {
     @GET("api/v1/whoami")
     Observable<WhoAmIResponse> whoami(@Header("Authorization") String token); // do not forget to add Bearer to Token
 
-    @POST("accepted")
-    Observable<Boolean> tcResponse(@Header("Authorization") String token);// do not forget to add Bearer to Token
 
-    @POST("claimReward")
-    Observable<ClaimRewardResponse> submitEmail(@Query("email") String email, @Query("rewardId") String id);
+    @POST("api/v1/ShoppingCart")
+    Observable<ShoppingCardResponse> postShoppingCart(ShoppingCart shoppingCart);
 }

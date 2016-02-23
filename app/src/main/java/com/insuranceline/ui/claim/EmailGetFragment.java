@@ -71,6 +71,11 @@ public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
     }
 
 
+    @Override
+    public void fillEmailAddressField(String emailAddress) {
+        mEmailAddress.setText(emailAddress);
+    }
+
     /******* MVP FUNCTIONS ********/
 
     @Override

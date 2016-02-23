@@ -29,7 +29,7 @@ public class PreferencesHelper {
     private static final String REMINDER_NOTIFICATION_BASE_TIME = "REMINDER_NOTIFICATION_BASE_TIME";
     private static final String END_OF_CAMPAIGN_DATE = "END_OF_CAMPAIGN_DATE";
     private static final String USER_TYPE_AS_FIT_BIT = "USER_TYPE_AS_FIT_BIT";
-    private static final String USER_NAME = "USER_NAME";
+    private static final String LOGIN_USER_NAME_OR_EMAIL = "LOGIN_USER_NAME_OR_EMAIL";
     private static final String USER_PASSWORD = "USER_PASSWORD";
 
     private final SharedPreferences mPref;
@@ -169,16 +169,16 @@ public class PreferencesHelper {
         return mPref.getBoolean(USER_TYPE_AS_FIT_BIT, true);
     }
 
-    public void saveUserName(String email) {
-        mPref.edit().putString(USER_NAME, email).apply();
+    public void saveUserLoginEmail(String email) {
+        mPref.edit().putString(LOGIN_USER_NAME_OR_EMAIL, email).commit();
     }
 
-    public String getUserName() {
-        return mPref.getString(USER_NAME, "");
+    public String getUserLoginEmail() {
+        return mPref.getString(LOGIN_USER_NAME_OR_EMAIL, "");
     }
 
     public void savePassword(String password) {
-        mPref.edit().putString(USER_PASSWORD, password).apply();
+        mPref.edit().putString(USER_PASSWORD, password).commit();
     }
 
     public String getPassword() {

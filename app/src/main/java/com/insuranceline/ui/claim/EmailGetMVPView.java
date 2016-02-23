@@ -7,6 +7,8 @@ import com.insuranceline.ui.base.MvpView;
  */
 public interface EmailGetMVPView extends MvpView {
 
+    void fillEmailAddressField(String emailAddress);
+
     void onErrorEmail(String error);
 
     void onError(String error);

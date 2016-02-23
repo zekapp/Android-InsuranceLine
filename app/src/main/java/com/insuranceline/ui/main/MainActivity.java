@@ -153,6 +153,8 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
         }
 
         mMainActivityPresenter.setNextOpenReminderAlarm();
+
+        mMainActivityPresenter.validateTheEdgeUser();
     }
 
     private void dispatchWarningForInstallFitBit() {
