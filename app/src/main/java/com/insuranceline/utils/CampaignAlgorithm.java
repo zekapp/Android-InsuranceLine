@@ -14,8 +14,8 @@ import timber.log.Timber;
  */
 public class CampaignAlgorithm {
 
-    private static final float DIFFICULTY_SCALE_FOR_SECOND_GOAL = 5f;//1.01f;
-    private static final float DIFFICULTY_SCALE_FOR_THIRD_GOAL  = 5f;//1.015f;
+    private static final float DIFFICULTY_SCALE_FOR_SECOND_GOAL = 1.05f;//1.01f;
+    private static final float DIFFICULTY_SCALE_FOR_THIRD_GOAL  = 1.05f;//1.015f;
 
     private static final float LEFT_DAY_SCALE_FOR_SECOND_GOAL = 0.4f;
 

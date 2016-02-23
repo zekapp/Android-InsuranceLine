@@ -545,6 +545,7 @@ public class DataManager {
                     }).doOnNext(new Action1<Integer>() {
                         @Override
                         public void call(Integer integer) {
+                            Timber.d("setAchievedSteps called(): %s", integer);
                             activeGoal.setAchievedSteps(integer);
                             activeGoal.save();
                         }
