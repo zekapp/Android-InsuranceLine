@@ -3,7 +3,7 @@ package com.insuranceline.data.vo;
 import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.local.AppDatabase;
 import com.insuranceline.data.remote.responses.EdgeAuthResponse;
-import com.insuranceline.data.remote.responses.WhoAmIResponse;
+import com.insuranceline.data.remote.responses.EdgeWhoAmIResponse;
 import com.insuranceline.utils.Validation;
 import com.insuranceline.utils.ValidationFailedException;
 import com.raizlabs.android.dbflow.annotation.Column;
@@ -46,12 +46,12 @@ public class EdgeUser extends BaseModel implements Validation {
     }
 
     private EdgeUser(Builder builder) {
-        email = builder.mWhoAmIResponse.memberRecord.email;
+        email = builder.mEdgeWhoAmIResponse.memberRecord.email;
         mAccessToken = builder.mEdgeAuthResponse.getmAccessToken();
         mTokenType = builder.mEdgeAuthResponse.getmTokenType();
         mExpireIn = builder.mEdgeAuthResponse.getmExpireIn();
-        /*isTermCondAccepted = builder.mWhoAmIResponse.memberRecord.termsAndConditionsAccepted;*/
-        isFitBitUser = builder.isDebugEnabled ? builder.isFitBitUser : isFitBitOwner(builder.mWhoAmIResponse.memberRecord.appId);
+        isTermCondAccepted = builder.mEdgeWhoAmIResponse.memberRecord.termsAndConditionsAccepted;
+        isFitBitUser = builder.isDebugEnabled ? builder.isFitBitUser : isFitBitOwner(builder.mEdgeWhoAmIResponse.memberRecord.appId);
         lumoUser = builder.lumoUser;
     }
 
@@ -72,20 +72,20 @@ public class EdgeUser extends BaseModel implements Validation {
 
     public static class Builder {
 
-        private final WhoAmIResponse mWhoAmIResponse;
+        private final EdgeWhoAmIResponse mEdgeWhoAmIResponse;
         private final EdgeAuthResponse mEdgeAuthResponse;
         private MUser lumoUser;
         private boolean isDebugEnabled = false;
         private boolean isFitBitUser;
 
         private Builder() {
-            mWhoAmIResponse = null;
+            mEdgeWhoAmIResponse = null;
             mEdgeAuthResponse = null;
 
         }
 
-        public Builder(WhoAmIResponse whoAmIResponse, EdgeAuthResponse edgeAuthResponse) {
-            mWhoAmIResponse = whoAmIResponse;
+        public Builder(EdgeWhoAmIResponse edgeWhoAmIResponse, EdgeAuthResponse edgeAuthResponse) {
+            mEdgeWhoAmIResponse = edgeWhoAmIResponse;
             mEdgeAuthResponse = edgeAuthResponse;
         }
 
@@ -97,19 +97,19 @@ public class EdgeUser extends BaseModel implements Validation {
         public Builder createMUser() {
             lumoUser = new MUser();
 
-            // Update Field Using mWhoAmIResponse
-            assert mWhoAmIResponse != null;
-            lumoUser.setAppId(mWhoAmIResponse.memberRecord.appId);
-            lumoUser.setEmail(mWhoAmIResponse.memberRecord.email);
-            lumoUser.setClientId(mWhoAmIResponse.memberRecord.clientId);
-            lumoUser.setUsername(mWhoAmIResponse.memberRecord.username);
-            lumoUser.setLastName(mWhoAmIResponse.memberRecord.lastName);
-            lumoUser.setFirstName(mWhoAmIResponse.memberRecord.firstName);
-            lumoUser.setAccountExpiryDate(mWhoAmIResponse.memberRecord.accountExpiryDate);
-            lumoUser.setContactPhoneNumber(mWhoAmIResponse.memberRecord.contactPhoneNumber);
-            lumoUser.setDemographicQuestionnaireID(mWhoAmIResponse.memberRecord.demographicQuestionnaireID);
-            lumoUser.setDemographicQuestionsAnswered(mWhoAmIResponse.memberRecord.demographicQuestionsAnswered);
-            lumoUser.setDemographicQuestionsRequired(mWhoAmIResponse.memberRecord.demographicQuestionsAnswered);
+            // Update Field Using mEdgeWhoAmIResponse
+            assert mEdgeWhoAmIResponse != null;
+            lumoUser.setAppId(mEdgeWhoAmIResponse.memberRecord.appId);
+            lumoUser.setEmail(mEdgeWhoAmIResponse.memberRecord.email);
+            lumoUser.setClientId(mEdgeWhoAmIResponse.memberRecord.clientId);
+            lumoUser.setUsername(mEdgeWhoAmIResponse.memberRecord.username);
+            lumoUser.setLastName(mEdgeWhoAmIResponse.memberRecord.lastName);
+            lumoUser.setFirstName(mEdgeWhoAmIResponse.memberRecord.firstName);
+            lumoUser.setAccountExpiryDate(mEdgeWhoAmIResponse.memberRecord.accountExpiryDate);
+            lumoUser.setContactPhoneNumber(mEdgeWhoAmIResponse.memberRecord.contactPhoneNumber);
+            lumoUser.setDemographicQuestionnaireID(mEdgeWhoAmIResponse.memberRecord.demographicQuestionnaireID);
+            lumoUser.setDemographicQuestionsAnswered(mEdgeWhoAmIResponse.memberRecord.demographicQuestionsAnswered);
+            lumoUser.setDemographicQuestionsRequired(mEdgeWhoAmIResponse.memberRecord.demographicQuestionsAnswered);
 
             // Update Field Using mEdgeAuthResponse
             assert mEdgeAuthResponse != null;

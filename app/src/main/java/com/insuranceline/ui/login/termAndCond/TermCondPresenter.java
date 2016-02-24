@@ -2,6 +2,7 @@ package com.insuranceline.ui.login.termAndCond;
 
 import com.insuranceline.data.DataManager;
 import com.insuranceline.data.remote.responses.APIError;
+import com.insuranceline.data.remote.responses.EdgeWhoAmIResponse;
 import com.insuranceline.ui.base.BasePresenter;
 import com.insuranceline.utils.ErrorUtils;
 
@@ -10,9 +11,11 @@ import java.io.IOException;
 import javax.inject.Inject;
 
 import retrofit.HttpException;
+import rx.Observer;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -41,7 +44,7 @@ public class TermCondPresenter extends BasePresenter<TermCondMvpView> {
         mSubscription = mDataManager.edgeSystemTermsAndConditionAccepted()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<Boolean>() {
+                .subscribe(new Observer<EdgeWhoAmIResponse>() {
                     @Override
                     public void onCompleted() {
 
@@ -51,23 +54,10 @@ public class TermCondPresenter extends BasePresenter<TermCondMvpView> {
                     public void onError(Throwable e) {
                         Timber.e("LoginError: %s", e.getMessage());
                         getMvpView().hideProgress();
-
-                        if (e instanceof HttpException) {
-                            HttpException response = (HttpException)e;
-                            try {
-                                String mes = response.response().errorBody().string();
-                                APIError error = ErrorUtils.parseError(mes);
-                                getMvpView().error(error.getmErrorDescription());
-                            } catch (IOException e1) {
-                                getMvpView().error(response.getLocalizedMessage());
-                                e1.printStackTrace();
-                            }
-                        }else
-                            getMvpView().error(e.getMessage());
                     }
 
                     @Override
-                    public void onNext(Boolean aBoolean) {
+                    public void onNext(EdgeWhoAmIResponse edgeWhoAmIResponse) {
                         getMvpView().hideProgress();
                         getMvpView().onSuccess();
                     }

@@ -129,6 +129,8 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
 
         mMainActivityPresenter.getFirstTabIndex();
 
+        mMainActivityPresenter.subscribeFetchingData();
+
     }
 
     @Override

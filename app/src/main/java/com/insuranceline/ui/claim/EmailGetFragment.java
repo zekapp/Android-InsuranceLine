@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Created by zeki on 14/02/2016.
@@ -99,7 +100,9 @@ public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
 
     @Override
     public void hideProgress() {
+        Timber.d("hideProgress() called");
         if (mProcessDialog != null) mProcessDialog.dismiss();
+        else Timber.e("mProcessDialog is null");
     }
 
     @Override

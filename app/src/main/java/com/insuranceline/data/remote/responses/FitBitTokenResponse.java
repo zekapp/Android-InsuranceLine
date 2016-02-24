@@ -1,7 +1,8 @@
 package com.insuranceline.data.remote.responses;
 
 /**
- * Created by Zeki Guler on 2/02/2016.
+ * Created by Zeki Guler on 24,February,2016
+ * ©2015 Appscore. All Rights Reserved
  */
 public class FitBitTokenResponse {
     private String access_token;

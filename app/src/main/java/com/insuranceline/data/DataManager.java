@@ -1,6 +1,5 @@
 package com.insuranceline.data;
 
-import com.insuranceline.BuildConfig;
 import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.job.fetch.FetchSamplesJob;
 import com.insuranceline.data.local.DatabaseHelper;
@@ -12,14 +11,17 @@ import com.insuranceline.data.remote.model.DashboardModel;
 import com.insuranceline.data.remote.responses.ClaimRewardResponse;
 import com.insuranceline.data.remote.responses.DailySummaryResponse;
 import com.insuranceline.data.remote.responses.EdgeAuthResponse;
+import com.insuranceline.data.remote.responses.EdgePayResponse;
+import com.insuranceline.data.remote.responses.EdgeShoppingCardResponse;
+import com.insuranceline.data.remote.responses.EdgeWhoAmIResponse;
 import com.insuranceline.data.remote.responses.FitBitTokenResponse;
 import com.insuranceline.data.remote.responses.SampleResponseData;
 import com.insuranceline.data.remote.responses.StepsCountResponse;
-import com.insuranceline.data.remote.responses.TermCondResponse;
-import com.insuranceline.data.remote.responses.WhoAmIResponse;
 import com.insuranceline.data.vo.DailySummary;
+import com.insuranceline.data.vo.EdgeShoppingCart;
 import com.insuranceline.data.vo.EdgeUser;
 import com.insuranceline.data.vo.Goal;
+import com.insuranceline.data.vo.Pay;
 import com.insuranceline.data.vo.Sample;
 import com.insuranceline.event.FitBitLogoutEvent;
 import com.insuranceline.event.GeneralErrorEvent;
@@ -106,7 +108,11 @@ public class DataManager {
     private void createGoalsAsDefaultIfNotCreated() {
         if(!mDatabaseHelper.isAnyGoalCreated()){
             for (int i = 0; i < GOAL_COUNTS; i++) {
-                mDatabaseHelper.saveGoal(Goal.createDefaultGoal(i,mAppConfig.getEndOfCampaign(), AppConfig.INITIALS_TARGET_STEP_COUNT));
+                mDatabaseHelper.saveGoal(
+                        Goal.createDefaultGoal(
+                                i,mAppConfig.getEndOfCampaign(),
+                                AppConfig.INITIALS_TARGET_STEP_COUNT,
+                                AppConfig.SKU[i]));
             }
         }
     }
@@ -203,15 +209,15 @@ public class DataManager {
                 return Observable.zip(
                         mEdgeApiService.whoami(response.getmTokenType() + " " + response.getmAccessToken()),
                         Observable.just(response),
-                        new Func2<WhoAmIResponse, EdgeAuthResponse, EdgeUser>() {
+                        new Func2<EdgeWhoAmIResponse, EdgeAuthResponse, EdgeUser>() {
                             @Override
-                            public EdgeUser call(WhoAmIResponse whoAmIResponse, EdgeAuthResponse edgeAuthResponse) {
-                                mPreferencesHelper.saveEdgeSystemToken(edgeAuthResponse.getmAccessToken());
+                            public EdgeUser call(EdgeWhoAmIResponse edgeWhoAmIResponse, EdgeAuthResponse edgeAuthResponse) {
 
+                                mPreferencesHelper.saveEdgeSystemToken(edgeAuthResponse.getmAccessToken());
                                 EdgeUser edgeUser = new EdgeUser
-                                        .Builder(whoAmIResponse, edgeAuthResponse)
+                                        .Builder(edgeWhoAmIResponse, edgeAuthResponse)
                                         .createMUser()
-                                        .setDebugEnable(BuildConfig.DEBUG, mPreferencesHelper.isUseFitBitOwner())
+                                        /*.setDebugEnable(BuildConfig.DEBUG, mPreferencesHelper.isUseFitBitOwner())*/
                                         .build();
 
                                 edgeUser.save();
@@ -224,13 +230,14 @@ public class DataManager {
         });
     }
 
+
     public Observable<EdgeAuthResponse> getEdgeToken() {
         return mEdgeApiService.getAuthToken(mPreferencesHelper.getUserLoginEmail(),mPreferencesHelper.getPassword(),"password")
                 .doOnNext(new Action1<EdgeAuthResponse>() {
                     @Override
                     public void call(EdgeAuthResponse edgeAuthResponse) {
                         MUser lumoUSer = mLumoController.getUser();
-
+                        mPreferencesHelper.saveEdgeSystemToken(edgeAuthResponse.getmAccessToken());
                         if (lumoUSer != null)
                             lumoUSer.setAccess_token(edgeAuthResponse.getmAccessToken());
                     }
@@ -239,9 +246,57 @@ public class DataManager {
     }
 
 
-    public void claimReward(int rewardId, String emailAddress){
+    public Observable<EdgePayResponse> claimReward(final String SKU, final String emailAddress){
+        return getEdgeToken()
+                .flatMap(function(SKU,emailAddress))
+                .flatMap(new Func1<EdgeShoppingCardResponse, Observable<EdgePayResponse>>() {
+                    @Override
+                    public Observable<EdgePayResponse> call(EdgeShoppingCardResponse edgeShoppingCardResponse) {
+                        String token = mPreferencesHelper.getEdgeSystemToken();
+                        Timber.d("ClaimReward Token: %s", token);
 
+                        if (edgeShoppingCardResponse.success){
+                            Pay payment = new Pay.Builder().build();
+                            Timber.d("cardDetails.paymentType: %s", payment.cardDetails.paymentType);
+                            return mEdgeApiService.pay("Bearer " + token, payment);
+                        } else{
+                            return Observable.error(new Throwable(edgeShoppingCardResponse.getErrorsAsText()));
+                        }
+                    }
+                });
     }
+
+    /**
+     * After getting  AuthToken successfully then Call ClaimReward Api
+     * **/
+    public Func1<EdgeAuthResponse, Observable<EdgeShoppingCardResponse>> function(final String SKU, final String emailAddress){
+        return new Func1<EdgeAuthResponse, Observable<EdgeShoppingCardResponse>>() {
+            @Override
+            public Observable<EdgeShoppingCardResponse> call(EdgeAuthResponse edgeAuthResponse) {
+                EdgeShoppingCart shoppingCart = new EdgeShoppingCart.Builder().build();
+
+                shoppingCart.shoppingCartItems.SKU = SKU;
+                shoppingCart.emailAddress = emailAddress;
+
+                Timber.d("BillingAddress     = $id: %s", shoppingCart.billingAddress.$id);
+
+                Timber.d("Contact Number     = Number: %s, dateCreated: %s, lastUpdated: %s"
+                        , shoppingCart.contactPhoneNumber.number
+                        , shoppingCart.contactPhoneNumber.dateCreated
+                        , shoppingCart.contactPhoneNumber.lastUpdated);
+
+                Timber.d("ShoppingCartItemVM = quantity: %s SKU: %s"
+                        , shoppingCart.shoppingCartItems.quantity
+                        , shoppingCart.shoppingCartItems.SKU);
+
+                Timber.d("Email Address      = %s", shoppingCart.emailAddress);
+
+                Timber.d(" Get AuthToken Token: %s", edgeAuthResponse.getmAccessToken());
+                return mEdgeApiService.claimReward("Bearer " + edgeAuthResponse.getmAccessToken(),shoppingCart);
+            }
+        };
+    }
+
 
     public Observable<EdgeUser> getUser() {
         return Observable.create(new Observable.OnSubscribe<EdgeUser>() {
@@ -256,12 +311,14 @@ public class DataManager {
         mDatabaseHelper.deleteEdgeUser();
     }
 
-    public  Observable<Boolean> edgeSystemTermsAndConditionAccepted(){
-        return mApiService.tcResponse(mPreferencesHelper.getEdgeSystemToken())
-                .concatMap(new Func1<TermCondResponse, Observable<? extends Boolean>>() {
+    public  Observable<EdgeWhoAmIResponse> edgeSystemTermsAndConditionAccepted(){
+        return mEdgeApiService.whoami("Bearer " + mPreferencesHelper.getEdgeSystemToken())
+                .flatMap(new Func1<EdgeWhoAmIResponse, Observable<EdgeWhoAmIResponse>>() {
                     @Override
-                    public Observable<? extends Boolean> call(TermCondResponse termCondResponse) {
-                        return mDatabaseHelper.updateEdgeUSer(termCondResponse.isResponse());
+                    public Observable<EdgeWhoAmIResponse> call(EdgeWhoAmIResponse edgeWhoAmIResponse) {
+                        edgeWhoAmIResponse.memberRecord.termsAndConditionsAccepted = true; // Yes we accepted
+                        String token = "Bearer " + mPreferencesHelper.getEdgeSystemToken();
+                        return mEdgeApiService.postWhoAmI(token,edgeWhoAmIResponse);
                     }
                 });
     }
@@ -398,7 +455,7 @@ public class DataManager {
         return new Func1<Observable<? extends Void>, Observable<?>>() {
             @Override
             public Observable<?> call(Observable<? extends Void> observable) {
-                return observable.delay(30, TimeUnit.SECONDS);
+                return observable.delay(60, TimeUnit.SECONDS);
             }
         };
     }
@@ -620,8 +677,10 @@ public class DataManager {
 
     public void resetGoals(long target){
 
+        int i =0;
         for (Goal goal : mCatchedGoals) {
-            goal.reset(mAppConfig.getEndOfCampaign(),target);
+            goal.reset(mAppConfig.getEndOfCampaign(),target, AppConfig.SKU[i]);
+            i++;
         }
 
         saveGoals();
@@ -665,10 +724,10 @@ public class DataManager {
             mNotificationHelper.setBoostNotification();
     }
 
-    // This function is just for test purposes
+/*    // This function is just for test purposes
     public void setUserAsFitBit(boolean isFitBitUser) {
         mPreferencesHelper.setUserAsFitBit(isFitBitUser);
-    }
+    }*/
 
     public void saveUserName(String email) {
         mPreferencesHelper.saveUserLoginEmail(email);

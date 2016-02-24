@@ -37,7 +37,7 @@
                 app:defTextColor="@color/gray"
                 app:defTextSize="13sp"
                 app:definitionText="- steps"
-                app:percentage="90"
+                app:percentage="0"
                 app:progressColor="#64b324"
                 app:marginBtwText="13dp"/>
 

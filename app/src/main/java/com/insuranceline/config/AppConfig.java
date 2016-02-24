@@ -53,7 +53,13 @@ public class AppConfig {
 
     public static final String STAGING_APP_ID           = "929da5ad-2b68-4493-8a3d-1466a8792e00";
     public static final String PRODUCTION_APP_ID        = "5e435d08-3537-4e50-ad41-05bfbdbf0bfb";
-    public static final int INITIALS_TARGET_STEP_COUNT  = 100;
+    public static final int INITIALS_TARGET_STEP_COUNT  = 100000;
+
+    public static final String[] SKU = {
+            "DG4DIB1CV40A",     //  National Adult Restricted eVoucher TAL:
+            "WMKO6PC3KKK6",     // New Balance
+            "5AL7T6R5JK7Q"      // Good Health Magazine
+    };
 
 
     private static long BOOM_END;

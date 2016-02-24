@@ -71,6 +71,9 @@ public class Goal extends BaseModel {
     @Column
     int requiredDailyDistance;
 
+    @Column
+    String SKU;
+
     public long getGoalId() {
         return mGoalId;
     }
@@ -192,14 +195,14 @@ public class Goal extends BaseModel {
         mStepsBias = stepsBias;
     }
 
-    public static Goal createDefaultGoal(int goalId, long endDate, long initialstep) {
+    public static Goal createDefaultGoal(int goalId, long endDate, long initialstep, String SKU) {
         Goal goal = new Goal();
         goal.setGoalId(goalId);
-        goal.reset(endDate, initialstep);
+        goal.reset(endDate, initialstep, SKU);
         return goal;
     }
 
-    public void reset( long endOfCampaignDate, long target) {
+    public void reset( long endOfCampaignDate, long target, String SKU) {
         boolean isCampaignActive = TimeUnit
                 .MILLISECONDS.toMinutes(endOfCampaignDate - System.currentTimeMillis()) > 0;
 
@@ -218,6 +221,7 @@ public class Goal extends BaseModel {
         setRequiredDailyCalorie(3000);
         setRequiredDailyDistance(8);
         setRequiredDailySteps(5000);
+        setSKU(SKU);
         setGoalType(TYPE_STEPS); // STEPS
         setTarget(target);
     }
@@ -256,5 +260,15 @@ public class Goal extends BaseModel {
         return getStatus() == GOAL_STATUS_ACTIVE;
     }
 
+    public String getSKU() {
+        return SKU;
+    }
 
+    public void setSKU(String SKU) {
+        this.SKU = SKU;
+    }
+
+    public int getGoalIdForClaiming() {
+        return (int) getGoalId() + 1; // Backend goal Id is 1 bigger than ours.
+    }
 }

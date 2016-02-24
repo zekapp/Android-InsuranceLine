@@ -13,4 +13,21 @@ public class Pay {
     public static class CardDetails{
         public int paymentType = 99; // don't change
     }
+
+    private Pay (Builder builder) {
+        cardDetails     = builder.mCardDetails;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Builder {
+        final CardDetails mCardDetails;
+
+        public Builder(){
+            mCardDetails = new CardDetails();
+        }
+
+        public Pay build(){
+            return new Pay(this);
+        }
+    }
 }

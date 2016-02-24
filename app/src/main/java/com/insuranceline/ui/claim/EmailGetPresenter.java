@@ -5,6 +5,7 @@ import android.content.Context;
 import com.insuranceline.R;
 import com.insuranceline.data.DataManager;
 import com.insuranceline.data.remote.responses.ClaimRewardResponse;
+import com.insuranceline.data.remote.responses.EdgePayResponse;
 import com.insuranceline.data.vo.Goal;
 import com.insuranceline.di.qualifier.ActivityContext;
 import com.insuranceline.ui.base.BasePresenter;
@@ -76,7 +77,54 @@ public class EmailGetPresenter extends BasePresenter<EmailGetMVPView>{
         }
 
         getMvpView().showProgress();
-        mDataManager.submitEmailForRewardClaim(email, String.valueOf(activeGoal.getGoalId()))
+
+        getMvpView().showProgress();
+        mDataManager.claimReward(activeGoal.getSKU(), email)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<EdgePayResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        getMvpView().hideProgress();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e("OnError: %s", e.getMessage());
+                        getMvpView().hideProgress();
+                        getMvpView().onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(EdgePayResponse edgePayResponse) {
+                        getMvpView().hideProgress();
+
+                        if (edgePayResponse.success){
+                            endCurrentGoal();
+                            checkNextGoal();
+                        } else
+                            getMvpView().onError(edgePayResponse.getErrorsAsText());
+                    }
+                });
+    }
+
+    private void endCurrentGoal() {
+        Goal activeGoal = mDataManager.getActiveGoal();
+        if (activeGoal != null)
+            mDataManager.endGoal(activeGoal.getGoalId());
+    }
+
+    private void checkNextGoal() {
+        Goal relevantGoal = mDataManager.getRelevantGoal();
+        if ((relevantGoal.getStatus() == Goal.GOAL_STATUS_IDLE) && !mDataManager.isCampaignEnd())
+            getMvpView().onSuccess();
+        else{
+            getMvpView().allGoalAchieved();
+        }
+    }
+
+
+    /*        mDataManager.submitEmailForRewardClaim(email, String.valueOf(activeGoal.getGoalId()))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<ClaimRewardResponse>() {
@@ -102,21 +150,5 @@ public class EmailGetPresenter extends BasePresenter<EmailGetMVPView>{
                         } else
                             getMvpView().onError(claimRewardResponse.getErrorMessage());
                     }
-                });
-    }
-
-    private void endCurrentGoal() {
-        Goal activeGoal = mDataManager.getActiveGoal();
-        if (activeGoal != null)
-            mDataManager.endGoal(activeGoal.getGoalId());
-    }
-
-    private void checkNextGoal() {
-        Goal relevantGoal = mDataManager.getRelevantGoal();
-        if ((relevantGoal.getStatus() == Goal.GOAL_STATUS_IDLE) && !mDataManager.isCampaignEnd())
-            getMvpView().onSuccess();
-        else{
-            getMvpView().allGoalAchieved();
-        }
-    }
+                });*/
 }

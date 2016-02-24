@@ -52,13 +52,22 @@ public class DispatchActivity extends BaseActivity{
 
             @Override
             public void onNext(EdgeUser edgeUser) {
-                if (edgeUser.isTermCondAccepted()){
+                if (edgeUser.isFitBitUser()) {
+                    if (edgeUser.isTermCondAccepted()) {
+                        dispatchInsuranceLineApp();
+                    } else {
+                        dispatchUserTermCondAccept();
+                    }
+                } else {
+                    dispatchLumoAmeego(edgeUser);
+                }
+/*                if (edgeUser.isTermCondAccepted()){
                     if (edgeUser.isFitBitUser())
                         dispatchInsuranceLineApp();
                     else
                         dispatchLumoAmeego(edgeUser);
                 }else
-                    dispatchUserTermCondAccept();
+                    dispatchUserTermCondAccept();*/
             }
         });
     }

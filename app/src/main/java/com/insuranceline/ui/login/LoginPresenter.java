@@ -120,7 +120,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
         });
     }
 
-    public void setUserAsFitBitUser(boolean isFitBitUser) {
+/*    public void setUserAsFitBitUser(boolean isFitBitUser) {
         mDataManager.setUserAsFitBit(isFitBitUser);
-    }
+    }*/
 }

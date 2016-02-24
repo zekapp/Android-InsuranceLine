@@ -10,7 +10,8 @@ import com.insuranceline.R;
 import com.insuranceline.ui.fragments.BaseFragment;
 
 /**
- * Created by zeki on 24/02/2016.
+ * Created by Zeki Guler on 24,February,2016
+ * ©2015 Appscore. All Rights Reserved
  */
 public class TermsAndCondition extends BaseFragment {
 

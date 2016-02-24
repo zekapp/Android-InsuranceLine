@@ -102,7 +102,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
     @SuppressWarnings("unused")
     public void onLoginStart(View view) {
         resetErrors();
-        mLoginPresenter.setUserAsFitBitUser(userType.isChecked());
+        /*mLoginPresenter.setUserAsFitBitUser(userType.isChecked());*/
         mLoginPresenter.attemptToLogin(
                 mLoginEmmailEditText.getText().toString(),
                 mLoginPasswordEditText.getText().toString());
