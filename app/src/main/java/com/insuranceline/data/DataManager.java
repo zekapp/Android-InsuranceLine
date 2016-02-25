@@ -112,7 +112,7 @@ public class DataManager {
                         Goal.createDefaultGoal(
                                 i,mAppConfig.getEndOfCampaign(),
                                 AppConfig.INITIALS_TARGET_STEP_COUNT,
-                                AppConfig.SKU[i]));
+                                mAppConfig.getStockItemId(i)));
             }
         }
     }
@@ -215,7 +215,7 @@ public class DataManager {
 
                                 mPreferencesHelper.saveEdgeSystemToken(edgeAuthResponse.getmAccessToken());
                                 EdgeUser edgeUser = new EdgeUser
-                                        .Builder(edgeWhoAmIResponse, edgeAuthResponse)
+                                        .Builder(edgeWhoAmIResponse, edgeAuthResponse, mAppConfig.isFitBitUser(edgeWhoAmIResponse.memberRecord.appId))
                                         .createMUser()
                                         /*.setDebugEnable(BuildConfig.DEBUG, mPreferencesHelper.isUseFitBitOwner())*/
                                         .build();
@@ -246,9 +246,9 @@ public class DataManager {
     }
 
 
-    public Observable<EdgePayResponse> claimReward(final String SKU, final String emailAddress){
+    public Observable<EdgePayResponse> claimReward(final int stockItemId, final String emailAddress){
         return getEdgeToken()
-                .flatMap(function(SKU,emailAddress))
+                .flatMap(function(stockItemId,emailAddress))
                 .flatMap(new Func1<EdgeShoppingCardResponse, Observable<EdgePayResponse>>() {
                     @Override
                     public Observable<EdgePayResponse> call(EdgeShoppingCardResponse edgeShoppingCardResponse) {
@@ -269,13 +269,13 @@ public class DataManager {
     /**
      * After getting  AuthToken successfully then Call ClaimReward Api
      * **/
-    public Func1<EdgeAuthResponse, Observable<EdgeShoppingCardResponse>> function(final String SKU, final String emailAddress){
+    public Func1<EdgeAuthResponse, Observable<EdgeShoppingCardResponse>> function(final int stockItemId, final String emailAddress){
         return new Func1<EdgeAuthResponse, Observable<EdgeShoppingCardResponse>>() {
             @Override
             public Observable<EdgeShoppingCardResponse> call(EdgeAuthResponse edgeAuthResponse) {
                 EdgeShoppingCart shoppingCart = new EdgeShoppingCart.Builder().build();
 
-                shoppingCart.shoppingCartItems.SKU = SKU;
+                shoppingCart.shoppingCartItems.stockItemId = stockItemId;
                 shoppingCart.emailAddress = emailAddress;
 
                 Timber.d("BillingAddress     = $id: %s", shoppingCart.billingAddress.$id);
@@ -287,7 +287,7 @@ public class DataManager {
 
                 Timber.d("ShoppingCartItemVM = quantity: %s SKU: %s"
                         , shoppingCart.shoppingCartItems.quantity
-                        , shoppingCart.shoppingCartItems.SKU);
+                        , shoppingCart.shoppingCartItems.stockItemId);
 
                 Timber.d("Email Address      = %s", shoppingCart.emailAddress);
 
@@ -296,7 +296,6 @@ public class DataManager {
             }
         };
     }
-
 
     public Observable<EdgeUser> getUser() {
         return Observable.create(new Observable.OnSubscribe<EdgeUser>() {
@@ -318,7 +317,7 @@ public class DataManager {
                     public Observable<EdgeWhoAmIResponse> call(EdgeWhoAmIResponse edgeWhoAmIResponse) {
                         edgeWhoAmIResponse.memberRecord.termsAndConditionsAccepted = true; // Yes we accepted
                         String token = "Bearer " + mPreferencesHelper.getEdgeSystemToken();
-                        return mEdgeApiService.postWhoAmI(token,edgeWhoAmIResponse);
+                        return mEdgeApiService.putWhoAmI(token,edgeWhoAmIResponse);
                     }
                 });
     }
@@ -334,6 +333,8 @@ public class DataManager {
 
     /**
      *  AUTHENTICATION FUNCTION
+     *
+     *  Authorization Code Grant flow
      *
      * Before calling this function be sure that token set empty.
      * Otherwise OauthInterceptors will be called and modify your header
@@ -355,6 +356,16 @@ public class DataManager {
                     }
                 })
                 .onErrorResumeNext(Observable.<String>empty());
+    }
+
+    /**
+     *  AUTHENTICATION FUNCTION
+     *
+     *  Authorization Code Grant flow
+     *
+     */
+    public void setFitBitAccessToken(FitBitTokenResponse accessToken) {
+        mPreferencesHelper.saveFitBitToken(accessToken);
     }
 
     public Observable<String> getFitBitProfile() {
@@ -533,7 +544,7 @@ public class DataManager {
                         mDatabaseHelper.saveDailySummary(dailySummary);
                     }
                 })
-                .doOnError(handleFitBitNetworkError());
+                .doOnError(handleFitBitNetworkError("FitBitApi.getDailySummary"));
     }
 
 
@@ -556,13 +567,13 @@ public class DataManager {
                             activeGoal.save();
                         }
                     })
-                    .doOnError(handleFitBitNetworkError());
+                    .doOnError(handleFitBitNetworkError("FitBitApi.getStepsCountsBetweenDates"));
         } else {
             return Observable.empty();
         }
     }
 
-    private Action1<Throwable> handleFitBitNetworkError(){
+    private Action1<Throwable> handleFitBitNetworkError(final String errType){
         return new Action1<Throwable>() {
             @Override
             public void call(Throwable throwable) {
@@ -570,12 +581,12 @@ public class DataManager {
                     HttpException httpException = (HttpException)throwable;
                     // if token expires some reason. Users need to be logout.
                     if (httpException.code() == 401){
-                        Timber.e("Network Error: 401 !!!");
+                        Timber.e("Error Type: %s Network Error: 401 !!!", errType);
                         mEventBus.post(new FitBitLogoutEvent("Session expired."));
                     }
                 } else if(throwable != null){
                     mEventBus.post(new GeneralErrorEvent(throwable));
-                    Timber.e("Error: %s", throwable.getMessage());
+                    Timber.e("Error Type: %s Error: %s", errType, throwable.getMessage());
                 } else {
                     Timber.e("Unknown Network Error. Throwable is null");
                 }
@@ -619,10 +630,8 @@ public class DataManager {
         return isFirtLaunching;
     }
 
-
     /**
      * Calculate Bias
-     *
      * */
     public Observable<DailySummary> calculateDailyBias(){
         return  mFitBitApiService.getDailySummary()
@@ -638,7 +647,7 @@ public class DataManager {
                         mDatabaseHelper.saveDailySummary(dailySummary);
                     }
                 })
-                .doOnError(handleFitBitNetworkError());
+                .doOnError(handleFitBitNetworkError("FitBitApiService.getDailySummary"));
     }
 
 
@@ -679,7 +688,7 @@ public class DataManager {
 
         int i =0;
         for (Goal goal : mCatchedGoals) {
-            goal.reset(mAppConfig.getEndOfCampaign(),target, AppConfig.SKU[i]);
+            goal.reset(mAppConfig.getEndOfCampaign(),target, mAppConfig.getStockItemId(i));
             i++;
         }
 
@@ -691,7 +700,7 @@ public class DataManager {
     }
 
     /**
-     * Claim the reward
+     * Claim the reward`
      * */
     public Observable<ClaimRewardResponse> submitEmailForRewardClaim(String email, String id) {
 //        mEdgeApiService.submitEmail(email, id);

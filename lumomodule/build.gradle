@@ -24,6 +24,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            release {
+                resValue "string", "server_uri_edge", "https://api.lifestylerewards.com.au/"
+                resValue "string", "server_uri_fitbit", "http ...2"
+                resValue "string", "google_maps_key", "your key2"
+            }
+        }
     }
 }
 repositories {

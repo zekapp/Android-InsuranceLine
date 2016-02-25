@@ -72,7 +72,7 @@ public class Goal extends BaseModel {
     int requiredDailyDistance;
 
     @Column
-    String SKU;
+    int stockItemId;
 
     public long getGoalId() {
         return mGoalId;
@@ -195,14 +195,14 @@ public class Goal extends BaseModel {
         mStepsBias = stepsBias;
     }
 
-    public static Goal createDefaultGoal(int goalId, long endDate, long initialstep, String SKU) {
+    public static Goal createDefaultGoal(int goalId, long endDate, long initialstep, int stockItemId) {
         Goal goal = new Goal();
         goal.setGoalId(goalId);
-        goal.reset(endDate, initialstep, SKU);
+        goal.reset(endDate, initialstep, stockItemId);
         return goal;
     }
 
-    public void reset( long endOfCampaignDate, long target, String SKU) {
+    public void reset( long endOfCampaignDate, long target, int stockItemId) {
         boolean isCampaignActive = TimeUnit
                 .MILLISECONDS.toMinutes(endOfCampaignDate - System.currentTimeMillis()) > 0;
 
@@ -221,7 +221,7 @@ public class Goal extends BaseModel {
         setRequiredDailyCalorie(3000);
         setRequiredDailyDistance(8);
         setRequiredDailySteps(5000);
-        setSKU(SKU);
+        setStockItemId(stockItemId);
         setGoalType(TYPE_STEPS); // STEPS
         setTarget(target);
     }
@@ -260,12 +260,12 @@ public class Goal extends BaseModel {
         return getStatus() == GOAL_STATUS_ACTIVE;
     }
 
-    public String getSKU() {
-        return SKU;
+    public int getStockItemId() {
+        return stockItemId;
     }
 
-    public void setSKU(String SKU) {
-        this.SKU = SKU;
+    public void setStockItemId(int stockItemId) {
+        this.stockItemId = stockItemId;
     }
 
     public int getGoalIdForClaiming() {

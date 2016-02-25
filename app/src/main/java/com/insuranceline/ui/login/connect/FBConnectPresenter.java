@@ -1,6 +1,7 @@
 package com.insuranceline.ui.login.connect;
 
 import com.insuranceline.data.DataManager;
+import com.insuranceline.data.remote.responses.FitBitTokenResponse;
 import com.insuranceline.ui.base.BasePresenter;
 
 import javax.inject.Inject;
@@ -31,8 +32,8 @@ public class FBConnectPresenter extends BasePresenter<FBMvpView>  {
         if (mSubscription != null) mSubscription.unsubscribe();
     }
 
-    public void getAccessToken(String incomingData) {
-        String code = extractCode(incomingData);
+    public void getAuthorizationCodeGrant(String incomingData) {
+        String code = extractCode(incomingData,"?code=");
         Timber.d("Code: %s",code);
 
         getMvpView().showProgress();
@@ -67,8 +68,24 @@ public class FBConnectPresenter extends BasePresenter<FBMvpView>  {
                 });
     }
 
-    private String extractCode(String incomingData) {
-        return incomingData.substring(incomingData.indexOf("?code=")+6);
+    public void getImplicitGrantFlow(String incomingData) {
+        FitBitTokenResponse fitBitTokenResponse = new FitBitTokenResponse();
+        fitBitTokenResponse.scope         = extractCodeBetween(incomingData, "#scope=", "&user_id=");
+        fitBitTokenResponse.user_id       = extractCodeBetween(incomingData, "&user_id=", "&token_type=");
+        fitBitTokenResponse.token_type    = extractCodeBetween(incomingData, "&token_type=", "&expires_in");
+        fitBitTokenResponse.access_token  = extractCode(incomingData, "&access_token=");
+        fitBitTokenResponse.refresh_token = "";
+
+
+        Timber.d("scope info %s", fitBitTokenResponse.scope);
+        Timber.d("user_id info %s", fitBitTokenResponse.user_id);
+        Timber.d("access_token info %s", fitBitTokenResponse.access_token);
+        Timber.d("token_type info %s", fitBitTokenResponse.token_type);
+        Timber.d("refresh_token info %s", fitBitTokenResponse.refresh_token);
+
+        mDataManager.setFitBitAccessToken(fitBitTokenResponse);
+
+        getMvpView().onSuccess();
     }
 
     public void getFitBitProfile() {
@@ -97,4 +114,14 @@ public class FBConnectPresenter extends BasePresenter<FBMvpView>  {
     public void unSubscribe() {
         mSubscription.unsubscribe();
     }
+
+    private String extractCode(String incomingData, String type) {
+        return incomingData.substring(incomingData.indexOf(type)+type.length());
+    }
+
+    private String extractCodeBetween(String incomingData, String start, String end) {
+        return incomingData.substring(incomingData.indexOf(start)+start.length(), incomingData.indexOf(end));
+    }
+
+
 }

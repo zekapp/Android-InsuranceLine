@@ -33,8 +33,8 @@ public class EdgeShoppingCart {
     @JsonIgnoreProperties(ignoreUnknown = true)
     static public class ShoppingCartItemVM{
         public int quantity = 1; // don't change
-        /*public int stockItemId; // this field required in project perspective*/
-        public String SKU;
+        public int stockItemId; // this field required in project perspective*/
+        /*public String SKU;*/
     }
 
     private EdgeShoppingCart (Builder builder) {

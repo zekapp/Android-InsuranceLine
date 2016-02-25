@@ -5,12 +5,12 @@ package com.insuranceline.data.remote.responses;
  * ©2015 Appscore. All Rights Reserved
  */
 public class FitBitTokenResponse {
-    private String access_token;
-    private int expires_in;
-    private String refresh_token;
-    private String scope;
-    private String token_type;
-    private String user_id;
+    public String access_token;
+    public int expires_in;
+    public String refresh_token;
+    public String scope;
+    public String token_type;
+    public String user_id;
 
     public String getAccess_token() {
         return access_token;
@@ -42,4 +42,5 @@ public class FitBitTokenResponse {
                 getRefresh_token() + ":" +
                 getUser_id();
     }
+
 }

@@ -37,13 +37,28 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            resValue("string", "server_uri_fitbit", "https://api.fitbit.com/")
+            resValue("string", "server_uri_edge",   "https://api.lifestylerewards.com.au/")
+            resValue("string", "edge_app_id",       "929da5ad-2b68-4493-8a3d-1466a8792e00")
+            resValue("string", "edge_app_client_id","59b9b30a-9597-4844-96d0-66c41442322b")
+            resValue("string", "stockItemId1",     "3780")
+            resValue("string", "stockItemId2",     "3781")
+            resValue("string", "stockItemId3",     "3782")
 
+            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         debug {
+            resValue("string", "server_uri_fitbit", "https://api.fitbit.com/")
+            resValue("string", "server_uri_edge",   "https://api.lifestylerewards.com.au/")
+            resValue("string", "edge_app_id",       "5e435d08-3537-4e50-ad41-05bfbdbf0bfb")
+            resValue("string", "edge_app_client_id","929da5ad-2b68-4493-8a3d-1466a8792e00")
+            resValue("string", "stockItemId1",     "3915")
+            resValue("string", "stockItemId2",     "3916")
+            resValue("string", "stockItemId3",     "3917")
+
             versionNameSuffix " Debug"
             debuggable true
         }

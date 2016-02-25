@@ -19,6 +19,7 @@ import com.insuranceline.data.remote.EdgeApiService;
 import com.insuranceline.data.remote.FitBitApiService;
 import com.insuranceline.data.remote.oauth.FitBitOauthApiService;
 import com.insuranceline.data.remote.oauth.OauthInterceptor;
+import com.insuranceline.data.remote.oauth.OauthInterceptorEdge;
 import com.insuranceline.data.remote.oauth.TokenAuthenticator;
 import com.insuranceline.di.qualifier.ApplicationContext;
 import com.path.android.jobqueue.Job;
@@ -92,7 +93,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public EdgeApiService edgeApiService(AppConfig appConfig) {
+    public EdgeApiService edgeApiService(AppConfig appConfig, OauthInterceptorEdge oauthInterceptor) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -102,6 +103,7 @@ public class AppModule {
 
         OkHttpClient httpClient = new OkHttpClient();
         httpClient.interceptors().add(logging);
+        httpClient.interceptors().add(oauthInterceptor);
         httpClient.networkInterceptors().add(new StethoInterceptor());
 
         Retrofit retrofit = new Retrofit.Builder()

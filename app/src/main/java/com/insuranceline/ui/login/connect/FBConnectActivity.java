@@ -11,8 +11,6 @@ import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,7 +21,6 @@ import com.insuranceline.config.AppConfig;
 import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.base.BaseActivity;
 import com.insuranceline.ui.login.LoginActivity;
-import com.insuranceline.ui.main.MainActivity;
 import com.insuranceline.utils.DialogFactory;
 
 import org.chromium.customtabsclient.shared.CustomTabsHelper;
@@ -67,14 +64,15 @@ public class FBConnectActivity extends BaseActivity implements FBMvpView, Servic
         }
     }
 
-    @Override
+/*    @Override
     protected void onNewIntent(Intent intent) {
         if (intent.getData() != null){
             String incomingData = intent.getDataString();
             Timber.d(incomingData);
-            mPresenter.getAccessToken(incomingData);
+//            mPresenter.getAuthorizationCodeGrant(incomingData);
+            mPresenter.getImplicitGrantFlow(incomingData);
         }
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +84,14 @@ public class FBConnectActivity extends BaseActivity implements FBMvpView, Servic
         onNewIntent(getIntent());
         Timber.d("onCreate");
         setHomeAsUpEnabled();
+
+
+        if (getIntent().getData() != null){
+            String incomingData = getIntent().getDataString();
+            Timber.d(incomingData);
+//            mPresenter.getAuthorizationCodeGrant(incomingData);
+            mPresenter.getImplicitGrantFlow(incomingData);
+        }
     }
 
     public void setHomeAsUpEnabled(){

@@ -11,7 +11,13 @@ public class Pay {
 
     @JsonIgnoreProperties(ignoreUnknown=true)
     public static class CardDetails{
-        public int paymentType = 99; // don't change
+        public String   cardNumber  =  "000000000000000";
+        public int      cardType    =  1;
+        public int      paymentType =  99; // don't change
+        public String   cardName    =  "dummy user";
+        public int      expiryMonth =  9; // get for this months
+        public int      expiryYear  =  2017;
+        public String   cvv         =  "000";
     }
 
     private Pay (Builder builder) {

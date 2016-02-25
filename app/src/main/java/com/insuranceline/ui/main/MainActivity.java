@@ -22,6 +22,7 @@ import com.insuranceline.event.GeneralErrorEvent;
 import com.insuranceline.event.GoalAchieveEvent;
 import com.insuranceline.event.LogOutFromEdgeEvent;
 import com.insuranceline.event.SubscriberPriority;
+import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.base.BaseActivity;
 import com.insuranceline.ui.claim.ClaimingRewardActivity;
 import com.insuranceline.ui.fragments.MessageFromFragmentInterface;
@@ -35,7 +36,6 @@ import com.insuranceline.utils.Utils;
 
 import javax.inject.Inject;
 
-import au.com.lumo.ameego.DispatchActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;

@@ -14,18 +14,21 @@ import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Headers;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import rx.Observable;
 
 /**
- * Created by zeki on 30/01/2016.
+ * Created by Zeki Guler on 25,February,2016
+ * ©2015 Appscore. All Rights Reserved
  */
 public interface EdgeApiService {
 
-    @Headers({
+
+/*    @Headers({
             "Accept: application/json",
             "Content-Type: application/x-www.form-urlencoded",
             "clientId: 59b9b30a-9597-4844-96d0-66c41442322b" // todo: DO NOT FORGET TO CHANGE PRODUCTION TO STAGING SERVER.
-    })
+    })*/
     @FormUrlEncoded
     @POST("auth")
     Observable<EdgeAuthResponse> getAuthToken(@Field("username") String userName, @Field("password") String password, @Field("grant_type") String type);
@@ -37,8 +40,8 @@ public interface EdgeApiService {
     @GET("api/v1/whoami")
     Observable<EdgeWhoAmIResponse> whoami(@Header("Authorization") String token); // do not forget to add Bearer to Token
 
-    @POST("api/v1/Membership")
-    Observable<EdgeWhoAmIResponse> postWhoAmI(@Header("Authorization") String token, @Body EdgeWhoAmIResponse whoAmI);
+    @PUT("api/v1/Membership")
+    Observable<EdgeWhoAmIResponse> putWhoAmI(@Header("Authorization") String token, @Body EdgeWhoAmIResponse whoAmI);
 
     @POST("api/v1/ShoppingCart")
     Observable<EdgeShoppingCardResponse> claimReward(@Header("Authorization") String token, @Body EdgeShoppingCart edgeShoppingCart);

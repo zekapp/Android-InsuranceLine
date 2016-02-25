@@ -51,12 +51,8 @@ public class EdgeUser extends BaseModel implements Validation {
         mTokenType = builder.mEdgeAuthResponse.getmTokenType();
         mExpireIn = builder.mEdgeAuthResponse.getmExpireIn();
         isTermCondAccepted = builder.mEdgeWhoAmIResponse.memberRecord.termsAndConditionsAccepted;
-        isFitBitUser = builder.isDebugEnabled ? builder.isFitBitUser : isFitBitOwner(builder.mEdgeWhoAmIResponse.memberRecord.appId);
+        isFitBitUser = builder.isFitBitUser;
         lumoUser = builder.lumoUser;
-    }
-
-    private boolean isFitBitOwner(String appId) {
-         return appId != null && (appId.equals(AppConfig.STAGING_APP_ID) || appId.equals(AppConfig.PRODUCTION_APP_ID));
     }
 
     @Override
@@ -84,9 +80,10 @@ public class EdgeUser extends BaseModel implements Validation {
 
         }
 
-        public Builder(EdgeWhoAmIResponse edgeWhoAmIResponse, EdgeAuthResponse edgeAuthResponse) {
+        public Builder(EdgeWhoAmIResponse edgeWhoAmIResponse, EdgeAuthResponse edgeAuthResponse, boolean isFitbitUser) {
             mEdgeWhoAmIResponse = edgeWhoAmIResponse;
             mEdgeAuthResponse = edgeAuthResponse;
+            isFitBitUser = isFitbitUser;
         }
 
 

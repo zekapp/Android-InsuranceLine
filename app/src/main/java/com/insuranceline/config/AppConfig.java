@@ -1,19 +1,19 @@
 package com.insuranceline.config;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 
+import com.insuranceline.R;
 import com.insuranceline.data.local.PreferencesHelper;
+import com.insuranceline.di.qualifier.ApplicationContext;
 import com.insuranceline.utils.TimeUtils;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.StringUtils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -27,17 +27,26 @@ import timber.log.Timber;
 
 @Singleton
 public class AppConfig {
+    /**
+     * todo:
+     *
+     * - create Fitbit application for staging
+     * - change app sectrect (not neccessary for Impicit Login)
+     * - change callback url on fitbit
+     * - change staging server url for edge loyalty
+     * - change staging edge PRODUCTION_APP_ID fot staging server
+     *
+     * */
 
     private static final String KEY_API_URL = "api_url";
     private static final int PASSWORD_LENGHT = 6;
 
-    private static final String FIT_BIT_CLIENT_ID       = "227FGN";
-    private static final String FIT_BIT_CLIENT_SECRET   = "c187653cce60f46581eebe0d5f11865b";
-    private static final String FIT_BIT_REDIRECT_URI    = "apitester://logincallback"; // DO NOT FORGET TO CHANGE ACTIVITY INTENT FILTER IF YOU CHANGE THIS
-    private static final String EDGE_SYSTEM_BASE_URL    = "https://api.lifestylerewards.com.au/";
+    private static final String FIT_BIT_CLIENT_ID        = "227FGN";
+    private static final String FIT_BIT_CLIENT_SECRET    = "c187653cce60f46581eebe0d5f11865b";
+    private static final String FIT_BIT_REDIRECT_URI     = "apitester://logincallback"; // DO NOT FORGET TO CHANGE ACTIVITY INTENT FILTER IF YOU CHANGE THIS
+
 
     private static final String FIT_BIT_WEB_URL         = "https://www.fitbit.com/oauth2/";
-    private static final String FIT_BIT_BASE_API_URL    = "https://api.fitbit.com/";
 
     /** CAMPAIGN END DATE ==> 01 SEPTEMBER 2016 23:59:59 **/
     private static final int CAMPAIGN_END_YEAR          = 2016;
@@ -51,22 +60,27 @@ public class AppConfig {
     public static final long BOOST_NOTIFICATION_PERIOD_DAYS = 21; // day
     public static final long REMINDER_NOTIFICATION_PERIOD_DAYS = 14; // day
 
+
+/*    private static final String EDGE_PRODUCTION_BASE_URL = "https://api.lifestylerewards.com.au/";
+    private static final String EDGE_STAGE_BASE_URL      = "https://api.lifestylerewards.com.au/";
+
     public static final String STAGING_APP_ID           = "929da5ad-2b68-4493-8a3d-1466a8792e00";
-    public static final String PRODUCTION_APP_ID        = "5e435d08-3537-4e50-ad41-05bfbdbf0bfb";
+    public static final String PRODUCTION_APP_ID        = "5e435d08-3537-4e50-ad41-05bfbdbf0bfb";*/
+
     public static final int INITIALS_TARGET_STEP_COUNT  = 100000;
 
-    public static final String[] SKU = {
-            "DG4DIB1CV40A",     //  National Adult Restricted eVoucher TAL:
-            "WMKO6PC3KKK6",     // New Balance
-            "5AL7T6R5JK7Q"      // Good Health Magazine
-    };
-
+/*//    public static final String[] SKU = {
+//            "DG4DIB1CV40A",     //  National Adult Restricted eVoucher TAL:
+//            "WMKO6PC3KKK6",     // New Balance
+//            "5AL7T6R5JK7Q"      // Good Health Magazine
+//    };*/
 
     private static long BOOM_END;
 
     public static final String FITBIT_PACKAGE_NAME =  "com.fitbit.FitbitMobile";
 
     private final PreferencesHelper mSharedPreferences;
+    private Context mContext;
     private String mEncodedAuthorizationHeader = "";
 
 
@@ -86,9 +100,11 @@ public class AppConfig {
 
 
     @Inject
-    public AppConfig(PreferencesHelper preferencesHelper) {
+    public AppConfig(PreferencesHelper preferencesHelper, @ApplicationContext Context context) {
         mSharedPreferences = preferencesHelper;
+        mContext = context;
         mEncodedAuthorizationHeader = enCode();
+
     }
 
     private String enCode() {
@@ -102,11 +118,11 @@ public class AppConfig {
     }
 
     public String getEdgeSystemBaseUrl() {
-        return EDGE_SYSTEM_BASE_URL;
+        return mContext.getString(R.string.server_uri_edge);
     }
 
     public String getFitBitBaseUrl() {
-        return FIT_BIT_BASE_API_URL;
+        return mContext.getString(R.string.server_uri_fitbit);
     }
 
     public int getPasswordLength(){
@@ -131,10 +147,11 @@ public class AppConfig {
 
     public String getFitBitBrowserUrl() {
         return  FIT_BIT_WEB_URL + "authorize?" +
-                "response_type=code" +
+                "response_type=token" + /*"response_type=code" +*/
                 "&client_id=" + FIT_BIT_CLIENT_ID +
                 "&scope=activity profile heartrate location nutrition settings social sleep weight" +
                 "&prompt=login" +
+                "&expires_in=" + "31536000" +
                 "&redirect_uri=" + FIT_BIT_REDIRECT_URI;
     }
 
@@ -142,5 +159,18 @@ public class AppConfig {
         long endOfCampaignDate = mSharedPreferences.getEndOfCampaignDate(BOOM_END); // default return BOOM_END
         Timber.d("End Date: unix:%s readable: %s",endOfCampaignDate, TimeUtils.convertReadableDate(endOfCampaignDate, TimeUtils.DATE_FORMAT_TYPE_1));
         return endOfCampaignDate;
+    }
+
+    public  int getStockItemId(int i) {
+        if (i == 0)
+            return Integer.valueOf(mContext.getString(R.string.stockItemId1));
+        else if( i == 1)
+            return Integer.valueOf(mContext.getString(R.string.stockItemId2));
+        else
+            return Integer.valueOf(mContext.getString(R.string.stockItemId3));
+    }
+
+    public boolean isFitBitUser(String appId) {
+        return appId.equals(mContext.getString(R.string.edge_app_id));
     }
 }
