@@ -31,6 +31,7 @@ public class PreferencesHelper {
     private static final String USER_TYPE_AS_FIT_BIT = "USER_TYPE_AS_FIT_BIT";
     private static final String LOGIN_USER_NAME_OR_EMAIL = "LOGIN_USER_NAME_OR_EMAIL";
     private static final String USER_PASSWORD = "USER_PASSWORD";
+    private static final String EDGE_T_AND_C_ACCEPTED = "EDGE_T_AND_C_ACCEPTED";
 
     private final SharedPreferences mPref;
 
@@ -142,6 +143,18 @@ public class PreferencesHelper {
         return mPref.getLong(END_OF_CAMPAIGN_DATE, defaultCampaignEndDate);
     }
 
+    public String getPassword() {
+        return mPref.getString(USER_PASSWORD, "");
+    }
+
+    public void setEdgeTandCAccepted(boolean isAccepted) {
+        mPref.edit().putBoolean(EDGE_T_AND_C_ACCEPTED, isAccepted).apply();
+    }
+
+    public boolean isEdgeTandCAccepted() {
+        return mPref.getBoolean(EDGE_T_AND_C_ACCEPTED, false);
+    }
+
     /***** TEST PURPOSES FUNCTION **** */
 
     // This function is only test purposes
@@ -181,7 +194,4 @@ public class PreferencesHelper {
         mPref.edit().putString(USER_PASSWORD, password).commit();
     }
 
-    public String getPassword() {
-        return mPref.getString(USER_PASSWORD, "");
-    }
 }

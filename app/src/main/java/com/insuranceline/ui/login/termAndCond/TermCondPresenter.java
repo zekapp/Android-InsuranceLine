@@ -52,7 +52,12 @@ public class TermCondPresenter extends BasePresenter<TermCondMvpView> {
                     @Override
                     public void onNext(EdgeWhoAmIResponse edgeWhoAmIResponse) {
                         getMvpView().hideProgress();
-                        getMvpView().onSuccess();
+                        if (edgeWhoAmIResponse.success){
+                            getMvpView().onSuccess();
+                        }else {
+                            Timber.d("Error: %s", edgeWhoAmIResponse.getErrorsAsText() );
+                            getMvpView().error(edgeWhoAmIResponse.getErrorsAsText());
+                        }
                     }
                 });
     }

@@ -40,7 +40,7 @@ public interface EdgeApiService {
     Observable<EdgeWhoAmIResponse> whoami(); // do not forget to add Bearer to Token
 
     @PUT("api/v1/Membership")
-    Observable<EdgeWhoAmIResponse> putWhoAmI(@Body EdgeWhoAmIResponse whoAmI);
+    Observable<EdgeWhoAmIResponse> putWhoAmI(@Body EdgeWhoAmIResponse.MemberRecord whoAmI);
 
     @POST("api/v1/ShoppingCart")
     Observable<EdgeShoppingCardResponse> claimReward(@Body EdgeShoppingCart edgeShoppingCart);

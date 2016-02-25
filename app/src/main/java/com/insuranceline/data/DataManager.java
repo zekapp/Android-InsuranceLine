@@ -219,7 +219,7 @@ public class DataManager {
                                         .createMUser()
                                         /*.setDebugEnable(BuildConfig.DEBUG, mPreferencesHelper.isUseFitBitOwner())*/
                                         .build();
-
+                                edgeUser.setTermCondAccepted(mPreferencesHelper.isEdgeTandCAccepted());
                                 edgeUser.save();
                                 mLumoController.saveUser(edgeUser.getLumoUser());
 
@@ -313,11 +313,22 @@ public class DataManager {
                     @Override
                     public Observable<EdgeWhoAmIResponse> call(EdgeWhoAmIResponse edgeWhoAmIResponse) {
                         edgeWhoAmIResponse.memberRecord.termsAndConditionsAccepted = true; // Yes we accepted
-                        return mEdgeApiService.putWhoAmI(edgeWhoAmIResponse);
+                        // T&C set accepted in the response. Don't trust the server response.
+                        // After server fix this isue remove setEdgeTandCAccepted and isEdgeTandCAccepted functions
+                        return mEdgeApiService.putWhoAmI(edgeWhoAmIResponse.memberRecord);
+                    }
+                }).doOnNext(new Action1<EdgeWhoAmIResponse>() {
+                    @Override
+                    public void call(EdgeWhoAmIResponse edgeWhoAmIResponse) {
+                        if (edgeWhoAmIResponse.success){
+                            EdgeUser edgeUser = mDatabaseHelper.getEdgeUser();
+                            edgeUser.setTermCondAccepted(true);
+                            mPreferencesHelper.setEdgeTandCAccepted(true);
+                            edgeUser.save();
+                        }
                     }
                 });
     }
-
 
     public boolean isFitBitConnected() {
         return mPreferencesHelper.isFitBitConnected();

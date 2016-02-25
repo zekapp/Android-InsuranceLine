@@ -16,6 +16,7 @@ public class EdgeWhoAmIResponse {
 
     public MemberRecord memberRecord;
     public Errors errors;
+    public boolean success;
 
     public MUser convertMUser() {
         MUser user = new MUser();
