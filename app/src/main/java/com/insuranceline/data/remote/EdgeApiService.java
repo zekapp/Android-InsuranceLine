@@ -7,14 +7,13 @@ import com.insuranceline.data.remote.responses.EdgeWhoAmIResponse;
 import com.insuranceline.data.vo.EdgeShoppingCart;
 import com.insuranceline.data.vo.Pay;
 
-import retrofit.http.Body;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.Header;
-import retrofit.http.Headers;
-import retrofit.http.POST;
-import retrofit.http.PUT;
+import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import rx.Observable;
 
 /**
@@ -24,11 +23,11 @@ import rx.Observable;
 public interface EdgeApiService {
 
 
-/*    @Headers({
+    @Headers({
             "Accept: application/json",
             "Content-Type: application/x-www.form-urlencoded",
-            "clientId: 59b9b30a-9597-4844-96d0-66c41442322b" // todo: DO NOT FORGET TO CHANGE PRODUCTION TO STAGING SERVER.
-    })*/
+            "clientId: this value changed by OauthInterceptrEdge accordign to te stage/pro server"
+    })
     @FormUrlEncoded
     @POST("auth")
     Observable<EdgeAuthResponse> getAuthToken(@Field("username") String userName, @Field("password") String password, @Field("grant_type") String type);
@@ -38,16 +37,16 @@ public interface EdgeApiService {
     Observable<MSiteHelper> getSite(@Header("Authorization") String token); // do not forget to add Bearer to Token*/
 
     @GET("api/v1/whoami")
-    Observable<EdgeWhoAmIResponse> whoami(@Header("Authorization") String token); // do not forget to add Bearer to Token
+    Observable<EdgeWhoAmIResponse> whoami(); // do not forget to add Bearer to Token
 
     @PUT("api/v1/Membership")
-    Observable<EdgeWhoAmIResponse> putWhoAmI(@Header("Authorization") String token, @Body EdgeWhoAmIResponse whoAmI);
+    Observable<EdgeWhoAmIResponse> putWhoAmI(@Body EdgeWhoAmIResponse whoAmI);
 
     @POST("api/v1/ShoppingCart")
-    Observable<EdgeShoppingCardResponse> claimReward(@Header("Authorization") String token, @Body EdgeShoppingCart edgeShoppingCart);
+    Observable<EdgeShoppingCardResponse> claimReward(@Body EdgeShoppingCart edgeShoppingCart);
 
     @POST("api/v1/Pay")
-    Observable<EdgePayResponse> pay(@Header("Authorization") String token, @Body Pay payment);
+    Observable<EdgePayResponse> pay(@Body Pay payment);
 
 
 }

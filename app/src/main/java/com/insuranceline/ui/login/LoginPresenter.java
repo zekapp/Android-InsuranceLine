@@ -15,7 +15,7 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
-import retrofit.HttpException;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;

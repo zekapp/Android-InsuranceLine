@@ -1,17 +1,17 @@
 package com.insuranceline.data.remote.oauth;
 
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
 import java.io.IOException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 import timber.log.Timber;
 
-@Singleton public final class OauthInterceptor implements Interceptor {
+@Singleton
+public final class OauthInterceptor implements Interceptor {
   private final TokenManager mTokenManager;
 
   @Inject

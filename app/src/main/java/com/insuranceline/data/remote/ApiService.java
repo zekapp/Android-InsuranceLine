@@ -3,10 +3,10 @@ package com.insuranceline.data.remote;
 import com.insuranceline.data.remote.responses.SampleResponseData;
 import com.insuranceline.data.remote.responses.TermCondResponse;
 
-import retrofit.http.GET;
-import retrofit.http.Header;
-import retrofit.http.POST;
-import retrofit.http.Query;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**

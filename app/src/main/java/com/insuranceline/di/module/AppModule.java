@@ -6,7 +6,7 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.facebook.stetho.okhttp.StethoInterceptor;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insuranceline.App;
@@ -27,11 +27,6 @@ import com.path.android.jobqueue.JobManager;
 import com.path.android.jobqueue.config.Configuration;
 import com.path.android.jobqueue.di.DependencyInjector;
 import com.raizlabs.android.dbflow.config.FlowManager;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Protocol;
-import com.squareup.okhttp.logging.HttpLoggingInterceptor;
-
-import java.util.Collections;
 
 import javax.inject.Singleton;
 
@@ -39,9 +34,12 @@ import au.com.lumo.ameego.LumoController;
 import dagger.Module;
 import dagger.Provides;
 import de.greenrobot.event.EventBus;
-import retrofit.JacksonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
+
 
 /**
  * Created by Zeki Guler on 08,February,2016
@@ -77,9 +75,10 @@ public class AppModule {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient httpClient = new OkHttpClient();
-        httpClient.interceptors().add(logging);
-        httpClient.networkInterceptors().add(new StethoInterceptor());
+        OkHttpClient httpClient = new OkHttpClient().newBuilder()
+        .addInterceptor(logging)
+        .addNetworkInterceptor(new StethoInterceptor())
+        .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(appConfig.getApiUrl())
@@ -93,7 +92,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public EdgeApiService edgeApiService(AppConfig appConfig, OauthInterceptorEdge oauthInterceptor) {
+    public EdgeApiService edgeApiService(AppConfig appConfig, OauthInterceptorEdge oauthInterceptorEdge) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -101,10 +100,11 @@ public class AppModule {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient httpClient = new OkHttpClient();
-        httpClient.interceptors().add(logging);
-        httpClient.interceptors().add(oauthInterceptor);
-        httpClient.networkInterceptors().add(new StethoInterceptor());
+        OkHttpClient httpClient = new OkHttpClient().newBuilder()
+                .addInterceptor(logging)
+                .addInterceptor(oauthInterceptorEdge)
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(appConfig.getEdgeSystemBaseUrl())
@@ -128,14 +128,15 @@ public class AppModule {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient httpClient = new OkHttpClient();
-        httpClient.interceptors().add(logging);
-        httpClient.interceptors().add(oauthInterceptor);
-        httpClient.setAuthenticator(tokenAuthenticator);
-        httpClient.networkInterceptors().add(new StethoInterceptor());
+        OkHttpClient httpClient = new OkHttpClient().newBuilder()
+                .addInterceptor(logging)
+                .addInterceptor(oauthInterceptor)
+                .authenticator(tokenAuthenticator)
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
 
         //http://stackoverflow.com/questions/33266886/networkonmainthread-rxjava-retrofit-lollipop
-        httpClient.setProtocols(Collections.singletonList(Protocol.HTTP_1_1));
+        /*httpClient.setProtocols(Collections.singletonList(Protocol.HTTP_1_1));*/
 //        httpClient.setConnectTimeout(25, TimeUnit.SECONDS);
 //        httpClient.setConnectTimeout(10, TimeUnit.SECONDS);
 //        httpClient.setReadTimeout(30, TimeUnit.SECONDS);
@@ -160,9 +161,10 @@ public class AppModule {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient httpClient = new OkHttpClient();
-        httpClient.interceptors().add(logging);
-        httpClient.networkInterceptors().add(new StethoInterceptor());
+        OkHttpClient httpClient = new OkHttpClient().newBuilder()
+                .addInterceptor(logging)
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(appConfig.getFitBitBaseUrl())

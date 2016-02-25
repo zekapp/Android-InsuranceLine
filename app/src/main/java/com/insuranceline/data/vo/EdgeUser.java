@@ -1,6 +1,5 @@
 package com.insuranceline.data.vo;
 
-import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.local.AppDatabase;
 import com.insuranceline.data.remote.responses.EdgeAuthResponse;
 import com.insuranceline.data.remote.responses.EdgeWhoAmIResponse;
@@ -123,8 +122,6 @@ public class EdgeUser extends BaseModel implements Validation {
             return this;
         }
     }
-
-
 
     public String getEmail() {
         return email;

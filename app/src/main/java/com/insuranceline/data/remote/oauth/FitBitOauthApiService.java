@@ -2,12 +2,11 @@ package com.insuranceline.data.remote.oauth;
 
 import com.insuranceline.data.remote.responses.FitBitTokenResponse;
 
-import retrofit.Call;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.Headers;
-import retrofit.http.POST;
-import rx.Observable;
+import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 
 /**
  * Created by Zeki Guler on 02,February,2016
@@ -22,6 +21,6 @@ public interface FitBitOauthApiService {
     @FormUrlEncoded
     @POST("oauth2/token")
     Call<FitBitTokenResponse> refreshToken(@Field("grant_type")    String grandType,
-                                            @Field("refresh_token") String oldRefreshToken);
+                                           @Field("refresh_token") String oldRefreshToken);
 
 }

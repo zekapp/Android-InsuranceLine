@@ -1,16 +1,16 @@
 package com.insuranceline.data.remote.oauth;
 
 import com.insuranceline.data.remote.responses.FitBitTokenResponse;
-import com.squareup.okhttp.Authenticator;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
-import java.net.Proxy;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import okhttp3.Authenticator;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.Route;
 import timber.log.Timber;
 
 /**
@@ -20,7 +20,7 @@ import timber.log.Timber;
  * http://stackoverflow.com/questions/22450036/refreshing-oauth-token-using-retrofit-without-modifying-all-calls
  */
 @Singleton
-public class TokenAuthenticator implements Authenticator{
+public class TokenAuthenticator implements Authenticator {
 
     private final TokenManager mTokenManager;
 
@@ -29,8 +29,9 @@ public class TokenAuthenticator implements Authenticator{
         this.mTokenManager = tokenManager;
     }
 
+
     @Override
-    public Request authenticate(Proxy proxy, Response response) throws IOException {
+    public Request authenticate(Route route, Response response) throws IOException {
         Timber.d("authenticate called");
         // Refresh the access_token using a synchronous api request.
         try {
@@ -44,10 +45,5 @@ public class TokenAuthenticator implements Authenticator{
             Timber.e("Error: %s", e.getMessage());
             return null;
         }
-    }
-
-    @Override
-    public Request authenticateProxy(Proxy proxy, Response response) throws IOException {
-        return null;
     }
 }

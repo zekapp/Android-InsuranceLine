@@ -39,8 +39,8 @@ android {
         release {
             resValue("string", "server_uri_fitbit", "https://api.fitbit.com/")
             resValue("string", "server_uri_edge",   "https://api.lifestylerewards.com.au/")
-            resValue("string", "edge_app_id",       "929da5ad-2b68-4493-8a3d-1466a8792e00")
-            resValue("string", "edge_app_client_id","59b9b30a-9597-4844-96d0-66c41442322b")
+            resValue("string", "edge_app_id",       "21beee2a-a162-4f6d-8465-0be5f1b42fb9")
+            resValue("string", "edge_app_client_id","3bd3ae0a-0503-4a86-afc2-a4243d7d41a8")
             resValue("string", "stockItemId1",     "3780")
             resValue("string", "stockItemId2",     "3781")
             resValue("string", "stockItemId3",     "3782")
@@ -53,8 +53,8 @@ android {
         debug {
             resValue("string", "server_uri_fitbit", "https://api.fitbit.com/")
             resValue("string", "server_uri_edge",   "https://api.lifestylerewards.com.au/")
-            resValue("string", "edge_app_id",       "5e435d08-3537-4e50-ad41-05bfbdbf0bfb")
-            resValue("string", "edge_app_client_id","929da5ad-2b68-4493-8a3d-1466a8792e00")
+            resValue("string", "edge_app_id",       "929da5ad-2b68-4493-8a3d-1466a8792e00")
+            resValue("string", "edge_app_client_id","59b9b30a-9597-4844-96d0-66c41442322b")
             resValue("string", "stockItemId1",     "3915")
             resValue("string", "stockItemId2",     "3916")
             resValue("string", "stockItemId3",     "3917")
@@ -71,9 +71,9 @@ android {
 }
 
 dependencies {
-    final SUPPORT_LIBRARY_VERSION = '23.1.1'
+    final SUPPORT_LIBRARY_VERSION = '23.2.0'
     final DBFLOW_VERSION    = '2.2.1'
-    final RETROFIT_VERSION  = '2.0.0-beta2'
+    final RETROFIT_VERSION  = '2.0.0-beta4'
     final DAGGER_VERSION    = '2.0.2'
     final JOB_QUEUE_VERSION = '1.3.5'
     final HAMCREST_VERSION  = '1.3' // Hamcrest allows checking for conditions in your code via existing matchers classes and allows you to define your custom matcher implementations
@@ -90,15 +90,15 @@ dependencies {
     compile project(':customtabs')
     compile project(':shared')
     compile project(':lumomodule')
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:design:23.2.0'
     compile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:cardview-v7:23.2.0"
     compile "com.raizlabs.android:DBFlow-Core:$DBFLOW_VERSION"
     compile "com.raizlabs.android:DBFlow:$DBFLOW_VERSION"
-    compile "com.squareup.retrofit:retrofit:$RETROFIT_VERSION"
-    compile "com.squareup.retrofit:converter-jackson:$RETROFIT_VERSION"
-    compile "com.squareup.retrofit:adapter-rxjava:$RETROFIT_VERSION"
+    compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+    compile "com.squareup.retrofit2:converter-jackson:$RETROFIT_VERSION"
+    compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_VERSION"
     compile "com.birbit:android-priority-jobqueue:$JOB_QUEUE_VERSION"
     compile 'com.jakewharton:butterknife:7.0.1'
     compile "de.greenrobot:eventbus:$EVENT_BUS"
@@ -120,8 +120,8 @@ dependencies {
 
     // Logger and prober
     compile 'com.jakewharton.timber:timber:4.1.0'
-    compile 'com.facebook.stetho:stetho-okhttp:1.2.0'
-    compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
+    compile 'com.facebook.stetho:stetho-okhttp3:1.3.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
 
     // APT dependencies
     apt daggerCompiler

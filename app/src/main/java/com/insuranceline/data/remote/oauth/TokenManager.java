@@ -9,8 +9,7 @@ import java.io.IOException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import kotlin.jvm.Throws;
-import retrofit.Response;
+import retrofit2.Response;
 import timber.log.Timber;
 
 /**
@@ -29,7 +28,7 @@ public class TokenManager {
         this.mPreferencesHelper = preferencesHelper;
     }
 
-    @Throws(exceptionClasses = Exception.class)
+    /*@Throws(exceptionClasses = Exception.class)*/
     public FitBitTokenResponse refreshToken() throws IOException {
         String oldRefreshToken = mPreferencesHelper.getFitBitRefreshToken();
 

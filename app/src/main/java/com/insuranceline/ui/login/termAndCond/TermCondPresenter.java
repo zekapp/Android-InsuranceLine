@@ -1,21 +1,14 @@
 package com.insuranceline.ui.login.termAndCond;
 
 import com.insuranceline.data.DataManager;
-import com.insuranceline.data.remote.responses.APIError;
 import com.insuranceline.data.remote.responses.EdgeWhoAmIResponse;
 import com.insuranceline.ui.base.BasePresenter;
-import com.insuranceline.utils.ErrorUtils;
-
-import java.io.IOException;
 
 import javax.inject.Inject;
 
-import retrofit.HttpException;
 import rx.Observer;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 

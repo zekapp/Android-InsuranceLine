@@ -42,7 +42,7 @@ import javax.inject.Singleton;
 import au.com.lumo.ameego.LumoController;
 import au.com.lumo.ameego.model.MUser;
 import de.greenrobot.event.EventBus;
-import retrofit.HttpException;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -207,7 +207,7 @@ public class DataManager {
             @Override
             public Observable<EdgeUser> call(EdgeAuthResponse response) {
                 return Observable.zip(
-                        mEdgeApiService.whoami(response.getmTokenType() + " " + response.getmAccessToken()),
+                        mEdgeApiService.whoami(),
                         Observable.just(response),
                         new Func2<EdgeWhoAmIResponse, EdgeAuthResponse, EdgeUser>() {
                             @Override
@@ -252,13 +252,10 @@ public class DataManager {
                 .flatMap(new Func1<EdgeShoppingCardResponse, Observable<EdgePayResponse>>() {
                     @Override
                     public Observable<EdgePayResponse> call(EdgeShoppingCardResponse edgeShoppingCardResponse) {
-                        String token = mPreferencesHelper.getEdgeSystemToken();
-                        Timber.d("ClaimReward Token: %s", token);
-
                         if (edgeShoppingCardResponse.success){
                             Pay payment = new Pay.Builder().build();
                             Timber.d("cardDetails.paymentType: %s", payment.cardDetails.paymentType);
-                            return mEdgeApiService.pay("Bearer " + token, payment);
+                            return mEdgeApiService.pay(payment);
                         } else{
                             return Observable.error(new Throwable(edgeShoppingCardResponse.getErrorsAsText()));
                         }
@@ -292,7 +289,7 @@ public class DataManager {
                 Timber.d("Email Address      = %s", shoppingCart.emailAddress);
 
                 Timber.d(" Get AuthToken Token: %s", edgeAuthResponse.getmAccessToken());
-                return mEdgeApiService.claimReward("Bearer " + edgeAuthResponse.getmAccessToken(),shoppingCart);
+                return mEdgeApiService.claimReward(shoppingCart);
             }
         };
     }
@@ -311,13 +308,12 @@ public class DataManager {
     }
 
     public  Observable<EdgeWhoAmIResponse> edgeSystemTermsAndConditionAccepted(){
-        return mEdgeApiService.whoami("Bearer " + mPreferencesHelper.getEdgeSystemToken())
+        return mEdgeApiService.whoami()
                 .flatMap(new Func1<EdgeWhoAmIResponse, Observable<EdgeWhoAmIResponse>>() {
                     @Override
                     public Observable<EdgeWhoAmIResponse> call(EdgeWhoAmIResponse edgeWhoAmIResponse) {
                         edgeWhoAmIResponse.memberRecord.termsAndConditionsAccepted = true; // Yes we accepted
-                        String token = "Bearer " + mPreferencesHelper.getEdgeSystemToken();
-                        return mEdgeApiService.putWhoAmI(token,edgeWhoAmIResponse);
+                        return mEdgeApiService.putWhoAmI(edgeWhoAmIResponse);
                     }
                 });
     }

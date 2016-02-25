@@ -1,7 +1,6 @@
 package com.insuranceline.config;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.insuranceline.R;
 import com.insuranceline.data.local.PreferencesHelper;
@@ -9,7 +8,6 @@ import com.insuranceline.di.qualifier.ApplicationContext;
 import com.insuranceline.utils.TimeUtils;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.StringUtils;
 
 import java.util.Arrays;
 import java.util.Calendar;
