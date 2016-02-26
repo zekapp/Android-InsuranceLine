@@ -127,6 +127,7 @@ public class RewardPresenter extends BasePresenter<RewardMvpView>{
                         getMvpView().hideProgress();
                         mDataManager.startNewGoal(goaldId,dailySummary.getDailySteps());
                         updateViewAccordingToGoalIndex(goaldId);
+
                     }
                 });
 

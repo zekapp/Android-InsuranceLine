@@ -101,7 +101,10 @@ public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
     @Override
     public void hideProgress() {
         Timber.d("hideProgress() called");
-        if (mProcessDialog != null) mProcessDialog.dismiss();
+        if (mProcessDialog != null){
+            mProcessDialog.hide();
+            mProcessDialog.dismiss();
+        }
         else Timber.e("mProcessDialog is null");
     }
 

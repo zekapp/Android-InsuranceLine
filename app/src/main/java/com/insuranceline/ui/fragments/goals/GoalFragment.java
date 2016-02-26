@@ -103,6 +103,7 @@ public class GoalFragment extends BaseFragment implements GoalFragmentMvpView {
         if (mProcessDialog != null) mProcessDialog.dismiss();
     }
 
+
     @OnClick(R.id.start_button)
     public void onStartButtonClicked(){
 //        Toast.makeText(getActivity(), "Activit Started Called", Toast.LENGTH_LONG).show();

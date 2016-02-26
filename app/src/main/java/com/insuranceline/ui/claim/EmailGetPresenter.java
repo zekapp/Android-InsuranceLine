@@ -77,11 +77,9 @@ public class EmailGetPresenter extends BasePresenter<EmailGetMVPView>{
         }
 
         getMvpView().showProgress();
-
-        getMvpView().showProgress();
-        mDataManager.claimReward(activeGoal.getStockItemId(), email)
-                .observeOn(AndroidSchedulers.mainThread())
+        mDataManager.claimReward_(activeGoal.getStockItemId(), email)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<EdgePayResponse>() {
                     @Override
                     public void onCompleted() {

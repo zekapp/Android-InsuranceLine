@@ -20,10 +20,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description: "
+                android:text="Set Notification Timer "
                 android:textStyle="bold" />
 
-            <TextView
+<!--            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/debug_reminder_notification_def" />
+                android:text="@string/debug_reminder_notification_def" />-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Boost Timer:"/>
+                    android:text="21 Day Reminder:"/>
 
                 <EditText
                     android:id="@+id/keep_going_notification_period"
@@ -68,13 +68,13 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Reminder Timer:"/>
+                    android:text="14 Day Reminder:"/>
 
                 <EditText
                     android:id="@+id/reminder_notification_period"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:hint="14 Mintes"
+                    android:hint="14 Minutes"
                     android:inputType="numberDecimal" />
 
             </LinearLayout>
@@ -92,23 +92,21 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/white"/>
 
-
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description: "
+                android:text="Set End of Campaign and Initial Steps "
                 android:textStyle="bold" />
 
-            <TextView
+ <!--           <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -118,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/debug_target_def" />
+                android:text="@string/debug_target_def" />-->
 
 
             <LinearLayout
@@ -141,8 +139,6 @@
                     android:inputType="numberDecimal" />
 
             </LinearLayout>
-
-
 
 
             <LinearLayout
@@ -180,8 +176,58 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/white"/>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Test Results:"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/debug_test_result_def" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Campaign End:" />
+
+                <TextView
+                    android:id="@+id/end_of_campaign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+
+                    android:gravity="center_horizontal"
+                    android:text="12 feb 2017 12:00 pm" />
+
+            </LinearLayout>
+
+
+            <include layout="@layout/test_result_goal_1"/>
+            <include layout="@layout/test_result_goal_2"/>
+            <include layout="@layout/test_result_goal_3"/>
 
         </LinearLayout>
+
 
     </LinearLayout>
 </ScrollView>

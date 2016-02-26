@@ -99,6 +99,10 @@ public class DataManager {
         mCatchedGoals = mDatabaseHelper.fetchAllGoalInAscendingOrder();
     }
 
+    public List<Goal> getCatchedGoalList(){
+        return mCatchedGoals;
+    }
+
     private void createFirstDailySummaryIfNotCreated() {
         if(!mDatabaseHelper.isAnyDailySummaryCreated()){
             mDatabaseHelper.saveDailySummary(DailySummary.createDefaultGoal());
@@ -261,6 +265,18 @@ public class DataManager {
                         }
                     }
                 });
+    }
+
+    public Observable<EdgePayResponse> claimReward_(final int stockItemId, String emailAddress){
+        return Observable.create(new Observable.OnSubscribe<EdgePayResponse>() {
+            @Override
+            public void call(Subscriber<? super EdgePayResponse> subscriber) {
+                EdgePayResponse payResponse = new EdgePayResponse();
+                payResponse.success = true;
+                subscriber.onNext(payResponse);
+                subscriber.onCompleted();
+            }
+        });
     }
 
     /**

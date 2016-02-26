@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="G1 Start Date:"/>
+
+        <TextView
+            android:id="@+id/g1_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12 Feb 12:12:00"
+            android:maxLines="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="G1 End Date:"/>
+
+        <TextView
+            android:id="@+id/g1_end_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13 Feb 17:00:00"
+            android:maxLines="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Target (Steps):"/>
+
+        <TextView
+            android:id="@+id/g1_target"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1000000"
+            android:maxLines="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Time Passed :"/>
+
+        <TextView
+            android:id="@+id/g1_time_passed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Day: 3 Hour: 123 Min:1231234"
+            android:maxLines="1"/>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+
+</LinearLayout>

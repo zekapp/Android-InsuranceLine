@@ -72,9 +72,10 @@
     <string name="reminder_notification_push_text">14 Days passed</string>
     <string name="reminder_notification_content">14 Days passed. Content related information</string>
 
-    <string name="debug_boost_notification_def"><b>Boost Period (Minute):</b> if user can not achieve the goal in this amount of time, notification fires end of this time</string>
-    <string name="debug_reminder_notification_def"><b>Reminder Period (Minute):</b> Notification is fired in every Reminder period.</string>
+    <string name="debug_boost_notification_def"><b>21 Day timer:</b> Set small amount of time to test it.</string>
+    <string name="debug_reminder_notification_def"><b>14 Day timer:</b> Set small amount of time to test it..</string>
     <string name="debug_campain_end"> <b>Campaign End:</b>  Campaign is going to be end in according to the this amount of time</string>
-    <string name="debug_target_def"><b>Target:</b> Set the first target of goal. (Ex: 100 steps) algorith will calcualte the next goal</string>
+    <string name="debug_target_def"><b>Target:</b> Set the target of first goal. (Ex: 100 steps) Algorithm will calculate the next goal according to the achievement time </string>
+    <string name="debug_test_result_def">These fields are updated by each time when you open the debug console.</string>
 
 </resources>

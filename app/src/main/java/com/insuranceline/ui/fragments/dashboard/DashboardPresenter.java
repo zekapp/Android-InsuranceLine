@@ -146,8 +146,10 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView> {
         String target;
         if (activeGoal != null )
             target = String.format("Goal %s steps", mformatter.format(activeGoal.getTarget()));
-        else
-            target = "All rewards Achieved.";
+        else{
+            getMvpView().updateWheelProgress(360, "100%", "- steps");
+            target = "All Goal Achieved";
+        }
 
         getMvpView().updateTarget(target);
     }

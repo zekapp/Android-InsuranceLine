@@ -35,6 +35,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivityMvpView> {
     @Override
     public void detachView() {
         super.detachView();
+        stopFetchingData();
     }
 
     public void getFirstTabIndex() {
@@ -77,6 +78,8 @@ public class MainActivityPresenter extends BasePresenter<MainActivityMvpView> {
     }
 
     public void subscribeFetchingData() {
+        if (!mDataManager.isAnyGoalActive()) return;
+
         mSubscription = mDataManager.getDashboardModel()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -88,7 +91,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivityMvpView> {
 
                     @Override
                     public void onError(Throwable e) {
-                        Timber.d("subscribeFetchingData error: %s", e.getMessage() );
+                        Timber.e("subscribeFetchingData error: %s", e.getMessage() );
                     }
 
                     @Override
@@ -96,5 +99,15 @@ public class MainActivityPresenter extends BasePresenter<MainActivityMvpView> {
                         Timber.d("subscribeFetchingData: dashboardModel here" );
                     }
                 });
+    }
+
+    public void stopFetchingData() {
+        try {
+            if (mSubscription != null)
+                mSubscription.unsubscribe();
+        } catch (Exception e) {
+            Timber.e(e.getMessage());
+        }
+
     }
 }

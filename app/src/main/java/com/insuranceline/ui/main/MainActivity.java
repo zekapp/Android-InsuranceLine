@@ -129,8 +129,6 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
 
         mMainActivityPresenter.getFirstTabIndex();
 
-        mMainActivityPresenter.subscribeFetchingData();
-
     }
 
     @Override
@@ -157,6 +155,14 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
         mMainActivityPresenter.setNextOpenReminderAlarm();
 
         mMainActivityPresenter.validateTheEdgeUser();
+
+        /*mMainActivityPresenter.subscribeFetchingData();*/
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mMainActivityPresenter.stopFetchingData();
     }
 
     private void dispatchWarningForInstallFitBit() {
@@ -314,7 +320,7 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     @SuppressWarnings("unused")
     public void onEventMainThread(GoalAchieveEvent event) {
         Timber.d("Goal Achieved");
-        Toast.makeText(this, "GoalAchieveEvent Achieved",Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "GoalAchieveEvent Achieved",Toast.LENGTH_LONG).show();
         dipatchRewardClaimActivity();
     }
 
@@ -370,8 +376,6 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     public void changeTabViewIcon(int selectedContainer) {
         setIconSelected(selectedContainer);
     }
-
-
 
     /******************* MVP Fucntions *********************/
     @Override

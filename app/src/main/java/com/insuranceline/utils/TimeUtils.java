@@ -14,7 +14,7 @@ import java.util.TimeZone;
 public class TimeUtils {
 
     public final static int DATE_FORMAT_TYPE_1 = 1; // 12 Feb 2015 07:00 pm
-    public final static int DATE_FORMAT_TYPE_2 = 2; // Fed 12 07:00 pm
+    public final static int DATE_FORMAT_TYPE_2 = 2; // 12 Feb  07:00 pm
     public final static int DATE_FORMAT_TYPE_3 = 3; // February 2015
     public final static int DATE_FORMAT_TYPE_4 = 4; // WED, 1 OCT, 11:09 AM
     public final static int DATE_FORMAT_TYPE_5 = 5; // 2015-02-13
@@ -56,7 +56,7 @@ public class TimeUtils {
             SimpleDateFormat dateformatter = new SimpleDateFormat("d MMM yyyy hh:mm a", Locale.US);
             return dateformatter.format(dt);
         }else if(formatType == DATE_FORMAT_TYPE_2) {
-            SimpleDateFormat dateformatter = new SimpleDateFormat("MMM d HH:mm a", Locale.US);
+            SimpleDateFormat dateformatter = new SimpleDateFormat("d MMM HH:mm a", Locale.US);
             return dateformatter.format(dt);
         }else if(formatType == DATE_FORMAT_TYPE_3){
             SimpleDateFormat dateformatter = new SimpleDateFormat("MMMM yyyy", Locale.US);

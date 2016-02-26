@@ -8,12 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.insuranceline.R;
+import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.DataManager;
 import com.insuranceline.data.local.PreferencesHelper;
+import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.fragments.BaseFragment;
+import com.insuranceline.utils.TimeUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,6 +37,9 @@ public class DebugModeFragment extends BaseFragment {
     @Inject
     PreferencesHelper prefHelper;
 
+    @Inject
+    AppConfig mAppConfig;
+
     @Bind(R.id.keep_going_notification_period)
     EditText keepGoingNotificationPeriod;
     @Bind(R.id.reminder_notification_period)
@@ -41,6 +48,32 @@ public class DebugModeFragment extends BaseFragment {
     EditText campaignEndDate;
     @Bind(R.id.new_target)
     EditText newTarget;
+    @Bind(R.id.g1_start_date)
+    TextView mG1StartDate;
+    @Bind(R.id.g1_end_date)
+    TextView mG1EndDate;
+    @Bind(R.id.g1_target)
+    TextView mG1Target;
+    @Bind(R.id.g1_time_passed)
+    TextView mG1TimePassed;
+    @Bind(R.id.g2_start_date)
+    TextView mG2StartDate;
+    @Bind(R.id.g2_end_date)
+    TextView mG2EndDate;
+    @Bind(R.id.g2_target)
+    TextView mG2Target;
+    @Bind(R.id.g2_time_passed)
+    TextView mG2TimePassed;
+    @Bind(R.id.g3_start_date)
+    TextView mG3StartDate;
+    @Bind(R.id.g3_end_date)
+    TextView mG3EndDate;
+    @Bind(R.id.g3_target)
+    TextView mG3Target;
+    @Bind(R.id.g3_time_passed)
+    TextView mG3TimePassed;
+    @Bind(R.id.end_of_campaign)
+    TextView mEndOfCampaign;
 
     public static DebugModeFragment getInstance() {
         return new DebugModeFragment();
@@ -51,7 +84,97 @@ public class DebugModeFragment extends BaseFragment {
         final View view = inflater.inflate(R.layout.fragment_debug, container, false);
         ButterKnife.bind(this, view);
         getActivityComponent().inject(this);
+        updateTestResult();
         return view;
+    }
+
+    private void updateTestResult() {
+        mEndOfCampaign.setText(TimeUtils.convertReadableDate(mAppConfig.getEndOfCampaign(), TimeUtils.DATE_FORMAT_TYPE_1));
+        updateTestReulst1(dataManager.getCatchedGoalList().get(0));
+        updateTestReulst2(dataManager.getCatchedGoalList().get(1));
+        updateTestReulst3(dataManager.getCatchedGoalList().get(2));
+    }
+
+    private void updateTestReulst3(Goal goal) {
+        if (goal.getStatus() == Goal.GOAL_STATUS_LOCK || goal.getStatus() == Goal.GOAL_STATUS_IDLE) {
+            mG3StartDate.setText("-");
+            mG3EndDate.setText("-");
+            mG3Target.setText("-");
+            mG3TimePassed.setText("-");
+        } else if (goal.getStatus() == Goal.GOAL_STATUS_ACTIVE) {
+            long timePassged = System.currentTimeMillis() - goal.getBaseDate();
+            mG3StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
+            mG3EndDate.setText("active");
+            mG3Target.setText(String.valueOf(goal.getTarget()));
+            mG3TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+                    TimeUnit.MILLISECONDS.toDays(timePassged),
+                    TimeUnit.MILLISECONDS.toHours(timePassged),
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+        } else {
+            long timePassged = goal.getEndDate() - goal.getBaseDate();
+            mG3StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
+            mG3EndDate.setText(TimeUtils.convertReadableDate(goal.getEndDate(), TimeUtils.DATE_FORMAT_TYPE_2));
+            mG3Target.setText(String.valueOf(goal.getTarget()));
+            mG3TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+                    TimeUnit.MILLISECONDS.toDays(timePassged),
+                    TimeUnit.MILLISECONDS.toHours(timePassged),
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+        }
+    }
+
+    private void updateTestReulst2(Goal goal) {
+        if (goal.getStatus() == Goal.GOAL_STATUS_LOCK || goal.getStatus() == Goal.GOAL_STATUS_IDLE) {
+            mG2StartDate.setText("-");
+            mG2EndDate.setText("-");
+            mG2Target.setText("-");
+            mG2TimePassed.setText("-");
+        } else if (goal.getStatus() == Goal.GOAL_STATUS_ACTIVE) {
+            long timePassged = System.currentTimeMillis() - goal.getBaseDate();
+            mG2StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
+            mG2EndDate.setText("active");
+            mG2Target.setText(String.valueOf(goal.getTarget()));
+            mG2TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+                    TimeUnit.MILLISECONDS.toDays(timePassged),
+                    TimeUnit.MILLISECONDS.toHours(timePassged),
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+        } else {
+            long timePassged = goal.getEndDate() - goal.getBaseDate();
+            mG2StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
+            mG2EndDate.setText(TimeUtils.convertReadableDate(goal.getEndDate(), TimeUtils.DATE_FORMAT_TYPE_2));
+            mG2Target.setText(String.valueOf(goal.getTarget()));
+            mG2TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+                    TimeUnit.MILLISECONDS.toDays(timePassged),
+                    TimeUnit.MILLISECONDS.toHours(timePassged),
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+        }
+    }
+
+    private void updateTestReulst1(Goal goal) {
+        if (goal.getStatus() == Goal.GOAL_STATUS_LOCK || goal.getStatus() == Goal.GOAL_STATUS_IDLE) {
+            mG1StartDate.setText("-");
+            mG1EndDate.setText("-");
+            mG1Target.setText("-");
+            mG1TimePassed.setText("-");
+        } else if (goal.getStatus() == Goal.GOAL_STATUS_ACTIVE) {
+            long timePassged = System.currentTimeMillis() - goal.getBaseDate();
+            mG1StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
+            mG1EndDate.setText("active");
+            mG1Target.setText(String.valueOf(goal.getTarget()));
+            mG1TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+                    TimeUnit.MILLISECONDS.toDays(timePassged),
+                    TimeUnit.MILLISECONDS.toHours(timePassged),
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+        } else {
+            long timePassged = goal.getEndDate() - goal.getBaseDate();
+            mG1StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
+            mG1EndDate.setText(TimeUtils.convertReadableDate(goal.getEndDate(), TimeUtils.DATE_FORMAT_TYPE_2));
+            mG1Target.setText(String.valueOf(goal.getTarget()));
+            mG1TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+                    TimeUnit.MILLISECONDS.toDays(timePassged),
+                    TimeUnit.MILLISECONDS.toHours(timePassged),
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+        }
+
     }
 
     @Override
@@ -69,7 +192,7 @@ public class DebugModeFragment extends BaseFragment {
 
 
     @OnClick(R.id.set_reminder_button)
-    public void onSetReminderClicked(){
+    public void onSetReminderClicked() {
         String reminderPerMin = reminderNotificationPeriod.getText().toString();
         String boostPerMin = keepGoingNotificationPeriod.getText().toString();
 
@@ -89,12 +212,12 @@ public class DebugModeFragment extends BaseFragment {
             cancel = true;
         }
 
-        if (cancel){
+        if (cancel) {
             focusView.requestFocus();
-        }else{
+        } else {
             prefHelper.saveBoostNotificationPeriod(Integer.valueOf(boostPerMin));
             prefHelper.saveReminderNotificationPeriod(Integer.valueOf(reminderPerMin));
-            Toast.makeText(getActivity(),"Ok",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Ok", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -120,9 +243,9 @@ public class DebugModeFragment extends BaseFragment {
             cancel = true;
         }
 
-        if (cancel){
+        if (cancel) {
             focusView.requestFocus();
-        }else{
+        } else {
             prefHelper.saveEndOfCampaignDate(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(Long.valueOf(endOfCampaign)));
             dataManager.resetGoals(Long.valueOf(target));
 
