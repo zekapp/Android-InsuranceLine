@@ -201,6 +201,7 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
         String title = "Loyalty Session Expired";
         String body = "Your FitBit account expired. Please login again.";
 
+        mMainActivityPresenter.stopFetchingData();
         DialogFactory.createGenericDialog(this, title, body, "Login", "", false, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
