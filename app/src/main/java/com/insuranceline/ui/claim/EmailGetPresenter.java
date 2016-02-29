@@ -20,7 +20,8 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
- * Created by zeki on 15/02/2016.
+ * Created by Zeki Guler on 29,February,2016
+ * ©2015 Appscore. All Rights Reserved
  */
 public class EmailGetPresenter extends BasePresenter<EmailGetMVPView>{
 
@@ -77,7 +78,7 @@ public class EmailGetPresenter extends BasePresenter<EmailGetMVPView>{
         }
 
         getMvpView().showProgress();
-        mDataManager.claimReward_(activeGoal.getStockItemId(), email)
+        mDataManager.claimReward(activeGoal.getStockItemId(), email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<EdgePayResponse>() {

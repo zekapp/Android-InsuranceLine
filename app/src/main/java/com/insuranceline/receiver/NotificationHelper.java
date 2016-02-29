@@ -51,7 +51,7 @@ public class NotificationHelper {
 
     /**
      * REBOOT
-     * If device reboots then call this function
+     * If device reboots then call this
      *
      * */
     public void resetBoostNotification(){
@@ -84,7 +84,7 @@ public class NotificationHelper {
 
     /**
      * REBOOT
-     * If device reboots then call this function
+     * If device reboots then call this
      * */
     public void resetReminderNotification(){
 

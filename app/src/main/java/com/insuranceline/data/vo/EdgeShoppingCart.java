@@ -2,6 +2,9 @@ package com.insuranceline.data.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by Zeki Guler on 24,February,2016
@@ -19,7 +22,6 @@ public class EdgeShoppingCart {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     static public class BillingAddress{
-        public int $id = 7;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -32,9 +34,14 @@ public class EdgeShoppingCart {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     static public class ShoppingCartItemVM{
-        public int quantity = 1; // don't change
-        public int stockItemId; // this field required in project perspective*/
+        public List<ItemValue> $values;
+
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        static public class ItemValue{
+            public int quantity = 1; // don't change
+            public int stockItemId; // this field required in project perspective*/
         /*public String SKU;*/
+        }
     }
 
     private EdgeShoppingCart (Builder builder) {
@@ -54,6 +61,8 @@ public class EdgeShoppingCart {
             mBillingAddress = new BillingAddress();
             mContatctNumber = new ContatctNumber();
             mShoppingCartItemVM = new ShoppingCartItemVM();
+            mShoppingCartItemVM.$values = new ArrayList<>();
+            mShoppingCartItemVM.$values.add(new ShoppingCartItemVM.ItemValue());
         }
 
         public EdgeShoppingCart build(){

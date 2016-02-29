@@ -240,7 +240,7 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     }
 
     /**
-     * TabWidget related function
+     * TabWidget related
      *
      * @link setIconSelected to change tab icon.
      * @link R.drawable.tab_selector to change the background of widget for selector.

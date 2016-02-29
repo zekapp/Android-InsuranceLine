@@ -252,7 +252,7 @@ public class DataManager {
 
     public Observable<EdgePayResponse> claimReward(final int stockItemId, final String emailAddress){
         return getEdgeToken()
-                .flatMap(function(stockItemId,emailAddress))
+                .flatMap(claimRewardFunction(stockItemId,emailAddress))
                 .flatMap(new Func1<EdgeShoppingCardResponse, Observable<EdgePayResponse>>() {
                     @Override
                     public Observable<EdgePayResponse> call(EdgeShoppingCardResponse edgeShoppingCardResponse) {
@@ -282,16 +282,14 @@ public class DataManager {
     /**
      * After getting  AuthToken successfully then Call ClaimReward Api
      * **/
-    public Func1<EdgeAuthResponse, Observable<EdgeShoppingCardResponse>> function(final int stockItemId, final String emailAddress){
+    public Func1<EdgeAuthResponse, Observable<EdgeShoppingCardResponse>> claimRewardFunction(final int stockItemId, final String emailAddress){
         return new Func1<EdgeAuthResponse, Observable<EdgeShoppingCardResponse>>() {
             @Override
             public Observable<EdgeShoppingCardResponse> call(EdgeAuthResponse edgeAuthResponse) {
                 EdgeShoppingCart shoppingCart = new EdgeShoppingCart.Builder().build();
 
-                shoppingCart.shoppingCartItems.stockItemId = stockItemId;
+                shoppingCart.shoppingCartItems.$values.get(0).stockItemId = stockItemId;
                 shoppingCart.emailAddress = emailAddress;
-
-                Timber.d("BillingAddress     = $id: %s", shoppingCart.billingAddress.$id);
 
                 Timber.d("Contact Number     = Number: %s, dateCreated: %s, lastUpdated: %s"
                         , shoppingCart.contactPhoneNumber.number
@@ -299,8 +297,8 @@ public class DataManager {
                         , shoppingCart.contactPhoneNumber.lastUpdated);
 
                 Timber.d("ShoppingCartItemVM = quantity: %s SKU: %s"
-                        , shoppingCart.shoppingCartItems.quantity
-                        , shoppingCart.shoppingCartItems.stockItemId);
+                        , shoppingCart.shoppingCartItems.$values.get(0).quantity
+                        , shoppingCart.shoppingCartItems.$values.get(0).stockItemId);
 
                 Timber.d("Email Address      = %s", shoppingCart.emailAddress);
 
@@ -359,7 +357,7 @@ public class DataManager {
      *
      *  Authorization Code Grant flow
      *
-     * Before calling this function be sure that token set empty.
+     * Before calling this claimRewardFunction be sure that token set empty.
      * Otherwise OauthInterceptors will be called and modify your header
      *
      */
@@ -431,7 +429,7 @@ public class DataManager {
     /**
      *  Get Goal for for goal fragment.
      *
-     *  This function returns the active goal. If there is not active goal it
+     *  This claimRewardFunction returns the active goal. If there is not active goal it
      *  returns the idle one with lowest id. If all goal done it just return the latest
      *  goal.
      *
@@ -678,12 +676,14 @@ public class DataManager {
 
     public void startNewGoal(long goalId, int bias) {
         Timber.d("Start Goald Id: %s", goalId);
+        printGoalsStatus();
         mCatchedGoals = CampaignAlgorithm.startGoal(goalId,bias, mCatchedGoals,mAppConfig.getEndOfCampaign());
         saveGoals();
         setBoostNotification();
     }
 
     public int getNextTarget(long newGoalId){
+        printGoalsStatus();
         return CampaignAlgorithm.calculateNextTarget(newGoalId, mCatchedGoals, mAppConfig.getEndOfCampaign());
     }
 
@@ -756,7 +756,7 @@ public class DataManager {
             mNotificationHelper.setBoostNotification();
     }
 
-/*    // This function is just for test purposes
+/*    // This claimRewardFunction is just for test purposes
     public void setUserAsFitBit(boolean isFitBitUser) {
         mPreferencesHelper.setUserAsFitBit(isFitBitUser);
     }*/
@@ -767,5 +767,18 @@ public class DataManager {
 
     public void savePassword(String password) {
         mPreferencesHelper.savePassword(password);
+    }
+
+
+    /**** LOG ******/
+
+    private void printGoalsStatus() {
+        for (Goal goal : mCatchedGoals){
+            Timber.d("Goald id: %s, getTarget %s, mAchievedSteps: %s, mStatus: %s "
+                    ,goal.getGoalId()
+                    ,goal.getTarget()
+                    ,goal.getAchievedSteps()
+                    ,goal.getStatus());
+        }
     }
 }

@@ -22,7 +22,8 @@ import butterknife.OnClick;
 import timber.log.Timber;
 
 /**
- * Created by zeki on 14/02/2016.
+ * Created by Zeki Guler on 29,February,2016
+ * ©2015 Appscore. All Rights Reserved
  */
 public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
 
@@ -92,6 +93,7 @@ public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
     @Override
     public void onSuccess() {
 //        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        this.getFragmentManager().popBackStack();
         this.getFragmentManager().beginTransaction()
                 .replace(R.id.container, NextGoalFragment.newInstance(),EmailGetFragment.class.getName())
                 .addToBackStack(null)

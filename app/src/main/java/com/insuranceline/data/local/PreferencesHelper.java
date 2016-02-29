@@ -157,27 +157,27 @@ public class PreferencesHelper {
 
     /***** TEST PURPOSES FUNCTION **** */
 
-    // This function is only test purposes
+    // This claimRewardFunction is only test purposes
     public void saveBoostNotificationPeriod(int min){
         mPref.edit().putLong(BOOST_NOTIFICATION_PERIOD, TimeUnit.MINUTES.toMillis(min)).apply();
     }
 
-    // This function is only test purposes
+    // This  is only test purposes
     public void saveReminderNotificationPeriod(int min){
         mPref.edit().putLong(REMINDER_NOTIFICATION_PERIOD, TimeUnit.MINUTES.toMillis(min)).commit();
     }
 
-    // This function is only test purposes. User always default value.
+    // This  is only test purposes. User always default value.
     public void saveEndOfCampaignDate(long boomEnd) {
         mPref.edit().putLong(END_OF_CAMPAIGN_DATE, boomEnd).commit();
     }
 
-    // This function is only test purposes. User always default value.
+    // This is only test purposes. User always default value.
     public void setUserAsFitBit(boolean isFitBitUser) {
         mPref.edit().putBoolean(USER_TYPE_AS_FIT_BIT, isFitBitUser).commit();
     }
 
-    // This function is only test purposes. User always default value.
+    // This is only test purposes. User always default value.
     public boolean isUseFitBitOwner() {
         return mPref.getBoolean(USER_TYPE_AS_FIT_BIT, true);
     }

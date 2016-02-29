@@ -56,7 +56,6 @@ public class LoginActivity extends BaseActivity implements LoginMvpView {
     @Override
     protected void onStop() {
         super.onStop();
-        mLoginPresenter.detachView();
         if (mProcessDialog != null)
             mProcessDialog.dismiss();
     }

@@ -8,6 +8,8 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.concurrent.TimeUnit;
 
+import timber.log.Timber;
+
 /**
  * Created by Zeki Guler on 05,February,2016
  * ©2015 Appscore. All Rights Reserved
@@ -241,6 +243,7 @@ public class Goal extends BaseModel {
 
     public long getAchievedInMinutes() {
         long minutes = TimeUnit.MILLISECONDS.toMinutes(getEndDate() - getBaseDate());
+        Timber.d("getAchievedInMinutes: %s",minutes );
         return minutes > 0 ? minutes : 1;
     }
 
