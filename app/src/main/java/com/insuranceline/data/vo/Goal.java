@@ -21,10 +21,12 @@ public class Goal extends BaseModel {
     private static final int TYPE_ACTIVE_MIN    = 3;
     private static final int TYPE_DISTANCE      = 4;
 
-    public static final int GOAL_STATUS_LOCK    = 0;
-    public static final int GOAL_STATUS_IDLE    = 1;
-    public static final int GOAL_STATUS_ACTIVE  = 2;
-    public static final int GOAL_STATUS_DONE    = 3;
+    public static final int GOAL_STATUS_LOCK        = 0;
+    public static final int GOAL_STATUS_IDLE        = 1;
+    public static final int GOAL_STATUS_ACTIVE      = 2;
+    public static final int GOAL_STATUS_CLAIMING    = 3; // sub category of active
+    public static final int GOAL_STATUS_DONE        = 4;
+    public static final int DUMMY_ID = 100;
 
 
     @Column
@@ -257,10 +259,6 @@ public class Goal extends BaseModel {
 
     public int getNextDailyReqSteps() {
         return getRequiredDailyDistance();
-    }
-
-    public boolean isActive() {
-        return getStatus() == GOAL_STATUS_ACTIVE;
     }
 
     public int getStockItemId() {

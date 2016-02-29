@@ -25,7 +25,7 @@ public class DashboardContainerPresenter extends BasePresenter<DashboardContaine
     }
 
     public void fetchNextView() {
-        boolean isSet = mDataManager.isAnyGoalActive();
+        boolean isSet = mDataManager.getActvGoal() != null;
         boolean isPermissionDone = mDataManager.isFitBitScopePermissionDone();
         boolean isAllGoalDone = mDataManager.isAllGoalDone();
         getMvpView().initView(isSet, isPermissionDone,isAllGoalDone);

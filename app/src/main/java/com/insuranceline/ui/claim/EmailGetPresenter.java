@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.insuranceline.R;
 import com.insuranceline.data.DataManager;
-import com.insuranceline.data.remote.responses.ClaimRewardResponse;
 import com.insuranceline.data.remote.responses.EdgePayResponse;
 import com.insuranceline.data.vo.Goal;
 import com.insuranceline.di.qualifier.ActivityContext;
@@ -70,15 +69,8 @@ public class EmailGetPresenter extends BasePresenter<EmailGetMVPView>{
     }
 
     private void submitEmail(String email) {
-        Goal activeGoal = mDataManager.getActiveGoal();
-
-        if (activeGoal == null) {
-            Timber.e("This active goal is null. It shoudn't have been");
-            return;
-        }
-
         getMvpView().showProgress();
-        mDataManager.claimReward(activeGoal.getStockItemId(), email)
+        mDataManager.claimReward(email)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<EdgePayResponse>() {
@@ -108,46 +100,15 @@ public class EmailGetPresenter extends BasePresenter<EmailGetMVPView>{
     }
 
     private void endCurrentGoal() {
-        Goal activeGoal = mDataManager.getActiveGoal();
-        if (activeGoal != null)
-            mDataManager.endGoal(activeGoal.getGoalId());
+        mDataManager.rewardClaimedSuccessfullyForActiveGoal();
     }
 
     private void checkNextGoal() {
-        Goal relevantGoal = mDataManager.getRelevantGoal();
-        if ((relevantGoal.getStatus() == Goal.GOAL_STATUS_IDLE) && !mDataManager.isCampaignEnd())
+        Goal idleGoal = mDataManager.getIdleGoal();
+        if (idleGoal != null && !mDataManager.isCampaignEnd()){
             getMvpView().onSuccess();
-        else{
+        }else{
             getMvpView().allGoalAchieved();
         }
     }
-
-
-    /*        mDataManager.submitEmailForRewardClaim(email, String.valueOf(activeGoal.getGoalId()))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<ClaimRewardResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        getMvpView().hideProgress();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.e(e.getMessage());
-                        getMvpView().hideProgress();
-                        getMvpView().onError(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(ClaimRewardResponse claimRewardResponse) {
-                        Timber.e("onNext called");
-                        getMvpView().hideProgress();
-                        if (claimRewardResponse.isSuccess()){
-                            endCurrentGoal();
-                            checkNextGoal();
-                        } else
-                            getMvpView().onError(claimRewardResponse.getErrorMessage());
-                    }
-                });*/
 }

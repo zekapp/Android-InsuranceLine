@@ -7,7 +7,7 @@ import com.insuranceline.ui.claim.ClaimingRewardActivity;
 import com.insuranceline.ui.claim.CongratulationsFragment;
 import com.insuranceline.ui.claim.EmailGetFragment;
 import com.insuranceline.ui.claim.NextGoalFragment;
-import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainerContainer;
+import com.insuranceline.ui.fragments.containers.dashboard.DashboardContainer;
 import com.insuranceline.ui.fragments.containers.goals.GoalsContainer;
 import com.insuranceline.ui.fragments.dashboard.DashboardFragment;
 import com.insuranceline.ui.fragments.goals.GoalFragment;
@@ -53,7 +53,7 @@ public interface ActivityComponent {
 
     void inject(GoalsContainer goalsContainer);
 
-    void inject(DashboardContainerContainer dashboardContainer);
+    void inject(DashboardContainer dashboardContainer);
 
     void inject(GoalFragment goalFragment);
 

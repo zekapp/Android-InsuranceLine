@@ -72,6 +72,32 @@
             android:maxLines="1"/>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/g2_end_goal"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_button_bg"
+        android:layout_gravity="center_horizontal"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:text="End Goal"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/g2_claim_goal"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_button_bg"
+        android:layout_gravity="center_horizontal"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:text="Claim Reward"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"/>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"

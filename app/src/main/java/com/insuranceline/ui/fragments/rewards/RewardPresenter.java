@@ -82,18 +82,18 @@ public class RewardPresenter extends BasePresenter<RewardMvpView>{
 
         String title =
                 (buttonStatus == Goal.GOAL_STATUS_IDLE)    ? "Start" :
-                (buttonStatus == Goal.GOAL_STATUS_ACTIVE)  ? "In Progress" :
+                (buttonStatus == Goal.GOAL_STATUS_ACTIVE) || (buttonStatus == Goal.GOAL_STATUS_CLAIMING)  ? "In Progress" :
                 (buttonStatus == Goal.GOAL_STATUS_DONE)    ? "Done" : ""; // use background img
 
         int background =
                 (buttonStatus == Goal.GOAL_STATUS_IDLE)    ? R.drawable.orange_button_bg :
-                (buttonStatus == Goal.GOAL_STATUS_ACTIVE)  ? R.drawable.orange_button_bg :
+                (buttonStatus == Goal.GOAL_STATUS_ACTIVE) || (buttonStatus == Goal.GOAL_STATUS_CLAIMING) ? R.drawable.orange_button_bg :
                 (buttonStatus == Goal.GOAL_STATUS_DONE)    ? R.drawable.gray_button_bg   :
                                                              R.drawable.btn_locked;
 
         String definition =
                 (buttonStatus == Goal.GOAL_STATUS_IDLE)    ? String.format(goalInfoIdleActiveDone[indx], goal.getTarget()) :
-                (buttonStatus == Goal.GOAL_STATUS_ACTIVE)  ? String.format(goalInfoIdleActiveDone[indx], goal.getTarget()) :
+                (buttonStatus == Goal.GOAL_STATUS_ACTIVE) || (buttonStatus == Goal.GOAL_STATUS_CLAIMING) ? String.format(goalInfoIdleActiveDone[indx], goal.getTarget()) :
                 (buttonStatus == Goal.GOAL_STATUS_DONE)    ? String.format(goalInfoIdleActiveDone[indx], goal.getTarget()) :
                                                              goalInfoLock[indx];
 

@@ -14,7 +14,8 @@ import javax.inject.Inject;
 import timber.log.Timber;
 
 /**
- * Created by zeki on 14/02/2016.
+ * Created by Zeki Guler on 29,February,2016
+ * ©2015 Appscore. All Rights Reserved
  */
 public class CongratulationPresenter extends BasePresenter<CongratulationMVpView>{
 
@@ -47,7 +48,7 @@ public class CongratulationPresenter extends BasePresenter<CongratulationMVpView
     }
 
     public void updateView() {
-        Goal activeGoal = mDataManager.getActiveGoal();
+        Goal activeGoal = mDataManager.getActvGoal();
 
         if (activeGoal == null) {
             Timber.e("This active goal shoudn't have been null");

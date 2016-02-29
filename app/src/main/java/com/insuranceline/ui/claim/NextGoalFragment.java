@@ -23,7 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by zeki on 15/02/2016.
+ * Created by Zeki Guler on 29,February,2016
+ * ©2015 Appscore. All Rights Reserved
  */
 public class NextGoalFragment extends BaseFragment implements NextGoalMvpView{
 
@@ -81,6 +82,11 @@ public class NextGoalFragment extends BaseFragment implements NextGoalMvpView{
     @Override
     public void hideProgress() {
         if (mProcessDialog != null) mProcessDialog.dismiss();
+    }
+
+    @Override
+    public void closeFragment() {
+        ((ClaimingRewardActivity)getActivity()).finishWithCode();
     }
 
     @OnClick(R.id.start_goal)

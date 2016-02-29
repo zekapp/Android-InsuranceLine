@@ -62,8 +62,6 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
 
     private Subscription mSubscription;
 
-    private Goal mGoal;
-
     @Inject
     public GoalFragmentPresenter(DataManager dataManager) {
 
@@ -81,45 +79,56 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
     }
 
     public void updateView() {
-        mGoal = mDataManager.getRelevantGoal();
-        int index = (int) mGoal.getGoalId();
+        Goal goal  = mDataManager.getIdleGoal();
+
+        if (goal == null)
+            goal = mDataManager.getLastGoal();
+
+
+        int index = (int) goal.getGoalId();
         Timber.d("Index of goal: %s", index);
         getMvpView().updateCupImg(cupIcons[index]);
-        getMvpView().updateGoalDef(String.format(goalInfo[index], mGoal.getTarget()) /*goalInfo[index]*/);
+        getMvpView().updateGoalDef(String.format(goalInfo[index], goal.getTarget()) /*goalInfo[index]*/);
         getMvpView().updateGoalTitle(goalTitle[index]);
 
-        int status =  mGoal.getStatus();
+        int status =  goal.getStatus();
         int tiIndx = status ==  Goal.GOAL_STATUS_IDLE ? 0 : status == Goal.GOAL_STATUS_ACTIVE ? 1 : 2;
 
-        getMvpView().updateButtonTitleAndStatus(buttonStatus[tiIndx], mGoal.getStatus() == Goal.GOAL_STATUS_IDLE);
+        getMvpView().updateButtonTitleAndStatus(buttonStatus[tiIndx], goal.getStatus() == Goal.GOAL_STATUS_IDLE);
+
     }
 
     public void startActivity() {
         getMvpView().showProgress();
-        mDataManager.calculateDailyBias()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<DailySummary>() {
-                    @Override
-                    public void onCompleted() {
-                        getMvpView().hideProgress();
-                    }
+        final Goal goal  = mDataManager.getIdleGoal();
 
-                    @Override
-                    public void onError(Throwable e) {
-                        getMvpView().hideProgress();
-                        Timber.d(e.getMessage());
-                        getMvpView().onError(e.getMessage());
-                    }
+        if (goal != null){
+            mDataManager.calculateDailyBias()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Observer<DailySummary>() {
+                        @Override
+                        public void onCompleted() {
+                            getMvpView().hideProgress();
+                        }
 
-                    @Override
-                    public void onNext(DailySummary dailySummary) {
-                        getMvpView().hideProgress();
+                        @Override
+                        public void onError(Throwable e) {
+                            getMvpView().hideProgress();
+                            Timber.d(e.getMessage());
+                            getMvpView().onError(e.getMessage());
+                        }
 
-                        mDataManager.startNewGoal(mGoal.getGoalId(),dailySummary.getDailySteps());
-                        updateView();
-                    }
-                });
+                        @Override
+                        public void onNext(DailySummary dailySummary) {
+                            getMvpView().hideProgress();
+
+                            mDataManager.startNewGoal(goal.getGoalId(),dailySummary.getDailySteps());
+                            updateView();
+                        }
+                    });
+        }
+
     }
 }
 /*        mSubscription = mDataManager.getGoalForGoalFragHost()

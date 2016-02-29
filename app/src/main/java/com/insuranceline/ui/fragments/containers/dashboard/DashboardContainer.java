@@ -19,8 +19,8 @@ import timber.log.Timber;
  * Created by Zeki Guler on 20,January,2016
  * ©2015 Appscore. All Rights Reserved
  */
-public class DashboardContainerContainer extends BaseContainerFragment implements DashboardContainerMvpView {
-    public static final String TAG = DashboardContainerContainer.class.getSimpleName();
+public class DashboardContainer extends BaseContainerFragment implements DashboardContainerMvpView {
+    public static final String TAG = DashboardContainer.class.getSimpleName();
     @Inject
     DashboardContainerPresenter mPresenter;
 

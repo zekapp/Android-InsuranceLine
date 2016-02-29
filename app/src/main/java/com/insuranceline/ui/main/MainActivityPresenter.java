@@ -77,30 +77,6 @@ public class MainActivityPresenter extends BasePresenter<MainActivityMvpView> {
                 });
     }
 
-    public void subscribeFetchingData() {
-        if (!mDataManager.isAnyGoalActive()) return;
-
-        mSubscription = mDataManager.getDashboardModel()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<DashboardModel>() {
-                    @Override
-                    public void onCompleted() {
-                        Timber.d("subscribeFetchingData ednded");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Timber.e("subscribeFetchingData error: %s", e.getMessage() );
-                    }
-
-                    @Override
-                    public void onNext(DashboardModel dashboardModel) {
-                        Timber.d("subscribeFetchingData: dashboardModel here" );
-                    }
-                });
-    }
-
     public void stopFetchingData() {
         try {
             if (mSubscription != null)

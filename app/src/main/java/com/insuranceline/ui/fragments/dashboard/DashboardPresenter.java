@@ -71,8 +71,9 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView> {
                     @Override
                     public void onNext(DashboardModel dashboardModel) {
                         Timber.d("onNext(): Cal:%s", dashboardModel.getmDailySummary().getDailyCalories());
-                        if (getMvpView() != null)
+                        if (getMvpView() != null){
                             presentData(dashboardModel);
+                        }
                     }
                 });
 
@@ -142,7 +143,7 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView> {
     }
 
     public void updateView() {
-        Goal activeGoal = mDataManager.getActiveGoal();
+        Goal activeGoal = mDataManager.getActvGoal();
         String target;
         if (activeGoal != null )
             target = String.format("Goal %s steps", mformatter.format(activeGoal.getTarget()));

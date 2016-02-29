@@ -18,4 +18,6 @@ public interface NextGoalMvpView extends MvpView{
     void showProgress();
 
     void hideProgress();
+
+    void closeFragment();
 }

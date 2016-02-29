@@ -49,7 +49,6 @@ import rx.Subscriber;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
-import rx.functions.Func3;
 import timber.log.Timber;
 
 /**
@@ -73,6 +72,7 @@ public class DataManager {
     private final NotificationHelper mNotificationHelper;
 
     private List<Goal> mCatchedGoals = null;
+    private Goal mActiveGoal;
 
     @Inject
     public DataManager(ApiService apiService, EdgeApiService edgeApiService,
@@ -97,6 +97,23 @@ public class DataManager {
         createFirstDailySummaryIfNotCreated();
 
         mCatchedGoals = mDatabaseHelper.fetchAllGoalInAscendingOrder();
+
+        mActiveGoal = getActiveGoalFromCatch();
+    }
+
+    @Nullable
+    private Goal getActiveGoalFromCatch() {
+
+        Goal resGoal = mActiveGoal = null;
+        for (Goal goal : mCatchedGoals){
+            int status = goal.getStatus();
+            if ((status == Goal.GOAL_STATUS_ACTIVE) || (status == Goal.GOAL_STATUS_CLAIMING)){
+                resGoal = goal;
+                break;
+            }
+        }
+
+        return resGoal;
     }
 
     public List<Goal> getCatchedGoalList(){
@@ -250,9 +267,9 @@ public class DataManager {
     }
 
 
-    public Observable<EdgePayResponse> claimReward(final int stockItemId, final String emailAddress){
+    public Observable<EdgePayResponse> claimReward(final String emailAddress){
         return getEdgeToken()
-                .flatMap(claimRewardFunction(stockItemId,emailAddress))
+                .flatMap(claimRewardFunction(emailAddress))
                 .flatMap(new Func1<EdgeShoppingCardResponse, Observable<EdgePayResponse>>() {
                     @Override
                     public Observable<EdgePayResponse> call(EdgeShoppingCardResponse edgeShoppingCardResponse) {
@@ -282,13 +299,13 @@ public class DataManager {
     /**
      * After getting  AuthToken successfully then Call ClaimReward Api
      * **/
-    public Func1<EdgeAuthResponse, Observable<EdgeShoppingCardResponse>> claimRewardFunction(final int stockItemId, final String emailAddress){
+    public Func1<EdgeAuthResponse, Observable<EdgeShoppingCardResponse>> claimRewardFunction(final String emailAddress){
         return new Func1<EdgeAuthResponse, Observable<EdgeShoppingCardResponse>>() {
             @Override
             public Observable<EdgeShoppingCardResponse> call(EdgeAuthResponse edgeAuthResponse) {
                 EdgeShoppingCart shoppingCart = new EdgeShoppingCart.Builder().build();
 
-                shoppingCart.shoppingCartItems.$values.get(0).stockItemId = stockItemId;
+                shoppingCart.shoppingCartItems.$values.get(0).stockItemId = mActiveGoal.getStockItemId();
                 shoppingCart.emailAddress = emailAddress;
 
                 Timber.d("Contact Number     = Number: %s, dateCreated: %s, lastUpdated: %s"
@@ -393,10 +410,9 @@ public class DataManager {
         return mFitBitApiService.getProfile(mPreferencesHelper.getFitBitUserId());
     }
 
-    public boolean isAnyGoalActive() {
-        Goal goal = getActiveGoal();
-        if (goal != null) return goal.isActive();
-        else              return false;
+    @Nullable
+    public Goal getActvGoal(){
+        return mActiveGoal;
     }
 
     public boolean isAllGoalDone() {
@@ -408,55 +424,6 @@ public class DataManager {
             }
         }
         return isAllDone;
-    }
-
-    /**
-     *  Getting active goal.
-     * */
-    @Nullable
-    public Goal getActiveGoal() {
-        return mDatabaseHelper.fetchActiveGoal();
-    }
-
-    /**
-     *  Getting Last Done goal.
-     * */
-    public Goal getLastDoneGoal() {
-        return mDatabaseHelper.fetchLastGoal();
-    }
-
-
-    /**
-     *  Get Goal for for goal fragment.
-     *
-     *  This claimRewardFunction returns the active goal. If there is not active goal it
-     *  returns the idle one with lowest id. If all goal done it just return the latest
-     *  goal.
-     *
-     *  When a goal achieved next goal status change to Idle automatically.
-     *
-     * */
-    public Goal getRelevantGoal() {
-        if (mCatchedGoals == null)
-            mCatchedGoals = mDatabaseHelper.fetchAllGoalInAscendingOrder();
-
-        Goal res = null;
-
-        for (Goal goal : mCatchedGoals) {
-            if (goal.getStatus() == Goal.GOAL_STATUS_ACTIVE) {
-                return goal;
-            } else if (goal.getStatus() == Goal.GOAL_STATUS_IDLE) {
-                if (res == null) res = goal;
-                else if (goal.getGoalId() < res.getGoalId()) {
-                    res = goal;
-                }
-            }
-        }
-
-        if (res == null)
-            return mCatchedGoals.get(2); // get latest goal
-
-        return res;
     }
 
     /******** DAILY ACTIVITY SUMMARY AND STEPS SUM COUNT **************/
@@ -479,7 +446,7 @@ public class DataManager {
         return Observable
                 .concat(getDashboardFromDb(), getDashboardFromApiWithSave())
                 .repeatWhen(repeatWithDelay())
-                .doOnNext(ifGoalAchievedFireEvent());
+                .doOnNext(ifGoalAchievedThenFireEvent());
                 /*.onErrorResumeNext(Observable.<DashboardModel>empty())*/
     }
 
@@ -496,19 +463,20 @@ public class DataManager {
      * Observable fetch 2 different data from Db and zip
      * */
     private Observable<DashboardModel> getDashboardFromDb() {
-        return Observable.zip(
-                getDailySummaryFromDb(),
-                getActiveGoalObservable(),/*Observable.just(getActiveGoal()),*/
-                new Func2<DailySummary, Goal, DashboardModel>() {
-                    @Override
-                    public DashboardModel call(DailySummary dailySummary, Goal goal) {
-                        Timber.d("Observable<DashboardModel> getDashboardFromDb() Achieved: %s", goal.getAchievedSteps() );
-                        DashboardModel dashboardModel = new DashboardModel();
-                        dashboardModel.setActiveGoal(goal);
-                        dashboardModel.setmDailySummary(dailySummary);
-                        return dashboardModel;
-                    }
-                });
+        return getDailySummaryFromDb().map(new Func1<DailySummary, DashboardModel>() {
+            @Override
+            public DashboardModel call(DailySummary dailySummary) {
+                DashboardModel dashboardModel = new DashboardModel();
+
+                // if there is no active Goal create a dummy for show purposes.
+                if (mActiveGoal != null) dashboardModel.setActiveGoal(mActiveGoal);
+                else dashboardModel.setActiveGoal(Goal.createDefaultGoal(Goal.DUMMY_ID,System.currentTimeMillis(),0L,123));
+
+                Timber.d("Observable<DashboardModel> getDashboardFromDb() Achieved: %s", mActiveGoal.getAchievedSteps() );
+                dashboardModel.setmDailySummary(dailySummary);
+                return dashboardModel;
+            }
+        });
     }
 
     /** Fetch daily summary data from db */
@@ -516,35 +484,49 @@ public class DataManager {
         return mDatabaseHelper.getDailySummaryObservable();
     }
 
-    public Observable<Goal> getActiveGoalObservable(){
-        return mDatabaseHelper.fetchActiveGoalAsObservable();
-    }
-
     private Observable<DashboardModel> getDashboardFromApiWithSave() {
         return Observable.zip(
                 getDailySummaryFromApiWithSave(),
-                getAchievedStepsCountsForActiveGoalFromApiWithSave().debounce(500, TimeUnit.MILLISECONDS), // debounce for update token
-                getActiveGoalObservable(),/*Observable.just(getActiveGoal()),*/
-                new Func3<DailySummary, Integer, Goal, DashboardModel>() {
+                getAchievedStepsCountsForActiveGoalFromApiWithSave().debounce(500, TimeUnit.MILLISECONDS), // debounce for update token//*Observable.just(getActiveGoal()),*//*
+                new Func2<DailySummary, Integer, DashboardModel>() {
                     @Override
-                    public DashboardModel call(DailySummary dailySummary, Integer achieved, Goal goal) {
-                        DashboardModel dashboardModel = new DashboardModel();
-                        dashboardModel.setmDailySummary(dailySummary);
-                        goal.setAchievedSteps(achieved);
-                        dashboardModel.setActiveGoal(goal);
+                    public DashboardModel call(DailySummary dailySummary, Integer achieved) {
 
+                        DashboardModel dashboardModel = new DashboardModel();
+
+                        if (mActiveGoal != null) {
+                            mActiveGoal.setAchievedSteps(achieved);
+                            dashboardModel.setActiveGoal(mActiveGoal);
+                        }
+                        else {
+                            Goal dummy = Goal.createDefaultGoal(Goal.DUMMY_ID,System.currentTimeMillis(),0L,123);
+                            dummy.setAchievedSteps(achieved);
+                            dashboardModel.setActiveGoal(dummy);
+                        }
+
+                        dashboardModel.setmDailySummary(dailySummary);
                         return dashboardModel;
                     }
                 });
     }
 
-    private Action1<? super DashboardModel> ifGoalAchievedFireEvent() {
+    private Action1<? super DashboardModel> ifGoalAchievedThenFireEvent() {
         return new Action1<DashboardModel>() {
             @Override
             public void call(DashboardModel dashboardModel) {
-                Goal activeGoal = dashboardModel.getActiveGoal();
-                if ((activeGoal.getAchievedSteps() >= activeGoal.getTarget()) && !isCampaignEnd()){
-                    mEventBus.post(new GoalAchieveEvent(activeGoal));
+
+                if (mActiveGoal == null || isCampaignEnd()){
+                    Timber.d("Activity is %s OR Campaing end %s", mActiveGoal == null, isCampaignEnd() );
+                    return;
+                }
+
+                Timber.d("Activity %s status is %s ", mActiveGoal.getGoalId(), mActiveGoal.getStatus());
+
+                if (mActiveGoal.getStatus() == Goal.GOAL_STATUS_CLAIMING)
+                    mEventBus.post(new GoalAchieveEvent(mActiveGoal));
+                else if ((mActiveGoal.getAchievedSteps() >= mActiveGoal.getTarget())){
+                    endActiveGoal();
+                    mEventBus.post(new GoalAchieveEvent(mActiveGoal));
                 }
             }
         };
@@ -571,21 +553,20 @@ public class DataManager {
 
     public Observable<Integer> getAchievedStepsCountsForActiveGoalFromApiWithSave(){
         Timber.d("getAchievedStepsCountsForActiveGoalFromApiWithSave called");
-        final Goal activeGoal = getActiveGoal();
-        if (activeGoal != null){
-            String baseDate = TimeUtils.convertReadableDate(activeGoal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_5);
+        if (mActiveGoal != null){
+            String baseDate = TimeUtils.convertReadableDate(mActiveGoal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_5);
             return mFitBitApiService.getStepsCountsBetweenDates(baseDate, "today")
                     .map(new Func1<StepsCountResponse, Integer>() {
                         @Override
                         public Integer call(StepsCountResponse stepsCountResponse) {
-                            return (stepsCountResponse.getTotalStepsCount() - activeGoal.getStepsBias());
+                            return (stepsCountResponse.getTotalStepsCount() - mActiveGoal.getStepsBias());
                         }
                     }).doOnNext(new Action1<Integer>() {
                         @Override
                         public void call(Integer integer) {
                             Timber.d("setAchievedSteps called(): %s", integer);
-                            activeGoal.setAchievedSteps(integer);
-                            activeGoal.save();
+                            mActiveGoal.setAchievedSteps(integer);
+                            mActiveGoal.save();
                         }
                     })
                     .doOnError(handleFitBitNetworkError("FitBitApi.getStepsCountsBetweenDates"));
@@ -677,22 +658,27 @@ public class DataManager {
     public void startNewGoal(long goalId, int bias) {
         Timber.d("Start Goald Id: %s", goalId);
         printGoalsStatus();
-        mCatchedGoals = CampaignAlgorithm.startGoal(goalId,bias, mCatchedGoals,mAppConfig.getEndOfCampaign());
+        mCatchedGoals = CampaignAlgorithm.startGoal(goalId,bias, mCatchedGoals);
         saveGoals();
         setBoostNotification();
     }
 
     public int getNextTarget(long newGoalId){
         printGoalsStatus();
-        return CampaignAlgorithm.calculateNextTarget(newGoalId, mCatchedGoals, mAppConfig.getEndOfCampaign());
+        return CampaignAlgorithm.getNextTarget(newGoalId, mCatchedGoals);
     }
 
-    public void endGoal(long goalId) {
-        Timber.d("End Goald Id: %s", goalId);
-        mCatchedGoals = CampaignAlgorithm.endGoal(goalId,mCatchedGoals);
+    public void endActiveGoal() {
+        mCatchedGoals = CampaignAlgorithm.endGoal(mActiveGoal.getGoalId(),mCatchedGoals, mAppConfig.getEndOfCampaign());
+        mActiveGoal = getActiveGoalFromCatch();
         saveGoals();
     }
-
+    public void rewardClaimedSuccessfullyForActiveGoal() {
+        Timber.d("rewardClaimedSuccessfullyForActiveGoal: %s", mActiveGoal.getGoalId());
+        mCatchedGoals = CampaignAlgorithm.rewardClaimed(mActiveGoal.getGoalId(),mCatchedGoals);
+        mActiveGoal = getActiveGoalFromCatch();
+        saveGoals();
+    }
 
     public Goal getGoalById(long goalId) {
         if(mCatchedGoals == null)
@@ -780,5 +766,24 @@ public class DataManager {
                     ,goal.getAchievedSteps()
                     ,goal.getStatus());
         }
+    }
+
+
+    @Nullable
+    public Goal getIdleGoal() {
+        Goal res = null;
+
+        for (Goal goal : mCatchedGoals){
+            if (goal.getStatus() == Goal.GOAL_STATUS_IDLE ){
+                res = goal;
+                break;
+            }
+        }
+
+        return res;
+    }
+
+    public Goal getLastGoal() {
+        return mCatchedGoals.get(2);
     }
 }
