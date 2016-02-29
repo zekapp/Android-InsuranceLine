@@ -83,6 +83,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
 
     private void login() {
         getMvpView().showProgress();
+        mDataManager.setLoginAttemptForFitBitUser(true);
         mSubscription = mDataManager.loginEdgeSystem()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -102,13 +103,19 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
                     try {
                         String mes = response.response().errorBody().string();
                         APIError error = ErrorUtils.parseError(mes);
-                        getMvpView().showLoginError(error.getmErrorDescription());
+                        Timber.d("Code: %s, Mes: %s", response.code(), mes);
+                        //try now for edge server
+                        if (response.code() == 400)
+                            retryForDealApp();
+                        else
+                            getMvpView().showLoginError(error.getmErrorDescription());
                     } catch (IOException e1) {
                         getMvpView().showLoginError(response.getLocalizedMessage());
                         e1.printStackTrace();
                     }
                 }else
                     getMvpView().showLoginError(e.getMessage());
+
 
             }
 
@@ -118,6 +125,47 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
                 getMvpView().loginSuccess();
             }
         });
+    }
+
+    private void retryForDealApp() {
+        mDataManager.setLoginAttemptForFitBitUser(false);
+        mSubscription = mDataManager.loginEdgeSystem()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<EdgeUser>() {
+                    @Override
+                    public void onCompleted() {
+                        getMvpView().hideProgress();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e("LoginError: %s", e.getMessage());
+                        getMvpView().hideProgress();
+
+                        if (e instanceof HttpException) {
+                            HttpException response = (HttpException)e;
+                            try {
+                                String mes = response.response().errorBody().string();
+                                APIError error = ErrorUtils.parseError(mes);
+                                Timber.d("Code: %s, Mes: %s", response.code(), mes);
+                                getMvpView().showLoginError(error.getmErrorDescription());
+                            } catch (IOException e1) {
+                                getMvpView().showLoginError(response.getLocalizedMessage());
+                                e1.printStackTrace();
+                            }
+                        }else
+                            getMvpView().showLoginError(e.getMessage());
+
+
+                    }
+
+                    @Override
+                    public void onNext(EdgeUser edgeResponse) {
+                        getMvpView().hideProgress();
+                        getMvpView().loginSuccess();
+                    }
+                });
     }
 
 /*    public void setUserAsFitBitUser(boolean isFitBitUser) {

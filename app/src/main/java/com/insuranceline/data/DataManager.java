@@ -806,4 +806,8 @@ public class DataManager {
                     ,goal.getStatus());
         }
     }
+
+    public void setLoginAttemptForFitBitUser(boolean isForFitBit) {
+        mPreferencesHelper.setLoginAttemptForFitBitUser(isForFitBit);
+    }
 }
