@@ -38,18 +38,33 @@ android {
     buildTypes {
 
         release {
-            // This build points to Staging server on Edge system.
+            // This build points to Production server on Edge system. Final Server
             resValue("string", "server_uri_fitbit", "https://api.fitbit.com/")
-            resValue("string", "server_uri_edge",   "http://stagingapi.lifestylerewards.com.au/")
-            resValue("string", "edge_app_id",       "21beee2a-a162-4f6d-8465-0be5f1b42fb9")
-            resValue("string", "edge_app_client_id","3bd3ae0a-0503-4a86-afc2-a4243d7d41a8")
-            resValue("string", "stockItemId1",     "3780")
-            resValue("string", "stockItemId2",     "3781")
-            resValue("string", "stockItemId3",     "3782")
+            resValue("string", "server_uri_edge",   "https://api.lifestylerewards.com.au/")
+            resValue("string", "edge_app_id",       "929da5ad-2b68-4493-8a3d-1466a8792e00")
+            resValue("string", "edge_app_client_id","59b9b30a-9597-4844-96d0-66c41442322b")
+            resValue("string", "stockItemId1",     "3915")
+            resValue("string", "stockItemId2",     "3916")
+            resValue("string", "stockItemId3",     "3917")
 
             signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debugProduction {
+            // This build points to production server on Edge system.
+            resValue("string", "server_uri_fitbit", "https://api.fitbit.com/")
+            resValue("string", "server_uri_edge",   "https://api.lifestylerewards.com.au/")
+            resValue("string", "edge_app_id",       "929da5ad-2b68-4493-8a3d-1466a8792e00")
+            resValue("string", "edge_app_client_id","59b9b30a-9597-4844-96d0-66c41442322b")
+            resValue("string", "stockItemId1",     "3915")
+            resValue("string", "stockItemId2",     "3916")
+            resValue("string", "stockItemId3",     "3917")
+
+            versionNameSuffix " debugProduction"
+            signingConfig signingConfigs.debug
+            debuggable true
         }
 
         debugStaging {
@@ -64,21 +79,6 @@ android {
             resValue("string", "stockItemId3",     "3782")
 
             versionNameSuffix " debugStaging"
-            signingConfig signingConfigs.debug
-            debuggable true
-        }
-
-        debugProduction {
-            // This build points to production server on Edge system.
-            resValue("string", "server_uri_fitbit", "https://api.fitbit.com/")
-            resValue("string", "server_uri_edge",   "https://api.lifestylerewards.com.au/")
-            resValue("string", "edge_app_id",       "929da5ad-2b68-4493-8a3d-1466a8792e00")
-            resValue("string", "edge_app_client_id","59b9b30a-9597-4844-96d0-66c41442322b")
-            resValue("string", "stockItemId1",     "3915")
-            resValue("string", "stockItemId2",     "3916")
-            resValue("string", "stockItemId3",     "3917")
-
-            versionNameSuffix " debugProduction"
             signingConfig signingConfigs.debug
             debuggable true
         }

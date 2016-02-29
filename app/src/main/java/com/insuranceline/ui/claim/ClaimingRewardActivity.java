@@ -33,4 +33,9 @@ public class ClaimingRewardActivity extends BaseActivity {
         setResult(Activity.RESULT_OK);
         finish();
     }
+
+    @Override
+    public void onBackPressed() {
+        // nope
+    }
 }

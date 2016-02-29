@@ -81,6 +81,10 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
     public void updateView() {
         Goal goal  = mDataManager.getIdleGoal();
 
+        // if there is no Idle then return current Active goal.
+        if (goal == null)
+            goal = mDataManager.getActvGoal();
+
         if (goal == null)
             goal = mDataManager.getLastGoal();
 
@@ -92,7 +96,8 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
         getMvpView().updateGoalTitle(goalTitle[index]);
 
         int status =  goal.getStatus();
-        int tiIndx = status ==  Goal.GOAL_STATUS_IDLE ? 0 : status == Goal.GOAL_STATUS_ACTIVE ? 1 : 2;
+        int tiIndx = status ==  Goal.GOAL_STATUS_IDLE ? 0 :
+                status == Goal.GOAL_STATUS_ACTIVE || status == Goal.GOAL_STATUS_CLAIMING ? 1 : 2;
 
         getMvpView().updateButtonTitleAndStatus(buttonStatus[tiIndx], goal.getStatus() == Goal.GOAL_STATUS_IDLE);
 

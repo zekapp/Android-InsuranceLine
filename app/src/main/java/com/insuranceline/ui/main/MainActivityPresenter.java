@@ -86,4 +86,26 @@ public class MainActivityPresenter extends BasePresenter<MainActivityMvpView> {
         }
 
     }
+
+    public void subscribeFetchingData() {
+        mSubscription = mDataManager.getDashboardModel()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DashboardModel>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("onCompleted()");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e("onError(%s)", e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(DashboardModel dashboardModel) {
+                        Timber.d("onNext(): Cal:%s", dashboardModel.getmDailySummary().getDailyCalories());
+                    }
+                });
+    }
 }

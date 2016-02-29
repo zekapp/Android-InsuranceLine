@@ -156,7 +156,7 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
 
         mMainActivityPresenter.validateTheEdgeUser();
 
-        /*mMainActivityPresenter.subscribeFetchingData();*/
+        mMainActivityPresenter.subscribeFetchingData();
     }
 
     @Override

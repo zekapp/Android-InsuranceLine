@@ -7,12 +7,15 @@ import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.base.BasePresenter;
 
 import java.text.DecimalFormat;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -47,13 +50,8 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView> {
     }
 
     public void fetch() {
-        mSubscription = mDataManager.getDashboardModel()
-/*                .repeatWhen(new Func1<Observable<? extends Void>, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Observable<? extends Void> observable) {
-                        return observable.delay(1, TimeUnit.MINUTES);
-                    }
-                })*/
+        mSubscription = mDataManager.getDashboardFromDb()
+                .repeatWhen(repeatWithDelay())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DashboardModel>() {
@@ -77,7 +75,44 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView> {
                     }
                 });
 
+/*        mSubscription = mDataManager.getDashboardModel()
+*//*                .repeatWhen(new Func1<Observable<? extends Void>, Observable<?>>() {
+                    @Override
+                    public Observable<?> call(Observable<? extends Void> observable) {
+                        return observable.delay(1, TimeUnit.MINUTES);
+                    }
+                })*//*
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DashboardModel>() {
+                    @Override
+                    public void onCompleted() {
+                        Timber.d("onCompleted()");
+                        if (getMvpView() != null) getMvpView().hideProgress();
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e("onError(%s)", e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(DashboardModel dashboardModel) {
+                        Timber.d("onNext(): Cal:%s", dashboardModel.getmDailySummary().getDailyCalories());
+                        if (getMvpView() != null){
+                            presentData(dashboardModel);
+                        }
+                    }
+                });*/
+    }
+
+    private Func1<? super Observable<? extends Void>, ? extends Observable<?>> repeatWithDelay() {
+        return new Func1<Observable<? extends Void>, Observable<?>>() {
+            @Override
+            public Observable<?> call(Observable<? extends Void> observable) {
+                return observable.delay(10, TimeUnit.SECONDS);
+            }
+        };
     }
 
     private void presentData(DashboardModel dashboardModel) {

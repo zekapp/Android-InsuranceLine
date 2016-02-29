@@ -91,7 +91,6 @@ public class NextGoalFragment extends BaseFragment implements NextGoalMvpView{
 
     @OnClick(R.id.start_goal)
     public void onStarGoalClicked(){
-        Toast.makeText(getActivity(), "Start", Toast.LENGTH_LONG).show();
         presenter.startNewGoal();
     }
 }

@@ -115,38 +115,42 @@ public class DebugModeFragment extends BaseFragment {
             mG3Target.setText("-");
             mG3TimePassed.setText("-");
             mG3EndGoal.setVisibility(View.GONE);
+            mG3ClaimGoal.setVisibility(View.GONE);
         } else if (goal.getStatus() == Goal.GOAL_STATUS_ACTIVE) {
             long timePassged = System.currentTimeMillis() - goal.getBaseDate();
             mG3StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
             mG3EndDate.setText("active");
             mG3Target.setText(String.valueOf(goal.getTarget()));
             mG3EndGoal.setVisibility(View.VISIBLE);
-            mG1ClaimGoal.setVisibility(View.GONE);
-            mG3TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+            mG3ClaimGoal.setVisibility(View.GONE);
+            mG3TimePassed.setText(String.format("Day: %s Hour: %s Min: %s Sec: %s",
                     TimeUnit.MILLISECONDS.toDays(timePassged),
                     TimeUnit.MILLISECONDS.toHours(timePassged),
-                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged),
+                    TimeUnit.MILLISECONDS.toSeconds(timePassged)));
         } else if (goal.getStatus() == Goal.GOAL_STATUS_CLAIMING) {
             long timePassged = System.currentTimeMillis() - goal.getBaseDate();
             mG3StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
-            mG3EndDate.setText("active");
+            mG3EndDate.setText(TimeUtils.convertReadableDate(goal.getEndDate(), TimeUtils.DATE_FORMAT_TYPE_2));
             mG3Target.setText(String.valueOf(goal.getTarget()));
             mG3EndGoal.setVisibility(View.GONE);
             mG3ClaimGoal.setVisibility(View.VISIBLE);
-            mG3TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+            mG3TimePassed.setText(String.format("Day: %s Hour: %s Min: %s Sec: %s",
                     TimeUnit.MILLISECONDS.toDays(timePassged),
                     TimeUnit.MILLISECONDS.toHours(timePassged),
-                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged),
+                    TimeUnit.MILLISECONDS.toSeconds(timePassged)));
         } else {
             long timePassged = goal.getEndDate() - goal.getBaseDate();
             mG3StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
             mG3EndDate.setText(TimeUtils.convertReadableDate(goal.getEndDate(), TimeUtils.DATE_FORMAT_TYPE_2));
             mG3Target.setText(String.valueOf(goal.getTarget()));
             mG3EndGoal.setVisibility(View.GONE);
-            mG3TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+            mG3TimePassed.setText(String.format("Day: %s Hour: %s Min: %s Sec: %s",
                     TimeUnit.MILLISECONDS.toDays(timePassged),
                     TimeUnit.MILLISECONDS.toHours(timePassged),
-                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged),
+                    TimeUnit.MILLISECONDS.toSeconds(timePassged)));
         }
     }
 
@@ -157,38 +161,42 @@ public class DebugModeFragment extends BaseFragment {
             mG2Target.setText("-");
             mG2TimePassed.setText("-");
             mG2EndGoal.setVisibility(View.GONE);
+            mG2ClaimGoal.setVisibility(View.GONE);
         } else if (goal.getStatus() == Goal.GOAL_STATUS_ACTIVE) {
             long timePassged = System.currentTimeMillis() - goal.getBaseDate();
             mG2StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
             mG2EndDate.setText("active");
             mG2Target.setText(String.valueOf(goal.getTarget()));
             mG2EndGoal.setVisibility(View.VISIBLE);
-            mG1ClaimGoal.setVisibility(View.GONE);
-            mG2TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+            mG2ClaimGoal.setVisibility(View.GONE);
+            mG2TimePassed.setText(String.format("Day: %s Hour: %s Min: %s Sec: %s",
                     TimeUnit.MILLISECONDS.toDays(timePassged),
                     TimeUnit.MILLISECONDS.toHours(timePassged),
-                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged),
+                    TimeUnit.MILLISECONDS.toSeconds(timePassged)));
         } else if (goal.getStatus() == Goal.GOAL_STATUS_CLAIMING) {
             long timePassged = System.currentTimeMillis() - goal.getBaseDate();
             mG2StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
-            mG2EndDate.setText("active");
+            mG2EndDate.setText(TimeUtils.convertReadableDate(goal.getEndDate(), TimeUtils.DATE_FORMAT_TYPE_2));
             mG2Target.setText(String.valueOf(goal.getTarget()));
             mG2EndGoal.setVisibility(View.GONE);
             mG2ClaimGoal.setVisibility(View.VISIBLE);
-            mG2TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+            mG2TimePassed.setText(String.format("Day: %s Hour: %s Min: %s Sec: %s",
                     TimeUnit.MILLISECONDS.toDays(timePassged),
                     TimeUnit.MILLISECONDS.toHours(timePassged),
-                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged),
+                    TimeUnit.MILLISECONDS.toSeconds(timePassged)));
         } else {
             long timePassged = goal.getEndDate() - goal.getBaseDate();
             mG2StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
             mG2EndDate.setText(TimeUtils.convertReadableDate(goal.getEndDate(), TimeUtils.DATE_FORMAT_TYPE_2));
             mG2Target.setText(String.valueOf(goal.getTarget()));
             mG2EndGoal.setVisibility(View.GONE);
-            mG2TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+            mG2TimePassed.setText(String.format("Day: %s Hour: %s Min: %s Sec: %s",
                     TimeUnit.MILLISECONDS.toDays(timePassged),
                     TimeUnit.MILLISECONDS.toHours(timePassged),
-                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged),
+                    TimeUnit.MILLISECONDS.toSeconds(timePassged)));
         }
     }
 
@@ -199,6 +207,7 @@ public class DebugModeFragment extends BaseFragment {
             mG1Target.setText("-");
             mG1TimePassed.setText("-");
             mG1EndGoal.setVisibility(View.GONE);
+            mG1ClaimGoal.setVisibility(View.GONE);
         } else if (goal.getStatus() == Goal.GOAL_STATUS_ACTIVE) {
             long timePassged = System.currentTimeMillis() - goal.getBaseDate();
             mG1StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
@@ -206,32 +215,35 @@ public class DebugModeFragment extends BaseFragment {
             mG1Target.setText(String.valueOf(goal.getTarget()));
             mG1EndGoal.setVisibility(View.VISIBLE);
             mG1ClaimGoal.setVisibility(View.GONE);
-            mG1TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+            mG1TimePassed.setText(String.format("Day: %s Hour: %s Min: %s Sec: %s",
                     TimeUnit.MILLISECONDS.toDays(timePassged),
                     TimeUnit.MILLISECONDS.toHours(timePassged),
-                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged),
+                    TimeUnit.MILLISECONDS.toSeconds(timePassged)));
         } else if (goal.getStatus() == Goal.GOAL_STATUS_CLAIMING) {
             long timePassged = System.currentTimeMillis() - goal.getBaseDate();
             mG1StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
-            mG1EndDate.setText("active");
+            mG1EndDate.setText(TimeUtils.convertReadableDate(goal.getEndDate(), TimeUtils.DATE_FORMAT_TYPE_2));
             mG1Target.setText(String.valueOf(goal.getTarget()));
             mG1EndGoal.setVisibility(View.VISIBLE);
             mG1EndGoal.setVisibility(View.GONE);
             mG1ClaimGoal.setVisibility(View.VISIBLE);
-            mG1TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+            mG1TimePassed.setText(String.format("Day: %s Hour: %s Min: %s Sec: %s",
                     TimeUnit.MILLISECONDS.toDays(timePassged),
                     TimeUnit.MILLISECONDS.toHours(timePassged),
-                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged),
+                    TimeUnit.MILLISECONDS.toSeconds(timePassged)));
         } else {
             long timePassged = goal.getEndDate() - goal.getBaseDate();
             mG1StartDate.setText(TimeUtils.convertReadableDate(goal.getBaseDate(), TimeUtils.DATE_FORMAT_TYPE_2));
             mG1EndDate.setText(TimeUtils.convertReadableDate(goal.getEndDate(), TimeUtils.DATE_FORMAT_TYPE_2));
             mG1Target.setText(String.valueOf(goal.getTarget()));
-            mG2EndGoal.setVisibility(View.GONE);
-            mG1TimePassed.setText(String.format("Day: %s Hour: %s Min: %s",
+            mG1EndGoal.setVisibility(View.GONE);
+            mG1TimePassed.setText(String.format("Day: %s Hour: %s Min: %s Sec: %s",
                     TimeUnit.MILLISECONDS.toDays(timePassged),
                     TimeUnit.MILLISECONDS.toHours(timePassged),
-                    TimeUnit.MILLISECONDS.toMinutes(timePassged)));
+                    TimeUnit.MILLISECONDS.toMinutes(timePassged),
+                    TimeUnit.MILLISECONDS.toSeconds(timePassged)));
         }
 
     }
@@ -316,24 +328,43 @@ public class DebugModeFragment extends BaseFragment {
     @OnClick({R.id.g1_claim_goal, R.id.g2_claim_goal, R.id.g3_claim_goal, R.id.g1_end_goal, R.id.g2_end_goal, R.id.g3_end_goal})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.g1_claim_goal:
+            case R.id.g1_claim_goal:{
                 dataManager.rewardClaimedSuccessfullyForActiveGoal();
+                updateTestResult();
                 break;
-            case R.id.g2_claim_goal:
+            }
+            case R.id.g2_claim_goal:{
                 dataManager.rewardClaimedSuccessfullyForActiveGoal();
+                updateTestResult();
                 break;
-            case R.id.g3_claim_goal:
+            }
+            case R.id.g3_claim_goal:{
                 dataManager.rewardClaimedSuccessfullyForActiveGoal();
+                updateTestResult();
                 break;
-            case R.id.g1_end_goal:
+            }
+            case R.id.g1_end_goal:{
                 dataManager.endActiveGoal();
+                Goal goal = dataManager.getGoalById(1);
+                updateTestResult();
+                if ( goal != null)
+                    mG2Target.setText(String.format("%s",goal.getTarget()));
                 break;
-            case R.id.g2_end_goal:
+            }
+            case R.id.g2_end_goal:{
                 dataManager.endActiveGoal();
+                updateTestResult();
+                Goal goal = dataManager.getGoalById(2);
+                if ( goal != null)
+                    mG3Target.setText(String.format("%s",goal.getTarget()));
                 break;
-            case R.id.g3_end_goal:
+            }
+            case R.id.g3_end_goal:{
                 dataManager.endActiveGoal();
+                updateTestResult();
                 break;
+            }
+
         }
     }
 }

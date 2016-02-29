@@ -59,6 +59,7 @@ public class CongratulationsFragment extends BaseFragment implements Congratulat
 
     @OnClick(R.id.claim_reward)
     public void onClaimReward(){
+        this.getFragmentManager().popBackStack();
         this.getFragmentManager().beginTransaction()
                 .replace(R.id.container, EmailGetFragment.newInstance(),EmailGetFragment.class.getName())
                 .addToBackStack(null)

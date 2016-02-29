@@ -95,7 +95,7 @@ public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
 //        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         this.getFragmentManager().popBackStack();
         this.getFragmentManager().beginTransaction()
-                .replace(R.id.container, NextGoalFragment.newInstance(),EmailGetFragment.class.getName())
+                .replace(R.id.container, NextGoalFragment.newInstance(),NextGoalFragment.class.getName())
                 .addToBackStack(null)
                 .commit();
     }

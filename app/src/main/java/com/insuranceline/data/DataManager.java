@@ -138,6 +138,23 @@ public class DataManager {
         }
     }
 
+    @Nullable
+    public Goal getIdleGoal() {
+        Goal res = null;
+        for (Goal goal : mCatchedGoals){
+            if (goal.getStatus() == Goal.GOAL_STATUS_IDLE ){
+                res = goal;
+                break;
+            }
+        }
+        Timber.d("getIdleGoal() -> %s",res);
+        return res;
+    }
+
+    public Goal getLastGoal() {
+        return mCatchedGoals.get(2);
+    }
+
     /**
      * Fetch eventually data from api and save them to Db.
      * */
@@ -446,10 +463,31 @@ public class DataManager {
         return Observable
                 .concat(getDashboardFromDb(), getDashboardFromApiWithSave())
                 .repeatWhen(repeatWithDelay())
+                .retryWhen(retryIfNetworkErrorWithDelay())
                 .doOnNext(ifGoalAchievedThenFireEvent());
                 /*.onErrorResumeNext(Observable.<DashboardModel>empty())*/
     }
 
+    private Func1<Observable<? extends Throwable>, Observable<?>> retryIfNetworkErrorWithDelay(){
+        return new Func1<Observable<? extends Throwable>, Observable<?>>() {
+            @Override
+            public Observable<?> call(Observable<? extends Throwable> observable) {
+                return observable.flatMap(new Func1<Throwable, Observable<?>>() {
+                    @Override
+                    public Observable<?> call(Throwable throwable) {
+
+                        Timber.e("retryIfNetworkErrorWithDelay Error: %s is Http exp: %s",
+                                throwable.getMessage(), throwable instanceof HttpException);
+
+                        if (throwable instanceof HttpException)
+                            return Observable.just(null).delay(20, TimeUnit.SECONDS);
+                        else
+                            return Observable.just(throwable).delay(20, TimeUnit.SECONDS);
+                    }
+                });
+            }
+        };
+    }
     private Func1<? super Observable<? extends Void>, ? extends Observable<?>> repeatWithDelay() {
         return new Func1<Observable<? extends Void>, Observable<?>>() {
             @Override
@@ -462,7 +500,7 @@ public class DataManager {
     /**
      * Observable fetch 2 different data from Db and zip
      * */
-    private Observable<DashboardModel> getDashboardFromDb() {
+    public Observable<DashboardModel> getDashboardFromDb() {
         return getDailySummaryFromDb().map(new Func1<DailySummary, DashboardModel>() {
             @Override
             public DashboardModel call(DailySummary dailySummary) {
@@ -480,7 +518,7 @@ public class DataManager {
     }
 
     /** Fetch daily summary data from db */
-    public Observable<DailySummary> getDailySummaryFromDb(){
+    private Observable<DailySummary> getDailySummaryFromDb(){
         return mDatabaseHelper.getDailySummaryObservable();
     }
 
@@ -526,7 +564,6 @@ public class DataManager {
                     mEventBus.post(new GoalAchieveEvent(mActiveGoal));
                 else if ((mActiveGoal.getAchievedSteps() >= mActiveGoal.getTarget())){
                     endActiveGoal();
-                    mEventBus.post(new GoalAchieveEvent(mActiveGoal));
                 }
             }
         };
@@ -659,6 +696,7 @@ public class DataManager {
         Timber.d("Start Goald Id: %s", goalId);
         printGoalsStatus();
         mCatchedGoals = CampaignAlgorithm.startGoal(goalId,bias, mCatchedGoals);
+        mActiveGoal = getActiveGoalFromCatch();
         saveGoals();
         setBoostNotification();
     }
@@ -672,6 +710,7 @@ public class DataManager {
         mCatchedGoals = CampaignAlgorithm.endGoal(mActiveGoal.getGoalId(),mCatchedGoals, mAppConfig.getEndOfCampaign());
         mActiveGoal = getActiveGoalFromCatch();
         saveGoals();
+        mEventBus.post(new GoalAchieveEvent(mActiveGoal));
     }
     public void rewardClaimedSuccessfullyForActiveGoal() {
         Timber.d("rewardClaimedSuccessfullyForActiveGoal: %s", mActiveGoal.getGoalId());
@@ -766,24 +805,5 @@ public class DataManager {
                     ,goal.getAchievedSteps()
                     ,goal.getStatus());
         }
-    }
-
-
-    @Nullable
-    public Goal getIdleGoal() {
-        Goal res = null;
-
-        for (Goal goal : mCatchedGoals){
-            if (goal.getStatus() == Goal.GOAL_STATUS_IDLE ){
-                res = goal;
-                break;
-            }
-        }
-
-        return res;
-    }
-
-    public Goal getLastGoal() {
-        return mCatchedGoals.get(2);
     }
 }
