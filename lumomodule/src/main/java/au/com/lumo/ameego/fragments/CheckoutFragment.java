@@ -210,4 +210,14 @@ public class CheckoutFragment extends BaseFragment{
         });
     }
 
+
+
+
+
+
+
+
+
+
+
 }

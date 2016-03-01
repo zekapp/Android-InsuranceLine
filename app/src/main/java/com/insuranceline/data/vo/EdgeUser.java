@@ -11,6 +11,7 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import au.com.lumo.ameego.model.MUser;
+import timber.log.Timber;
 
 /**
  * Created by Zeki Guler on 02,February,2016
@@ -21,6 +22,9 @@ public class EdgeUser extends BaseModel implements Validation {
 
     @Column
     @PrimaryKey(autoincrement = false)
+    int id;
+
+    @Column
     String email;
 
     @Column
@@ -45,6 +49,7 @@ public class EdgeUser extends BaseModel implements Validation {
     }
 
     private EdgeUser(Builder builder) {
+        id = 1; // only one user allow
         email = builder.mEdgeWhoAmIResponse.memberRecord.email;
         mAccessToken = builder.mEdgeAuthResponse.getmAccessToken();
         mTokenType = builder.mEdgeAuthResponse.getmTokenType();
@@ -83,6 +88,7 @@ public class EdgeUser extends BaseModel implements Validation {
             mEdgeWhoAmIResponse = edgeWhoAmIResponse;
             mEdgeAuthResponse = edgeAuthResponse;
             isFitBitUser = isFitbitUser;
+            Timber.d("isFitBitUser: %s", isFitbitUser);
         }
 
 

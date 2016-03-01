@@ -6,7 +6,7 @@ package au.com.lumo.ameego.utils;
 public class Constants {
 
     public static final int    PASSWORD_LENGHT                = 6;
-    public static final String CLIENT_ID                      = "31159E2C-1DA9-4F94-B279-A3259A74F127";
+    public static final String CLIENT_ID                      = "aae7cbf8-99e0-4577-931d-785aa371e3e2";//"31159E2C-1DA9-4F94-B279-A3259A74F127";
     public static final String LOGIN_USER_NAME                = /*"t1member"*/ /*"lumoappuser2"*/ /*"lumoappuser"*/ /*"bennys"*/ "";
     public static final String LOGIN_PASSWORD                 = /*"3L3phant!"*/ /*"AF34Rt"*/ "";
     public static final String SUPPORT_PHONE_NUMBER           = "1300887787";
@@ -33,8 +33,8 @@ public class Constants {
     }
 
     public static class Server {
-//        public static final String SERVER_URL                 = "http://staging.api.lifestylerewards.com.au/";
-        public static final String SERVER_URL                 = "https://api.lifestylerewards.com.au/";
+        public static final String SERVER_URL                 = "http://stagingapi.lifestylerewards.com.au/";
+//        public static final String SERVER_URL                 = "https://api.lifestylerewards.com.au/";
         public static final String LOGIN                      = SERVER_URL + "auth";
         public static final String SITE_NODE_VM               = SERVER_URL + "api/v1/site";
         public static final String GET_STOCK                  = SERVER_URL + "api/v1/stock?stockItemId=%d";

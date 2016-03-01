@@ -76,7 +76,9 @@ public class DispatchActivity extends Activity {
 //        directUserToTermAndConditionForSign();
 //        directUserToQuestionnaireActivity();
 
-        if(!user.isTermsAndConditionsAccepted() && !PrefUtils.isTermAndCondSeen(this)){
+        directUserToMainActivity();
+
+/*        if(!user.isTermsAndConditionsAccepted() && !PrefUtils.isTermAndCondSeen(this)){
             // go to terms and condition
             directUserToTermAndConditionForSign();
         }else if( !user.isDemographicQuestionsAnswered()){
@@ -87,7 +89,7 @@ public class DispatchActivity extends Activity {
             // go to main activity
             PrefUtils.setTermAndCondSeen(this, false);
             directUserToMainActivity();
-        }
+        }*/
     }
 
     private void updateAndSaveUser(MSiteHelper site) {
@@ -104,7 +106,8 @@ public class DispatchActivity extends Activity {
         savedUser.setAccountExpiryDate(temp.getAccountExpiryDate());
         savedUser.setContactPhoneNumber(temp.getContactPhoneNumber());
         savedUser.setDemographicQuestionnaireID(temp.getDemographicQuestionnaireID());
-        savedUser.setDemographicQuestionsAnswered(temp.isDemographicQuestionsAnswered());
+        savedUser.setDemographicQuestionsAnswered(true);
+//        savedUser.setDemographicQuestionsAnswered(temp.isDemographicQuestionsAnswered());
         savedUser.setDemographicQuestionsRequired(temp.isDemographicQuestionsRequired());
 
         showInLog(savedUser);

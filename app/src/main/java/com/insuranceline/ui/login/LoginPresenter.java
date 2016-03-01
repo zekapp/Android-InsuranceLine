@@ -96,8 +96,6 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
             @Override
             public void onError(Throwable e) {
                 Timber.e("LoginError: %s", e.getMessage());
-                getMvpView().hideProgress();
-
                 if (e instanceof HttpException) {
                     HttpException response = (HttpException)e;
                     try {
@@ -107,14 +105,18 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
                         //try now for edge server
                         if (response.code() == 400)
                             retryForDealApp();
-                        else
+                        else{
+                            getMvpView().hideProgress();
                             getMvpView().showLoginError(error.getmErrorDescription());
+                        }
                     } catch (IOException e1) {
                         getMvpView().showLoginError(response.getLocalizedMessage());
                         e1.printStackTrace();
                     }
-                }else
+                }else{
+                    getMvpView().hideProgress();
                     getMvpView().showLoginError(e.getMessage());
+                }
 
 
             }

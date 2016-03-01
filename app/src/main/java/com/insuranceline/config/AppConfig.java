@@ -147,7 +147,7 @@ public class AppConfig {
         return  FIT_BIT_WEB_URL + "authorize?" +
                 "response_type=token" + /*"response_type=code" +*/
                 "&client_id=" + FIT_BIT_CLIENT_ID +
-                "&scope=activity profile heartrate location nutrition settings social sleep weight" +
+                "&scope=activity" + /*"&scope=activity profile heartrate location nutrition settings social sleep weight"*/
                 "&prompt=login" +
                 "&expires_in=" + "31536000" +
                 "&redirect_uri=" + FIT_BIT_REDIRECT_URI;
