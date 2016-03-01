@@ -103,12 +103,12 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
                         APIError error = ErrorUtils.parseError(mes);
                         Timber.d("Code: %s, Mes: %s", response.code(), mes);
                         //try now for edge server
-                        if (response.code() == 400)
-                            retryForDealApp();
-                        else{
+//                        if (response.code() == 400)
+//                            retryForDealApp();
+//                        else{
                             getMvpView().hideProgress();
                             getMvpView().showLoginError(error.getmErrorDescription());
-                        }
+//                        }
                     } catch (IOException e1) {
                         getMvpView().showLoginError(response.getLocalizedMessage());
                         e1.printStackTrace();

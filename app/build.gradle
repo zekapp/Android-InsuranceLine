@@ -74,7 +74,7 @@ android {
             resValue("string", "server_uri_fitbit",         "https://api.fitbit.com/")
             resValue("string", "server_uri_edge",           "http://stagingapi.lifestylerewards.com.au/")
             resValue("string", "edge_app_id",               "21beee2a-a162-4f6d-8465-0be5f1b42fb9") // see postmant link
-            resValue("string", "edge_app_client_id",        "3bd3ae0a-0503-4a86-afc2-a4243d7d41a8")
+            resValue("string", "edge_app_client_id",        "0e475287-214d-46f5-9b75-c9a9a33fcb62")
             resValue("string", "edge_app_client_id_lumo",   "aae7cbf8-99e0-4577-931d-785aa371e3e2")
             resValue("string", "stockItemId1",              "3780")
             resValue("string", "stockItemId2",              "3781")
