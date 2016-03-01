@@ -33,6 +33,7 @@ public class PreferencesHelper {
     private static final String USER_PASSWORD = "USER_PASSWORD";
     private static final String EDGE_T_AND_C_ACCEPTED = "EDGE_T_AND_C_ACCEPTED";
     private static final String LOGIN_ATTEMP_FOT_FITBIT_OWNER = "LOGIN_ATTEMP_FOT_FITBIT_OWNER";
+    private static final String FAKE_USER_SET = "FAKE_USER_SET";
 
     private final SharedPreferences mPref;
 
@@ -201,5 +202,13 @@ public class PreferencesHelper {
 
     public boolean isLoginAttemptForFitBitUser() {
         return mPref.getBoolean(LOGIN_ATTEMP_FOT_FITBIT_OWNER, true);
+    }
+
+    public void setFakeUserAsFitBitUser(boolean isfakeUserSet) {
+        mPref.edit().putBoolean(FAKE_USER_SET, isfakeUserSet).apply();
+    }
+
+    public boolean isFakeUserAsFitBitUser() {
+        return mPref.getBoolean(FAKE_USER_SET, false);
     }
 }

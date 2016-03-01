@@ -45,6 +45,7 @@ import au.com.lumo.ameego.model.MUser;
 import au.com.lumo.ameego.model.PaymentDetails;
 import au.com.lumo.ameego.utils.Constants;
 import au.com.lumo.ameego.utils.JsonUtils;
+import au.com.lumo.ameego.utils.LogUtils;
 import au.com.lumo.ameego.utils.LumoSpecificUtils;
 
 /**
@@ -190,7 +191,7 @@ public class NetworkManager {
                     public void onResponse(JSONObject response) {
                         try {
                             String json = response.toString();
-//                            LogUtils.longInfo(TAG, "fetchSiteNodeVM incoming : " + json);
+                            LogUtils.longInfo(TAG, "fetchSiteNodeVM incoming : " + json);
                             MSiteHelper siteHelper = JsonUtils.convertJsonToObj(json, MSiteHelper.class);
                             if(siteHelper.isSuccess()){
                                 callback.done(siteHelper, null);

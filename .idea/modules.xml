@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Android-InsuranceLine.iml" filepath="$PROJECT_DIR$/Android-InsuranceLine.iml" />
       <module fileurl="file://$PROJECT_DIR$/Android-InsurenceLine.iml" filepath="$PROJECT_DIR$/Android-InsurenceLine.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/customtabs/customtabs.iml" filepath="$PROJECT_DIR$/customtabs/customtabs.iml" />

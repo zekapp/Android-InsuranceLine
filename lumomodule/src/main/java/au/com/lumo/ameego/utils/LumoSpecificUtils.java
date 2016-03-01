@@ -1,7 +1,6 @@
 package au.com.lumo.ameego.utils;
 
 import android.support.annotation.DrawableRes;
-import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -286,19 +285,39 @@ public class LumoSpecificUtils {
 
     public static boolean isInMainCategory(int id){
         return  id == 21 || id == 25 || id == 34 ||
-                id == 40 || id == 46 || id == 50 || id == 55 || id == 65;
+                id == 40 || id == 46 || id == 50 || id == 55 || id == 65
+
+                ||
+
+                id == 175 || id == 179 || id == 184 ||
+                id == 190 || id == 283 || id == 199 || id == 203 || id == 207;
     }
 
     public static int getIcon(int id) {
         switch (id){
             case 21: return R.drawable.icon_eatanddrink;
+            case 175: return R.drawable.icon_eatanddrink;
+
             case 25: return R.drawable.icon_entertainment;
+            case 179: return R.drawable.icon_entertainment;
+
             case 34: return R.drawable.icon_fashionretail;
+            case 184: return R.drawable.icon_fashionretail;
+
             case 40: return R.drawable.icon_house;
+            case 190: return R.drawable.icon_house;
+
             case 46: return R.drawable.icon_wellbeing;
+            case 283: return R.drawable.icon_wellbeing;
+
             case 50: return R.drawable.icon_automotive;
+            case 199: return R.drawable.icon_automotive;
+
             case 55: return R.drawable.icon_travel;
+            case 203: return R.drawable.icon_travel;
+
             case 65: return R.drawable.icon_estore;
+            case 207: return R.drawable.icon_estore;
             default: return R.drawable.icon_loc;
 
         }

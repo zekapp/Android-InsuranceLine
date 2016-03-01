@@ -251,6 +251,10 @@ public class DataManager {
                             @Override
                             public EdgeUser call(EdgeWhoAmIResponse edgeWhoAmIResponse, EdgeAuthResponse edgeAuthResponse) {
 
+                                if (mPreferencesHelper.isFakeUserAsFitBitUser()){
+                                    edgeWhoAmIResponse = modifyIncomingData(edgeWhoAmIResponse);
+                                }
+
                                 mPreferencesHelper.saveEdgeSystemToken(edgeAuthResponse.getmAccessToken());
                                 EdgeUser edgeUser = new EdgeUser
                                         .Builder(edgeWhoAmIResponse, edgeAuthResponse, mAppConfig.isFitBitUser(edgeWhoAmIResponse.memberRecord.appId))
@@ -268,9 +272,14 @@ public class DataManager {
         });
     }
 
+    private EdgeWhoAmIResponse modifyIncomingData(EdgeWhoAmIResponse edgeWhoAmIResponse) {
+        edgeWhoAmIResponse.memberRecord.appId = "21beee2a-a162-4f6d-8465-0be5f1b42fb9";
+        return edgeWhoAmIResponse;
+    }
+
 
     public Observable<EdgeAuthResponse> getEdgeToken() {
-        return mEdgeApiService.getAuthToken(mPreferencesHelper.getUserLoginEmail(),mPreferencesHelper.getPassword(),"password")
+        return mEdgeApiService.getAuthToken(getUserLogin(),mPreferencesHelper.getPassword(),"password")
                 .doOnNext(new Action1<EdgeAuthResponse>() {
                     @Override
                     public void call(EdgeAuthResponse edgeAuthResponse) {
@@ -281,6 +290,22 @@ public class DataManager {
                     }
                 })
                 .doOnError(handleEdgeNetworkError());
+    }
+
+    private String getUserLogin() {
+        String username = mPreferencesHelper.getUserLoginEmail();
+
+        mPreferencesHelper.setFakeUserAsFitBitUser(false);
+
+        if (username.equals("dealingapp")) {
+            return "dealingapp";
+        } else if (username.equals("testuser")) {
+            mPreferencesHelper.setFakeUserAsFitBitUser(true);
+            return "dealingapp";
+        } else {
+            return username;
+        }
+
     }
 
 
