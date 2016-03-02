@@ -1,7 +1,10 @@
 package com.insuranceline.ui.fragments.more;
 
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,6 +20,7 @@ import com.insuranceline.data.DataManager;
 import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.fragments.BaseFragment;
 import com.insuranceline.ui.login.connect.FBConnectActivity;
+import com.insuranceline.utils.DialogFactory;
 
 import javax.inject.Inject;
 
@@ -87,7 +91,8 @@ public class MoreFragment extends BaseFragment {
 
     @OnClick(R.id.more_5)
     public void more5() {
-        startFragment(AboutFragment.getInstance());
+//        startFragment(AboutFragment.getInstance());
+        proceedOpenUrl();
     }
 
     @OnClick(R.id.more_6)
@@ -97,6 +102,27 @@ public class MoreFragment extends BaseFragment {
 
     @OnClick(R.id.more_7)
     public void more7() {
+        logOutWarning();
+    }
+
+    private void logOutWarning() {
+
+        String title = "No FitBit App Found";
+        String body = "Please download the FitBit App";
+
+        DialogFactory.createGenericDialog(getActivity(), title, body, "OK", "Cancel", true, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                logout();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        }).show();
+    }
+
+    private void logout() {
         mDataManager.deleteEdgeUser();
         Intent intent = new Intent(getActivity(), DispatchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -161,5 +187,15 @@ public class MoreFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    private void proceedOpenUrl() {
+        Uri uri = Uri.parse("https://www.insuranceline.com.au/");
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com.au")));
+        }
     }
 }

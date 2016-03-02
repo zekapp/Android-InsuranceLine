@@ -66,14 +66,14 @@ public class AlarmIntentService extends IntentService {
 
         showNotification(
                 getString(R.string.reminder_notification_push_text),
-                getString(R.string.reminder_notification_content));
+                getString(R.string.reminder_notification_content_14_days));
     }
 
     private void handleBoostNotification() {
 
         showNotification(
                 getString(R.string.boost_notification_push_text),
-                getString(R.string.boost_notification_content));
+                getString(R.string.boost_notification_content_21_days));
     }
 
     private void resetNotifications() {

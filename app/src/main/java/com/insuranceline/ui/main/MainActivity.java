@@ -166,10 +166,10 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     }
 
     private void dispatchWarningForInstallFitBit() {
-        String title = "Install";
-        String body = "Please install FitBit application from Google Play Store first.";
+        String title = "No FitBit App Found";
+        String body = "Please download the FitBit App";
 
-        DialogFactory.createGenericDialog(this, title, body, "Install", "Cancel", true, new DialogInterface.OnClickListener() {
+        DialogFactory.createGenericDialog(this, title, body, "OK", "Cancel", true, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 openPlayStore();
@@ -182,10 +182,10 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     }
 
     private void dispatchWarningForConnectFitBit() {
-        String title = "FitBit Session Expired";
-        String body = "Your FitBit account expired. Please reconnect your FitBit.";
+        String title = "Session Expired";
+        String body = "Your session expired please login again.";
 
-        DialogFactory.createGenericDialog(this, title, body, "Connect", "", false, new DialogInterface.OnClickListener() {
+        DialogFactory.createGenericDialog(this, title, body, "OK", "", false, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 openFBConnect();
@@ -329,6 +329,7 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     public void onEventMainThread(FitBitLogoutEvent event) {
         Timber.d("LogOutFromFitBitEvent");
 //        Toast.makeText(this, "Logout Need",Toast.LENGTH_LONG).show();
+        stopFetchingData();
         dispatchWarningForConnectFitBit();
     }
 
@@ -343,6 +344,10 @@ public class MainActivity extends BaseActivity implements MessageFromFragmentInt
     @SuppressWarnings("unused")
     public void onEventMainThread(GeneralErrorEvent event) {
         Toast.makeText(this, event.getThrowable().getMessage(),Toast.LENGTH_LONG).show();
+    }
+
+    private void stopFetchingData() {
+        mMainActivityPresenter.stopFetchingData();
     }
 
     /**** Action From Fragments *******/

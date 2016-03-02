@@ -25,11 +25,26 @@ public class NextGoalPresenter extends BasePresenter<NextGoalMvpView>{
 
     private final DataManager mDataManager;
 
+
+    String idle_goal1def = "Your next goal is %s steps. When you achieve %s steps you will receive a $30 New Balance Voucher to spend on the latest gear.";
+    String idle_goal2def = "Your next goal is %s steps. When you achieve %s steps you will receive a $30 New Balance Voucher to spend on the latest gear.";
+    String idle_goal3def = "Your next goal is %s steps. When you achieve %s steps you will receive a 3 month subscription to Good Health Magazine.";
+
+    // dummy
+    String idle_goal4def = "Your next goal is %s steps. When you achieve %s steps you will receive a 3 month subscription to Good Health Magazine.";
+
     @DrawableRes
     int[] cupIcons = {
             R.drawable.icon_goal1,
             R.drawable.icon_goal2,
             R.drawable.icon_goal3,
+    };
+
+    String[] goalInfoActive = {
+            idle_goal1def,
+            idle_goal2def,
+            idle_goal3def,
+            idle_goal4def
     };
 
     DecimalFormat formatter = new DecimalFormat("#,###,###");
@@ -52,12 +67,16 @@ public class NextGoalPresenter extends BasePresenter<NextGoalMvpView>{
         if (idleGoal != null){
             int indx = (int)idleGoal.getGoalId();
 
-            String nextTarget = String.format("New Goal - %s steps",formatter.format(mDataManager.getNextTarget(idleGoal.getGoalId())));
+            if((indx+1) <= goalInfoActive.length){
 
-            boolean enableStartButton = idleGoal.getStatus() == Goal.GOAL_STATUS_IDLE;
-            int cupResId = cupIcons[indx];
+                String nxtTarget = formatter.format(mDataManager.getNextTarget(idleGoal.getGoalId()));
+                String nextTargetDef = String.format(goalInfoActive[indx+1],nxtTarget,nxtTarget);
 
-            getMvpView().updateNextGoal(nextTarget, enableStartButton, cupResId);
+                boolean enableStartButton = idleGoal.getStatus() == Goal.GOAL_STATUS_IDLE;
+                int cupResId = cupIcons[indx];
+                getMvpView().updateNextGoal(nextTargetDef, enableStartButton, cupResId);
+            }
+
         } else {
             getMvpView().updateNextGoal("Well done. You achieved all goals.", false, R.drawable.icon_goal3);
             getMvpView().closeFragment();

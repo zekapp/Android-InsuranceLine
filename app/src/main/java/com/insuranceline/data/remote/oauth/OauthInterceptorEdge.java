@@ -38,17 +38,17 @@ public final class OauthInterceptorEdge implements Interceptor {
         Request request;
         if(original.url().toString().contains("auth")){
 
-            if (preferencesHelper.isLoginAttemptForFitBitUser()){
+//            if (preferencesHelper.isLoginAttemptForFitBitUser()){
                 request = original.newBuilder()
                         .header("clientId", mContext.getString(R.string.edge_app_client_id))
                         .method(original.method(), original.body())
                         .build();
-            }else{
+/*            }else{
                 request = original.newBuilder()
                         .header("clientId", mContext.getString(R.string.edge_app_client_id_lumo))
                         .method(original.method(), original.body())
                         .build();
-            }
+            }*/
 
         } else{
             request = original.newBuilder()

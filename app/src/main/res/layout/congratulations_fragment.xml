@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="55dp"
+            android:layout_marginTop="35dp"
             android:text="Congratulations"
             android:textSize="19sp"
             android:textStyle="bold" />
@@ -34,7 +34,7 @@
         <ImageView
             android:id="@+id/reward_img"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:layout_below="@+id/cong_def"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"

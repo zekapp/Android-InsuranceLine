@@ -251,9 +251,9 @@ public class DataManager {
                             @Override
                             public EdgeUser call(EdgeWhoAmIResponse edgeWhoAmIResponse, EdgeAuthResponse edgeAuthResponse) {
 
-                                if (mPreferencesHelper.isFakeUserAsFitBitUser()){
+/*                                if (mPreferencesHelper.isFakeUserAsFitBitUser()){
                                     edgeWhoAmIResponse = modifyIncomingData(edgeWhoAmIResponse);
-                                }
+                                }*/
 
                                 mPreferencesHelper.saveEdgeSystemToken(edgeAuthResponse.getmAccessToken());
                                 EdgeUser edgeUser = new EdgeUser
@@ -272,14 +272,14 @@ public class DataManager {
         });
     }
 
-    private EdgeWhoAmIResponse modifyIncomingData(EdgeWhoAmIResponse edgeWhoAmIResponse) {
+/*    private EdgeWhoAmIResponse modifyIncomingData(EdgeWhoAmIResponse edgeWhoAmIResponse) {
         edgeWhoAmIResponse.memberRecord.appId = "21beee2a-a162-4f6d-8465-0be5f1b42fb9";
         return edgeWhoAmIResponse;
-    }
+    }*/
 
 
     public Observable<EdgeAuthResponse> getEdgeToken() {
-        return mEdgeApiService.getAuthToken(getUserLogin(),mPreferencesHelper.getPassword(),"password")
+        return mEdgeApiService.getAuthToken( mPreferencesHelper.getUserLoginEmail(),mPreferencesHelper.getPassword(),"password")
                 .doOnNext(new Action1<EdgeAuthResponse>() {
                     @Override
                     public void call(EdgeAuthResponse edgeAuthResponse) {
@@ -292,7 +292,7 @@ public class DataManager {
                 .doOnError(handleEdgeNetworkError());
     }
 
-    private String getUserLogin() {
+/*    private String getUserLogin() {
         String username = mPreferencesHelper.getUserLoginEmail();
 
         mPreferencesHelper.setFakeUserAsFitBitUser(false);
@@ -306,7 +306,7 @@ public class DataManager {
             return username;
         }
 
-    }
+    }*/
 
 
     public Observable<EdgePayResponse> claimReward(final String emailAddress){
@@ -532,10 +532,12 @@ public class DataManager {
                 DashboardModel dashboardModel = new DashboardModel();
 
                 // if there is no active Goal create a dummy for show purposes.
-                if (mActiveGoal != null) dashboardModel.setActiveGoal(mActiveGoal);
+                if (mActiveGoal != null) {
+                    dashboardModel.setActiveGoal(mActiveGoal);
+                    Timber.d("Observable<DashboardModel> getDashboardFromDb() Achieved: %s", mActiveGoal.getAchievedSteps() );
+                }
                 else dashboardModel.setActiveGoal(Goal.createDefaultGoal(Goal.DUMMY_ID,System.currentTimeMillis(),0L,123));
 
-                Timber.d("Observable<DashboardModel> getDashboardFromDb() Achieved: %s", mActiveGoal.getAchievedSteps() );
                 dashboardModel.setmDailySummary(dailySummary);
                 return dashboardModel;
             }
@@ -832,7 +834,7 @@ public class DataManager {
         }
     }
 
-    public void setLoginAttemptForFitBitUser(boolean isForFitBit) {
+/*    public void setLoginAttemptForFitBitUser(boolean isForFitBit) {
         mPreferencesHelper.setLoginAttemptForFitBitUser(isForFitBit);
-    }
+    }*/
 }

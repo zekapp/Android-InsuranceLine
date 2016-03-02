@@ -7,8 +7,8 @@
     <string name="dialog_action_ok">OK</string>
     <string name="dialog_action_cancel">Cancel</string>
     <string name="dialog_error_title">Sorry</string>
-    <string name="login_info">Log in with the username and password password that you used to sign up with insuranceLine</string>
-    <string name="login_email_button">Email Address</string>
+    <string name="login_info">Log in with the username and password provided in your Insuranceline communication.</string>
+    <string name="login_email_button">Username</string>
     <string name="login_password_button">Password</string>
     <string name="login_button_action">Get Started</string>
 
@@ -19,7 +19,6 @@
     <string name="error_unauthorized_user">The email/phone you entered is incorrect. Please try again.</string>
     <string name="termcond_accept">Accept</string>
     <string name="termcond_decline">Decline</string>
-    <string name="tandc_rejected_error"><![CDATA[If you decline out T&C\'s you are not able to progress into the insuranceline Fitbit app]]></string>
     <string name="empty"/>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -53,29 +52,35 @@
     <string name="third_goal_challenge_text">Complete 500.000 steps and you will be eligible to redeem a Healt Voucher worth $50*</string>
     <string name="second_goal">2nd Goal</string>
     <string name="third_goal">3rd Goal</string>
-    <string name="goal_def">Goal 100,000 steps</string>
+    <string name="goal_def">100,000 step left to acheive your goal!</string>
     <string name="connect_fit_bit_title">Connect FitBit</string>
-    <string name="connect_fit_bit_info">When you connect Fitbit to our app. Your Fitbit activities will automatically show up.\n\nAny activity will automatically contribute to your Fitbit all day stats like calories and active minutes.</string>
-    <string name="dashboard_goal_need_be_start_info"><![CDATA[There is no data to display. Go to <b> Goal > Start the goal</b> and turn back this page again.]]></string>
+    <!--<string name="connect_fit_bit_info">When you connect Fitbit to our app. Your Fitbit activities will automatically show up.\n\nAny activity will automatically contribute to your Fitbit all day stats like calories and active minutes.</string>-->
+    <string name="connect_fit_bit_info">When you connect your Fitbit to our app, your Fitbit activity will automatically show up. </string>
+    <!--<string name="dashboard_goal_need_be_start_info"><![CDATA[There is no data to display. Go to <b> Goal > Start the goal</b> and turn back this page again.]]></string>-->
+    <string name="dashboard_goal_need_be_start_inf">Start working towards your goals and rewards go to the goals tab and select start!</string>
     <string name="dashboard_permission_need_info"><![CDATA[There is no data to display. Go to <b> More > Manage Fitbit Permissions</b> and check the permissions.]]></string>
     <string name="btn_start_text">Start</string>
     <string name="btn_progress_text">In Progress</string>
     <string name="btn_done_text">done</string>
     <string name="action_rest_goal">Test Mode</string>
-    <string name="reward_achievement_def">You have completed your first goal of 100.000 steps.</string>
-    <string name="reward_price_def">You have won two Village Movie Tickets!</string>
+    <string name="reward_achievement_def">You have completed your first goal of 1000000 steps.</string>
+    <string name="reward_price_def">Claim your reward of a 3 month subscription to Good Health Magazine and get great health tips.</string>
     <string name="submit_email_def">Please provide the email address which you would like the reward to be sent to:</string>
     <string name="reward_sent_info">Your reward has been sent to your email.</string>
     <string name="next_goal_def">New Goal - 4000,000 steps</string>
-    <string name="boost_notification_push_text">21 days passed.</string>
-    <string name="boost_notification_content">21 days related content</string>
-    <string name="reminder_notification_push_text">14 Days passed</string>
-    <string name="reminder_notification_content">14 Days passed. Content related information</string>
+    <string name="boost_notification_push_text">Insuranceline Active </string>
+    <!--<string name="boost_notification_content">21 days related content</string>-->
+    <string name="reminder_notification_push_text">Insuranceline Active </string>
+    <!--<string name="reminder_notification_content">14 Days passed. Content related information</string>-->
+    <string name="reminder_notification_content_14_days">Get rewarded, don\'t forget to check your progress!</string>
 
     <string name="debug_boost_notification_def"><b>21 Day timer:</b> Set small amount of time to test it.</string>
     <string name="debug_reminder_notification_def"><b>14 Day timer:</b> Set small amount of time to test it..</string>
     <string name="debug_campain_end"> <b>Campaign End:</b>  Campaign is going to be end in according to the this amount of time</string>
     <string name="debug_target_def"><b>Target:</b> Set the target of first goal. (Ex: 100 steps) Algorithm will calculate the next goal according to the achievement time </string>
     <string name="debug_test_result_def">These fields are updated by each time when you open the debug console.</string>
+    <string name="tc_rejected_error">If you decline the Terms and Conditions you can not proceed into the Insuranceline Active app.</string>
+    <string name="boost_notification_content_21_days">Get healthy and rewarded, don\'t forget to track your steps with Insuranceline!</string>
+
 
 </resources>

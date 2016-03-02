@@ -71,6 +71,7 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView> {
                         Timber.d("onNext(): Cal:%s", dashboardModel.getmDailySummary().getDailyCalories());
                         if (getMvpView() != null){
                             presentData(dashboardModel);
+                            updateView();
                         }
                     }
                 });
@@ -180,12 +181,17 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView> {
     public void updateView() {
         Goal activeGoal = mDataManager.getActvGoal();
         String target;
-        if (activeGoal != null )
-            target = String.format("Goal %s steps", mformatter.format(activeGoal.getTarget()));
+        if (activeGoal != null ){
+            long achieved = activeGoal.getAchievedSteps();
+            long goal = activeGoal.getTarget();
+//            target = String.format("Goal %s steps", mformatter.format(activeGoal.getTarget()));
+            target = String.format("%s step left to achieve your goal!", mformatter.format(goal - achieved));
+        }
         else{
             getMvpView().updateWheelProgress(360, "100%", "- steps");
             target = "All Goal Achieved";
         }
+
 
         getMvpView().updateTarget(target);
     }

@@ -3,6 +3,7 @@ package com.insuranceline;
 import android.app.Application;
 import android.content.Context;
 
+import com.crashlytics.android.Crashlytics;
 import com.insuranceline.di.component.AppComponent;
 import com.insuranceline.di.component
         .DaggerAppComponent;
@@ -11,6 +12,7 @@ import com.facebook.stetho.Stetho;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 import au.com.lumo.ameego.LumoController;
+import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 /**
@@ -24,6 +26,7 @@ public class App extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         FlowManager.init(this);
 

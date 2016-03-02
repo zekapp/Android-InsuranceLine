@@ -20,8 +20,14 @@ import timber.log.Timber;
 public class CongratulationPresenter extends BasePresenter<CongratulationMVpView>{
 
     private DataManager mDataManager;
+/*    */
+    String idle_goal1def = "You have completed your first goal of %s steps.";
+    String idle_goal2def = "You have completed your second goal of %s steps.";
+    String idle_goal3def = "You have completed your third goal of %s steps.";
 
-    String[] orderString = {"first", "second", "third"};
+    String idle_goal1def_sub_def = "Claim your reward of Village Movie Ticket for a great night out!";
+    String idle_goal2def_sub_def = "Claim your reward of a $30 New Balance Voucher to spend on the latest gear.";
+    String idle_goal3def_sub_def = "Claim your reward of a 3 month subscription to Good Health Magazine and get great health tips.";
 
     @DrawableRes
     int[] rewImgSrc = {
@@ -29,6 +35,19 @@ public class CongratulationPresenter extends BasePresenter<CongratulationMVpView
             R.drawable.img_nb,
             R.drawable.img_mag,
     };
+
+    String[] goalPriceDef = {
+            idle_goal1def,
+            idle_goal2def,
+            idle_goal3def
+    };
+
+    String[] goalPriceSubDef = {
+            idle_goal1def_sub_def,
+            idle_goal2def_sub_def,
+            idle_goal3def_sub_def
+    };
+
 
     DecimalFormat formatter = new DecimalFormat("#,###,###");
 
@@ -57,11 +76,9 @@ public class CongratulationPresenter extends BasePresenter<CongratulationMVpView
 
         int indx = (int)activeGoal.getGoalId();
 
-        String congDef = String.format("You have completed your %s goal of %s steps",
-                orderString[indx],
-                formatter.format(activeGoal.getTarget()));
+        String congDef = String.format(goalPriceDef[indx], formatter.format(activeGoal.getTarget()));
+        String priceDef = goalPriceSubDef[indx];
 
-        String priceDef = "You have won two Village Movie Tickets";
 
         getMvpView().updateCongDef(congDef);
         getMvpView().updateRewardPriceDef(priceDef);

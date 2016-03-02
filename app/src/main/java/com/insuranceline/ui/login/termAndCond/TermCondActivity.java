@@ -82,7 +82,7 @@ public class TermCondActivity extends BaseActivity implements TermCondMvpView{
     public void onDeclineClicked(){
         DialogFactory.createGenericDialog(this,
                 R.string.term_cond_activity_name,
-                R.string.tandc_rejected_error,
+                R.string.tc_rejected_error,
                 R.string.ok,
                 R.string.cancel,
                 new DialogInterface.OnClickListener() {

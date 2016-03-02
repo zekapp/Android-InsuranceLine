@@ -1,9 +1,24 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 apply plugin: 'com.neenbedankt.android-apt'
 
 String APK_NAME = "IL"
 int VERSION_CODE = 1
-String VERSION_NAME = "0.1.4"
+String VERSION_NAME = "0.1.5"
 
 project.archivesBaseName = APK_NAME + "_v_" + VERSION_NAME;
 
@@ -49,9 +64,9 @@ android {
             resValue("string", "server_uri_edge",           "https://api.lifestylerewards.com.au/")
             resValue("string", "edge_app_id",               "929da5ad-2b68-4493-8a3d-1466a8792e00")
             resValue("string", "edge_app_client_id",        "59b9b30a-9597-4844-96d0-66c41442322b")
-            resValue("string", "edge_app_client_id_lumo",   "31159E2C-1DA9-4F94-B279-A3259A74F127")
-            resValue("string", "stockItemId1",              "3915")
-            resValue("string", "stockItemId2",              "3916")
+            /*resValue("string", "edge_app_client_id_lumo",   "31159E2C-1DA9-4F94-B279-A3259A74F127")*/
+            resValue("string", "stockItemId1",              "3916")
+            resValue("string", "stockItemId2",              "3915")
             resValue("string", "stockItemId3",              "3917")
 
             signingConfig signingConfigs.release
@@ -65,9 +80,9 @@ android {
             resValue("string", "server_uri_edge",           "https://api.lifestylerewards.com.au/")
             resValue("string", "edge_app_id",               "929da5ad-2b68-4493-8a3d-1466a8792e00")
             resValue("string", "edge_app_client_id",        "59b9b30a-9597-4844-96d0-66c41442322b")
-            resValue("string", "edge_app_client_id_lumo",   "31159E2C-1DA9-4F94-B279-A3259A74F127")
-            resValue("string", "stockItemId1",              "3915")
-            resValue("string", "stockItemId2",              "3916")
+            /*resValue("string", "edge_app_client_id_lumo",   "31159E2C-1DA9-4F94-B279-A3259A74F127")*/
+            resValue("string", "stockItemId1",              "3916")
+            resValue("string", "stockItemId2",              "3915")
             resValue("string", "stockItemId3",              "3917")
 
             versionNameSuffix  " debugProduction"
@@ -81,10 +96,10 @@ android {
             resValue("string", "server_uri_edge",           "http://stagingapi.lifestylerewards.com.au/")
             resValue("string", "edge_app_id",               "21beee2a-a162-4f6d-8465-0be5f1b42fb9") // see postmant link
             resValue("string", "edge_app_client_id",        "0e475287-214d-46f5-9b75-c9a9a33fcb62")
-            resValue("string", "edge_app_client_id_lumo",   "aae7cbf8-99e0-4577-931d-785aa371e3e2")
-            resValue("string", "stockItemId1",              "3780")
+            /*resValue("string", "edge_app_client_id_lumo",   "aae7cbf8-99e0-4577-931d-785aa371e3e2")*/
+            resValue("string", "stockItemId1",              "3781")
             resValue("string", "stockItemId2",              "3781")
-            resValue("string", "stockItemId3",              "3782")
+            resValue("string", "stockItemId3",              "3781")
 
             versionNameSuffix  " debugStaging"
             signingConfig signingConfigs.debug
@@ -154,4 +169,7 @@ dependencies {
     // APT dependencies
     apt daggerCompiler
     apt dbFlowCompiler
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true;
+    }
 }

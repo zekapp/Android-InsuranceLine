@@ -59,7 +59,7 @@ public class DashboardContainer extends BaseContainerFragment implements Dashboa
         }
         else {
             replaceFragment(DashboardEmptyFragment.getInstance(isPermissionDone ?
-                    R.string.dashboard_goal_need_be_start_info :
+                    R.string.dashboard_goal_need_be_start_inf :
                     R.string.dashboard_permission_need_info), false);
         }
 

@@ -83,7 +83,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
 
     private void login() {
         getMvpView().showProgress();
-        mDataManager.setLoginAttemptForFitBitUser(true);
+        /*mDataManager.setLoginAttemptForFitBitUser(true);*/
         mSubscription = mDataManager.loginEdgeSystem()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -130,7 +130,7 @@ public class LoginPresenter extends BasePresenter<LoginMvpView> {
     }
 
     private void retryForDealApp() {
-        mDataManager.setLoginAttemptForFitBitUser(false);
+        /*mDataManager.setLoginAttemptForFitBitUser(false);*/
         mSubscription = mDataManager.loginEdgeSystem()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

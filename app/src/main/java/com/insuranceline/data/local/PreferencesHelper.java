@@ -196,13 +196,13 @@ public class PreferencesHelper {
         mPref.edit().putString(USER_PASSWORD, password).commit();
     }
 
-    public void setLoginAttemptForFitBitUser(boolean isForFitBit) {
+/*    public void setLoginAttemptForFitBitUser(boolean isForFitBit) {
         mPref.edit().putBoolean(LOGIN_ATTEMP_FOT_FITBIT_OWNER, isForFitBit).apply();
-    }
+    }*/
 
-    public boolean isLoginAttemptForFitBitUser() {
+/*    public boolean isLoginAttemptForFitBitUser() {
         return mPref.getBoolean(LOGIN_ATTEMP_FOT_FITBIT_OWNER, true);
-    }
+    }*/
 
     public void setFakeUserAsFitBitUser(boolean isfakeUserSet) {
         mPref.edit().putBoolean(FAKE_USER_SET, isfakeUserSet).apply();

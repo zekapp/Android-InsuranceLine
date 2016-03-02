@@ -24,28 +24,39 @@ public class RewardPresenter extends BasePresenter<RewardMvpView>{
 
     // Idle definition
     String idle_goal1def = "Complete %s steps and you will be eligible to redeem a Village Cinema Movie Voucher worth $20*";
-    String idle_goal2def = "Complete %s steps and you will be eligible to redeem a New Balance Voucher worth $30*";
-    String idle_goal3def = "Complete %s steps and you will be eligible to redeem a Health Voucher worth $50*";
+    String idle_goal2def = "Complete %s steps and you will be eligible to redeem a $30 New Balance Voucher to spend on the latest gear.";
+    String idle_goal3def = "Complete %s steps and you will be eligible to redeem a 3 month subscription to Good Health Magazine";
 
-    // Idle/active/done definition
-    String iad_goal1def = "Complete 100.000 steps and you will be eligible to redeem a Village Cinema Movie Voucher worth $20*";
-    String iad_goal2def = "Complete 200.000 steps and you will be eligible to redeem a New Balance Voucher worth $30*";
-    String iad_goal3def = "Complete 500.000 steps and you will be eligible to redeem a Health Voucher worth $50*";
+    // lock definition
+    String iad_goal1def_lock = "Complete your initial goal and you will unlock the first reward. Village Cinema Movie Voucher worth $20*";
+    String iad_goal2def_lock = "Complete your first goal and you will unlock the second reward. A $30 New Balance Voucher to spend on the latest gear.";
+    String iad_goal3def_lock = "Complete your second goal and you will unlock the third reward. 3 month subscription to Good Health Magazine";
 
-    String[] goalInfoIdleActiveDone = {
+    // Active definition
+    String iad_goal1def_active = "Complete your first goal and you will unlock your first reward. A Village Cinema Movie Voucher worth $20*.";
+    String iad_goal2def_active = "Complete your second goal and you will unlock your second reward. A $30 New Balance Voucher to spend on the latest gear.";
+    String iad_goal3def_active = "Complete your third goal and you will unlock your third reward. A 3 month subscription to Good Health Magazine.";
+
+    String[] goalInfoIdleAndDone = {
             idle_goal1def,
             idle_goal2def,
             idle_goal3def
     };
 
     String[] goalInfoLock = {
-            iad_goal1def,
-            iad_goal2def,
-            iad_goal3def,
+            iad_goal1def_lock,
+            iad_goal2def_lock,
+            iad_goal3def_lock,
+    };
+
+    String[] goalInfoActive = {
+            iad_goal1def_active,
+            iad_goal2def_active,
+            iad_goal3def_active
     };
 
 /*    @StringRes
-    int[] goalInfoIdleActiveDone = {
+    int[] goalInfoIdleAndDone = {
             R.string.first_goal_challenge_text,
             R.string.second_goal_challenge_text,
             R.string.third_goal_challenge_text,
@@ -92,9 +103,9 @@ public class RewardPresenter extends BasePresenter<RewardMvpView>{
                                                              R.drawable.btn_locked;
 
         String definition =
-                (buttonStatus == Goal.GOAL_STATUS_IDLE)    ? String.format(goalInfoIdleActiveDone[indx], goal.getTarget()) :
-                (buttonStatus == Goal.GOAL_STATUS_ACTIVE) || (buttonStatus == Goal.GOAL_STATUS_CLAIMING) ? String.format(goalInfoIdleActiveDone[indx], goal.getTarget()) :
-                (buttonStatus == Goal.GOAL_STATUS_DONE)    ? String.format(goalInfoIdleActiveDone[indx], goal.getTarget()) :
+                (buttonStatus == Goal.GOAL_STATUS_IDLE)    ? String.format(goalInfoIdleAndDone[indx], goal.getTarget()) :
+                (buttonStatus == Goal.GOAL_STATUS_ACTIVE) || (buttonStatus == Goal.GOAL_STATUS_CLAIMING) ? goalInfoActive[indx] :
+                (buttonStatus == Goal.GOAL_STATUS_DONE)    ? String.format(goalInfoIdleAndDone[indx], goal.getTarget()) :
                                                              goalInfoLock[indx];
 
 
