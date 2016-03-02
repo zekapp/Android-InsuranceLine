@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
+String APK_NAME = "IL"
+int VERSION_CODE = 1
+String VERSION_NAME = "0.1.4"
+
+project.archivesBaseName = APK_NAME + "_v_" + VERSION_NAME;
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -12,8 +18,8 @@ android {
         applicationId "com.insurenceline"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 1
-        versionName "0.1.4"
+        versionCode VERSION_CODE
+        versionName VERSION_NAME
     }
 
     signingConfigs {
@@ -64,7 +70,7 @@ android {
             resValue("string", "stockItemId2",              "3916")
             resValue("string", "stockItemId3",              "3917")
 
-            versionNameSuffix " debugProduction"
+            versionNameSuffix  " debugProduction"
             signingConfig signingConfigs.debug
             debuggable true
         }
@@ -80,7 +86,7 @@ android {
             resValue("string", "stockItemId2",              "3781")
             resValue("string", "stockItemId3",              "3782")
 
-            versionNameSuffix " debugStaging"
+            versionNameSuffix  " debugStaging"
             signingConfig signingConfigs.debug
             debuggable true
         }
