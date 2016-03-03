@@ -18,6 +18,8 @@ import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.fragments.BaseFragment;
 import com.insuranceline.utils.DialogFactory;
 
+import java.text.DecimalFormat;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;

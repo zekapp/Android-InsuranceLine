@@ -44,16 +44,19 @@ public class Pay {
     private Pay (Builder builder) {
         cardDetails     = builder.mCardDetails;
         deliveryAddress = builder.deliveryAddress;
+        contactEmail    = builder.mEmailAddress;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Builder {
         final CardDetails mCardDetails;
         final DeliveryAddress deliveryAddress;
+        final String mEmailAddress;
 
-        public Builder(){
+        public Builder(String emailAddress){
             mCardDetails = new CardDetails();
             deliveryAddress = new DeliveryAddress();
+            mEmailAddress = emailAddress;
 
         }
 

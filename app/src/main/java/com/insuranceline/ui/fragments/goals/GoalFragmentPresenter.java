@@ -9,6 +9,8 @@ import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.base.BasePresenter;
 
+import java.text.DecimalFormat;
+
 import javax.inject.Inject;
 
 import rx.Observer;
@@ -62,6 +64,8 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
 
     private Subscription mSubscription;
 
+    DecimalFormat formatter = new DecimalFormat("#,###,###");
+
     @Inject
     public GoalFragmentPresenter(DataManager dataManager) {
 
@@ -92,7 +96,7 @@ public class GoalFragmentPresenter extends BasePresenter<GoalFragmentMvpView>{
         int index = (int) goal.getGoalId();
         Timber.d("Index of goal: %s", index);
         getMvpView().updateCupImg(cupIcons[index]);
-        getMvpView().updateGoalDef(String.format(goalInfo[index], goal.getTarget()) /*goalInfo[index]*/);
+        getMvpView().updateGoalDef(String.format(goalInfo[index], formatter.format(goal.getTarget())) /*goalInfo[index]*/);
         getMvpView().updateGoalTitle(goalTitle[index]);
 
         int status =  goal.getStatus();

@@ -19,7 +19,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by zeki on 14/02/2016.
+ * Created by Zeki Guler on 03,March,2016
+ * ©2015 Appscore. All Rights Reserved
  */
 public class CongratulationsFragment extends BaseFragment implements CongratulationMVpView {
 

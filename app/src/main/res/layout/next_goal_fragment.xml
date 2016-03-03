@@ -4,66 +4,79 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/content_view"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp">
+        android:scrollbars="none">
 
-        <TextView
-            android:id="@+id/cong_title"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/content_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="35dp"
-            android:text="Congratulations"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+            android:layout_centerInParent="true"
+            android:padding="20dp">
 
-        <TextView
-            android:id="@+id/cong_def"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cong_title"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:text="@string/reward_sent_info"
-            android:textSize="19sp" />
+            <TextView
+                android:id="@+id/cong_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="35dp"
+                android:text="Congratulations"
+                android:textSize="19sp"
+                android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/next_reward_coupe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/cong_def"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/icon_goal2" />
+            <TextView
+                android:id="@+id/cong_def"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cong_title"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="@string/reward_sent_info"
+                android:textSize="19sp" />
 
-        <TextView
-            android:id="@+id/next_target"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/next_reward_coupe"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:gravity="center"
-            android:text="@string/next_goal_def"
-            android:textStyle="bold"/>
+            <ImageView
+                android:id="@+id/next_reward_coupe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cong_def"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/icon_goal2" />
+
+            <TextView
+                android:id="@+id/next_target"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textSize="19sp"
+                android:layout_below="@+id/next_reward_coupe"
+                android:layout_centerHorizontal="true"
+                android:text="@string/test_message_very_long"/>
 
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/start_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/orange_button_bg"
+                android:text="Start"
+                android:layout_below="@+id/next_target"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="19sp" />
 
-    <Button
-        android:id="@+id/start_goal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/orange_button_bg"
-        android:text="Start"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="19sp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+
 </RelativeLayout>

@@ -107,8 +107,8 @@ public class MoreFragment extends BaseFragment {
 
     private void logOutWarning() {
 
-        String title = "No FitBit App Found";
-        String body = "Please download the FitBit App";
+        String title = "Logout";
+        String body = "Do you want to logout?";
 
         DialogFactory.createGenericDialog(getActivity(), title, body, "OK", "Cancel", true, new DialogInterface.OnClickListener() {
             @Override

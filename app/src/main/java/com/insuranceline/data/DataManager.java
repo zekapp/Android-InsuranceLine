@@ -316,7 +316,7 @@ public class DataManager {
                     @Override
                     public Observable<EdgePayResponse> call(EdgeShoppingCardResponse edgeShoppingCardResponse) {
                         if (edgeShoppingCardResponse.success){
-                            Pay payment = new Pay.Builder().build();
+                            Pay payment = new Pay.Builder(emailAddress).build();
                             Timber.d("cardDetails.paymentType: %s", payment.cardDetails.paymentType);
                             return mEdgeApiService.pay(payment);
                         } else{

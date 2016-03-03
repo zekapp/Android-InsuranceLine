@@ -31,9 +31,9 @@ public class CongratulationPresenter extends BasePresenter<CongratulationMVpView
 
     @DrawableRes
     int[] rewImgSrc = {
-            R.drawable.img_village,
+            R.drawable.img_village_,
             R.drawable.img_nb,
-            R.drawable.img_mag,
+            R.drawable.img_mag_,
     };
 
     String[] goalPriceDef = {

@@ -38,7 +38,7 @@
             android:layout_below="@+id/cong_def"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:src="@drawable/img_village" />
+            android:src="@drawable/img_village_" />
 
         <TextView
             android:id="@+id/reward_price"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/reward_img"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="@string/reward_price_def"
             android:textSize="19sp" />

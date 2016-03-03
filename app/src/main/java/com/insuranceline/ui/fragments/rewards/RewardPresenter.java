@@ -6,6 +6,8 @@ import com.insuranceline.data.vo.DailySummary;
 import com.insuranceline.data.vo.Goal;
 import com.insuranceline.ui.base.BasePresenter;
 
+import java.text.DecimalFormat;
+
 import javax.inject.Inject;
 
 import rx.Observer;
@@ -69,6 +71,8 @@ public class RewardPresenter extends BasePresenter<RewardMvpView>{
 //            R.string.unlocked_third_reward_message,
 //    };
 
+    DecimalFormat formatter = new DecimalFormat("#,###,###");
+
     @Inject
     public RewardPresenter(DataManager dataManager) {
         mDataManager = dataManager;
@@ -103,9 +107,9 @@ public class RewardPresenter extends BasePresenter<RewardMvpView>{
                                                              R.drawable.btn_locked;
 
         String definition =
-                (buttonStatus == Goal.GOAL_STATUS_IDLE)    ? String.format(goalInfoIdleAndDone[indx], goal.getTarget()) :
+                (buttonStatus == Goal.GOAL_STATUS_IDLE)    ? String.format(goalInfoIdleAndDone[indx], formatter.format(goal.getTarget())) :
                 (buttonStatus == Goal.GOAL_STATUS_ACTIVE) || (buttonStatus == Goal.GOAL_STATUS_CLAIMING) ? goalInfoActive[indx] :
-                (buttonStatus == Goal.GOAL_STATUS_DONE)    ? String.format(goalInfoIdleAndDone[indx], goal.getTarget()) :
+                (buttonStatus == Goal.GOAL_STATUS_DONE)    ? String.format(goalInfoIdleAndDone[indx], formatter.format(goal.getTarget())) :
                                                              goalInfoLock[indx];
 
 

@@ -20,7 +20,7 @@
             android:layout_height="130dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="50dp"
-            android:src="@drawable/img_mag" />
+            android:src="@drawable/img_mag_" />
 
         <TextView
             android:layout_width="wrap_content"
