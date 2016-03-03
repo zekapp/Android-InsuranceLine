@@ -52,6 +52,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
         ButterKnife.bind(this, view);
         mDashboardPresenter.attachView(this);
         mDashboardPresenter.updateView();
+        mSwipeRefreshLayout.setEnabled(false);
         return view;
     }
 
