@@ -85,9 +85,9 @@
                     app:lineProgressColor="#43bd9f"
                     app:underLineColor="@color/progress_line_under_bar_color"
                     app:underLineSize="@dimen/progress_line_under_line_size"
-                    app:value="3,120"
+                    app:value="0"
                     app:valueDefTextSize="@dimen/progress_line_value_def_size"
-                    app:valuePercentage="40" />
+                    app:valuePercentage="0" />
 
             </LinearLayout>
 
@@ -121,9 +121,9 @@
                     app:lineProgressColor="#ffc700"
                     app:underLineColor="@color/progress_line_under_bar_color"
                     app:underLineSize="@dimen/progress_line_under_line_size"
-                    app:value="742"
+                    app:value="0"
                     app:valueDefTextSize="@dimen/progress_line_value_def_size"
-                    app:valuePercentage="15" />
+                    app:valuePercentage="0" />
 
             </LinearLayout>
 
@@ -157,9 +157,9 @@
                     app:lineProgressColor="#f68d6c"
                     app:underLineColor="@color/progress_line_under_bar_color"
                     app:underLineSize="@dimen/progress_line_under_line_size"
-                    app:value="24"
+                    app:value="0"
                     app:valueDefTextSize="@dimen/progress_line_value_def_size"
-                    app:valuePercentage="65" />
+                    app:valuePercentage="0" />
 
             </LinearLayout>
 
@@ -193,9 +193,9 @@
                     app:lineProgressColor="#425255"
                     app:underLineColor="@color/progress_line_under_bar_color"
                     app:underLineSize="@dimen/progress_line_under_line_size"
-                    app:value="2,4"
+                    app:value="0"
                     app:valueDefTextSize="@dimen/progress_line_value_def_size"
-                    app:valuePercentage="35" />
+                    app:valuePercentage="0" />
 
             </LinearLayout>
 

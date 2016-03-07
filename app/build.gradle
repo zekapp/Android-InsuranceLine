@@ -18,7 +18,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 String APK_NAME = "IL"
 int VERSION_CODE = 1
-String VERSION_NAME = "0.2.7"
+String VERSION_NAME = "0.2.0"
 
 project.archivesBaseName = APK_NAME + "_v_" + VERSION_NAME;
 
@@ -70,7 +70,6 @@ android {
             resValue("string", "stockItemId3",              "3917")
 
             signingConfig signingConfigs.release
-            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
@@ -105,6 +104,10 @@ android {
             signingConfig signingConfigs.debug
             debuggable true
         }
+    }
+
+    dexOptions {
+        jumboMode true
     }
 
     //Needed because of this https://github.com/square/okio/issues/58
@@ -151,7 +154,7 @@ dependencies {
 
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
-    compile 'com.zekapp.library:progreswheelview:1.1.0'
+    compile 'com.zekapp.library:progreswheelview:1.1.1'
 
 
     // Unit tests dependencies

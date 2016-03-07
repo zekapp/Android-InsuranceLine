@@ -4,16 +4,17 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.insuranceline.R;
 import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.base.BaseActivity;
 import com.insuranceline.ui.login.LoginActivity;
-import com.insuranceline.ui.login.connect.FBConnectActivity;
 import com.insuranceline.utils.DialogFactory;
 
 import javax.inject.Inject;
@@ -26,9 +27,14 @@ import butterknife.OnClick;
  * Created by Zeki Guler on 02,February,2016
  * ©2015 Appscore. All Rights Reserved
  */
-public class TermCondActivity extends BaseActivity implements TermCondMvpView{
+public class TermCondActivity extends BaseActivity implements TermCondMvpView {
 
-    @Inject TermCondPresenter mTermCondPresenter;
+    @Inject
+    TermCondPresenter mTermCondPresenter;
+    @Bind(R.id.toolbarTitle)
+    TextView mToolbarTitle;
+    @Bind(R.id.about_text)
+    TextView mAboutText;
 
     private ProgressDialog mProcessDialog;
 
@@ -45,9 +51,12 @@ public class TermCondActivity extends BaseActivity implements TermCondMvpView{
 
         setHomeAsUpEnabled();
 
+        mAboutText.setText( Html.fromHtml(getString(R.string.t_c)));
+        mAboutText. setMovementMethod(LinkMovementMethod.getInstance());
+
     }
 
-    public void setHomeAsUpEnabled(){
+    public void setHomeAsUpEnabled() {
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.icon_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,23 +72,25 @@ public class TermCondActivity extends BaseActivity implements TermCondMvpView{
                 startActivity(intent);
             }
         });
+
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if(mProcessDialog != null) mProcessDialog.dismiss();
+        if (mProcessDialog != null) mProcessDialog.dismiss();
     }
 
     @OnClick(R.id.tcAccepted)
     @SuppressWarnings("unused")
-    public void onAcceptClicked(){
+    public void onAcceptClicked() {
         mTermCondPresenter.accept();
     }
 
     @OnClick(R.id.tcDeclined)
     @SuppressWarnings("unused")
-    public void onDeclineClicked(){
+    public void onDeclineClicked() {
         DialogFactory.createGenericDialog(this,
                 R.string.term_cond_activity_name,
                 R.string.tc_rejected_error,
@@ -99,11 +110,19 @@ public class TermCondActivity extends BaseActivity implements TermCondMvpView{
                 }).show();
     }
 
-    /************ MVP View Method Implementation **************/
+    /************
+     * MVP View Method Implementation
+     **************/
 
     @Override
     public void onSuccess() {
         dispatchTo();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
     }
 
     private void dispatchTo() {
@@ -126,6 +145,6 @@ public class TermCondActivity extends BaseActivity implements TermCondMvpView{
 
     @Override
     public void error(String error) {
-        Toast.makeText(this,error,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
 }

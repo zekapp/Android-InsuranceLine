@@ -24,7 +24,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
+te
         debug {
             release {
                 resValue "string", "server_uri_edge", "https://api.lifestylerewards.com.au/"
@@ -41,7 +41,7 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.1.1'
 /*    compile('com.github.afollestad.material-dialogs:core:0.8.5.4@aar') {
         transitive = true
