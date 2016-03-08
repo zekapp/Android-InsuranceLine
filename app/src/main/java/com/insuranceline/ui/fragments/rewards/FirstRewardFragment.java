@@ -58,6 +58,12 @@ public class FirstRewardFragment extends BaseFragment implements RewardMvpView{
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         setTitle("Rewards");

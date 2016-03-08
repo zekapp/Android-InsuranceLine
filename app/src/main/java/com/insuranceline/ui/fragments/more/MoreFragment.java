@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.insuranceline.R;
+import com.insuranceline.config.AppConfig;
 import com.insuranceline.data.DataManager;
 import com.insuranceline.ui.DispatchActivity;
 import com.insuranceline.ui.fragments.BaseFragment;
@@ -38,6 +39,9 @@ public class MoreFragment extends BaseFragment {
     DataManager mDataManager;
     @Bind(R.id.version_number)
     TextView mVersionNumber;
+
+    @Inject
+    AppConfig mAppConfig;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,11 +72,13 @@ public class MoreFragment extends BaseFragment {
 
     @OnClick(R.id.more_1)
     public void more1() {
-        Intent intent = new Intent(getActivity(), FBConnectActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
-                | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+//        Intent intent = new Intent(getActivity(), FBConnectActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                | Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+        openFitbitPerm();
     }
+
 
     @OnClick(R.id.more_2)
     public void more2() {
@@ -191,6 +197,16 @@ public class MoreFragment extends BaseFragment {
 
     private void proceedOpenUrl() {
         Uri uri = Uri.parse("https://www.insuranceline.com.au/");
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com.au")));
+        }
+    }
+
+    private void openFitbitPerm() {
+        Uri uri = Uri.parse(mAppConfig.getFitBitBrowserUrl());
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         try {
             startActivity(goToMarket);

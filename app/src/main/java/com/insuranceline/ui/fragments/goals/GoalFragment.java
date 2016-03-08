@@ -67,6 +67,12 @@ public class GoalFragment extends BaseFragment implements GoalFragmentMvpView {
         mGoalFragmentPresenter.detachView();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
     /******* MVP Related Function ********/
     @Override
     public void updateCupImg(@DrawableRes int cupRes) {

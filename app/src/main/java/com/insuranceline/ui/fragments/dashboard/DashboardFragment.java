@@ -74,6 +74,12 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
         mDashboardPresenter.detachView();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
     private void trySetupSwipeRefresh() {
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setColorSchemeResources(
