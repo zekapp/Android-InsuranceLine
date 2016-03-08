@@ -27,6 +27,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Created by zeki on 21/02/2016.
@@ -344,7 +345,7 @@ public class DebugModeFragment extends BaseFragment {
                 break;
             }
             case R.id.g1_end_goal:{
-                dataManager.endActiveGoal();
+                endActiveGoal();
                 Goal goal = dataManager.getGoalById(1);
                 updateTestResult();
                 if ( goal != null)
@@ -352,7 +353,7 @@ public class DebugModeFragment extends BaseFragment {
                 break;
             }
             case R.id.g2_end_goal:{
-                dataManager.endActiveGoal();
+                endActiveGoal();
                 updateTestResult();
                 Goal goal = dataManager.getGoalById(2);
                 if ( goal != null)
@@ -360,11 +361,19 @@ public class DebugModeFragment extends BaseFragment {
                 break;
             }
             case R.id.g3_end_goal:{
-                dataManager.endActiveGoal();
+                endActiveGoal();
                 updateTestResult();
                 break;
             }
 
         }
+    }
+
+    private void endActiveGoal() {
+        if (dataManager.getActvGoal() == null || dataManager.isCampaignEnd()){
+            Toast.makeText(getActivity(),"Sorry, Campaign end. :(",Toast.LENGTH_LONG).show();
+            return;
+        }
+        dataManager.endActiveGoal();
     }
 }

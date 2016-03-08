@@ -153,7 +153,7 @@ dependencies {
     provided 'org.glassfish:javax.annotation:10.0-b28' //Required by Dagger2
 
     compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.1'
     compile 'com.zekapp.library:progreswheelview:1.1.2'
 
 

@@ -185,7 +185,10 @@ public class DashboardPresenter extends BasePresenter<DashboardMvpView> {
             long achieved = activeGoal.getAchievedSteps();
             long goal = activeGoal.getTarget();
 //            target = String.format("Goal %s steps", mformatter.format(activeGoal.getTarget()));
-            target = String.format("%s step left to achieve your goal!", mformatter.format(goal - achieved));
+            if (!mDataManager.isCampaignEnd())
+                target = String.format("%s steps left to achieve your goal!", mformatter.format((goal - achieved) >= 0 ? goal - achieved : 0));
+            else
+                target = "Campaign End";
         }
         else{
             getMvpView().updateWheelProgress(360, "100%", "- steps");
