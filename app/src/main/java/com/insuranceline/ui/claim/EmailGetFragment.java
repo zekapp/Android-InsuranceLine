@@ -2,12 +2,14 @@ package com.insuranceline.ui.claim;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.insuranceline.R;
@@ -27,9 +29,13 @@ import timber.log.Timber;
  */
 public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
 
-    @Bind(R.id.submit_email_address) EditText mEmailAddress;
+    @Bind(R.id.submit_email_address)
+    EditText mEmailAddress;
 
-    @Inject EmailGetPresenter presenter;
+    @Inject
+    EmailGetPresenter presenter;
+    @Bind(R.id.reward_img)
+    ImageView mRewardImg;
 
     private ProgressDialog mProcessDialog;
     boolean isRewardClaimed = false;
@@ -63,7 +69,7 @@ public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
     }
 
     @OnClick(R.id.submit_email)
-    public void onSubmitEmail(){
+    public void onSubmitEmail() {
         resetErrors();
         presenter.attemptToSubmit(mEmailAddress.getText().toString());
     }
@@ -78,7 +84,9 @@ public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
         mEmailAddress.setText(emailAddress);
     }
 
-    /******* MVP FUNCTIONS ********/
+    /*******
+     * MVP FUNCTIONS
+     ********/
 
     @Override
     public void onErrorEmail(String error) {
@@ -95,7 +103,7 @@ public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
 //        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         this.getFragmentManager().popBackStack();
         this.getFragmentManager().beginTransaction()
-                .replace(R.id.container, NextGoalFragment.newInstance(),NextGoalFragment.class.getName())
+                .replace(R.id.container, NextGoalFragment.newInstance(), NextGoalFragment.class.getName())
                 .addToBackStack(null)
                 .commit();
     }
@@ -103,11 +111,10 @@ public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
     @Override
     public void hideProgress() {
         Timber.d("hideProgress() called");
-        if (mProcessDialog != null){
+        if (mProcessDialog != null) {
             mProcessDialog.hide();
             mProcessDialog.dismiss();
-        }
-        else Timber.e("mProcessDialog is null");
+        } else Timber.e("mProcessDialog is null");
     }
 
     @Override
@@ -118,7 +125,17 @@ public class EmailGetFragment extends BaseFragment implements EmailGetMVPView {
 
     @Override
     public void allGoalAchieved() {
-        ((ClaimingRewardActivity)getActivity()).finishWithCode();
+        ((ClaimingRewardActivity) getActivity()).finishWithCode();
     }
 
+    @Override
+    public void updateImage(@DrawableRes int resId) {
+        mRewardImg.setImageResource(resId);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 }

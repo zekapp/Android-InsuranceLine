@@ -454,6 +454,7 @@ public class DataManager {
 
     @Nullable
     public Goal getActvGoal(){
+        Timber.d("Active Goal is %s", mActiveGoal);
         return mActiveGoal;
     }
 
@@ -766,7 +767,7 @@ public class DataManager {
             goal.reset(mAppConfig.getEndOfCampaign(),target, mAppConfig.getStockItemId(i));
             i++;
         }
-
+        mActiveGoal = getActiveGoalFromCatch();
         saveGoals();
     }
 

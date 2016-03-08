@@ -1,6 +1,10 @@
 package com.insuranceline.ui.claim;
 
+import android.support.annotation.DrawableRes;
+
 import com.insuranceline.ui.base.MvpView;
+
+import javax.annotation.Resource;
 
 /**
  * Created by zeki on 15/02/2016.
@@ -20,4 +24,6 @@ public interface EmailGetMVPView extends MvpView {
     void showProgress();
 
     void allGoalAchieved();
+
+    void updateImage(@DrawableRes int resId);
 }

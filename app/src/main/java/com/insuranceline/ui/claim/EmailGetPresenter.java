@@ -1,6 +1,7 @@
 package com.insuranceline.ui.claim;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 
 import com.insuranceline.R;
 import com.insuranceline.data.DataManager;
@@ -28,20 +29,42 @@ public class EmailGetPresenter extends BasePresenter<EmailGetMVPView>{
     private Context context;
     private MUser lumoUser;
 
+    @DrawableRes
+    int[] rewImgSrc = {
+            R.drawable.img_village_,
+            R.drawable.img_nb,
+            R.drawable.img_mag_,
+    };
+
     @Inject
     public EmailGetPresenter(DataManager dataManager,@ActivityContext Context context) {
         mDataManager = dataManager;
         this.context = context;
         lumoUser = LumoController.getInstance().getUser();
+
     }
 
     @Override
     public void attachView(EmailGetMVPView mvpView) {
         super.attachView(mvpView);
-        updateView();
+        updateEmailAddress();
+        updateImages();
     }
 
-    private void updateView() {
+    private void updateImages() {
+        Goal activeGoal = mDataManager.getActvGoal();
+
+        if (activeGoal == null) {
+            Timber.e("This active goal shoudn't have been null");
+            return;
+        }
+
+        int indx = (int)activeGoal.getGoalId();
+
+        getMvpView().updateImage(rewImgSrc[indx]);
+    }
+
+    private void updateEmailAddress() {
         getMvpView().fillEmailAddressField(lumoUser.getEmail());
     }
 
